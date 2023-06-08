@@ -1,12 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-//import { Login } from './Components/Login.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 import './css/index.css'
-import Calendar from './Components/Cumpleaños.jsx'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.render(
   <React.StrictMode>
-      <Calendar/>
-    {/* <Login/> */}
+    <App />
   </React.StrictMode>,
-)
+  document.getElementById('root')
+);

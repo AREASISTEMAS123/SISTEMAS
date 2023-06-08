@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Cumpleaños = () => {
+export const Cumpleanos = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -168,5 +168,3 @@ const Cumpleaños = () => {
         </div>
     );
 };
-
-export default Cumpleaños;
