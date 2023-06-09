@@ -1,5 +1,6 @@
 import { UseForms } from "../hooks/UseForms"
 
+
 export const Login = () => {
     const { formulario, onInputChange } = UseForms({
         user: '',
@@ -8,6 +9,7 @@ export const Login = () => {
     const { user, password } = formulario
     return (
         <>
+
             <div className=" h-screen  ">
                 <div className="  	 p-10 bg-slate-800  " >
                     <div className="grid grid-cols-2 bg-white rounded-lg ">
@@ -19,7 +21,7 @@ export const Login = () => {
                                         src="https://img.freepik.com/vector-gratis/joven-programador-que-trabaja-computadora-portatil-personaje-dibujos-animados_24797-2123.jpg"
                                         width="300"
                                         height="100"
-                                        
+
                                     />
                                 </div>
 
@@ -33,9 +35,9 @@ export const Login = () => {
                         </div>
 
                         <div className="   grid   ">
-                           
+
                             <img className="inline my-6" src="https://consigueventas.com/wp-content/uploads/Rectangle-39.png" />
-                            
+
                             <form className="grid  m-1">
                                 <div className="  mx-6 mt-1" >
                                     <p>Usuario</p>
