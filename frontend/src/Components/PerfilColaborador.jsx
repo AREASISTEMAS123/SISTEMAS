@@ -1,6 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export const PerfilColaborador = () => {
+export const PerfilColaborador = ({ datosColaborador }) => {
+
+
+
+//   const datosColaborador = {
+//     nombres: "Arturo Antonio",
+//     apellidos: "Montejo Soto",
+//     departamento: "Operaciones",
+//     area: "Sistemas",
+//     perfil: "Desarrollador Frontend",
+//     dni: "75098945",
+//     turno: "Mañana",
+//     rol: "Colaborador",
+//     ingreso: "05/04/2023",
+//     nacimiento: "03/07/2003",
+//     responsable: "Gustavo",
+//     faltas: 0,
+//     asistencias: 8,
+//     tardanzas: 3,
+//     justificaciones: 6,
+//   };
+
+
+ // <div>
+    //   <PerfilColaborador datosColaborador={datosColaborador} />
+    // </div>
+
+
+  const [colaborador, setColaborador] = useState(null);
+
+  useEffect(() => {
+    setColaborador(datosColaborador);
+  }, [datosColaborador]);
+
+  if (!colaborador) {
+    // Mostrar un estado de carga mientras se obtienen los datos
+    return <div>Cargando...</div>;
+  }
+
+
+
   return (
     <div className="bg-slate-900 p-4">
       <div className="bg-slate-900 mx-auto max-w-6xl rounded-lg p-4">
@@ -13,7 +53,7 @@ export const PerfilColaborador = () => {
               Nombres y Apellidos
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Arturo Antonio Montejo Soto</div>
+              <div>{colaborador.nombres} {colaborador.Apellidos}</div>
             </div>
           </div>
           <div className="md:w-1/6 md:ml-4 md:mt-6 lg:mt-5 lg:mr-auto order-first md:order-last">
@@ -33,16 +73,16 @@ export const PerfilColaborador = () => {
               Departamento
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Operaciones</div>
+              <div>{colaborador.departamento}</div>
             </div>
           </div>
 
           <div>
             <h2 className="font-bold mx-3 text-white text-lg md:text-3xl lg:text-3xl">
-              Area
+              Área
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Sistemas</div>
+              <div>{colaborador.area}</div>
             </div>
           </div>
 
@@ -51,7 +91,7 @@ export const PerfilColaborador = () => {
               Perfil
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Desarrollador Frontend</div>
+              <div>{colaborador.perfil}</div>
             </div>
           </div>
         </div>
@@ -59,10 +99,10 @@ export const PerfilColaborador = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
           <div>
             <h2 className="font-bold mx-3 text-white text-lg md:text-3xl lg:text-3xl">
-              Dni
+              DNI
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>75098945</div>
+              <div>{colaborador.dni}</div>
             </div>
           </div>
           <div>
@@ -70,7 +110,7 @@ export const PerfilColaborador = () => {
               Turno
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Mañana</div>
+              <div>{colaborador.turno}</div>
             </div>
           </div>
 
@@ -79,7 +119,7 @@ export const PerfilColaborador = () => {
               Rol
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Colaborador</div>
+              <div>{colaborador.rol}</div>
             </div>
           </div>
         </div>
@@ -90,7 +130,7 @@ export const PerfilColaborador = () => {
               Ingreso
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>05/04/2023</div>
+              <div>{colaborador.ingreso}</div>
             </div>
           </div>
 
@@ -99,18 +139,45 @@ export const PerfilColaborador = () => {
               Nacimiento
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>03/07/2003</div>
+              <div>{colaborador.nacimiento}</div>
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-3 mt-10 mb-20">
-          <div>
-            <h2 className="font-bold mx-3 text-white text-lg md:text-3xl lg:text-3xl">
-              Responsable
-            </h2>
-            <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>Gustavo</div>
+          <div className="flex flex-col md:flex-row">
+            <div className="md:w-3/4">
+              <h2 className="font-bold mx-3 text-white text-lg md:text-3xl lg:text-3xl">
+                Responsable
+              </h2>
+              <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
+                <div>{colaborador.responsable}</div>
+              </div>
+            </div>
+            <div className="md:w-1/4 mt-6 md:mt-0 md:ml-4">
+              <div className="bg-white p-4 mt-4 rounded-xl mx-3">
+                <h3 className="text-lg font-bold mb-4 text-center">
+                  Información
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="border border-gray-300 p-2 flex flex-col items-center">
+                    <div className="text-sm font-bold">Faltas</div>
+                    <div className="text-4xl">{colaborador.faltas}</div>
+                  </div>
+                  <div className="border border-gray-300 p-2 flex flex-col items-center">
+                    <div className="text-sm font-bold">Asistencias</div>
+                    <div className="text-4xl">{colaborador.asistencias}</div>
+                  </div>
+                  <div className="border border-gray-300 p-2 flex flex-col items-center">
+                    <div className="text-sm font-bold">Tardanzas</div>
+                    <div className="text-4xl">{colaborador.tardanzas}</div>
+                  </div>
+                  <div className="border border-gray-300 p-2 flex flex-col items-center">
+                    <div className="text-sm font-bold">Justificaciónes</div>
+                    <div className="text-4xl">{colaborador.justificaciones}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
