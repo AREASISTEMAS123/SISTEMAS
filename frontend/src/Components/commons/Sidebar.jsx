@@ -1,24 +1,58 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, Router } from "react-router-dom";
+import CVLogo from "../../assets/logo.svg";
+import CVIsotipo from "../../assets/isotipo.svg";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import CakeIcon from "@mui/icons-material/Cake";
+import DescriptionIcon from "@mui/icons-material/Description";
+import BalanceIcon from "@mui/icons-material/Balance";
+import ChecklistIcon from "@mui/icons-material/Checklist";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 export const Sidebar = ({ isOpen }) => {
+    const menuItems = [
+        { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
+        { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
+        { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon /> },
+        { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon /> },
+        { route: "asistencia", title: "Asistencias", icon: <ChecklistIcon /> },
+        { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
+    ];
+
     return (
-        <nav className={`w-60 h-screen p-2 bg-slate-950 text-white ${isOpen ? 'block' : 'hidden'}`}>
-            <div className="w-full h-36">
-                <Link to="/"><img src="https://images.pexels.com/photos/3579181/pexels-photo-3579181.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className="w-full h-full" /></Link>
+        <nav className={`${isOpen ? "w-60" : "w-20"} h-screen duration-300`}>
+            <div className="w-full h-full p-5 bg-cv-primary text-white">
+                <div className="w-full">
+                    <img
+                        src={CVLogo}
+                        alt="Logo"
+                        className={`${isOpen ? "" : "hidden"} duration-500`}
+                    />
+                    <img
+                        src={CVIsotipo}
+                        alt="Logo"
+                        className={`${!isOpen ? "block pb-5" : "hidden"} duration-300`}
+                    />
+                </div>
+                <div className="py-4 space-y-4">
+                    {menuItems.map((menu, index) => (
+                        <Link
+                            key={index}
+                            to={`/${menu.route}`}
+                            className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+                        >
+                            <div className="font-semibold flex items-center gap-x-4">
+                                <span>{menu.icon}</span>
+                                <span
+                                    className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
+                                >
+                                    {menu.title}
+                                </span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
-            <ul className="py-4 space-y-4">
-                <li className="py-2 font-semibold cursor-pointer hover:text-teal-300 hover:border-b-2 border-teal-300">
-                    <Link to="/perfil">Colaboradores</Link></li>
-                <li className="py-2 font-semibold cursor-pointer hover:text-teal-300 hover:border-b-2 border-teal-300">
-                    <Link to="/cumpleanos">Cumpleaños</Link></li>
-                <li className="py-2 font-semibold cursor-pointer hover:text-teal-300 hover:border-b-2 border-teal-300">
-                    <Link to="evaluacion">Evaluaciones</Link></li>
-                <li className="py-2 font-semibold cursor-pointer hover:text-teal-300 hover:border-b-2 border-teal-300">Justificaciones</li>
-                <li className="py-2 font-semibold cursor-pointer hover:text-teal-300 hover:border-b-2 border-teal-300">
-                    <Link to="asistencia">Asistencias</Link></li>
-                <li className="py-2 font-semibold cursor-pointer hover:text-teal-300 hover:border-b-2 border-teal-300">
-                    <Link >Reportes</Link></li>
-            </ul>
         </nav>
     );
 };

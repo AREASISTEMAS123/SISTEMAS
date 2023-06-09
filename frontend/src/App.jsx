@@ -12,19 +12,17 @@ const App = () => {
     };
 
     return (
-        <div className="flex h-screen overflow-hidden">
-            <BrowserRouter>
+        <BrowserRouter>
+            <div className="flex h-screen overflow-hidden">
                 <Sidebar isOpen={sidebarOpen} />
-            </BrowserRouter>
-
-            <div className="flex flex-col flex-1">
-                <Topbar toggleSidebar={toggleSidebar} />
-
-                <div className="flex flex-col flex-1 overflow-y-auto">
-                    <AppRoutes />
+                <div className="flex flex-col flex-1">
+                    <Topbar toggleSidebar={toggleSidebar} />
+                    <div className="flex flex-col flex-1 overflow-y-auto">
+                        <AppRoutes />
+                    </div>
                 </div>
             </div>
-        </div>
+        </BrowserRouter>
     );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Cumpleanos } from '../components/Cumpleanos';
 import { Login } from '../components/Login';
 import { RegistroAsistencia } from '../Components/RegistroAsistencia';
@@ -8,15 +8,13 @@ import { EvaluacionesCard } from '../components/EvaluacionesCard';
 
 function AppRoutes() {
     return (
-        <Router>
             <Routes>
-            <Route path="/cumpleanos" element={<Cumpleanos />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/asistencia" element={<RegistroAsistencia />} />
-            <Route path="/perfil" element={<PerfilColaborador />} />
-            <Route path="/evaluacion" element={<EvaluacionesCard />} />
+                <Route path="/cumpleanos" element={<Cumpleanos />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/asistencia" element={<RegistroAsistencia />} />
+                <Route path="/perfil" element={<PerfilColaborador />} />
+                <Route path="/evaluacion" element={<EvaluacionesCard />} />
             </Routes>
-        </Router>
     );
 }
 
