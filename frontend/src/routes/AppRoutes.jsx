@@ -9,7 +9,7 @@ import { EvaluacionesCard } from '../components/EvaluacionesCard';
 function AppRoutes() {
     return (
             <Routes>
-                <Route path="/cumpleanos" element={<Cumpleanos />} />
+            <Route path="/cumpleanos" element={<Cumpleanos />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/asistencia" element={<RegistroAsistencia />} />
                 <Route path="/perfil" element={<PerfilColaborador />} />
