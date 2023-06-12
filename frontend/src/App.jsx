@@ -17,7 +17,7 @@ const App = () => {
                 <Sidebar isOpen={sidebarOpen} />
                 <div className="flex flex-col flex-1">
                     <Topbar toggleSidebar={toggleSidebar} />
-                    <div className="flex flex-col flex-1 overflow-y-auto">
+                    <div className="flex flex-col flex-1 overflow-y-auto w-full bg-cv-secondary p-5">
                         <AppRoutes />
                     </div>
                 </div>
