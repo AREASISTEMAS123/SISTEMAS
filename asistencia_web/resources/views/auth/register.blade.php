@@ -1,7 +1,15 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
 
         @csrf
+
+        <div>
+            <x-input-label for="avatar" :value="__('avatar')" />
+            <input type="file" name="avatar">
+            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
+        </div>
+
+
         <!-- Username -->
         <div>
             <x-input-label for="username" :value="__('Username')" />

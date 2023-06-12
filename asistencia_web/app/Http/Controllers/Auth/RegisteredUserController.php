@@ -46,10 +46,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->addMediaFromRequest('avatar')
+            ->toMediaCollection('avatars');
+
         event(new Registered($user));
 
         Auth::login($user);
-
         return redirect(RouteServiceProvider::HOME);
     }
 }

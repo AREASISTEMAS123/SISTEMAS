@@ -21,7 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            'App\Listeners\RegisteredEvent',
         ],
+
         ReadingDarkModePreference::class => [
             ['App\Listeners\AdminLteEventSubscriber','handleReadingDarkModeEvt']
         ],
