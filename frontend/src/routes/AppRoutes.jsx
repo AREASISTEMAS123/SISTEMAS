@@ -5,6 +5,7 @@ import { Login } from '../components/Login';
 import { RegistroAsistencia } from '../Components/RegistroAsistencia';
 import { PerfilColaborador } from '../components/PerfilColaborador';
 import { EvaluacionesCard } from '../components/EvaluacionesCard';
+import { JustificacionColaborador } from '../Components/JustificacionColaborador';
 
 function AppRoutes() {
     return (
@@ -14,6 +15,7 @@ function AppRoutes() {
                 <Route path="/asistencia" element={<RegistroAsistencia />} />
                 <Route path="/perfil" element={<PerfilColaborador />} />
                 <Route path="/evaluacion" element={<EvaluacionesCard />} />
+                <Route path="/justColaborador" element={<JustificacionColaborador />} />
             </Routes>
     );
 }
