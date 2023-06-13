@@ -44,7 +44,7 @@ const SeccionDerecha = () => {
 
     return (
         <div className="seccion-derecha flex flex-col items-center justify-start ml-4">
-            <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4">
+            <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
                 {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </p>
             <button
@@ -63,6 +63,7 @@ const SeccionDerecha = () => {
 const SeccionIzquierda = () => {
     const [fotoUsuario, setFotoUsuario] = useState(null);
     const [cameraStream, setCameraStream] = useState(null);
+    const [videoEnabled, setVideoEnabled] = useState(false);
     const videoRef = useRef(null);
     const [timer, setTimer] = useState(10);
     const [capturing, setCapturing] = useState(false);
@@ -87,6 +88,15 @@ const SeccionIzquierda = () => {
             setCameraStream(null);
             videoRef.current.srcObject = null;
         }
+    };
+
+    const toggleCamera = () => {
+        if (videoEnabled) {
+            stopCamera();
+        } else {
+            startCamera();
+        }
+        setVideoEnabled(!videoEnabled);
     };
 
     const handleCapture = () => {
@@ -117,26 +127,25 @@ const SeccionIzquierda = () => {
     };
 
     useEffect(() => {
-        startCamera();
+        if (videoEnabled) {
+            startCamera();
+        }
 
         return () => {
             stopCamera();
         };
-    }, []);
+    }, [videoEnabled]);
 
     return (
         <div className="seccion-izquierda flex flex-col items-center justify-center mr-4">
             <div className="w-96 h-96 border border-gray-300 relative">
                 {fotoUsuario ? (
-                    <img
-                        src={fotoUsuario}
-                        alt="Foto capturada"
-                        className="w-full h-full object-cover"
-                    />
+                    <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" />
                 ) : (
                     <video
                         className="w-full h-full object-cover"
                         ref={videoRef}
+                        style={{ display: videoEnabled ? 'block' : 'none' }}
                         autoPlay
                         playsInline
                         muted
@@ -145,11 +154,19 @@ const SeccionIzquierda = () => {
             </div>
             <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                onClick={handleCapture}
-                disabled={!cameraStream || capturing}
+                onClick={toggleCamera}
             >
-                {capturing ? `Capturando (${timer})` : 'Tomar foto'}
+                {videoEnabled ? 'Desactivar cámara' : 'Activar cámara'}
             </button>
+            {videoEnabled && (
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleCapture}
+                    disabled={capturing}
+                >
+                    {capturing ? `Capturando (${timer})` : 'Tomar foto'}
+                </button>
+            )}
         </div>
     );
 };
