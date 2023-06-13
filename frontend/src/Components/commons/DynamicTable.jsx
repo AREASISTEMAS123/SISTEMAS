@@ -2,7 +2,7 @@
 export const DynamicTable = ({ columns, data }) => {
 	return (
 		<>
-			<div className="relative overflow-x-auto">
+			<div className="overflow-x-auto">
 				<table className="w-full text-sm text-left text-white">
 					<thead className="text-xs bg-cv-primary uppercase">
 						<tr>

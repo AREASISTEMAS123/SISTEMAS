@@ -63,13 +63,13 @@ export const VistaEvaluaciones = () => {
 							<button onClick={() => handleTableChange('Mensual')} className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase">Mensual</button>
 						</div>
 						{selectedTable === 'Semanal' && (
-							<DynamicTable columns={columns} data={dataSemanal} />
+							<DynamicTable  columns={columns} data={dataSemanal} />
 						)}
 						{selectedTable === 'Quincenal' && (
-							<DynamicTable columns={columns} data={dataQuincenal} />
+							<DynamicTable  columns={columns} data={dataQuincenal} />
 						)}
 						{selectedTable === 'Mensual' && (
-							<DynamicTable columns={columns} data={dataMensual} />
+							<DynamicTable  columns={columns} data={dataMensual} />
 						)}
 					</div>
 				</div>

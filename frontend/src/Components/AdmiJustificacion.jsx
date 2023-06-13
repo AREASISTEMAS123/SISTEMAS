@@ -4,7 +4,6 @@ export const AdmiJustificacion = () => {
     const [card, setCard] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [showJusti, setShowJusti] = useState(false);
-    const [estado, setEstado] = useState();
     const handleClick = () => {
         setShowModal(true);
     };
@@ -33,12 +32,21 @@ export const AdmiJustificacion = () => {
                                         <ul>
                                             <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
                                                 <label>Departamento</label>
-                                                <input className="mx-1 border-2"></input>
+                                                <input className="mx-1 border-2" disabled></input>
                                             </li>
-                                            <li className="  px-4 py-2 text-sm font-medium  text-black rounded-lg">Departamento: </li>
-                                            <li className="  px-4 py-2 text-sm font-medium  text-black ">Fecha de falta o tardanza: </li>
-                                            <li className="  px-4 py-2 text-sm font-medium  text-black ">Pruebas adjuntas: </li>
-                                            <li className="  px-4 py-2 text-sm font-medium  text-black ">Razon: </li>
+                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
+                                                <label>Fecha de falta o tardanza:</label>
+                                                <input className="mx-1 border-2" disabled></input>
+                                            </li>
+                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
+                                                <label>Pruebas adjuntas:</label>
+                                                <input className="mx-1 border-2" disabled></input>
+                                            </li>
+                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
+                                                <label>Razon: </label>
+                                                <input className="mx-1 border-2" disabled></input>
+                                            </li>
+                                         
                                         </ul>
                                     </div>
                                     <div className="  px-4 py-2 text-sm font-medium  rounded-tl text-white mx-3 text-center">

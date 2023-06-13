@@ -3,10 +3,10 @@ import { UseForms } from "../hooks/UseForms"
 
 export const Login = () => {
     const { formulario, onInputChange } = UseForms({
-        user: '',
+        username: '',
         password: ''
     })
-    const { user, password } = formulario
+    const { username, password } = formulario
     return (
         <>
 
@@ -44,8 +44,8 @@ export const Login = () => {
                                     <input
                                         type="text"
                                         placeholder="Es tu dni"
-                                        name="user"
-                                        value={user}
+                                        name="username"
+                                        value={username}
                                         onChange={onInputChange}
                                         className=" inline-block border-2  rounded-lg my-3 ml-6  text-center"
                                     />
