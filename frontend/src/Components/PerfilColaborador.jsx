@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-export const PerfilColaborador = ({ datosColaborador }) => {
+export const PerfilColaborador = () => {
 
-
+//export const PerfilColaborador = ({ datosColaborador })
 
 //   const datosColaborador = {
 //     nombres: "Arturo Antonio",
@@ -26,7 +26,23 @@ export const PerfilColaborador = ({ datosColaborador }) => {
  // <div>
     //   <PerfilColaborador datosColaborador={datosColaborador} />
     // </div>
-
+    const datosColaborador = {
+      nombres: "Arturo Antonio",
+      apellidos: "Montejo Soto",
+      departamento: "Operaciones",
+      area: "Sistemas",
+      perfil: "Desarrollador Frontend",
+      dni: "75098945",
+      turno: "Mañana",
+      rol: "Colaborador",
+      ingreso: "05/04/2023",
+      nacimiento: "03/07/2003",
+      responsable: "Gustavo",
+      faltas: 0,
+      asistencias: 8,
+      tardanzas: 3,
+      justificaciones: 6,
+    };
 
   const [colaborador, setColaborador] = useState(null);
 

@@ -1,10 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Cumpleanos } from '../components/Cumpleanos';
-import { Login } from '../components/Login';
-import { RegistroAsistencia } from '../Components/RegistroAsistencia';
-import { PerfilColaborador } from '../components/PerfilColaborador';
-import { EvaluacionesCard } from '../components/EvaluacionesCard';
+import { Cumpleanos, Login, RegistroAsistencia, PerfilColaborador, VistaEvaluaciones, VistaHomeColaborador } from '../components';
 
 function AppRoutes() {
     return (
