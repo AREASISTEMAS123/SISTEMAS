@@ -9,13 +9,68 @@ export const RegistroAsistencia = () => {
     );
 };
 
+const SeccionDerecha = () => {
+    const [horaActual, setHoraActual] = useState(new Date());
+    const [marcarAsistencia, setMarcarAsistencia] = useState(false);
+    const [tardanza, setTardanza] = useState(false);
+    const [fotoCapturada, setFotoCapturada] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHoraActual(new Date());
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
+    const handleAsistencia = () => {
+        if (marcarAsistencia) {
+            // Lógica para marcar la salida
+            setMarcarAsistencia(false);
+        } else {
+            const hora = horaActual.getHours();
+            const minutos = horaActual.getMinutes();
+
+            if (hora === 8 && minutos <= 10) {
+                setMarcarAsistencia(true);
+                setTardanza(false);
+            } else {
+                setTardanza(true);
+            }
+        }
+    };
+
+    return (
+        <div className="seccion-derecha flex flex-col items-center justify-start ml-4">
+            <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
+                {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            </p>
+            <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                onClick={handleAsistencia}
+            >
+                {marcarAsistencia ? 'Marcar salida' : 'Marcar asistencia'}
+            </button>
+            {tardanza && (
+                <p className="text-red-500 mt-2">Tardanza: Ha marcado la asistencia después de las 8:10 AM</p>
+            )}
+        </div>
+    );
+};
+
 const SeccionIzquierda = () => {
     const [fotoUsuario, setFotoUsuario] = useState(null);
     const [cameraStream, setCameraStream] = useState(null);
+    const [videoEnabled, setVideoEnabled] = useState(false);
     const videoRef = useRef(null);
+    const [timer, setTimer] = useState(10);
+    const [capturing, setCapturing] = useState(false);
 
     const startCamera = () => {
-        navigator.mediaDevices.getUserMedia({ video: true })
+        navigator.mediaDevices
+            .getUserMedia({ video: true })
             .then((stream) => {
                 setCameraStream(stream);
                 videoRef.current.srcObject = stream;
@@ -35,111 +90,81 @@ const SeccionIzquierda = () => {
         }
     };
 
+    const toggleCamera = () => {
+        if (videoEnabled) {
+            stopCamera();
+        } else {
+            startCamera();
+        }
+        setVideoEnabled(!videoEnabled);
+    };
+
     const handleCapture = () => {
         if (cameraStream) {
+            setCapturing(true);
             const videoTrack = cameraStream.getVideoTracks()[0];
             const imageCapture = new ImageCapture(videoTrack);
 
-            imageCapture.takePhoto()
-                .then((blob) => {
-                    setFotoUsuario(URL.createObjectURL(blob));
-                })
-                .catch((error) => {
-                    console.log('Error taking photo:', error);
-                });
+            const countdown = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+
+            setTimeout(() => {
+                imageCapture
+                    .takePhoto()
+                    .then((blob) => {
+                        setFotoUsuario(URL.createObjectURL(blob));
+                        setCapturing(false);
+                        setTimer(10);
+                    })
+                    .catch((error) => {
+                        console.log('Error taking photo:', error);
+                        setCapturing(false);
+                        setTimer(10);
+                    });
+            }, 10000);
         }
     };
 
     useEffect(() => {
-        startCamera();
+        if (videoEnabled) {
+            startCamera();
+        }
 
         return () => {
             stopCamera();
         };
-    }, []);
+    }, [videoEnabled]);
 
     return (
         <div className="seccion-izquierda flex flex-col items-center justify-center mr-4">
-            <div className="w-64 h-48 border border-gray-300 relative">
-                <video className="w-full h-full object-cover" ref={videoRef} autoPlay playsInline muted />
-                {fotoUsuario && (
-                    <img src={fotoUsuario} alt="Foto capturada" className="absolute inset-0 object-cover" />
+            <div className="w-96 h-96 border border-gray-300 relative">
+                {fotoUsuario ? (
+                    <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" />
+                ) : (
+                    <video
+                        className="w-full h-full object-cover"
+                        ref={videoRef}
+                        style={{ display: videoEnabled ? 'block' : 'none' }}
+                        autoPlay
+                        playsInline
+                        muted
+                    />
                 )}
             </div>
             <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                onClick={handleCapture}
-                disabled={!cameraStream}
+                onClick={toggleCamera}
             >
-                Tomar foto
+                {videoEnabled ? 'Desactivar cámara' : 'Activar cámara'}
             </button>
-        </div>
-    );
-};
-
-const SeccionDerecha = () => {
-    const [horaActual, setHoraActual] = useState(new Date());
-    const [marcarAsistencia, setMarcarAsistencia] = useState(false);
-    const [marcadoEntrada, setMarcadoEntrada] = useState(false);
-    const [marcadoSalida, setMarcadoSalida] = useState(false);
-    const [tardanza, setTardanza] = useState(false);
-    const [falta, setFalta] = useState(false);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setHoraActual(new Date());
-        }, 1000);
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
-
-    const handleAsistencia = () => {
-        const hora = horaActual.getHours();
-        const minutos = horaActual.getMinutes();
-
-        if (hora === 8 && minutos >= 0 && minutos <= 10) {
-            setMarcadoEntrada(true);
-            setTardanza(false);
-            setFalta(false);
-        } else if (hora === 12 && minutos >= 45 && minutos <= 55) {
-            setMarcadoSalida(true);
-            setTardanza(false);
-            setFalta(false);
-        } else {
-            setTardanza(true);
-            setFalta(false);
-        }
-        setMarcarAsistencia(true);
-    };
-
-    return (
-        <div className="seccion-derecha flex flex-col items-center justify-center ml-4">
-            <p className="text-center mb-4">
-                Horario del trabajador: 8:00am - 1:00pm | 2:00pm - 7:00pm
-            </p>
-            <p className="mb-4">
-                {marcadoEntrada ? 'Marcado entrada' : tardanza ? 'Tardanza' : falta ? 'Falta' : ''}
-                {marcadoSalida && ' | Marcado salida'}
-            </p>
-            <p className="mb-4">
-                Hora actual: {horaActual.toLocaleTimeString()}
-            </p>
-            {!marcarAsistencia && (
+            {videoEnabled && (
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={handleAsistencia}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleCapture}
+                    disabled={capturing}
                 >
-                    Marcar asistencia
-                </button>
-            )}
-            {marcarAsistencia && (
-                <button
-                    className="bg-gray-300 text-gray-600 font-bold py-2 px-4 rounded cursor-not-allowed"
-                    disabled
-                >
-                    Asistencia marcada
+                    {capturing ? `Capturando (${timer})` : 'Tomar foto'}
                 </button>
             )}
         </div>

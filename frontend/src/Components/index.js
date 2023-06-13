@@ -7,3 +7,4 @@ export * from './PerfilColaborador';
 export * from './RegistroAsistencia'
 export * from './VistaHomeColaborador';
 export * from './VistaEvaluaciones';
+export * from './AdmiJustificacion';
