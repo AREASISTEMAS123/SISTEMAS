@@ -16,6 +16,8 @@ export const Topbar = ({ toggleSidebar }) => {
     setIsCategoryMenuVisible(false);
   };
 
+  
+
   const toggleCategoryMenu = () => {
     setIsCategoryMenuVisible(!isCategoryMenuVisible);
     setIsVisible(false);
@@ -23,7 +25,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 700); // Ajusta el punto de interrupción según tus necesidades
+      setIsMobile(window.innerWidth <= 768); // Ajusta el punto de interrupción según tus necesidades
     };
 
     checkIsMobile();
@@ -68,7 +70,7 @@ export const Topbar = ({ toggleSidebar }) => {
             />
           </button>
         </div>
-        <div className={`${isVisible ? 'block' : 'hidden'} absolute w-52 mt-3 bg-cv-primary p-4 rounded-b-lg`}>
+        <div className={`${isVisible ? 'block' : 'hidden'} absolute w-52 mt-3 bg-cv-primary p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">
             <Link to="/perfil" className="cursor-pointer">
               <div className="p-2 font-semibold hover:bg-cv-secondary rounded-md">
@@ -102,34 +104,34 @@ export const Topbar = ({ toggleSidebar }) => {
           <button onClick={toggleCategoryMenu} className="absolute top-4 right-4 text-white">
             <CloseIcon />
           </button>
-          <ul className="space-y-2 text-white">
+          <ul className="space-y-2 text-white" onClick={toggleCategoryMenu}>
             <li>
-              <Link to="/evaluacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+              <Link to="/colaboradores" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                 Colaboradores
               </Link>
             </li>
             <li>
-              <Link to="/cumpleanos" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+              <Link to="cumpleanos" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                 Cumpleaños
               </Link>
             </li>
             <li>
-              <Link to="/evaluacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+              <Link to="/evaluaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                 Evaluaciones
               </Link>
             </li>
             <li>
-              <Link to="/evaluacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+              <Link to="/justificaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                 Justificaciones
               </Link>
             </li>
             <li>
-              <Link to="/evaluacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+              <Link to="/asistencia" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                 Asistencias
               </Link>
             </li>
             <li>
-              <Link to="/evaluacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+              <Link to="/reportes" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                 Reportes
               </Link>
             </li>

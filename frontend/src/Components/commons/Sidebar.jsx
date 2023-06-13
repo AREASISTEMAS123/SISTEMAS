@@ -9,7 +9,7 @@ import ChecklistIcon from "@mui/icons-material/Checklist";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { Link } from 'react-router-dom';
 
-export const Sidebar = ({ isOpen, toggleSidebar }) => {
+export const Sidebar = ({ isOpen }) => {
   const menuItems = [
     { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
     { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
@@ -40,7 +40,6 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
               key={index}
               to={`/${menu.route}`}
               className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
-              onClick={toggleSidebar}
             >
               <div className="font-semibold flex items-center gap-x-4">
                 <span>{menu.icon}</span>
