@@ -57,5 +57,3 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
     </nav>
   );
 };
-
-export default Sidebar;

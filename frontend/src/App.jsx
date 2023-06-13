@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { Topbar } from './components/commons/Topbar';
-import Sidebar from './Components/commons/Sidebar';
+import { Sidebar } from './components/commons/Sidebar';
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
