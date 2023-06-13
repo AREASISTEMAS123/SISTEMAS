@@ -138,7 +138,7 @@ const SeccionIzquierda = () => {
 
     return (
         <div className="seccion-izquierda flex flex-col items-center justify-center mr-4">
-            <div className="w-96 h-96 border border-gray-300 relative">
+            <div className="w-96 h-96 border border-gray-300 ">
                 {fotoUsuario ? (
                     <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" />
                 ) : (
