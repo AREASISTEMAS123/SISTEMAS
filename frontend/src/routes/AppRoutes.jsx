@@ -5,7 +5,6 @@ import { Cumpleanos, Login, RegistroAsistencia, PerfilColaborador, VistaEvaluaci
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<VistaHomeColaborador />} />
             <Route path="/cumpleanos" element={<Cumpleanos />} />
             <Route path="/login" element={<Login />} />
             <Route path="/asistencia" element={<RegistroAsistencia />} />
