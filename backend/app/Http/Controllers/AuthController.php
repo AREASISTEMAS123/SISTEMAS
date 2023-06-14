@@ -40,7 +40,10 @@ class AuthController extends Controller
     public function login(Request $request){
         if (!Auth::attempt($request->only('username', 'password'))){
             return response()->json(['message' => 'No autorizado'], 401);
+        } elseif (auth()->user()->status == 0){
+            return response()->json(['message' => 'Tu cuenta ha sido bloqueado, contacte a un administrador'], 401);
         }
+
         $user = User::where('username', $request['username'])->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
