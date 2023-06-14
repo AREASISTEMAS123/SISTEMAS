@@ -14,6 +14,7 @@ const SeccionDerecha = () => {
     const [marcarAsistencia, setMarcarAsistencia] = useState(false);
     const [tardanza, setTardanza] = useState(false);
     const [fotoCapturada, setFotoCapturada] = useState(false);
+    const [mostrarBotonAsistencia, setMostrarBotonAsistencia] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -42,17 +43,31 @@ const SeccionDerecha = () => {
         }
     };
 
+    useEffect(() => {
+        if (fotoCapturada && !marcarAsistencia) {
+            const timeout = setTimeout(() => {
+                setMostrarBotonAsistencia(true);
+            }, 10000);
+
+            return () => {
+                clearTimeout(timeout);
+            };
+        }
+    }, [fotoCapturada, marcarAsistencia]);
+
     return (
         <div className="seccion-derecha flex flex-col items-center justify-start ml-4">
             <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
                 {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </p>
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                onClick={handleAsistencia}
-            >
-                {marcarAsistencia ? 'Marcar salida' : 'Marcar asistencia'}
-            </button>
+            {mostrarBotonAsistencia && (
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={handleAsistencia}
+                >
+                    {marcarAsistencia ? 'Marcar salida' : 'Marcar asistencia'}
+                </button>
+            )}
             {tardanza && (
                 <p className="text-red-500 mt-2">Tardanza: Ha marcado la asistencia después de las 8:10 AM</p>
             )}
@@ -79,7 +94,6 @@ const SeccionIzquierda = () => {
                 console.log('Error accessing camera:', error);
             });
     };
-
     const stopCamera = () => {
         if (cameraStream) {
             cameraStream.getTracks().forEach((track) => {
@@ -116,6 +130,7 @@ const SeccionIzquierda = () => {
                         setFotoUsuario(URL.createObjectURL(blob));
                         setCapturing(false);
                         setTimer(10);
+                        setMostrarBotonAsistencia(true); // Mostrar el botón de asistencia después de tomar la foto
                     })
                     .catch((error) => {
                         console.log('Error taking photo:', error);

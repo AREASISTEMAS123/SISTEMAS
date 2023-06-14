@@ -2,47 +2,47 @@ import React, { useState, useEffect } from "react";
 
 export const PerfilColaborador = () => {
 
-//export const PerfilColaborador = ({ datosColaborador })
+  //export const PerfilColaborador = ({ datosColaborador })
 
-//   const datosColaborador = {
-//     nombres: "Arturo Antonio",
-//     apellidos: "Montejo Soto",
-//     departamento: "Operaciones",
-//     area: "Sistemas",
-//     perfil: "Desarrollador Frontend",
-//     dni: "75098945",
-//     turno: "Mañana",
-//     rol: "Colaborador",
-//     ingreso: "05/04/2023",
-//     nacimiento: "03/07/2003",
-//     responsable: "Gustavo",
-//     faltas: 0,
-//     asistencias: 8,
-//     tardanzas: 3,
-//     justificaciones: 6,
-//   };
+  //   const datosColaborador = {
+  //     nombres: "Arturo Antonio",
+  //     apellidos: "Montejo Soto",
+  //     departamento: "Operaciones",
+  //     area: "Sistemas",
+  //     perfil: "Desarrollador Frontend",
+  //     dni: "75098945",
+  //     turno: "Mañana",
+  //     rol: "Colaborador",
+  //     ingreso: "05/04/2023",
+  //     nacimiento: "03/07/2003",
+  //     responsable: "Gustavo",
+  //     faltas: 0,
+  //     asistencias: 8,
+  //     tardanzas: 3,
+  //     justificaciones: 6,
+  //   };
 
 
- // <div>
-    //   <PerfilColaborador datosColaborador={datosColaborador} />
-    // </div>
-    const datosColaborador = {
-      nombres: "Arturo Antonio",
-      apellidos: "Montejo Soto",
-      departamento: "Operaciones",
-      area: "Sistemas",
-      perfil: "Desarrollador Frontend",
-      dni: "75098945",
-      turno: "Mañana",
-      rol: "Colaborador",
-      ingreso: "05/04/2023",
-      nacimiento: "03/07/2003",
-      responsable: "Gustavo",
-      faltas: 0,
-      asistencias: 8,
-      tardanzas: 3,
-      justificaciones: 6,
-    };
+  // <div>
+  //   <PerfilColaborador datosColaborador={datosColaborador} />
+  // </div>
+  const datosColaborador = {
+    nombres: "Arturo Antonio",
+    apellidos: "Montejo Soto",
+    departamento: "Operaciones",
+    area: "Sistemas",
+    perfil: "Desarrollador Frontend",
+    dni: "75098945",
+    turno: "Mañana",
+    rol: "Colaborador",
+    ingreso: "05/04/2023",
+    nacimiento: "03/07/2003",
+    responsable: "Gustavo",
+    faltas: 0,
+    asistencias: 8,
+    tardanzas: 3,
+    justificaciones: 6,
+  };
 
   const [colaborador, setColaborador] = useState(null);
 
@@ -69,7 +69,7 @@ export const PerfilColaborador = () => {
               Nombres y Apellidos
             </h2>
             <div className="bg-white p-4 mt-4 rounded-xl mx-3 text-lg md:text-2xl lg:text-2xl">
-              <div>{colaborador.nombres} {colaborador.Apellidos}</div>
+              <div>{colaborador.nombres} {colaborador.apellidos}</div>
             </div>
           </div>
           <div className="md:w-1/6 md:ml-4 md:mt-6 lg:mt-5 lg:mr-auto order-first md:order-last">
