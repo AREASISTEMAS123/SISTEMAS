@@ -48,7 +48,7 @@ export const PerfilColaborador = () => {
 
   useEffect(() => {
     setColaborador(datosColaborador);
-  }, [datosColaborador]);
+  }, []);
 
   if (!colaborador) {
     // Mostrar un estado de carga mientras se obtienen los datos

@@ -17,6 +17,8 @@ export const Sidebar = ({ isOpen }) => {
     { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon /> },
     { route: "asistencia", title: "Asistencias", icon: <ChecklistIcon /> },
     { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
+    { route: "asistenciaAdmin", title: "AsistenciaAdmin", icon: <TrendingUpIcon /> },
+
   ];
 
   return (

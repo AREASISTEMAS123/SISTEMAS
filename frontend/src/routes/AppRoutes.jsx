@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Cumpleanos, Login, RegistroAsistencia, PerfilColaborador, VistaEvaluaciones, VistaHomeColaborador, JustificacionColaborador } from '../components';
+import { Route, Routes } from 'react-router-dom';
+import { Cumpleanos, Login, RegistroAsistencia, PerfilColaborador, VistaEvaluaciones, VistaHomeColaborador, JustificacionColaborador} from '../components';
+import { AsistenciaAdmin } from '../Components/AsistenciaAdmin';
 
 function AppRoutes() {
     return (
@@ -12,6 +13,7 @@ function AppRoutes() {
             <Route path="/perfil" element={<PerfilColaborador />} />
             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
             <Route path="/justificaciones" element={<JustificacionColaborador/>}/>
+            <Route path="/asistenciaAdmin" element={<AsistenciaAdmin/>}/>
         </Routes>
     );
 }
