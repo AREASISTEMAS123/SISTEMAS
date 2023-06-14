@@ -141,5 +141,3 @@ export const Topbar = ({ toggleSidebar }) => {
     </div>
   );
 };
-
-export default Topbar;
