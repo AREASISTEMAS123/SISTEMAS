@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -16,7 +16,13 @@ export const Topbar = ({ toggleSidebar }) => {
     setIsCategoryMenuVisible(false);
   };
 
-  
+
+  const naviget = useNavigate();
+  function logoutSubmit() {
+    localStorage.setItem("login", "");
+    localStorage.setItem("loginStatus", "Cierre de sesión exitoso!")
+    naviget("/");
+  }
 
   const toggleCategoryMenu = () => {
     setIsCategoryMenuVisible(!isCategoryMenuVisible);
@@ -93,7 +99,7 @@ export const Topbar = ({ toggleSidebar }) => {
                 <span className="mr-4">
                   <LogoutIcon />
                 </span>
-                <span>Cerrar Sesión</span>
+                <span onClick={logoutSubmit}>Cerrar Sesión</span>
               </div>
             </Link>
           </div>

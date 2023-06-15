@@ -171,7 +171,7 @@ export const Login = () => {
                                     <input
                                         className=" border-2 my-2 mx-1 rounded-lg bg-slate-800  w-64  h-10 text-white "
                                         type="submit"
-                                        
+
                                         onClick={loginSubmit}
 
                                     />
