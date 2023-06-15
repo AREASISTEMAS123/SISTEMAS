@@ -25,6 +25,6 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
     Route::get('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
     Route::get('birthday', [\App\Http\Controllers\BirthdayController::class, 'getbirthday']);
-    Route::get('birthday/datails', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
+    Route::get('birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
 });
 
