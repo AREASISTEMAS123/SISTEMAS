@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 export const RegistroAsistencia = () => {
+    const [mostrarBotonAsistencia, setMostrarBotonAsistencia] = useState(false);
+
     return (
         <div className="registro-asistencia flex items-center justify-center h-screen">
-            <SeccionIzquierda />
-            <SeccionDerecha />
+            <SeccionIzquierda setMostrarBotonAsistencia={setMostrarBotonAsistencia} />
+            <SeccionDerecha mostrarBotonAsistencia={mostrarBotonAsistencia} setMostrarBotonAsistencia={setMostrarBotonAsistencia} />
         </div>
     );
 };
 
-const SeccionDerecha = () => {
+const SeccionDerecha = ({ mostrarBotonAsistencia, setMostrarBotonAsistencia }) => {
     const [horaActual, setHoraActual] = useState(new Date());
     const [marcarAsistencia, setMarcarAsistencia] = useState(false);
     const [tardanza, setTardanza] = useState(false);
-    const [fotoCapturada, setFotoCapturada] = useState(false);
-    const [mostrarBotonAsistencia, setMostrarBotonAsistencia] = useState(false);
+    const [asistenciaMarcada, setAsistenciaMarcada] = useState(false); // Nuevo estado
+    const [salidaMarcada, setSalidaMarcada] = useState(false);
+    const [botonDesactivado, setBotonDesactivado] = useState(false); // Nuevo estado
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -30,30 +33,24 @@ const SeccionDerecha = () => {
         if (marcarAsistencia) {
             // Lógica para marcar la salida
             setMarcarAsistencia(false);
+            setAsistenciaMarcada(false);
+            setSalidaMarcada(true); // Marcar la salida
+            setBotonDesactivado(true); // Desactivar el botón después de marcar la salida
         } else {
             const hora = horaActual.getHours();
             const minutos = horaActual.getMinutes();
 
-            if (hora === 8 && minutos <= 10) {
+            if (hora === 8 && minutos >= 0 && minutos <= 10 && !asistenciaMarcada && !salidaMarcada) {
                 setMarcarAsistencia(true);
                 setTardanza(false);
+                setAsistenciaMarcada(true);
+                setBotonDesactivado(true); // Desactivar el botón después de marcar la asistencia
             } else {
                 setTardanza(true);
+                setMarcarAsistencia(true)
             }
         }
     };
-
-    useEffect(() => {
-        if (fotoCapturada && !marcarAsistencia) {
-            const timeout = setTimeout(() => {
-                setMostrarBotonAsistencia(true);
-            }, 10000);
-
-            return () => {
-                clearTimeout(timeout);
-            };
-        }
-    }, [fotoCapturada, marcarAsistencia]);
 
     return (
         <div className="seccion-derecha flex flex-col items-center justify-start ml-4">
@@ -64,6 +61,7 @@ const SeccionDerecha = () => {
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                     onClick={handleAsistencia}
+                    disabled={botonDesactivado} // Desactivar el botón si está marcada la asistencia o salida
                 >
                     {marcarAsistencia ? 'Marcar salida' : 'Marcar asistencia'}
                 </button>
@@ -75,7 +73,7 @@ const SeccionDerecha = () => {
     );
 };
 
-const SeccionIzquierda = () => {
+const SeccionIzquierda = ({ setMostrarBotonAsistencia }) => {
     const [fotoUsuario, setFotoUsuario] = useState(null);
     const [cameraStream, setCameraStream] = useState(null);
     const [videoEnabled, setVideoEnabled] = useState(false);
@@ -94,14 +92,13 @@ const SeccionIzquierda = () => {
                 console.log('Error accessing camera:', error);
             });
     };
+
     const stopCamera = () => {
-        if (cameraStream) {
-            cameraStream.getTracks().forEach((track) => {
-                track.stop();
-            });
-            setCameraStream(null);
+        if (cameraStream && videoRef.current) {
+            cameraStream.getTracks().forEach((track) => track.stop());
             videoRef.current.srcObject = null;
         }
+        setCameraStream(null);
     };
 
     const toggleCamera = () => {
@@ -131,6 +128,8 @@ const SeccionIzquierda = () => {
                         setCapturing(false);
                         setTimer(10);
                         setMostrarBotonAsistencia(true); // Mostrar el botón de asistencia después de tomar la foto
+                        stopCamera(); // Desactivar la cámara después de tomar la foto
+                        setVideoEnabled(false); // Deshabilitar el estado de videoEnabled
                     })
                     .catch((error) => {
                         console.log('Error taking photo:', error);
@@ -178,8 +177,7 @@ const SeccionIzquierda = () => {
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                     onClick={handleCapture}
                     disabled={capturing}
-                >
-                    {capturing ? `Capturando (${timer})` : 'Tomar foto'}
+                >{capturing ? `Capturando(${timer})` : 'Tomar foto'}
                 </button>
             )}
         </div>
