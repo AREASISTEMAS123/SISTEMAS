@@ -8,3 +8,4 @@ export * from './RegistroAsistencia'
 export * from './VistaHomeColaborador';
 export * from './VistaEvaluaciones';
 export * from './AdmiJustificacion';
+export * from './AsistenciaAdmin';
