@@ -32,7 +32,7 @@ const App = () => {
         {!isMobile && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
         <div className="flex flex-col flex-1">
           <Topbar toggleSidebar={toggleSidebar} />
-          <div className="flex flex-col flex-1 overflow-y-auto bg-cv-secondary p-5">
+          <div className="flex flex-col flex-1 overflow-y-auto bg-cv-secondary p-5 min-w-full">
             <AppRoutes />
           </div>
         </div>

@@ -8,7 +8,7 @@ import {
   VistaEvaluaciones,
   VistaHomeColaborador,
 } from "../components";
-import { AsistenciaAdmin } from "../Components/AsistenciaAdmin";
+import { AsistenciaAdmin } from "../components/AsistenciaAdmin";
 
 function AppRoutes() {
   return (
