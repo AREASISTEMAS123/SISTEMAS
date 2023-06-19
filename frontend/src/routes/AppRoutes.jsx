@@ -9,6 +9,7 @@ import {
     VistaHomeColaborador,
     AsistenciaAdmin,
     AdmiJustificacion,
+    DetalleCumpleanos
 } from "../components";
 
 function AppRoutes() {
@@ -23,6 +24,7 @@ function AppRoutes() {
             <Route path="/asistenciaAdmin" element={<AsistenciaAdmin />} />
             <Route path="/justificaciones" element={<AdmiJustificacion />} />
             <Route path="/homeColaborador" element={<VistaHomeColaborador />} />
+            <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
         </Routes>
     );
 }
