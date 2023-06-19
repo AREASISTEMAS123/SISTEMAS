@@ -9,7 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 const columns = [
-  { id: "day", label: "", minWidth: 100 },
+  { id: "name", label: "", minWidth: 350 },
   { id: "1", label: "L", minWidth: 100 },
   { id: "2", label: "M", minWidth: 100 },
   { id: "3", label: "M", minWidth: 100 },
@@ -20,19 +20,45 @@ const columns = [
   { id: "8", label: "L", minWidth: 100 },
   { id: "9", label: "M", minWidth: 100 },
   { id: "10", label: "M", minWidth: 100 },
-  { id: "11", label: "J", minWidth: 100 },
-  { id: "12", label: "S", minWidth: 100 },
-  { id: "13", label: "D", minWidth: 100 },
-  { id: "14", label: "L", minWidth: 100 },
-  { id: "15", label: "M", minWidth: 100 },
-  { id: "16", label: "M", minWidth: 100 },
-  { id: "17", label: "J", minWidth: 100 },
-  { id: "18", label: "V", minWidth: 100 },
-  { id: "19", label: "S", minWidth: 100 },
-  { id: "20", label: "D", minWidth: 100 },
-  { id: "21", label: "L", minWidth: 100 },
-  { id: "22", label: "M", minWidth: 100 },
+  { id: "11", label: "M", minWidth: 100 },
+  { id: "12", label: "J", minWidth: 100 },
+  { id: "13", label: "V", minWidth: 100 },
+  { id: "14", label: "S", minWidth: 100 },
+  { id: "15", label: "D", minWidth: 100 },
+  { id: "16", label: "L", minWidth: 100 },
+  { id: "17", label: "M", minWidth: 100 },
+  { id: "18", label: "M", minWidth: 100 },
+  { id: "19", label: "J", minWidth: 100 },
+  { id: "20", label: "V", minWidth: 100 },
+  { id: "21", label: "S", minWidth: 100 },
+  { id: "22", label: "D", minWidth: 100 },
 ];
+
+const nameValues = [
+  "Arturo Antonio Montejo Soto",
+  "Luisa Gabriela Vargas Flores",
+  "Javier Alonso Herrera Rojas",
+  "Ana Sofía Torres Gómez",
+  "Diego Alejandro Ríos Cordero",
+  "María Fernanda Luna Medina",
+  "Carlos Andrés Ortega Ruiz",
+  "Laura Valentina Guzmán Mendoza",
+  "José Miguel Delgado Chávez",
+  "Sara Isabel Cáceres León",
+  "Pedro Pablo Vásquez Huerta",
+  "Camila Valeria Ayala Castro",
+  "Gabriel Eduardo Sánchez Paredes",
+  "Valentina Nicole Mendoza Guerra",
+  "Daniel Alejandro Ramírez Cáceres",
+  "Carolina Daniela Huamaní Vargas",
+  "Sebastián Ignacio Rojas Cordero",
+  "Isabella Camila Guzmán Luna",
+  "Jorge Alberto Paredes Ayala",
+  "Mariana Alejandra Medina Delgado",
+];
+
+
+
 
 const days = [
   { id: "day", label: "Nombre y Apellidos", minWidth: 350 },
@@ -60,57 +86,13 @@ const days = [
   { id: "22", label: "22", minWidth: 100 },
 ];
 
-function createData(day, name, population, size) {
-  const density = population / size;
-  return { day, name, population, size, density };
-}
-
-const nameValues = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-];
-
-const rows = [
-  createData("Arturo Antonio Montejo Soto", "dsf", 0, 0), // Fila para los días de la semana
-  ...nameValues.map((value) => createData("", value, 0, 0)), // Agrega las filas adicionales aquí
-  createData("India", 1324171354, 3287263),
-  createData("China", 1403500365, 9596961),
-  createData("Italy", 60483973, 301340),
-  createData("United States", 327167434, 9833520),
-  createData("Canada", 37602103, 9984670),
-  createData("Australia", 25475400, 7692024),
-  createData("Germany", 83019200, 357578),
-  createData("Ireland", 4857000, 70273),
-  createData("Mexico", 126577691, 1972550),
-  createData("Japan", 126317000, 377973),
-  createData("France", 67022000, 640679),
-  createData("United Kingdom", 67545757, 242495),
-  createData("Russia", 146793744, 17098246),
-  createData("Nigeria", 200962417, 923768),
-  createData("Brazil", 210147125, 8515767),
-];
+const rows = nameValues.map((name) => {
+  const row = { name };
+  for (let i = 1; i <= 22; i++) {
+    row[i] = Math.round(Math.random());
+  }
+  return row;
+});
 
 export const Tabla = () => {
   const [page, setPage] = React.useState(0);
@@ -131,7 +113,7 @@ export const Tabla = () => {
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+            <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
@@ -140,15 +122,14 @@ export const Tabla = () => {
                       minWidth: column.minWidth,
                       position: "sticky",
                       top: 0,
-                      backgroundColor: "#f5f5f5",
+                      backgroundColor: "#16232B",
+                      color: "white",
                     }}
                   >
                     {column.label}
                   </TableCell>
                 ))}
               </TableRow>
-            </TableHead>
-            <TableHead>
               <TableRow>
                 {days.map((day) => (
                   <TableCell
@@ -158,31 +139,28 @@ export const Tabla = () => {
                       minWidth: day.minWidth,
                       position: "sticky",
                       top: 56,
-                      backgroundColor: "#f5f5f5",
+                      backgroundColor: "#16232B",
+                      color: "white",
                     }}
                   >
                     {day.label}
                   </TableCell>
                 ))}
               </TableRow>
+
             </TableHead>
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align="center">
-                            {value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+                .map((row, index) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    {columns.map((column) => (
+                      <TableCell key={column.id} align="center">
+                        {row[column.id]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
