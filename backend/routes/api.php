@@ -31,9 +31,10 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('birthday', [\App\Http\Controllers\BirthdayController::class, 'getbirthday']);
     Route::get('birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
 
-    Route::get('gettask', [\App\Http\Controllers\UserTaskController::class, 'gettask']);
-    Route::get('/gettask/{id}', [\App\Http\Controllers\UserTaskController::class, 'gettaskid']);
+    Route::get('task', [\App\Http\Controllers\UserTaskController::class, 'gettask']);
+    Route::get('/task/{id}', [\App\Http\Controllers\UserTaskController::class, 'gettaskid']);
 
-    Route::post('/gettask/insert', [\App\Http\Controllers\UserTaskController::class,'insertTask']);
+    Route::post('/task/insert', [\App\Http\Controllers\UserTaskController::class,'insertTask']);
+    Route::put('/task/update/{id}', [\App\Http\Controllers\UserTaskController::class,'updateTask']);
 });
 

@@ -38,7 +38,7 @@ class UserTaskController extends Controller
             'tittle.required' => 'Por favor ingrese el titulo de la tarea',
             'description.required' => 'Por favor ingrese una breve descripcion de la tarea',
             'limit_date.required' => 'Por favor ingrese una fecha limite de la tarea',
-
+            'hour.required' => 'Por favor ingrese una Hora limite de la tarea',
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -59,7 +59,30 @@ class UserTaskController extends Controller
 
     }
 
+    public function updateTask(Request $request, $id){
 
-    
+        $rules = array(
+            'tittle' => 'required|string',
+            'description' => 'required|string',
+            'limit_date' => 'required|date',
+            'hour' => 'required|date',
+        );
+        $messages = array(
+            'tittle.required' => 'Por favor ingrese el titulo de la tarea',
+            'description.required' => 'Por favor ingrese una breve descripcion de la tarea',
+            'limit_date.required' => 'Por favor ingrese una fecha limite de la tarea',
+            'hour.required' => 'Por favor ingrese una Hora limite de la tarea',
+        );
 
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()){
+            $messages=$validator->messages();
+            return response()->json(["messages"=>$messages],500);
+
+        }
+        $user_tasks = UserTask::find($id);
+        $user_tasks->update($request->all());
+
+        return response()->json(['Tarea'=>$user_tasks, 'messages'=>"Tarea actualizada con exito"],200);
+    }
 }
