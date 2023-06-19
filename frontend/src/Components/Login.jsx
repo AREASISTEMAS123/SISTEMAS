@@ -1,7 +1,7 @@
 //import { UseForms } from "../hooks/UseForms"
 
 import { useState, useEffect } from "react"
-import {  Navigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -11,25 +11,28 @@ export const Login = () => {
         password: ''
     })
     const { username, password } = formulario*/
+    const naviget = useNavigate();
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [msg, setMsg] = useState('')
 
-    useEffect(()=>{
+    useEffect(() => {
         let login = localStorage.getItem("login");
-        if(login){
-            <Navigate to="/homeColaborador>" replace={true} />
+        if (login) {
+            naviget("/homeColaborador");
+
         }
         let loginStatus = localStorage.getItem("loginStatus");
-        if(loginStatus){
+        if (loginStatus) {
             setError(loginStatus);
-            setTimeout(function(){
+            setTimeout(function () {
                 localStorage.clear();
                 window.location.reload();
             }, 3000);
         }
-        setTimeout(function(){
+        setTimeout(function () {
             setMsg("");
         }, 5000);
     }, [msg]);
@@ -53,37 +56,38 @@ export const Login = () => {
         }
     }
 
-    function loginSubmit(){
-        if(username !== "" && password!==""){
+    function loginSubmit() {
+        if (username !== "" && password !== "") {
             var url = 'http://127.0.0.1:8000/api/login';
             var headers = {
-                "Accept": "aplication/json",
-                "Content-type": "aplication/json"
+                "Accept": "application/json",
+                "Content-type": "application/json"
             };
             var Data = {
                 username: username,
                 password: password
             };
-            fetch(url,{
+            fetch(url, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(Data)
-            }).then((response)=> response.json())
-            .then((response)=>{
-                if(response[0].result==="Usuario invalido" || response[0].result==="contraseña invalida"){
-                    setError(response[0].result)
-                }else{
-                    setMsg(response[0].result)
-                    setTimeout(function () {
-                        localStorage.setItem("login", true);
-                        <Navigate to="/homeColaborador>" />
-                    },5000)
-                }
-                
-            }).catch((err)=>{
-                setError(err);
-            })
-        }else{
+            }).then((response) => response.json())
+                .then((response) => {
+                    if (response.message === "No autorizado") {
+                        setError(response.message)
+                    } else {
+                        setMsg(response.message)
+                        setTimeout(function () {
+                            localStorage.setItem("login", true);
+                            naviget("/homeColaborador");
+                        }, 5000)
+                    }
+
+                }).catch((err) => {
+                    setError(err);
+                    console.log(err)
+                })
+        } else {
             setError("Todos los campos son requeridos")
         }
     }
@@ -120,13 +124,13 @@ export const Login = () => {
 
                             <img className="inline my-6" src="https://consigueventas.com/wp-content/uploads/Rectangle-39.png" />
 
-                            <form className="grid  m-1">
+                            <div className="grid  m-1">
                                 <div className="  mx-6 mt-1" >
                                     <p>
                                         {
                                             error !== "" ?
-                                            <span className="text-red-500">{error}</span> :
-                                            <span className="text-green-400">{msg}</span>
+                                                <span className="text-red-500">{error.toString()}</span> :
+                                                <span className="text-green-400">{msg.toString()}</span>
                                         }
 
                                     </p>
@@ -163,25 +167,19 @@ export const Login = () => {
 
                                 </div>
                                 <div className="grid justify-center m-2">
-                                    <button
+                                    <label></label>
+                                    <input
                                         className=" border-2 my-2 mx-1 rounded-lg bg-slate-800  w-64  h-10 text-white "
                                         type="submit"
-                                        defaultValue="Login" 
+
                                         onClick={loginSubmit}
 
-                                    >Ingresar</button>
+                                    />
                                 </div>
-
-                            </form>
-
-
+                            </div>
                         </div>
                     </div>
-
                 </div>
-
-
-
             </div>
 
 
