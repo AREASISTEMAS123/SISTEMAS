@@ -9,3 +9,4 @@ export * from './VistaHomeColaborador';
 export * from './VistaEvaluaciones';
 export * from './AdmiJustificacion';
 export * from './AsistenciaAdmin';
+export * from './DetalleCumpleanos'

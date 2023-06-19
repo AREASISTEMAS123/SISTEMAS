@@ -1,38 +1,35 @@
 import React, { useState, useEffect } from 'react';
-
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Cumpleanos = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [birthdayList, setBirthdayList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-    // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
-    fetch('https://randomuser.me/api/?results=30')
-        .then(response => response.json())
-        .then(data => {
-            const results = data.results;
-            const people = results.map(user => {
-                const { dob } = user;
-                const dateOfBirth = new Date(dob.date);
-                console.log(dateOfBirth);
-                return { name: user.name.first, birthday: dateOfBirth };
+        // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
+        fetch('https://randomuser.me/api/?results=50')
+            .then(response => response.json())
+            .then(data => {
+                const results = data.results;
+                const people = results.map(user => {
+                    const { dob, name, location } = user;
+                    const dateOfBirth = new Date(dob.date);
+                    return {
+                        id: user.login.uuid,
+                        name: `${name.first} ${name.last}`,
+                        birthday: dateOfBirth,
+                        city: location.city,
+                        photo: user.picture.large
+                    };
+                });
+                setBirthdayList(people);
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-            setBirthdayList([...birthdayList, ...people]);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}, []);
+    }, []);
 
     const renderDaysOfWeek = () => {
         const daysOfWeek = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
@@ -68,30 +65,24 @@ export const Cumpleanos = () => {
                 date.getMonth() === new Date().getMonth() &&
                 date.getDate() === new Date().getDate();
 
-            // Verificar si hay personas que cumplan años en la fecha actual
+            const dayClassName = `text-center hover:bg-blue-700 ${isToday ? 'bg-blue-500 text-white hover:bg-sky-700' : isCurrentMonth ? '' : 'text-gray-400 hover:bg-gray-700'
+                }`;
+
             const birthdayPeople = birthdayList.filter(person => {
-                const birthdayDate = new Date(person.birthday);
-                return (
-                    birthdayDate.getMonth() === date.getMonth() &&
-                    birthdayDate.getDate() === date.getDate()
-                );
+                const personMonth = person.birthday.getMonth();
+                const personDay = person.birthday.getDate();
+                return personMonth === date.getMonth() && personDay === date.getDate();
             });
 
-            const dayClassName = `text-center ${isToday ? 'bg-blue-500 text-white' : isCurrentMonth ? '' : 'text-gray-400'
-                } ${birthdayPeople.length > 0 ? 'bg-red-500 text-white' : ''}`;
-
-            const dayHoverClassName = `${isToday ? 'bg-blue-500' : 'hover:bg-gray-300'
-                } cursor-pointer p-2 rounded-full`;
-
             const handleClick = () => {
-                setSelectedDate(date);
-                setShowModal(true);
+                const people = birthdayPeople.length > 0 ? birthdayPeople : null;
+                navigate(`/detallecumpleanos/${date.getMonth() + 1}/${date.getDate()}`, { state: { birthdayPeople: people } });
             };
 
             return (
                 <div
                     key={date.toDateString()}
-                    className={`${dayClassName} ${dayHoverClassName}`}
+                    className={`${dayClassName} cursor-pointer p-5 rounded-full ${birthdayPeople.length > 0 ? 'bg-red-500 hover:bg-red-700' : ''}`}
                     onClick={handleClick}
                 >
                     {date.getDate()}
@@ -99,82 +90,29 @@ export const Cumpleanos = () => {
             );
         });
     };
-    const goToPreviousMonth = () => {
-        const previousMonth = new Date(currentMonth);
-        previousMonth.setMonth(previousMonth.getMonth() - 1);
-        setCurrentMonth(previousMonth);
-    };
-
-    const goToNextMonth = () => {
-        const nextMonth = new Date(currentMonth);
-        nextMonth.setMonth(nextMonth.getMonth() + 1);
-        setCurrentMonth(nextMonth);
-    };
-
-    const closeModal = () => {
-        setShowModal(false);
-    };
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
-            <div className="container mx-auto bg-white p-4 shadow max-w-md">
-                <div className="flex justify-between mb-4">
-                    <div className="flex items-center">
-                        <button
-                            className="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded mr-2"
-                            onClick={goToPreviousMonth}
-                        >
-                            &lt;
-                        </button>
-                        <div className="text-xl font-bold">
-                            {currentMonth.toLocaleString('default', { month: 'long' })}
-                        </div>
-                        <div className="text-gray-600 mx-2">
-                            {currentMonth.getFullYear()}
-                        </div>
-                    </div>
-                    <button
-                        className="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded"
-                        onClick={goToNextMonth}
-                    >
+        <div className="container mx-auto text-white -mt-8">
+            <div className="flex justify-between items-center mt-4 mb-2">
+                <button className="text-white-500 font-bold bg-indigo-500 px-10 py-3 rounded-lg drop-shadow-2xl hover:bg-indigo-700" onClick={() => setCurrentMonth(new Date())}>
+                    Hoy
+                </button>
+                <h3 className="text-5xl font-bold">{currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toLocaleUpperCase('es-ES')}</h3>
+                <div className='font-bold'>
+                    <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1))}>
+                        &lt;
+                    </button>
+                    <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1))}>
                         &gt;
                     </button>
                 </div>
-                <div className="grid grid-cols-7 gap-2">
-                    {renderDaysOfWeek()}
-                    {renderCalendarDays()}
-                </div>
             </div>
-            {showModal && (
-                <div className="fixed inset-0 flex items-center justify-center z-10">
-                    <div className="bg-white p-4 shadow max-w-md">
-                        <h2 className="text-lg font-bold mb-2">
-                            Nombres de personas que cumplen años:
-                        </h2>
-                        <ul className="list-disc pl-6">
-                            {birthdayList
-                                .filter(person => {
-                                    const birthdayDate = new Date(person.birthday);
-                                    return (
-                                        selectedDate &&
-                                        birthdayDate.getMonth() === selectedDate.getMonth() &&
-                                        birthdayDate.getDate() === selectedDate.getDate()
-                                    );
-                                })
-                                .map(person => (
-                                    <li key={person.id}>{person.name}</li>
-                                ))}
-                        </ul>
-                        <button
-                            className="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded mt-4"
-                            onClick={closeModal}
-                        >
-                            Cerrar
-                        </button>
-                    </div>
-                </div>
-            )}
+            <div className="grid grid-cols-7 gap-2 mb-4">
+                {renderDaysOfWeek()}
+            </div>
+            <div className="grid grid-cols-7 gap-2">
+                {renderCalendarDays()}
+            </div>
         </div>
-
     );
 };
