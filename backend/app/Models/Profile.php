@@ -22,6 +22,10 @@ class Profile extends Model
 
     public function User(){
 
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasMany(User::class, 'id', 'user_id');
+    }
+
+    public function tasks(){
+        return $this->hasMany(UserTask::class, 'user_id', 'id');
     }
 }

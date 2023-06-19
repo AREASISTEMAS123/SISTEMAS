@@ -18,13 +18,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
 
 Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function (){
-    Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
+
+
+
     Route::get('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
     Route::get('birthday', [\App\Http\Controllers\BirthdayController::class, 'getbirthday']);
     Route::get('birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
+
+    Route::get('gettask', [\App\Http\Controllers\UserTaskController::class, 'gettask']);
+    Route::get('/gettask/{id}', [\App\Http\Controllers\UserTaskController::class, 'gettaskid']);
+
+    Route::post('/gettask/insert', [\App\Http\Controllers\UserTaskController::class,'insertTask']);
 });
 
