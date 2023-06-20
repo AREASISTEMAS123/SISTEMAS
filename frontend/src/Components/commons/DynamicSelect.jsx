@@ -1,5 +1,7 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
+<<<<<<< HEAD
 export const DynamicSelect = ({ options }) => {
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -11,7 +13,7 @@ export const DynamicSelect = ({ options }) => {
       <select
         value={selectedOption}
         onChange={handleChange}
-        className="box-border  w-50 h-50 right-664 bottom-503 bg-gray-100 border border-gray-500 rounded-md p-2 outline-none"
+        className="bg-cv-secondary border-2 border-cv-primary text-white text-base rounded-lg block p-2.5 outline-none"
       >
         {options.map((option, index) => (
           <option key={index} value={option}>
