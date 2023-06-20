@@ -85,4 +85,14 @@ class UserTaskController extends Controller
 
         return response()->json(['Tarea'=>$user_tasks, 'messages'=>"Tarea actualizada con exito"],200);
     }
+
+    public function deleteTask($id){
+        $user_task = UserTask::find($id);
+        if (is_null($user_task)){
+            return response() ->json(["message" => "Registro no encontrado"], 404);
+        }
+        $user_task->delete();
+        return response()->json(["message"=> "Tarea completada"],200);
+    }
+
 }
