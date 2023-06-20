@@ -15,13 +15,13 @@ class AuthController extends Controller
 {
     public function register(Request $request){
         $validator = Validator::make($request->all(),[
-            'username' => 'required|string|max:255|unique:users',
+            'username' => 'string|max:255|unique:users',
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'string|min:8',
             'profile_name' => 'required|string|max:255',
-            'dni' => 'string|max:8',
+            'dni' => 'required|string|max:8',
             'department' => 'required|string|max:255',
             'area' => 'required|string|max:255',
             'shift' => 'required|string|max:255',
@@ -32,18 +32,18 @@ class AuthController extends Controller
             return response()->json($validator->errors());
         }
         $user = User::create([
-            'username' => $request->username,
+            'username' => $request->dni,
             'name' => $request->name,
             'surname' => $request->surname,
             'email' => $request->email,
-            'password' => Hash::make($request->username) ,
+            'password' => Hash::make($request->dni) ,
 
         ]);
 
         $profile = Profile::create([
             'user_id' => $user->id,
             'profile_name'=> $request->profile_name,
-            'dni'=> $request->username,
+            'dni'=> $request->dni,
             'department'=> $request->department,
             'area'=> $request->area,
             'shift'=> $request->shift,
