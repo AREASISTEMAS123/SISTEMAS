@@ -40,3 +40,18 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 });
 
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('user','App\Http\Controllers\usercontroller@getUser');
+
+Route::get('user/{id}','App\Http\Controllers\usercontroller@getUserxid');
+
+Route::post('addUser','App\Http\Controllers\usercontroller@insertUser');
+
+Route::put('updateUser/{id}','App\Http\Controllers\usercontroller@updateUser');
+
+Route::delete('deleteUser/{id}','App\Http\Controllers\usercontroller@deleteUser');
+
