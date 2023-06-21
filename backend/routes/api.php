@@ -46,6 +46,3 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::put('/updateUser/{id}','App\Http\Controllers\usercontroller@updateUser');
     Route::delete('/deleteUser/{id}','App\Http\Controllers\usercontroller@deleteUser');
 });
-
-
-

@@ -45,6 +45,31 @@ class usercontroller extends Controller
         $user->delete();
         return response()->json(['Mensaje' => 'Eliminado correctamente'], 200);
     }
+
+
+    //Api para consultar el perfil
+    public function getProfileData(Request $request)
+    {
+        // Obtener el ID del usuario actual
+        $userId = $request->user()->id;
+
+        // Buscar el perfil asociado al usuario
+        $profile = Profile::where('user_id', $userId)->first();
+
+        if ($profile) {
+            // Si se encuentra el perfil, retornar los datos
+            return response()->json([
+                'success' => true,
+                'data' => $profile
+            ]);
+        } else {
+            // Si no se encuentra el perfil, retornar un mensaje de error
+            return response()->json([
+                'success' => false,
+                'message' => 'Perfil no encontrado'
+            ], 404);
+        }
+    }
 }
 
 
