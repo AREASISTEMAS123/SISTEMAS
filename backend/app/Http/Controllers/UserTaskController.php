@@ -32,13 +32,13 @@ class UserTaskController extends Controller
             'tittle' => 'required|string',
             'description' => 'required|string',
             'limit_date' => 'required|date',
-            'hour' => 'required|date',
+
         );
         $messages = array(
             'tittle.required' => 'Por favor ingrese el titulo de la tarea',
             'description.required' => 'Por favor ingrese una breve descripcion de la tarea',
             'limit_date.required' => 'Por favor ingrese una fecha limite de la tarea',
-            'hour.required' => 'Por favor ingrese una Hora limite de la tarea',
+
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -52,7 +52,7 @@ class UserTaskController extends Controller
                 'tittle' => $request->tittle,
                 'description' => $request->description,
                 'limit_date' => $request->limit_date,
-                'hour' => $request->hour,
+
 
             ]);
         return response()->json(['Tarea'=>$user_task, 'messages'=>"Tarea creada con exito"],200);
@@ -65,13 +65,13 @@ class UserTaskController extends Controller
             'tittle' => 'required|string',
             'description' => 'required|string',
             'limit_date' => 'required|date',
-            'hour' => 'required|date',
+
         );
         $messages = array(
             'tittle.required' => 'Por favor ingrese el titulo de la tarea',
             'description.required' => 'Por favor ingrese una breve descripcion de la tarea',
             'limit_date.required' => 'Por favor ingrese una fecha limite de la tarea',
-            'hour.required' => 'Por favor ingrese una Hora limite de la tarea',
+
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);

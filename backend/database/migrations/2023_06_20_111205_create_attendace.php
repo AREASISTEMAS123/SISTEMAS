@@ -17,11 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('profiles')->onDelete('cascade');
-            $table->timestamp('admission_time')->nullable();
-            $table->timestamp('departure_time')->nullable();
+            $table->time('admission_time')->nullable();
+            $table->time('departure_time')->nullable();
             $table->string('image')->nullable();
+            $table->boolean('attendance')->default(false);
             $table->boolean('absence')->default(false);
             $table->boolean('justification')->default(false);
+            $table->boolean('delay')->default(false);
+            $table->boolean('non_working_days')->default(false);
             $table->timestamps();
         });
 

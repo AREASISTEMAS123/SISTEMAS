@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('tittle');
             $table->text('description');
             $table->date('limit_date');
-            $table->time('hour');
             $table->timestamps();
         });
     }

@@ -8,8 +8,11 @@ use App\Models\Attendance;
 class AttendanceController extends Controller
 {
     public function getattendance(){
-        return response()->json(Attendance::all(),200);
+        $attendance_user = Attendance::all()->find('attendance', 1)->count() ;
+
+
+        return response()->json(['attendance' => $attendance_user]);
     }
 
-    
+
 }

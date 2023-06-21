@@ -13,7 +13,6 @@ class UserTask extends Model
       'tittle',
       'description',
       'limit_date',
-      'hour',
     ];
 
     public function profiles(){

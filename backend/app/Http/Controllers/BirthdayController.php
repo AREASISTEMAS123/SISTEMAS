@@ -13,8 +13,8 @@ class BirthdayController extends Controller
     }
 
     public function detailsbirthday(){
-        $profile = Profile::with('User')->get();
+        $profile = Profile::with('User')->get('area','name');
 
-        return response()->json($profile,200);
+        return response()->json([$profile]);
     }
 }
