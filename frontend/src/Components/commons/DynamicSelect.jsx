@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-<<<<<<< HEAD
 export const DynamicSelect = ({ options }) => {
   const [selectedOption, setSelectedOption] = useState("");
 
