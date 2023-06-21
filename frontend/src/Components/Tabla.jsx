@@ -57,9 +57,6 @@ const nameValues = [
   "Mariana Alejandra Medina Delgado",
 ];
 
-
-
-
 const days = [
   { id: "day", label: "Nombre y Apellidos", minWidth: 350 },
   { id: "1", label: "1", minWidth: 100 },
@@ -89,7 +86,38 @@ const days = [
 const rows = nameValues.map((name) => {
   const row = { name };
   for (let i = 1; i <= 22; i++) {
-    row[i] = Math.round(Math.random());
+    const randomNumber = Math.floor(Math.random() * 5);
+    let color;
+    switch (randomNumber) {
+      case 0:
+        color = "red";
+        break;
+      case 1:
+        color = "green";
+        break;
+      case 2:
+        color = "yellow";
+        break;
+      case 3:
+        color = "skyblue";
+        break;
+      case 4:
+        color = "gray";
+        break;
+      default:
+        color = "white";
+        break;
+    }
+    row[i] = (
+      <div
+        style={{
+          width: 10,
+          height: 10,
+          borderRadius: "50%",
+          backgroundColor: color,
+        }}
+      />
+    );
   }
   return row;
 });
@@ -109,58 +137,71 @@ export const Tabla = () => {
 
   return (
     <div className="max-w-screen-xl m-auto">
-      <Paper sx={{ width: "100%" }} className="mt-5">
+      <Paper  className="mt-5">
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-            <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center"
-                    style={{
-                      minWidth: column.minWidth,
-                      position: "sticky",
-                      top: 0,
-                      backgroundColor: "#16232B",
-                      color: "white",
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-              <TableRow>
-                {days.map((day) => (
-                  <TableCell
-                    key={day.id}
-                    align="center"
-                    style={{
-                      minWidth: day.minWidth,
-                      position: "sticky",
-                      top: 56,
-                      backgroundColor: "#16232B",
-                      color: "white",
-                    }}
-                  >
-                    {day.label}
-                  </TableCell>
-                ))}
-              </TableRow>
+          <TableHead style={{ marginBottom: 0 }}>
+  <TableRow>
+    {columns.map((column) => (
+      <TableCell
+        key={column.id}
+        align="center"
+        style={{
+          minWidth: column.minWidth,
+          position: "sticky",
+          top: 0,
+          backgroundColor: "#16232B",
+          color: "white",
+        }}
+      >
+        {column.label}
+      </TableCell>
+    ))}
+  </TableRow>
+  <TableRow>
+    {days.map((day) => (
+      <TableCell
+        key={day.id}
+        align="center"
+        style={{
+          minWidth: day.minWidth,
+          position: "sticky",
+          top: 56,
+          backgroundColor: "#16232B",
+          color: "white",
+        }}
+      >
+        {day.label}
+      </TableCell>
+    ))}
+  </TableRow>
+</TableHead>
 
-            </TableHead>
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    {columns.map((column) => (
-                      <TableCell key={column.id} align="center">
-                        {row[column.id]}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
+                .map((row, index) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={index}
+                      style={{
+                        backgroundColor: index % 2 === 0 ? "#F3F4F6" : "white",
+                      }}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align="center">
+                            {value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
