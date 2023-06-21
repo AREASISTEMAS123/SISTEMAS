@@ -1,118 +1,156 @@
-import { useState } from "react";
-
+import { useState, useEffect } from 'react';
+import { Card, CardContent, Grid, Typography } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import SearchIcon from '@mui/icons-material/Search';
 export const AdmiJustificacion = () => {
-    const [card, setCard] = useState(1);
+    const [faltasList, setFaltasList] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [showJusti, setShowJusti] = useState(false);
-    const handleClick = () => {
+    const [search, setSearch] = useState('');
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [filteredNames, setFilteredNames] = useState([]);
+
+    const handleClick = (id) => {
+        setSelectedCard(id);
         setShowModal(true);
     };
-    const closeModal = () => {
+    const closeJusti = () => {
         setShowModal(false);
-        setShowJusti(true);
     };
-    const closeJusti = () =>{
-        setShowJusti(false);
-    }
+
+    const handleSearch = (e) => {
+        const search = e.target.value;
+        setSearch(search);
+
+        const filteredNames = faltasList.filter((persona) =>
+            persona.name.toLowerCase().includes(search.toLowerCase())
+        );
+        setFilteredNames(filteredNames);
+    };
+
+
+    useEffect(() => {
+
+        fetch('https://randomuser.me/api/?results=10')
+            .then(response => response.json())
+            .then(data => {
+                const results = data.results;
+                const people = results.map(user => {
+                    const { registered, name, gender } = user;
+                    return {
+                        id: user.login.uuid,
+                        name: `${name.first} ${name.last}`,
+                        fecha: registered.age,
+                        razon: gender,
+                    };
+                });
+                setFaltasList(people);
+                console.log(data);
+                console.log(people);
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
     return (
         <>
-            <div className="w-full h-screen bg-slate-700">
-                <h1 className="my-2 text-center font-semibold text-4xl">Justificaciones</h1>
-                <input className= "border-2 my-2 mx-5 text-center rounded-md"
-                    placeholder="Buscar" />
-                {
-                    (card >= 1) && (
-                        <div className="mx-5 my-2 grid grid-cols-3">
+            <div className="mb-3">
+                <div className=" mb-4 flex flex-wrap items-stretch">
+                    <input
+                        type="search"
+                        className="text-white relative m-0 -mr-0.5  min-w-0  rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] "
+                        placeholder="Nombre"
+                        value={search}
+                        onChange={handleSearch}
 
-                            <div className=" w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    />
+                    <button>
+                        <SearchIcon sx={{ color: 'white' }} />
+                    </button>
+                </div>
+            </div>
+            <div className="grid grid-cols-3">
+                {faltasList.map((post) => {
+                    return (
+                        <Grid key={post.id} container spacing={5}>
+                            <Grid item xs={12}>
+                                <Card className="my-4 max-w-[90%] min-w-[90%]" sx={{ backgroundColor: '#16232B' }}>
+                                    <CardContent >
+                                        <Typography variant="h5" component="div" sx={{ color: '#FFFFFF' }}>
+                                            {post.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
+                                            Fecha: {post.fecha}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
+                                            Razón: {post.razon}
+                                        </Typography>
+                                        <div className='mt-2'>
+                                            <hr></hr>
+                                        </div>
+                                        <div className="flex  pt-3">
+                                            <dt className="mb-1  md:text-lg text-white  mx-8">En proceso</dt>
+                                            <button className="ml-10"
+                                                onClick={() => handleClick(post.id)}>
+                                                <KeyboardArrowRightIcon sx={{ color: 'white' }} />
+                                            </button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
 
-                                <div >
-                                    <h5 className=" ml-10  mb-1 text-xl text-center font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-                                    <div className="  mt-4 space-x-3 md:mt-6">
-                                        <ul>
-                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
-                                                <label>Departamento</label>
-                                                <input className="mx-1 border-2" disabled></input>
-                                            </li>
-                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
-                                                <label>Fecha de falta o tardanza:</label>
-                                                <input className="mx-1 border-2" disabled></input>
-                                            </li>
-                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
-                                                <label>Pruebas adjuntas:</label>
-                                                <input className="mx-1 border-2" disabled></input>
-                                            </li>
-                                            <li className=" inline-block px-4 py-1 text-sm font-medium  text-black rounded-lg">
-                                                <label>Razon: </label>
-                                                <input className="mx-1 border-2" disabled></input>
-                                            </li>
-                                         
-                                        </ul>
-                                    </div>
-                                    <div className="  px-4 py-2 text-sm font-medium  rounded-tl text-white mx-3 text-center">
-                                        <button className="bg-slate-700 p-2">Aceptar</button>
-                                        <button className="bg-slate-700 p-2 mx-4">Rechazar</button>
-                                    </div>
-                                </div>
+                        </Grid>
 
-                            </div>
-                        </div>
                     )
+                })
                 }
                 {showModal && (
-                <div className="fixed inset-0 flex items-center justify-center z-10">
+                    <div className="fixed inset-0 flex items-center justify-center z-10">
                     <div className="bg-slate-500 p-4 shadow max-w-md text-white">
-                        <h2 className="text-lg font-bold mb-2">
-                            
-                        </h2>
-                        <p>
-                            Estos son los terminos y condiciones que tiene que poner el area de administración para la justificación
-                        </p>
-                        <button
-                            className="px-2 py-1 bg-slate-700 hover:bg-slate-800 rounded mt-4"
-                            onClick={closeModal}
-                        >
-                            Aceptar
-                        </button>
+                      {faltasList.map((item) => {
+                        if (item.id === selectedCard) {
+                          return (
+                            <div key={item.id} className="card selected">
+                              <h5 className="ml-10 mb-1 text-xl text-center font-medium text-gray-900 dark:text-white">
+                                {item.name}
+                              </h5>
+                              <div className="mt-4 space-x-3 md:mt-6">
+                                <ul>
+                                  <li className="inline-block px-4 py-1 text-sm font-medium text-black rounded-lg">
+                                    <label>Departamento</label>
+                                    <input className="mx-1 border-2" disabled></input>
+                                  </li>
+                                  <li className="inline-block px-4 py-1 text-sm font-medium text-black rounded-lg">
+                                    <label>Fecha de falta o tardanza:</label>
+                                    <input className="mx-1 border-2" disabled></input>
+                                  </li>
+                                  <li className="inline-block px-4 py-1 text-sm font-medium text-black rounded-lg">
+                                    <label>Pruebas adjuntas:</label>
+                                    <input className="mx-1 border-2" disabled></input>
+                                  </li>
+                                  <li className="inline-block px-4 py-1 text-sm font-medium text-black rounded-lg">
+                                    <label>Razon: </label>
+                                    <input className="mx-1 border-2" disabled></input>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="px-4 py-2 text-sm font-medium rounded-tl text-white mx-3 text-center">
+                                <button className="bg-slate-700 p-2" onClick={closeJusti}>
+                                  Aceptar
+                                </button>
+                                <button className="bg-slate-700 p-2 mx-4">Rechazar</button>
+                              </div>
+                            </div>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
                     </div>
-                </div>
-            )}
-            {showJusti && (
-                <div className="fixed inset-0 flex items-center justify-center">
-                    <div className="bg-slate-500 p-4  max-w-md ">
-                        <h2 className="text-lg  mb-2 text-center">
-                            Agregar Justificacion
-                        </h2>
-                        <div className="flex-col">
-                            <div className="m-2">
-                                <input placeholder="Fecha o falta de tardanza"></input>
-                            </div>
-                            <div className="m-2">
-                                <input type="text" placeholder="Razón"></input>
-                            </div>
-                            <div className="m-2">
-                                <input type="file" className="file:border file:border-solid" placeholder="Pruebas adjuntas"></input>
-                            </div>
-                           
-                        </div>
-                        <button
-                            className="px-2 py-1 bg-slate-700 hover:bg-slate-800 rounded mt-4"
-                            onClick={closeJusti}
-                        >
-                            Aceptar
-                        </button>
-                    </div>
-                </div>
-            )}
-
+                  </div>
+                )}
             </div>
-
-
-
-
-
-
         </>
 
-    )
+    );
 }
