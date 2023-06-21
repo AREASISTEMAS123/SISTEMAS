@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { RelojAnalogico } from './commons/RelojAnalogico';
 
 export const RegistroAsistencia = () => {
     const [mostrarBotonAsistencia, setMostrarBotonAsistencia] = useState(false);
@@ -93,7 +94,8 @@ const SeccionDerecha = ({ mostrarBotonAsistencia, setMostrarBotonAsistencia }) =
     };
 
     return (
-        <div className="seccion-derecha flex flex-col items-center justify-start ml-4">
+        <div className="seccion-derecha flex flex-col items-center justify-start ml-4 -mt-36">
+            <RelojAnalogico hora={horaActual} />
             <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
                 {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </p>
