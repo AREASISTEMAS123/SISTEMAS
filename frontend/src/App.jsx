@@ -28,7 +28,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen overflow-x-clip">
         {!isMobile && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
         <div className="flex flex-col flex-1">
           <Topbar toggleSidebar={toggleSidebar} />

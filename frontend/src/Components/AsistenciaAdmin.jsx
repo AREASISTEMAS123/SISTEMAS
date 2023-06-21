@@ -6,9 +6,21 @@ export const AsistenciaAdmin = () => {
   const colaborador = ["Artuo Antonio Montejo Soto"];
   const departamento = ["Estrategico", "Operaciones", "Recurso Humanos"];
   const area = ["Sistemas", "Diseño Grafico", "Otra opcion"];
-  const mes = ["Enero", "Febrero", "Marzo"];
-  const turno = ["Mañana","Tarde"];
-
+  const months = [
+    { value: "enero", label: "Enero" },
+    { value: "febrero", label: "Febrero" },
+    { value: "marzo", label: "Marzo" },
+    { value: "abril", label: "Abril" },
+    { value: "mayo", label: "Mayo" },
+    { value: "junio", label: "Junio" },
+    { value: "julio", label: "Julio" },
+    { value: "agosto", label: "Agosto" },
+    { value: "septiembre", label: "Septiembre" },
+    { value: "octubre", label: "Octubre" },
+    { value: "noviembre", label: "Noviembre" },
+    { value: "diciembre", label: "Diciembre" },
+  ];
+  const turno = ["Mañana", "Tarde"];
 
   return (
     <div className="">
@@ -88,16 +100,14 @@ export const AsistenciaAdmin = () => {
         </div>
       </div>
 
-      <div class="flex space-x-4 mt-5 ml-auto">
-      <DynamicSelect options={colaborador} />
-      <DynamicSelect options={departamento} />
-      <DynamicSelect options={area} />
-      <DynamicSelect options={turno} />
-      <DynamicSelect options={mes} />
-
+      <div class="flex space-x-4 mt-5">
+        <DynamicSelect options={colaborador} title={"Colaborador"} />
+        <DynamicSelect options={departamento} title={"Departamento"} />
+        <DynamicSelect options={area} title={"Area"} />
+        <DynamicSelect options={turno} title={"Turno"} />
+        <DynamicSelect options={months} title={"Mes"} />
       </div>
-
-      <Tabla />
+        <Tabla />
     </div>
   );
 };
