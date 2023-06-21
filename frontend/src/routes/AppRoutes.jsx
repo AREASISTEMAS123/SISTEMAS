@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import {
     Cumpleanos,
@@ -9,7 +8,9 @@ import {
     VistaHomeColaborador,
     AsistenciaAdmin,
     AdmiJustificacion,
-    DetalleCumpleanos
+    DetalleCumpleanos,
+    JustificacionColaborador,
+    
 } from "../components";
 import { VistaReportes } from "../Components/VistaReportes";
 
@@ -24,6 +25,7 @@ function AppRoutes() {
             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
             <Route path="/asistenciaAdmin" element={<AsistenciaAdmin />} />
             <Route path="/justificaciones" element={<AdmiJustificacion />} />
+            <Route path="/justificacionColaborador" element={<JustificacionColaborador />} />
             <Route path="/homeColaborador" element={<VistaHomeColaborador />} />
             <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
             <Route path="/reportes" element={<VistaReportes />} />
