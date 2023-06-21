@@ -41,17 +41,19 @@ Route::middleware(['auth:sanctum'])->group(function (){
 });
 
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('user','App\Http\Controllers\usercontroller@getUser');
+Route::get('user','App\Http\Controllers\UserController@getUser');
 
-Route::get('user/{id}','App\Http\Controllers\usercontroller@getUserxid');
+Route::get('user/{id}','App\Http\Controllers\UserController@getUserxid');
 
-Route::post('addUser','App\Http\Controllers\usercontroller@insertUser');
+Route::post('addUser','App\Http\Controllers\UserController@insertUser');
 
-Route::put('updateUser/{id}','App\Http\Controllers\usercontroller@updateUser');
+Route::put('updateUser/{id}','App\Http\Controllers\UserController@updateUser');
 
-Route::delete('deleteUser/{id}','App\Http\Controllers\usercontroller@deleteUser');
+Route::delete('deleteUser/{id}','App\Http\Controllers\UserController@deleteUser');
+
+Route::get('/user/profile/{id}', 'App\Http\Controllers\UserController@getProfileData');
 
