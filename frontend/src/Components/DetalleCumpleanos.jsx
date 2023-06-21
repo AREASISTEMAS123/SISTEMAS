@@ -19,7 +19,7 @@ export const DetalleCumpleanos = () => {
                 <KeyboardBackspaceTwoToneIcon />
             </button>
             <h2 className="text-2xl font-bold mt-4 text-white">Personas que cumplen años el {day}/{month}</h2>
-            <div className='grid grid-cols-3 flex justify-items-start'>
+            <div className='grid grid-cols-3 gap-4 flex justify-items-start'>
                 {birthdayPeople && birthdayPeople.length > 0 ? (
                     birthdayPeople.map(person => (
                         <Card key={person.id} className="my-4 max-w-[90%] min-w-[90%]" sx={{ backgroundColor: '#16232B' }}>
@@ -40,7 +40,7 @@ export const DetalleCumpleanos = () => {
                         </Card>
                     ))
                 ) : (
-                    <Typography variant="body1" color="text.secondary" sx={{ color: '#FFFFFF' }}>
+                    <Typography variant="body1" color="text.secondary" sx={{ color: '#FFFFFF' }} className='col-span-2'>
                         No hay personas que cumplan años en esta fecha.
                     </Typography>
                 )}

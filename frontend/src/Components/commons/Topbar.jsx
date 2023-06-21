@@ -106,7 +106,7 @@ export const Topbar = ({ toggleSidebar }) => {
         </div>
       </div>
       {isMobile && isCategoryMenuVisible && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-cv-primary flex justify-center items-center">
+        <div className="fixed top-0 left-0 w-screen h-screen bg-cv-primary flex justify-center items-center z-10">
           <button onClick={toggleCategoryMenu} className="absolute top-4 right-4 text-white">
             <CloseIcon />
           </button>
