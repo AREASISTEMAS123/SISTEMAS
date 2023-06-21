@@ -4,8 +4,8 @@ import { Tabla } from './Tabla';
 export const AsistenciaAdmin = () => {
   return (
     <div className="">
-    <div className="flex flex-col sm:flex-row justify-between">
-      <div className="bg-gray-200 p-4 rounded-md shadow-md w-96">
+      <div className="flex flex-col sm:flex-row justify-between">
+        <div className="bg-gray-200 p-4 rounded-md shadow-md w-96">
           <h3 className="text-3xl font-bold mb-2 text-center">INFORMACIÓN</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
