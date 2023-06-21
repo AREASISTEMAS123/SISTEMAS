@@ -3,12 +3,35 @@ import { Tabla } from "./Tabla";
 import { DynamicSelect } from "./commons";
 
 export const AsistenciaAdmin = () => {
-  const colaborador = ["Artuo Antonio Montejo Soto"];
-  const departamento = ["Estrategico", "Operaciones", "Recurso Humanos"];
-  const area = ["Sistemas", "Diseño Grafico", "Otra opcion"];
-  const mes = ["Enero", "Febrero", "Marzo"];
-  const turno = ["Mañana","Tarde"];
-
+  const colaborador = [{ label: "Artuo Antonio Montejo Soto", value: "1" }];
+  const departamento = [
+    { label: "Estrategico", value: "estrategico" },
+    { label: "Operaciones", value: "operaciones" },
+    { label: "Recurso Humanos", value: "recurso_humanos" },
+  ];
+  const area = [
+    { label: "Sistemas", value: "sistemas" },
+    { label: "Diseño Grafico", value: "diseno_grafico" },
+    { label: "Otra opción", value: "otra_opcion" },
+  ];
+  const turno = [
+    { label: "Mañana", value: "manana" },
+    { label: "Tarde", value: "tarde" },
+  ];
+  const months = [
+    { label: "Enero", value: "enero" },
+    { label: "Febrero", value: "febrero" },
+    { label: "Marzo", value: "marzo" },
+    { label: "Abril", value: "abril" },
+    { label: "Mayo", value: "mayo" },
+    { label: "Junio", value: "junio" },
+    { label: "Julio", value: "julio" },
+    { label: "Agosto", value: "agosto" },
+    { label: "Septiembre", value: "septiembre" },
+    { label: "Octubre", value: "octubre" },
+    { label: "Noviembre", value: "noviembre" },
+    { label: "Diciembre", value: "diciembre" },
+  ];
 
   return (
     <div className="">
@@ -51,19 +74,19 @@ export const AsistenciaAdmin = () => {
                 <li className="flex justify-between">
                   <span>Falta</span>
                   <span className="ml-4">
-                    <div class="w-5 h-5 rounded-full bg-red-600"></div>
+                    <div className="w-5 h-5 rounded-full bg-red-600"></div>
                   </span>
                 </li>
                 <li className="flex justify-between">
                   <span>Asistencia</span>
                   <span className="ml-4">
-                    <div class="w-5 h-5 rounded-full bg-green-600"></div>
+                    <div className="w-5 h-5 rounded-full bg-green-600"></div>
                   </span>
                 </li>
                 <li className="flex justify-between">
                   <span>Tardanza</span>
                   <span className="ml-4">
-                    <div class="w-5 h-5 rounded-full bg-yellow-400"></div>
+                    <div className="w-5 h-5 rounded-full bg-yellow-400"></div>
                   </span>
                 </li>
               </ul>
@@ -73,13 +96,13 @@ export const AsistenciaAdmin = () => {
                 <li className="flex justify-between">
                   <span>Justificación</span>
                   <span className="ml-4">
-                    <div class="w-5 h-5 rounded-full bg-cyan-500"></div>
+                    <div className="w-5 h-5 rounded-full bg-cyan-500"></div>
                   </span>
                 </li>
                 <li className="flex justify-between">
                   <span>Día no laborable</span>
                   <span className="ml-4">
-                    <div class="w-5 h-5 rounded-full bg-slate-500"></div>
+                    <div className="w-5 h-5 rounded-full bg-slate-500"></div>
                   </span>
                 </li>
               </ul>
@@ -88,15 +111,13 @@ export const AsistenciaAdmin = () => {
         </div>
       </div>
 
-      <div class="flex space-x-4 mt-5 ml-auto">
-      <DynamicSelect options={colaborador} />
-      <DynamicSelect options={departamento} />
-      <DynamicSelect options={area} />
-      <DynamicSelect options={turno} />
-      <DynamicSelect options={mes} />
-
+      <div className="flex space-x-4 mt-5">
+        <DynamicSelect options={colaborador} title={"Colaborador"} />
+        <DynamicSelect options={departamento} title={"Departamento"} />
+        <DynamicSelect options={area} title={"Area"} />
+        <DynamicSelect options={turno} title={"Turno"} />
+        <DynamicSelect options={months} title={"Mes"} />
       </div>
-
       <Tabla />
     </div>
   );

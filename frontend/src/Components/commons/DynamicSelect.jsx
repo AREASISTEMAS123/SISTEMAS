@@ -1,26 +1,36 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-export const DynamicSelect = ({ options }) => {
-  const [selectedOption, setSelectedOption] = useState("");
+export const DynamicSelect = ({ title, options, onChange }) => {
+  const [selectedOption, setSelectedOption] = useState('');
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+    onChange(selectedValue);
   };
+
   return (
     <>
-      <select
-        value={selectedOption}
-        onChange={handleChange}
-        className="bg-cv-secondary border-2 border-cv-primary text-white text-base rounded-lg block p-2.5 outline-none"
-      >
+      <select value={selectedOption} onChange={handleChange} className="box-border w-50 h-50 mt-5 right-664 bottom-503 bg-gray-100 border border-gray-500 rounded-md p-2 outline-none">
+        <option value="">{title}</option>
         {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
+          <option key={index} value={option.label}>
+            {option.label}
           </option>
         ))}
       </select>
     </>
   );
 };
+
+DynamicSelect.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  })).isRequired,
+  onChange: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
 export default DynamicSelect;
