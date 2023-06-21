@@ -28,11 +28,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen overflow-x-clip">
+      <div className="flex h-screen w-full">
         {!isMobile && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
-        <div className="flex flex-col flex-1">
+        <div className=" flex-grow flex-shrink flex-auto overflow-y-scroll">
           <Topbar toggleSidebar={toggleSidebar} />
-          <div className="flex flex-col flex-1 overflow-y-auto bg-cv-secondary p-5 min-w-full">
+          <div className="bg-cv-secondary p-3 sm:p-5">
             <AppRoutes />
           </div>
         </div>

@@ -13,9 +13,10 @@ export const DynamicSelect = ({ title, options, onChange }) => {
   return (
     <>
       <select value={selectedOption} onChange={handleChange} className="box-border w-50 h-50 mt-5 right-664 bottom-503 bg-gray-100 border border-gray-500 rounded-md p-2 outline-none">
+
         <option value="">{title}</option>
-        {options.map((option, index) => (
-          <option key={index} value={option.label}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
@@ -34,3 +35,6 @@ DynamicSelect.propTypes = {
 };
 
 export default DynamicSelect;
+
+
+

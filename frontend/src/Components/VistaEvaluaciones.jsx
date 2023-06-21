@@ -12,16 +12,25 @@ export const VistaEvaluaciones = () => {
 		{ Nombre: 'Juan', 'Nota 1': 10, 'Nota 2': 0, 'Nota 3': 0, Promedio: 3.3 },
 		{ Nombre: 'María', 'Nota 1': 15, 'Nota 2': 0, 'Nota 3': 0, Promedio: 5 },
 		{ Nombre: 'Pedro', 'Nota 1': 18, 'Nota 2': 0, 'Nota 3': 0, Promedio: 6 },
+		{ Nombre: 'Juan 2', 'Nota 1': 10, 'Nota 2': 0, 'Nota 3': 0, Promedio: 3.3 },
+		{ Nombre: 'María 2', 'Nota 1': 15, 'Nota 2': 0, 'Nota 3': 0, Promedio: 5 },
+		{ Nombre: 'Pedro 2', 'Nota 1': 18, 'Nota 2': 0, 'Nota 3': 0, Promedio: 6 },
 	];
 	const dataQuincenal = [
 		{ Nombre: 'Juan', 'Nota 1': 10, 'Nota 2': 15, 'Nota 3': 0, Promedio: 8.3 },
 		{ Nombre: 'María', 'Nota 1': 15, 'Nota 2': 17, 'Nota 3': 0, Promedio: 10.6 },
 		{ Nombre: 'Pedro', 'Nota 1': 18, 'Nota 2': 20, 'Nota 3': 0, Promedio: 12.6 },
+		{ Nombre: 'Juan 2', 'Nota 1': 10, 'Nota 2': 15, 'Nota 3': 0, Promedio: 8.3 },
+		{ Nombre: 'María 2', 'Nota 1': 15, 'Nota 2': 17, 'Nota 3': 0, Promedio: 10.6 },
+		{ Nombre: 'Pedro 2', 'Nota 1': 18, 'Nota 2': 20, 'Nota 3': 0, Promedio: 12.6 },
 	];
 	const dataMensual = [
 		{ Nombre: 'Juan', 'Nota 1': 10, 'Nota 2': 15, 'Nota 3': 17, Promedio: 14 },
 		{ Nombre: 'María', 'Nota 1': 15, 'Nota 2': 17, 'Nota 3': 16, Promedio: 16 },
 		{ Nombre: 'Pedro', 'Nota 1': 18, 'Nota 2': 20, 'Nota 3': 15, Promedio: 17.6 },
+		{ Nombre: 'Juan 2', 'Nota 1': 10, 'Nota 2': 15, 'Nota 3': 17, Promedio: 14 },
+		{ Nombre: 'María 2', 'Nota 1': 15, 'Nota 2': 17, 'Nota 3': 16, Promedio: 16 },
+		{ Nombre: 'Pedro 2', 'Nota 1': 18, 'Nota 2': 20, 'Nota 3': 15, Promedio: 17.6 },
 	];
 
 	//Datos tabla todos
@@ -109,11 +118,11 @@ export const VistaEvaluaciones = () => {
 							<AddIcon />
 							<p className='ml-2'>Agregar</p>
 						</button>
-						<DynamicSelect options={skillsOption} onChange={handleOptionChange} />
-						<DynamicSelect options={departaments} />
-						<DynamicSelect options={area} />
-						<DynamicSelect options={shift} />
-						<DynamicSelect options={months} />
+						<DynamicSelect options={skillsOption} onChange={handleOptionChange} title={"Selecciona un Opcion"}/>
+						<DynamicSelect options={departaments} title={"Departamento"}/>
+						<DynamicSelect options={area} title={"Area"}/>
+						<DynamicSelect options={shift} title={"Turno"}/>
+						<DynamicSelect options={months} title={"Mes"}/>
 					</div>
 					<div className="space-y-4">
 						{selectedOption == 'all' ? (
