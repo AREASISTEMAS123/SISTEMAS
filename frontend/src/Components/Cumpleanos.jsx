@@ -9,19 +9,17 @@ export const Cumpleanos = () => {
 
     useEffect(() => {
         // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
-        fetch('https://randomuser.me/api/?results=50')
+        fetch('http://127.0.0.1:8000/api/birthday', {
+            headers: {
+                Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`
+            }
+        })
             .then(response => response.json())
             .then(data => {
-                const results = data.results;
-                const people = results.map(user => {
-                    const { dob, name, location } = user;
-                    const dateOfBirth = new Date(dob.date);
+                const people = data.map(user => {
+                    const dateOfBirth = new Date(user.birthday);
                     return {
-                        id: user.login.uuid,
-                        name: `${name.first} ${name.last}`,
-                        birthday: dateOfBirth,
-                        city: location.city,
-                        photo: user.picture.large
+                        birthday: dateOfBirth
                     };
                 });
                 setBirthdayList(people);
@@ -41,51 +39,52 @@ export const Cumpleanos = () => {
     };
 
     const renderCalendarDays = () => {
-        const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-        const endOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+        const startOfMonth = new Date(currentMonth.getUTCFullYear(), currentMonth.getUTCMonth(), 1);
+        const endOfMonth = new Date(currentMonth.getUTCFullYear(), currentMonth.getUTCMonth() + 1, 0);
 
         const startDate = new Date(startOfMonth);
-        startDate.setDate(startDate.getDate() - startDate.getDay());
+        startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
 
         const endDate = new Date(endOfMonth);
-        endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
+        endDate.setUTCDate(endDate.getUTCDate() + (6 - endDate.getUTCDay()));
 
         const calendarDays = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= endDate) {
             calendarDays.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
+            currentDate.setUTCDate(currentDate.getUTCDate() + 1);
         }
 
-        return calendarDays.map(date => {
-            const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
+        return calendarDays.map((date) => {
+            const isCurrentMonth = date.getUTCMonth() === currentMonth.getUTCMonth();
             const isToday =
-                date.getFullYear() === new Date().getFullYear() &&
-                date.getMonth() === new Date().getMonth() &&
-                date.getDate() === new Date().getDate();
+                date.getUTCFullYear() === new Date().getUTCFullYear() &&
+                date.getUTCMonth() === new Date().getUTCMonth() &&
+                date.getUTCDate() === new Date().getUTCDate();
 
             const dayClassName = `text-center hover:bg-blue-700 ${isToday ? 'bg-blue-500 text-white hover:bg-sky-700' : isCurrentMonth ? '' : 'text-gray-400 hover:bg-gray-700'
                 }`;
 
-            const birthdayPeople = birthdayList.filter(person => {
-                const personMonth = person.birthday.getMonth();
-                const personDay = person.birthday.getDate();
-                return personMonth === date.getMonth() && personDay === date.getDate();
+            const birthdayPeople = birthdayList.filter((person) => {
+                const personMonth = person.birthday.getUTCMonth();
+                const personDay = person.birthday.getUTCDate();
+                return personMonth === date.getUTCMonth() && personDay === date.getUTCDate();
             });
 
             const handleClick = () => {
                 const people = birthdayPeople.length > 0 ? birthdayPeople : null;
-                navigate(`/detallecumpleanos/${date.getMonth() + 1}/${date.getDate()}`, { state: { birthdayPeople: people } });
+                navigate(`/detallecumpleanos/${date.getUTCMonth() + 1}/${date.getUTCDate()}`, { state: { birthdayPeople: people } });
             };
 
             return (
                 <div
                     key={date.toDateString()}
-                    className={`${dayClassName} cursor-pointer p-5 rounded-full ${birthdayPeople.length > 0 ? 'bg-red-500 hover:bg-red-700' : ''}`}
+                    className={`${dayClassName} cursor-pointer p-5 rounded-full ${birthdayPeople.length > 0 ? 'bg-red-500 hover:bg-red-700' : ''
+                        }`}
                     onClick={handleClick}
                 >
-                    {date.getDate()}
+                    {date.getUTCDate()}
                 </div>
             );
         });
