@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 export const JustificacionColaborador = () => {
 
     const [card, setCard] = useState(0);
@@ -26,8 +26,8 @@ export const JustificacionColaborador = () => {
         setShowModal(false);
         setShowJusti(true);
     };
-    const addCard = () =>{
-        if(closeJusti){
+    const addCard = () => {
+        if (closeJusti) {
             setCard(1)
         }
     }
@@ -35,7 +35,7 @@ export const JustificacionColaborador = () => {
         setShowJusti(false);
         addCard();
     }
-    
+
     return (
         <>
             <div className="w-full h-screen ">
@@ -54,7 +54,7 @@ export const JustificacionColaborador = () => {
                                         <ul>
                                             <li className="  px-4 py-2 text-sm font-medium text-start text-black rounded-lg">
                                                 <label className="">Razón</label>
-                                                <textarea  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled value={razon}></textarea>
+                                                <textarea className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled value={razon}></textarea>
                                             </li>
                                             <li className=" text-start px-4 py-2 text-sm font-medium  text-black ">
                                                 <label className="">Fecha</label>
@@ -76,19 +76,29 @@ export const JustificacionColaborador = () => {
                 }
                 {showModal && (
                     <div className="fixed inset-0 flex items-center justify-center z-10">
-                        <div className="bg-slate-500 p-4 shadow max-w-md text-white">
-                            <h2 className="text-lg font-bold mb-2">
+                        <div className="relative w-full max-w-2xl max-h-full">
+                            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div className="flex items-center justify-center p-4 border-b rounded-t dark:border-gray-600">
 
-                            </h2>
-                            <p>
-                                Estos son los terminos y condiciones que tiene que poner el area de administración para la justificación
-                            </p>
-                            <button
-                                className="px-2 py-1 bg-slate-700 hover:bg-slate-800 rounded mt-4"
-                                onClick={closeModal}
-                            >
-                                Aceptar
-                            </button>
+
+                                    <h3 className="items-center">
+                                        <ReportProblemIcon
+                                            sx={{ color: "#F3AE37",fontSize:40 }} 
+                                            
+                                            />
+                                    </h3>
+
+                                </div>
+
+                                <div className="p-6 space-y-6">
+                                    <p>Estos son los terminos de servicio</p>
+                                </div>
+
+                                <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        onClick={closeModal}>ACEPTO</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}

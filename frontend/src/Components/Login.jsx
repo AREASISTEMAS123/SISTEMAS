@@ -80,6 +80,7 @@ export const Login = () => {
                     } else {
                         setMsg(response.message)
                         setTimeout(function () {
+                            localStorage.setItem("token", response.accessToken);
                             localStorage.setItem("login", true);
                             naviget("/homeColaborador");
                         }, 5000)
