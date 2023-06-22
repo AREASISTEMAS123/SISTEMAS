@@ -12,10 +12,11 @@ const dataPropTypes = PropTypes.arrayOf(
 	})
 );
 
-export const TareaItem = ({data}) => {
+export const TareaItem = ({data, onclick}) => {
 
 	TareaItem.propTypes = {
 		data: dataPropTypes.isRequired,
+		onclick: PropTypes.func.isRequired,
 	}
 
 	const [timeRemaining, setTimeRemaining] = useState([]);
@@ -73,7 +74,7 @@ export const TareaItem = ({data}) => {
 	return (
 		<ul className='divide-y divide-gray-700'>
 			{timeRemaining.map((card) => (
-				<li key={card.id} className="py-3 sm:py-4">
+				<li key={card.id} className="px-2 py-3 sm:py-4 cursor-pointer hover:bg-cv-secondary" onClick={onclick}>
 					<div className="flex items-center space-x-4">
 						<div className="flex-1 min-w-0">
 							<div className='w-full flex items-center justify-between space-x-6'>
@@ -87,7 +88,7 @@ export const TareaItem = ({data}) => {
 							</div>
 							<p className="text-lg w-80 text-ellipsis text-white truncate">{card.description}</p>
 						</div>
-						<button className='p-3 w-full border border-cv-secondary text-green-500 flex items-center justify-center rounded-lg text-xl'>
+						<button className='p-3 w-full border border-cv-secondary text-green-500 bg-cv-primary flex items-center justify-center rounded-lg text-xl hover:bg-green-500 hover:text-cv-primary'>
 							<TaskAltIcon fontSize="large" />
 						</button>
 					</div>
