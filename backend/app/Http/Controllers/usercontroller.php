@@ -20,11 +20,7 @@ class usercontroller extends Controller
         return response()->json($user, 200);
     }
 
-    public function insertUser(Request $request)
-    {
-        $user = User::create($request->all());
-        return response($user, 201);
-    }
+
 
     public function updateUser(Request $request, $id)
     {

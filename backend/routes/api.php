@@ -24,7 +24,9 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function (){
 
-
+    Route::get('/user',[App\Http\Controllers\usercontroller::class, 'getUser']);
+    Route::get('/user/{id}',[App\Http\Controllers\usercontroller::class, 'getUserById']);
+    Route::delete('/deleteUser/{id}','App\Http\Controllers\usercontroller@deleteUser');
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
@@ -40,9 +42,5 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 
 
-    Route::get('/user',[App\Http\Controllers\usercontroller::class, 'getUser']);
-    Route::get('/user/{id}','App\Http\Controllers\usercontroller@getUserxid');
-    Route::post('/addUser','App\Http\Controllers\usercontroller@insertUser');
-    Route::put('/updateUser/{id}','App\Http\Controllers\usercontroller@updateUser');
-    Route::delete('/deleteUser/{id}','App\Http\Controllers\usercontroller@deleteUser');
+
 });

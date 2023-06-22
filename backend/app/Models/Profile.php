@@ -25,6 +25,9 @@ class Profile extends Model
         return $this->hasMany(User::class, 'id', 'user_id');
     }
 
+    public function profiles(){
+
+    }
     public function tasks(){
         return $this->hasMany(UserTask::class, 'user_id', 'id');
     }
