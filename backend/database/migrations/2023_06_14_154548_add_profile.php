@@ -27,6 +27,7 @@ return new class extends Migration
             $table-> string('cod_agreement')->nullable();
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
+            $table->string('responsible')->nullable();
             $table->timestamps();
 
         });

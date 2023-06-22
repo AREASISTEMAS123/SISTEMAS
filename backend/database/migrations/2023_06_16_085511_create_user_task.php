@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->string('tittle');
             $table->text('description');
-            $table->date('limit_date');
+            $table->dateTime('limit_date');
             $table->timestamps();
         });
     }

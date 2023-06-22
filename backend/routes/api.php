@@ -24,10 +24,12 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function (){
 
-    Route::get('/user',[App\Http\Controllers\usercontroller::class, 'getUser']);
-    Route::get('/user/{id}',[App\Http\Controllers\usercontroller::class, 'getUserById']);
-    Route::put('/user/update/{id}', [\App\Http\Controllers\usercontroller::class,'updateUser']);
-    Route::delete('/user/delete/{id}',[App\Http\Controllers\usercontroller::class,'deleteUser']);
+    Route::get('/users',[App\Http\Controllers\usercontroller::class, 'getUser']);
+    Route::get('/users/{id}',[App\Http\Controllers\usercontroller::class, 'getUserById']);
+    Route::put('/users/update/{id}', [\App\Http\Controllers\usercontroller::class,'updateUser']);
+    Route::delete('/users/delete/{id}',[App\Http\Controllers\usercontroller::class,'deleteUser']);
+
+    Route::get('/profile',[App\Http\Controllers\ProfileController::class, 'getProfile']);
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 

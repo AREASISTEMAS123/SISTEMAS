@@ -13,7 +13,14 @@ class Attendance extends Model
         'admission_time',
         'departure_time',
         'image',
+        'attendance',
         'absence',
         'justification',
+        'delay',
+        'non_working_days'
     ];
+
+    public function profile(){
+        return $this->hasMany(Attendance::class, 'id','user_id');
+    }
 }

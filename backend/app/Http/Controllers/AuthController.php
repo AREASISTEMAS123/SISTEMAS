@@ -27,6 +27,7 @@ class AuthController extends Controller
             'shift' => 'required|string|max:255',
             'birthday' => 'date',
             'date_start' => 'required|date',
+            'responsible' => 'required|string|max:255',
             ]);
         if($validator->fails()){
             return response()->json($validator->errors());
@@ -49,6 +50,7 @@ class AuthController extends Controller
             'shift'=> $request->shift,
             'birthday' => $request->birthday,
             'date_start' => $request->date_start,
+            'responsible' => $request->responsible,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

@@ -18,6 +18,7 @@ class Profile extends Model
         'shift',
         'birthday',
         'date_start',
+        'responsible',
     ];
 
     public function User(){
@@ -25,8 +26,8 @@ class Profile extends Model
         return $this->hasMany(User::class, 'id', 'user_id');
     }
 
-    public function profiles(){
-
+    public function attendance(){
+        return $this->hasMany(Attendance::class, 'id','user_id');
     }
     public function tasks(){
         return $this->hasMany(UserTask::class, 'user_id', 'id');
