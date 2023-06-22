@@ -1,35 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Profile;
 use App\Models\User;
+use GuzzleHttp\Pool;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class usercontroller extends Controller
 {
     public function getUser()
     {
-        return response()->json(User::all(), 200);
+        $profile = Profile::with("User")->get();
+
+        return response()->json( $profile);
     }
 
     public function getUserById($id)
     {
-        $user = User::find($id);
+
+        $user = Profile::with("User")->where("id",$id)->get();
         if (is_null($user)) {
-            return response()->json(['Mensaje' => 'No encontrado'], 404);
+            return response()->json(['messages' => 'No encontrado'], 404);
+        }else{
+            return response()->json($user, 200);
         }
-        return response()->json($user, 200);
-    }
 
-
-
-    public function updateUser(Request $request, $id)
-    {
-        $user = User::find($id);
-        if (is_null($user)) {
-            return response()->json(['Mensaje' => 'No encontrado'], 404);
-        }
-        $user->update($request->all());
-        return response($user, 200);
     }
 
     public function deleteUser(Request $request, $id)
@@ -42,29 +39,32 @@ class usercontroller extends Controller
         return response()->json(['Mensaje' => 'Eliminado correctamente'], 200);
     }
 
-
-    //Api para consultar el perfil
-    public function getProfileData(Request $request)
-    {
-        // Obtener el ID del usuario actual
-        $userId = $request->user()->id;
-
-        // Buscar el perfil asociado al usuario
-        $profile = Profile::where('user_id', $userId)->first();
-
-        if ($profile) {
-            // Si se encuentra el perfil, retornar los datos
-            return response()->json([
-                'success' => true,
-                'data' => $profile
-            ]);
-        } else {
-            // Si no se encuentra el perfil, retornar un mensaje de error
-            return response()->json([
-                'success' => false,
-                'message' => 'Perfil no encontrado'
-            ], 404);
+    public function updateUser(Request $request, $id){
+        $validator = Validator::make($request->all(),[
+            'username' => 'string|max:255|unique:users',
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'string|min:8',
+            'status' => 'required|boolean',
+            'profile_name' => 'required|string|max:255',
+            'dni' => 'required|string|max:8',
+            'department' => 'required|string|max:255',
+            'area' => 'required|string|max:255',
+            'shift' => 'required|string|max:255',
+            'birthday' => 'date',
+            'date_start' => 'required|date',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors());
         }
+        $user = User::find($id);
+        $user->update($request->all());
+
+        $profile = Profile::find($id);
+        $profile->update($request->all());
+        return response()->json(['usuario' => $user, 'perfil' => $profile, 'messages' => "Usuario actualizado con exito"],200);
+
     }
 }
 
