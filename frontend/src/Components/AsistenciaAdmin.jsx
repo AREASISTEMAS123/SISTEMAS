@@ -34,9 +34,9 @@ export const AsistenciaAdmin = () => {
   ];
 
   return (
-    <div className="">
+    <div className="max-w-screen-lg mx-auto">
       <div className="flex flex-col sm:flex-row justify-between">
-        <div className="bg-gray-200 p-4 rounded-md shadow-md w-96">
+        <div className="bg-gray-200 p-4 rounded-md shadow-md w-96 mr-5">
           <h3 className="text-3xl font-bold mb-2 text-center">INFORMACIÓN</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -66,7 +66,7 @@ export const AsistenciaAdmin = () => {
           </div>
         </div>
 
-        <div className="bg-gray-200 p-4 rounded-md shadow-md w-100">
+        <div className="bg-gray-200 p-4 rounded-md shadow-md w-96 mt-5 sm:mt-0">
           <h3 className="text-3xl font-bold mb-2 text-center">Leyenda</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -111,13 +111,32 @@ export const AsistenciaAdmin = () => {
         </div>
       </div>
 
-      <div className="flex space-x-4 mt-5">
-        <DynamicSelect options={colaborador} title={"Colaborador"} />
-        <DynamicSelect options={departamento} title={"Departamento"} />
-        <DynamicSelect options={area} title={"Area"} />
-        <DynamicSelect options={turno} title={"Turno"} />
-        <DynamicSelect options={months} title={"Mes"} />
-      </div>
+      <div className="flex flex-col sm:flex-row space-x-4 mt-5">
+  <div className="mb-4 sm:mb-0">
+    <DynamicSelect options={colaborador} title={"Colaborador"} />
+  </div>
+  <div className="flex mb-4 sm:mb-0">
+    <div>
+      <DynamicSelect options={departamento} title={"Departamento"} />
+    </div>
+  </div>
+  <div className="flex mb-4 sm:mb-0">
+    <div>
+      <DynamicSelect options={area} title={"Area"} />
+    </div>
+  </div>
+  <div className="flex mb-4 sm:mb-0">
+    <div>
+      <DynamicSelect options={turno} title={"Turno"} />
+    </div>
+  </div>
+  <div className="flex mb-4 sm:mb-0">
+    <div>
+      <DynamicSelect options={months} title={"Mes"} />
+    </div>
+  </div>
+</div>
+
       <Tabla />
     </div>
   );
