@@ -11,7 +11,8 @@ export const Cumpleanos = () => {
         // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
         fetch('http://127.0.0.1:8000/api/birthday', {
             headers: {
-                Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+                // Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`
             }
         })
             .then(response => response.json())
@@ -91,9 +92,9 @@ export const Cumpleanos = () => {
     };
 
     return (
-        <div className="container mx-auto text-white -mt-8">
+        <div className="container mx-auto text-white -mt-8 min-h-screen">
             <div className="flex justify-between items-center mt-4 mb-2">
-                <button className="text-white-500 font-bold bg-indigo-500 px-10 py-3 rounded-lg drop-shadow-2xl hover:bg-indigo-700" onClick={() => setCurrentMonth(new Date())}>
+                <button className="text-white-500 font-bold bg-indigo-500 px-10 py-3 rounded-lg hover:bg-indigo-700" onClick={() => setCurrentMonth(new Date())}>
                     Hoy
                 </button>
                 <h3 className="text-5xl font-bold">{currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toLocaleUpperCase('es-ES')}</h3>

@@ -18,7 +18,7 @@ export const DetalleCumpleanos = () => {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/birthday/details', {
                     headers: {
-                        Authorization: 'Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC'
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 });
 
@@ -42,7 +42,7 @@ export const DetalleCumpleanos = () => {
     }, [month, day]);
 
     return (
-        <div className="container mx-auto mt-4">
+        <div className="container mx-auto mt-4 min-h-screen">
             <button className="text-white font-bold w-32 h-10 hover:bg-gray-700" onClick={handleGoBack}>
                 <KeyboardBackspaceTwoToneIcon />
             </button>
