@@ -22,6 +22,8 @@ Route::post('/user/register', [\App\Http\Controllers\AuthController::class, 'reg
 
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
+
+
 Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::get('/users',[App\Http\Controllers\usercontroller::class, 'getUser']);
@@ -30,6 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::delete('/users/delete/{id}',[App\Http\Controllers\usercontroller::class,'deleteUser']);
 
     Route::get('/profile',[App\Http\Controllers\ProfileController::class, 'getProfile']);
+    Route::post('/profile/changePassword',[App\Http\Controllers\ProfileController::class, 'change_password']);
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 

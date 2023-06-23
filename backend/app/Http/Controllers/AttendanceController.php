@@ -8,7 +8,7 @@ use App\Models\Attendance;
 class AttendanceController extends Controller
 {
     public function getattendance(){
-        $attendance_user = Attendance::all()->find('attendance', 1)->count() ;
+        $attendance_user = Attendance::all();
 
 
         return response()->json(['attendance' => $attendance_user]);
