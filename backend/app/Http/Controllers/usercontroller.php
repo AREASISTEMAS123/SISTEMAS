@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Attendance;
 use App\Models\Profile;
 use App\Models\User;
 use GuzzleHttp\Pool;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,10 +25,18 @@ class usercontroller extends Controller
         $user = Profile::with("User")->where("id",$id)->get();
         if (is_null($user)) {
             return response()->json(['messages' => 'No encontrado'], 404);
-        }else{
-            return response()->json($user, 200);
         }
+        $attendance = Attendance::all()->where('user_id', $id)->where("attendance", "1")->count();
+        $absence = Attendance::all()->where('user_id', $id)->where("absence", "1")->count();
+        $delay = Attendance::all()->where('user_id', $id)->where("delay", "1")->count();
+        $justification = Attendance::all()->where('user_id', $id)->where("justification", "1")->count();
 
+            return response()->json([
+                "usuario" =>$user,
+                "Asistencia" => $attendance,
+                "Faltas" => $absence,
+                "Tardanzas" => $delay,
+                "Justificaciones" => $justification], 200);
     }
 
     public function deleteUser(Request $request, $id)
