@@ -1,54 +1,44 @@
 import React, { useState, useEffect } from "react";
 
 export const PerfilColaborador = () => {
-
-  //export const PerfilColaborador = ({ datosColaborador })
-
-  //   const datosColaborador = {
-  //     nombres: "Arturo Antonio",
-  //     apellidos: "Montejo Soto",
-  //     departamento: "Operaciones",
-  //     area: "Sistemas",
-  //     perfil: "Desarrollador Frontend",
-  //     dni: "75098945",
-  //     turno: "Mañana",
-  //     rol: "Colaborador",
-  //     ingreso: "05/04/2023",
-  //     nacimiento: "03/07/2003",
-  //     responsable: "Gustavo",
-  //     faltas: 0,
-  //     asistencias: 8,
-  //     tardanzas: 3,
-  //     justificaciones: 6,
-  //   };
-
-
-  // <div>
-  //   <PerfilColaborador datosColaborador={datosColaborador} />
-  // </div>
-  const datosColaborador = {
-    nombres: "Arturo Antonio",
-    apellidos: "Montejo Soto",
-    departamento: "Operaciones",
-    area: "Sistemas",
-    perfil: "Desarrollador Frontend",
-    dni: "75098945",
-    turno: "Mañana",
-    rol: "Colaborador",
-    ingreso: "05/04/2023",
-    nacimiento: "03/07/2003",
-    responsable: "Gustavo",
-    faltas: 0,
-    asistencias: 8,
-    tardanzas: 3,
-    justificaciones: 6,
-  };
-
   const [colaborador, setColaborador] = useState(null);
 
   useEffect(() => {
-    setColaborador(datosColaborador);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/profile", {
+          headers: {
+            Authorization: "Bearer 1|JBcm3wjhcL9arL106z3tpA4cFzsFwfL5J5uj4FYI"
+          }
+        });
+        const data = await response.json();
+        const usuario = data.Usuario[0];
+
+        setColaborador({
+          nombres: usuario.user[0].name,
+          apellidos: usuario.user[0].surname,
+          departamento: usuario.department,
+          area: usuario.area,
+          perfil: usuario.profile_name,
+          dni: usuario.dni,
+          turno: usuario.shift,
+          rol: "Colaborador",
+          ingreso: usuario.date_start,
+          nacimiento: usuario.birthday,
+          responsable: usuario.responsible,
+          faltas: data.Faltas,
+          asistencias: data.Asistencia,
+          tardanzas: data.Tardanzas,
+          justificaciones: data.Justificaciones
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
+
 
   if (!colaborador) {
     // Mostrar un estado de carga mientras se obtienen los datos
