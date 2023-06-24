@@ -47,6 +47,23 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 
+    
+Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('evaluations',[App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
+Route::get('evaluations/details',[App\Http\Controllers\EvaluationController::class, 'detailsevaluations']);
+
+Route::get('evaluations/{id}',[App\Http\Controllers\EvaluationController::class, 'getEvaluationbyid']);
+
+Route::post('addEvaluation',[App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
+
+Route::put('updateEvaluaion/{id}',[App\Http\Controllers\EvaluationController::class, 'getEvaluationbyid']);
+
+Route::delete('deleteCategoria/{id}',[App\Http\Controllers\EvaluationController::class, 'deleteEvaluation']);
+
+
 
 
 });
