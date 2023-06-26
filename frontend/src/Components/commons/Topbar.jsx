@@ -9,6 +9,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { TareaItem } from './TareaItem';
 
 export const Topbar = ({ toggleSidebar }) => {
@@ -21,6 +22,13 @@ export const Topbar = ({ toggleSidebar }) => {
   const [isCategoryMenuVisible, setIsCategoryMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showTask, setShowTask] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [message, setMessage] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [fecha, setFecha] = useState('');
+  const [mensajeError, setMensajeError] = useState('');
+
 
   const showMenuUser = () => {
     setIsVisible(!isVisible);
@@ -31,38 +39,130 @@ export const Topbar = ({ toggleSidebar }) => {
     setShowTask(!showTask);
   };
 
-  const cardsTask = [
-    {
-      "id": 1,
-      "title": "Item 1",
-      "description": "Descripción del Item 1",
-      "date": "2023-06-21 14:45:00"
-    },
-    {
-      "id": 2,
-      "title": "Item 2",
-      "description": "Descripción del Item 2",
-      "date": "2023-06-20 21:57:00"
-    },
-    {
-      "id": 3,
-      "title": "Item 3",
-      "description": "Descripción del Item 3",
-      "date": "2023-06-23 17:00:00"
-    },
-    {
-      "id": 4,
-      "title": "Item 4",
-      "description": "Descripción del Item 4",
-      "date": "2023-06-22 09:15:00"
-    },
-    {
-      "id": 5,
-      "title": "Item 5",
-      "description": "Descripción del Item 5",
-      "date": "2023-06-24 12:00:00"
+ 
+  
+  const apiURL = 'http://127.0.0.1:8000/api';
+  const userId = 1; // El user_id que deseas filtrar
+  const Token = '9|SycUDyen9ZED20GCC57Z1gtLFLw0TadS48DTB9GF'
+
+  //Agregar Tarea
+  const agregarTarea = () => {
+    if (titulo.trim() === '' || descripcion.trim() === '' || fecha.trim() === '') {
+      setShowModal(true),
+      setMensajeError('Rellene todos los campos');
+      return;
     }
-  ];
+
+    const url = apiURL + '/task/insert';
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Token}`
+      },
+      body: JSON.stringify({
+        tittle: titulo,
+        description: descripcion,
+        limit_date: fecha,
+      }),
+    })
+      .then(response => {
+        if (response.ok) {
+          setShowAlert(true);
+          setMessage('Tarea agregada exitosamente');
+          setTitulo('');
+          setDescripcion('');
+          setFecha('');
+          setMensajeError('');
+        } else {
+          throw new Error('Error al guardar los datos');
+        }
+      })
+      .catch(error => {
+        setShowAlert(true);
+        setMessage(`Error al agregar la tarea: ${error.message}`);
+      });
+  };
+
+  //Listar Tareas
+  const listarTarea = () => {
+    fetch(apiURL + '/task', {
+      headers: {
+        
+        Authorization: `Bearer ${Token}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Filtrar los datos por user_id
+        const filteredTasks = data.filter(task => task.user_id === userId);
+        setTasks(filteredTasks);
+      })
+      .catch(error => {
+        console.error('Error al obtener datos:', error);
+      });
+  };
+  useEffect(() => { listarTarea();}, [userId]);
+
+  //Modificar Tarea
+  const modificarTarea = (taskUpdate) => {
+    const url = apiURL +`/task/update/${taskUpdate.id}`;
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Token}`
+      },
+      body: JSON.stringify(taskUpdate),
+    })
+      .then(response => {
+        if (response.ok) {
+          setMessage('Tarea modificada exitosamente');
+          setShowAlert(true);
+          setTasks(prevTasks => {
+            return prevTasks.map(task => {
+              if (task.id === taskUpdate.id) {
+                return taskUpdate;
+              }
+              return task;
+            });
+          });
+        } else {
+          throw new Error('Error al guardar la tarea');
+        }
+      })
+      .catch(error => {
+        setMessage(`Error al modificar la tarea: ${error.message}`);
+        setShowAlert(true);
+      });
+  };
+
+  //Eliminar Tarea
+  const eliminarTarea = (taskId) => {
+    const url = apiURL + `/task/delete/${taskId}`;
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${Token}`
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          setMessage('Tarea eliminada exitosamente');
+          setShowAlert(true);
+          setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+        } else {
+          throw new Error('Error al eliminar la tarea');
+        }
+      })
+      .catch(error => {
+        setMessage(`Error al eliminar la tarea: ${error.message}`);
+        setShowAlert(true);
+      });
+  };
 
   const naviget = useNavigate();
   function logoutSubmit() {
@@ -94,6 +194,13 @@ export const Topbar = ({ toggleSidebar }) => {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showModalUpdate, setShowModalUpdate] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  
+  const AddTask = () =>{
+    setShowModal(false),
+    setShowAlert(false),
+    agregarTarea()
+  }
 
 
   return (
@@ -120,9 +227,9 @@ export const Topbar = ({ toggleSidebar }) => {
           <button onClick={showTodoList} className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
             <ListAltIcon fontSize="large" />
             <span className="sr-only">Tareas</span>
-            {cardsTask.length > 0 && (
+            {tasks.length > 0 && (
 
-              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-600 border-2 border-cv-primary rounded-full -top-2 -right-2 ">{cardsTask.length}</div>
+              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-600 border-2 border-cv-primary rounded-full -top-2 -right-2 ">{tasks.length}</div>
             )}
           </button>
           <div>
@@ -172,8 +279,8 @@ export const Topbar = ({ toggleSidebar }) => {
               <AddTaskIcon fontSize="large" />
               <span className='ml-4'>Agregar Tarea</span>
             </button>
-            <div className='max-h-72 overflow-y-scroll'>
-              <TareaItem data={cardsTask} onclick={() => { setShowModalUpdate(true); setShowTask(false); }}/>
+            <div className='max-h-72 overflow-y-auto'>
+              <TareaItem data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea}/>
             </div>
           </div>
         </div>
@@ -195,17 +302,19 @@ export const Topbar = ({ toggleSidebar }) => {
                   <div className="relative p-6 flex-auto">
                     <div className='space-y-2 flex flex-col items-center'>
                       <div className='w-full'>
-                        <input type="text" id="large-input" className="w-full p-4 text-gray-900 border-b-2 border-gray-300  bg-white outline-none sm:text-md placeholder-gray-700 font-semibold" placeholder='Titulo de Tarea' />
+                        <label htmlFor="title" className="block mb-2 font-medium text-gray-900">Titulo de Tarea</label>
+                        <input type="text" id="title" value={titulo} onChange={(e) => setTitulo(e.target.value)} className="w-full p-4 text-gray-900 border-b-2 border-gray-300  bg-white outline-none sm:text-md placeholder-gray-700 font-semibold" placeholder='Escribe aquí...' />
                       </div>
                       <div className='w-full'>
                         <label htmlFor="task" className="block mb-2 font-medium text-gray-900">Descripción</label>
-                        <textarea id="task" rows="4" className="p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold" placeholder="Escribe aquí..."></textarea>
+                        <textarea id="task" rows="4" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} className="p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold" placeholder="Escribe aquí..."></textarea>
 
                       </div>
                       <div className='w-full'>
                         <label htmlFor="time" className="block mb-2 font-medium text-gray-900">Fecha y Hora Limite</label>
-                        <input type="datetime-local" name="" id="time" className='p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold' />
+                        <input type="datetime-local" id="time" value={fecha} onChange={(e) => setFecha(e.target.value)} className='p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold' />
                       </div>
+                      <p className='text-red-500 font-semibold'>{mensajeError}</p>
                     </div>
 
                   </div>
@@ -220,7 +329,9 @@ export const Topbar = ({ toggleSidebar }) => {
                     <button
                       className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => { setShowModal(false), setShowAlert(true) }}
+                      onClick={AddTask}
+
+                      
                     >Guardar</button>
                   </div>
                 </div>
@@ -241,12 +352,14 @@ export const Topbar = ({ toggleSidebar }) => {
                   <div className="relative p-6 flex-auto">
                     <div className='space-y-2 flex flex-col items-center'>
                       <div className='w-full flex items-center justify-center text-green-500 text-x'>
-                        <CheckCircleIcon sx={{ fontSize: 96 }} />
+                        {message === 'Tarea agregada exitosamente' || message === 'Tarea modificada exitosamente' || message === 'Tarea eliminada exitosamente' ? (
+                          <CheckCircleIcon className="text-green-500" sx={{ fontSize: 96 }} />
+                        ) : (
+                            <ErrorIcon className="text-red-500" sx={{ fontSize: 96 }} />
+                        )}
                       </div>
                       <div className='w-full flex items-center justify-center text-gray-950'>
-                        <h3 className="text-3xl font-bold">
-                          Agregado con Éxito
-                        </h3>
+                        {message && <h3 className="text-3xl font-bold text-center">{message}</h3>}
                       </div>
                     </div>
 
@@ -284,21 +397,38 @@ export const Topbar = ({ toggleSidebar }) => {
                     </h3>
                   </div>
                   <div className="relative p-6 flex-auto">
+                    {selectedCard && (
                     <div className='space-y-2 flex flex-col items-center'>
                       <div className='w-full'>
                         <label htmlFor="title" className="block mb-2 font-medium text-gray-900">Titulo de Tarea</label>
-                        <input type="text" id="title" className="w-full p-4 text-gray-900 border-b-2 border-gray-300  bg-white outline-none sm:text-md placeholder-gray-700 font-semibold" placeholder='Escribe aquí' />
+                          <input type="text" id="title" value={selectedCard.tittle} onChange={(event) =>
+                            setSelectedCard((prevTask) => ({
+                              ...prevTask,
+                              tittle: event.target.value,
+                            }))
+                          } className="w-full p-4 text-gray-900 border-b-2 border-gray-300  bg-white outline-none sm:text-md placeholder-gray-700 font-semibold" placeholder='Escribe aquí...' />
                       </div>
                       <div className='w-full'>
                         <label htmlFor="task" className="block mb-2 font-medium text-gray-900">Descripción</label>
-                        <textarea id="task" rows="4" className="p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold" placeholder="Escribe aquí..."></textarea>
+                          <textarea id="task" rows="4" value={selectedCard.description} onChange={(event) =>
+                            setSelectedCard((prevTask) => ({
+                              ...prevTask,
+                              description: event.target.value,
+                            }))
+                          } className="p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold" placeholder="Escribe aquí..."></textarea>
 
                       </div>
                       <div className='w-full'>
                         <label htmlFor="time" className="block mb-2 font-medium text-gray-900">Fecha y Hora Limite</label>
-                        <input type="datetime-local" name="" id="time" className='p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold' />
+                          <input type="datetime-local" name="" id="time" value={selectedCard.limit_date} onChange={(event) =>
+                            setSelectedCard((prevTask) => ({
+                              ...prevTask,
+                              limit_date: event.target.value,
+                            }))
+                          } className='p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold' />
                       </div>
                     </div>
+                    )}
 
                   </div>
                   <div className="flex items-center justify-between p-6 border-t border-solid border-slate-200 rounded-b">
@@ -312,7 +442,7 @@ export const Topbar = ({ toggleSidebar }) => {
                     <button
                       className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => { setShowModalUpdate(false), setShowAlert(true) }}
+                      onClick={() => { setShowModalUpdate(false), modificarTarea(selectedCard); }}
                     >Guardar</button>
                   </div>
                 </div>
