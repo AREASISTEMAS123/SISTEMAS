@@ -62,29 +62,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $rules = array(
-
-            'username' => 'required|string',
-            'password' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha',
-
-        );
-        $messages = array(
-            'username.required' => 'Por favor ingrese el usuario',
-            'password.required' => 'Por favor ingrese la contraseña',
-            'g-recaptcha-response' => [
-                'required' => 'Please verify that you are not a robot.',
-                'captcha' => 'Captcha error! try again later or contact site admin.',
-            ],
-
-        );
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()){
-            $messages=$validator->messages();
-            return response()->json(["messages"=>$messages],500);
-
-        }
+      
 
         if (!Auth::attempt($request->only('username', 'password' ))){
             return response()->json(['message' => 'No autorizado'], 401);
