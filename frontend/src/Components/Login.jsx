@@ -78,15 +78,15 @@ export const Login = () => {
                 const responseData = await response.json();
 
                 if (response.ok) {
-                    if (responseData.message === 'No autorizado' || responseData.message === 'Tu cuenta ha sido bloqueado, contacte a un administrador') {
-                        setError(responseData.message);
-                    } else {
-                        setMsg(responseData.message);
-                        localStorage.setItem('token', responseData.accessToken);
-                        localStorage.setItem('iduser', responseData.user.id);
-                        localStorage.setItem('login', true);
-                        naviget('/');
-                    }
+                  if (responseData.message === 'No autorizado' || responseData.message === 'Tu cuenta ha sido bloqueado, contacte a un administrador') {
+                    setError(responseData.message);
+                  } else {
+                    setMsg(responseData.message);
+                    localStorage.setItem('token', responseData.accessToken);
+                    localStorage.setItem('iduser', responseData.user.id);
+                    localStorage.setItem('login', true);
+                    naviget('/');
+                  }
                 } else {
                     setError(responseData.message);
                 }
