@@ -22,6 +22,9 @@ Route::post('/user/register', [\App\Http\Controllers\AuthController::class, 'reg
 
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
+Route::post('password/create',[\App\Http\Controllers\Auth\PasswordResetController::class,'create']);
+Route::get('password/find/{token}',[\App\Http\Controllers\Auth\PasswordResetController::class,'find']);
+Route::post('password/reset', [\App\Http\Controllers\Auth\PasswordResetController::class,'reset']);
 
 
 Route::middleware(['auth:sanctum'])->group(function (){

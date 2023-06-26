@@ -9,3 +9,16 @@ puedes importar las tablas o puedes escribir el comando :
 
 php artisan migrate
 
+
+CONFIG EMAIL : en el .ENV 
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=name@gmail.com
+MAIL_PASSWORD=ltbkbzqtzhckkrso | generado
+MAIL_ENCRYPTION=tsl
+MAIL_FROM_ADDRESS=name@gmail.com
+MAIL_FROM_NAME=name
+
+
