@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Profile;
 use \stdClass;
+use Symfony\Component\Console\Input\Input;
 
 class AuthController extends Controller
 {
@@ -60,12 +62,11 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $validator = Validator::make($request::all(), [
+        $validator = Validator::make(request()->all(), [
+            'username' => 'required|string',
+            'password' => 'required|string',
             'g-recaptcha-response' => 'required|captcha'
         ]);
-        if($validator->fails()){
-            return response()->json($validator->errors());
-        }
 
         if (!Auth::attempt($request->only('username', 'password'))){
             return response()->json(['message' => 'No autorizado'], 401);
@@ -76,13 +77,15 @@ class AuthController extends Controller
         $user = User::where('username', $request['username'])->firstOrFail();
         $profile = Profile::where('dni',$request['username'])->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json([
-            'message' => 'Hi'.$user->name,
-            'accessToken' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user,
-            'profile' => $profile,
-        ]);
+
+        if($validator->fails()){
+            return response()->json([$validator->errors(),
+                'message' => 'Hi'.$user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+                'profile' => $profile, ]);
+        }
     }
 
     public function logout(){
