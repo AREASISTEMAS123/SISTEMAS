@@ -62,11 +62,25 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $validator = Validator::make($request->all(), [
+        $rules = array(
+
             'username' => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha'
-        ]);
+            'g-recaptcha-response' => 'required|captcha',
+
+        );
+        $messages = array(
+            'username.required' => 'Por favor ingrese el usuario',
+            'password.required' => 'Por favor ingrese la contraseña',
+            'g-recaptcha-response' => [
+                'required' => 'Please verify that you are not a robot.',
+                'captcha' => 'Captcha error! try again later or contact site admin.',
+            ],
+
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        
 
         if (!Auth::attempt($request->only('username', 'password' ))){
             return response()->json(['message' => 'No autorizado'], 401);
@@ -74,13 +88,11 @@ class AuthController extends Controller
             return response()->json(['message' => 'Tu cuenta ha sido bloqueado, contacte a un administrador'], 401);
         }
 
+
+
         $user = User::where('username', $request['username'])->firstOrFail();
         $profile = Profile::where('dni',$request['username'])->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
-
-        if($validator->fails()){
-            return response()->json($validator->errors());
-        }
 
         return response()->json([
             'message' => 'Hi'.$user->name,
