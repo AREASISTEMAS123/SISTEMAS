@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter  } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { Topbar } from './components/commons/Topbar';
 import { Sidebar } from './components/commons/Sidebar';
@@ -26,12 +26,16 @@ const App = () => {
     };
   }, []);
 
+  const isLoginPage = location.pathname === '/login';
+
   return (
     <BrowserRouter>
       <div className="flex h-screen w-full">
-        {!isMobile && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
+        {!isMobile && !isLoginPage && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
         <div className="flex-grow flex-shrink flex-auto overflow-y-scroll">
-          <Topbar toggleSidebar={toggleSidebar} />
+          {!isLoginPage && !isMobile && (
+            <Topbar toggleSidebar={toggleSidebar} />
+          )}
           <div className="bg-cv-secondary p-3 sm:p-5">
             <AppRoutes />
           </div>
