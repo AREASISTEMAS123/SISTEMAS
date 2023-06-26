@@ -62,13 +62,13 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $validator = Validator::make(request()->all(), [
+        $validator = Validator::make($request->all(), [
             'username' => 'required|string',
             'password' => 'required|string',
             'g-recaptcha-response' => 'required|captcha'
         ]);
 
-        if (!Auth::attempt($request->only('username', 'password'))){
+        if (!Auth::attempt($request->only('username', 'password' ))){
             return response()->json(['message' => 'No autorizado'], 401);
         } elseif (auth()->user()->status == 0){
             return response()->json(['message' => 'Tu cuenta ha sido bloqueado, contacte a un administrador'], 401);
@@ -79,13 +79,16 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         if($validator->fails()){
-            return response()->json([$validator->errors(),
-                'message' => 'Hi'.$user->name,
-                'accessToken' => $token,
-                'token_type' => 'Bearer',
-                'user' => $user,
-                'profile' => $profile, ]);
+            return response()->json($validator->errors());
         }
+
+        return response()->json([
+            'message' => 'Hi'.$user->name,
+            'accessToken' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+            'profile' => $profile,
+        ]);
     }
 
     public function logout(){
