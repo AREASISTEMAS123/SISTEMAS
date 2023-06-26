@@ -83,6 +83,19 @@ const days = [
   { id: "22", label: "22", minWidth: 100 },
 ];
 
+const generateCellContent = (color) => (
+  <div
+    style={{
+      width: 10,
+      height: 10,
+      borderRadius: "50%",
+      backgroundColor: color,
+      display: "inline-block",
+      marginTop: "calc(50% - 5px)",
+    }}
+  />
+);
+
 const rows = nameValues.map((name) => {
   const row = { name };
   for (let i = 1; i <= 22; i++) {
@@ -108,16 +121,7 @@ const rows = nameValues.map((name) => {
         color = "white";
         break;
     }
-    row[i] = (
-      <div
-        style={{
-          width: 10,
-          height: 10,
-          borderRadius: "50%",
-          backgroundColor: color,
-        }}
-      />
-    );
+    row[i] = generateCellContent(color);
   }
   return row;
 });
@@ -137,64 +141,57 @@ export const Tabla = () => {
 
   return (
     <div className="max-w-screen-xl m-auto">
-      <Paper  className="mt-5">
+      <Paper className="mt-5">
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
-          <TableHead style={{ marginBottom: 0 }}>
-  <TableRow>
-    {columns.map((column) => (
-      <TableCell
-        key={column.id}
-        align="center"
-        style={{
-          minWidth: column.minWidth,
-          position: "sticky",
-          top: 0,
-          backgroundColor: "#16232B",
-          color: "white",
-        }}
-      >
-        {column.label}
-      </TableCell>
-    ))}
-  </TableRow>
-  <TableRow>
-    {days.map((day) => (
-      <TableCell
-        key={day.id}
-        align="center"
-        style={{
-          minWidth: day.minWidth,
-          position: "sticky",
-          top: 56,
-          backgroundColor: "#16232B",
-          color: "white",
-        }}
-      >
-        {day.label}
-      </TableCell>
-    ))}
-  </TableRow>
-</TableHead>
-
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align="center"
+                    style={{
+                      minWidth: column.minWidth,
+                      backgroundColor: "#16232B",
+                      color: "white"
+                    }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                {days.map((day) => (
+                  <TableCell
+                    key={day.id}
+                    align="center"
+                    style={{
+                      minWidth: day.minWidth,
+                      position: "sticky",
+                      top: 56,
+                      backgroundColor: "#16232B",
+                      color: "white",
+                    }}
+                  >
+                    {day.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={index}
-                      style={{
-                        backgroundColor: index % 2 === 0 ? "#F3F4F6" : "white",
-                      }}
-                    >
+                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align="center">
+                          <TableCell
+                            key={column.id}
+                            align="center"
+                            style={{ minWidth: column.minWidth }}
+                          >
                             {value}
                           </TableCell>
                         );

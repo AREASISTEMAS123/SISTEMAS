@@ -30,7 +30,7 @@ const App = () => {
     <BrowserRouter>
       <div className="flex h-screen w-full">
         {!isMobile && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
-        <div className=" flex-grow flex-shrink flex-auto overflow-y-scroll">
+        <div className="flex-grow flex-shrink flex-auto overflow-y-scroll">
           <Topbar toggleSidebar={toggleSidebar} />
           <div className="bg-cv-secondary p-3 sm:p-5">
             <AppRoutes />
