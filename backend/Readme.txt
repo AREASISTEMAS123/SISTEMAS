@@ -22,3 +22,7 @@ MAIL_FROM_ADDRESS=name@gmail.com
 MAIL_FROM_NAME=name
 
 
+captcha:
+{!! NoCaptcha::renderJs() !!}
+{!! NoCaptcha::display() !!}
+
