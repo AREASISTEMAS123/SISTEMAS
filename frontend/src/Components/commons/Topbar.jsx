@@ -40,10 +40,10 @@ export const Topbar = ({ toggleSidebar }) => {
   };
 
  
-  
+
   const apiURL = 'http://127.0.0.1:8000/api';
-  const userId = 1; // El user_id que deseas filtrar
-  const Token = '9|SycUDyen9ZED20GCC57Z1gtLFLw0TadS48DTB9GF'
+  const userId = localStorage.getItem("iduser");
+  const Token = localStorage.getItem("token");
 
   //Agregar Tarea
   const agregarTarea = () => {
@@ -87,23 +87,23 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Listar Tareas
   const listarTarea = () => {
-    fetch(apiURL + '/task', {
+    fetch(apiURL + '/task/' + userId, {
       headers: {
-        
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${Token}`
       }
     })
       .then(response => response.json())
       .then(data => {
-        // Filtrar los datos por user_id
-        const filteredTasks = data.filter(task => task.user_id === userId);
-        setTasks(filteredTasks);
+        setTasks(data);
       })
       .catch(error => {
         console.error('Error al obtener datos:', error);
       });
   };
-  useEffect(() => { listarTarea();}, [userId]);
+  useEffect(() => {
+    listarTarea();
+  }, []);
 
   //Modificar Tarea
   const modificarTarea = (taskUpdate) => {
@@ -146,6 +146,7 @@ export const Topbar = ({ toggleSidebar }) => {
     fetch(url, {
       method: 'DELETE',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${Token}`
       },
     })

@@ -84,6 +84,7 @@ export const Login = () => {
                   } else {
                     setMsg(responseData.message);
                     localStorage.setItem('token', responseData.accessToken);
+                    localStorage.setItem('iduser', responseData.user.id);
                     localStorage.setItem('login', true);
                     naviget('/');
                   }
