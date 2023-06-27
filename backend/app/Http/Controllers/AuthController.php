@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Model_has_role;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -56,12 +58,29 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
-
+        event(new Registered($user));
         return response()->json(['data' => $user, 'perfil' => $profile, 'access_token' => $token, 'token_type' => 'Bearer',]);
 
     }
 
     public function login(Request $request){
+        $rules = array(
+            'username' => 'required|string',
+            'password' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha',
+        );
+        $messages = array(
+            'username.required' => 'Por favor ingrese el usuario',
+            'password.required' => 'Por favor ingrese la contraseña',
+            'g-recaptcha-response' => [
+               'required' => 'Please verify that you are not a robot.',
+                'captcha' => 'Captcha error! try again later or contact site admin.',]
+            );
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()){
+            $messages=$validator->messages();
+            return response()->json(["messages"=>$messages],500);
+        }
 
 
         if (!Auth::attempt($request->only('username', 'password' ))){
@@ -75,14 +94,51 @@ class AuthController extends Controller
         $user = User::where('username', $request['username'])->firstOrFail();
         $profile = Profile::where('dni',$request['username'])->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
+        $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
 
-        return response()->json([
-            'message' => 'Hi'.$user->name,
-            'accessToken' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user,
-            'profile' => $profile,
-        ]);
+        if($role->role_id == '1'){
+            $name_role = 'Gerente';
+            return response()->json([
+                'message' => 'Hi'.$user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+                'profile' => $profile,
+                'rol' => $name_role
+            ]);
+        }elseif($role->role_id == '2'){
+            $name_role = 'Lider de Departamento';
+            return response()->json([
+                'message' => 'Hi'.$user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+                'profile' => $profile,
+                'rol' => $name_role
+            ]);
+        }elseif($role->role_id == '3'){
+            $name_role = 'Lider de Área';
+            return response()->json([
+                'message' => 'Hi'.$user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+                'profile' => $profile,
+                'rol' => $name_role
+            ]);
+        }else{
+            $name_role = 'Colaborador';
+            return response()->json([
+                'message' => 'Hi'.$user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+                'profile' => $profile,
+                'rol' => $name_role
+            ]);
+        }
+
+
     }
 
     public function logout(){
