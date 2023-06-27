@@ -24,7 +24,6 @@ return new class extends Migration
             $table-> string('area');
             $table->string('shift');
             $table->date('birthday');
-            $table-> string('cod_agreement')->nullable();
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
             $table->string('responsible')->nullable();

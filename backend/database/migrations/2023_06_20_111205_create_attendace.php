@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->time('admission_time')->nullable();
             $table->time('departure_time')->nullable();
-            $table->string('image')->nullable();
+            $table->string('admission_image')->nullable();
+            $table->string('departure_image')->nullable();
             $table->boolean('attendance')->default(false);
             $table->boolean('absence')->default(false);
             $table->boolean('justification')->default(false);

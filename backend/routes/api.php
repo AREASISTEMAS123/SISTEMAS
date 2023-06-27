@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/user/register', [\App\Http\Controllers\AuthController::class, 'register']);
+Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 
-    
+
 Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
     return $request->user();
 });
