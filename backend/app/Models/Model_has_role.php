@@ -13,4 +13,6 @@ class Model_has_role extends Model
         'model_type',
         'mode_id'
     ];
+
+
 }

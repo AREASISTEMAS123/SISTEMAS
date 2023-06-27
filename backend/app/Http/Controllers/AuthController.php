@@ -67,11 +67,11 @@ class AuthController extends Controller
         $rules = array(
             'username' => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha',
+           'g-recaptcha-response' => 'required|captcha',
         );
         $messages = array(
             'username.required' => 'Por favor ingrese el usuario',
-            'password.required' => 'Por favor ingrese la contraseña',
+             'password.required' => 'Por favor ingrese la contraseña',
             'g-recaptcha-response' => [
                'required' => 'Please verify that you are not a robot.',
                 'captcha' => 'Captcha error! try again later or contact site admin.',]

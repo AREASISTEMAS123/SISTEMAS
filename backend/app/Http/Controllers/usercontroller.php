@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Attendance;
+use App\Models\Model_has_role;
 use App\Models\Profile;
 use App\Models\User;
 use GuzzleHttp\Pool;
@@ -14,9 +15,9 @@ class usercontroller extends Controller
 {
     public function getUser()
     {
-        $profile = Profile::with("User")->get();
-
-        return response()->json( $profile);
+        $profile = Profile::with("User","role")->get();
+        return response()->json([
+            'profile' => $profile]);
     }
 
     public function getUserById($id)
