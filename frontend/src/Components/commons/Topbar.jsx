@@ -206,7 +206,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
 
   return (
-    <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center">
+    <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center z-10">
       {isMobile ? (
         <>
           {isCategoryMenuVisible ? (

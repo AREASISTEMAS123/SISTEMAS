@@ -10,7 +10,7 @@ import {
     AdmiJustificacion,
     DetalleCumpleanos,
     JustificacionColaborador,
-    
+    EvaluacionesColaborador
 } from "../components";
 import { VistaReportes } from "../Components/VistaReportes";
 import {OlvideContraseña} from "../Components/OlvideContraseña"

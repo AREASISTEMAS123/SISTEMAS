@@ -16,7 +16,7 @@ export const RelojAnalogico = () => {
 
     const segundos = hora.getSeconds() * 6;
     const minutos = hora.getMinutes() * 6 + segundos / 60;
-    const horas = ((hora.getHours() % 12) / 12) * 360 + 90 + minutos / 12;
+    const horas = ((hora.getHours() - 5) % 12) / 12 * 360 + 90 + minutos / 12;
 
     return (
         <div className="reloj-analogico mx-auto">
