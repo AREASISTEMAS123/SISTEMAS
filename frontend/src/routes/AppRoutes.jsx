@@ -66,7 +66,6 @@ const AppRoutes = () => {
                     <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
                     <Route path="/asistenciaAdmin" element={<AsistenciaAdmin />} />
                     <Route path="/justificacion" element={<AdmiJustificacion />} />
-                    <Route path="/reportes" element={<VistaReportes />} />
                     <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                 </>
             )}
