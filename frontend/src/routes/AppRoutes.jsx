@@ -11,7 +11,9 @@ import {
     DetalleCumpleanos,
     JustificacionColaborador,
     EvaluacionesColaborador,
-    VistaAdminColaborador
+    VistaAdminColaborador,
+    OlvideContraseña,
+    RestablecerContraseña
 } from "../components";
 
 const AppRoutes = () => {
