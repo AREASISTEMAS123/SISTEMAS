@@ -37,7 +37,7 @@ const AppRoutes = () => {
                 </>
             )}
 
-            {hasRole('Lider de Area') && (
+            {hasRole('Lider Area') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -48,7 +48,7 @@ const AppRoutes = () => {
                 </>
             )}
 
-            {hasRole('Lider de Departamento') && (
+            {hasRole('Lider Departamento') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -59,7 +59,7 @@ const AppRoutes = () => {
                 </>
             )}
 
-            {hasRole('Gerente') && (
+            {hasRole('Gerencia') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -74,6 +74,8 @@ const AppRoutes = () => {
 
             {/* Ruta por defecto para usuarios con roles no definidos */}
             <Route path="/*" element={<Navigate to="/login" />} />
+            <Route path="/OlvideContraseña" element={<OlvideContraseña/>}/>
+            <Route path="/RestablecerContraseña" element={<RestablecerContraseña/>}/>
         </Routes>
     );
 };
