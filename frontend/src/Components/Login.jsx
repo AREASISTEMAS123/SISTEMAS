@@ -1,6 +1,4 @@
-//import { UseForms } from "../hooks/UseForms"
-
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import cv_negativo from "../assets/logo.svg";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
@@ -9,20 +7,20 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import HelpIcon from '@mui/icons-material/Help';
 import ReCAPTCHA from "react-google-recaptcha";
 
-const SITE_KEY = "6LeMBbAmAAAAAA_QeeFgQfnfOD9QtLiz_qA7cCEw";
+const SITE_KEY = "6LeGN9AmAAAAAPLyo5sGMV5XnB0AhqjMpAVCPBoa";
 
 export const Login = () => {
-    const naviget = useNavigate();
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    const [msg, setMsg] = useState('')
+    const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [msg, setMsg] = useState('');
+    const [captchaCompleted, setCaptchaCompleted] = useState(false);
 
     useEffect(() => {
         let login = localStorage.getItem("login");
         if (login) {
-            naviget("/");
-
+            navigate("/");
         }
         let loginStatus = localStorage.getItem("loginStatus");
         if (loginStatus) {
@@ -56,53 +54,60 @@ export const Login = () => {
         }
     }
 
-
-
     const loginSubmit = async () => {
         if (username !== "" && password !== "") {
-            var url = 'http://127.0.0.1:8000/api/login';
-            var headers = {
-                "Accept": "application/json",
-                "Content-type": "application/json"
-            };
-            var Data = {
-                username: username,
-                password: password
-            };
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(Data)
-                });
-                const responseData = await response.json();
+            if (captchaCompleted) {
+                var url = 'http://127.0.0.1:8000/api/login';
+                var headers = {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                };
+                var Data = {
+                    username: username,
+                    password: password
+                };
 
-                if (response.ok) {
-                  if (responseData.message === 'No autorizado' || responseData.message === 'Tu cuenta ha sido bloqueado, contacte a un administrador') {
-                    setError(responseData.message);
-                  } else {
-                    setMsg(responseData.message);
-                    localStorage.setItem('token', responseData.accessToken);
-                    localStorage.setItem('iduser', responseData.user.id);
-                    localStorage.setItem('login', true);
-                    naviget('/');
-                  }
-                } else {
-                    setError(responseData.message);
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(Data)
+                    });
+                    const responseData = await response.json();
+
+                    if (response.ok) {
+                        if (responseData.message === 'No autorizado' || responseData.message === 'Tu cuenta ha sido bloqueado, contacte a un administrador') {
+                            setError(responseData.message);
+                        } else {
+                            setMsg(responseData.message);
+                            localStorage.setItem('token', responseData.accessToken);
+                            localStorage.setItem('iduser', responseData.user.id);
+                            localStorage.setItem('login', true);
+                            navigate('/');
+                        }
+                    } else {
+                        setError(responseData.message);
+                    }
+                } catch (err) {
+                    setError(err.toString());
+                    console.log(err);
                 }
-            } catch (err) {
-                setError(err.toString());
-                console.log(err);
+            } else {
+                setError('No has marcado el captcha.');
             }
         } else {
             setError('Todos los campos son requeridos');
         }
     }
 
-    const onRecuperar = () =>{
-        naviget("/recuperarContraseña")
+    const onRecuperar = () => {
+        navigate("/OlvideContraseña")
     }
-  
+
+    const onRecaptchaChange = () => {
+        setCaptchaCompleted(true);
+    }
+
     return (
         <>
             <div className="">
@@ -144,7 +149,7 @@ export const Login = () => {
                     </div>
 
                     <div className="flex items-center justify-center">
-                        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                        <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
                             <div className="flex justify-center items-center">
                                 <img
                                     width={300}
@@ -161,11 +166,11 @@ export const Login = () => {
                                         <span className="text-green-400">{msg.toString()}</span>
                                     )}
                                 </p>
-                                <form className="space-y-4 md:space-y-6" >
+                                <form className="space-y-4 md:space-y-6">
                                     <div>
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuario</label>
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 ">Usuario</label>
                                         <input
-                                            className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
                                             required=""
                                             placeholder="Es tu DNI"
                                             name="username"
@@ -174,50 +179,67 @@ export const Login = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block mb-2 sm:text-sm font-medium text-gray-900 dark:text-white w-full">Contraseña</label>
+                                        <label className="block mb-2 sm:text-sm font-medium text-gray-900 w-full">Contraseña</label>
                                         <input
                                             placeholder="••••••••"
-                                            className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
                                             required=""
+                                            type="password"
                                             name="password"
                                             value={password}
                                             onChange={(e) => handleInputChange(e, "password")}
                                         />
                                     </div>
-                                    <div>
-                                        <ReCAPTCHA sitekey={SITE_KEY} />
-                                    </div>
-
-                                    <button
-                                        type="button"
-                                        className="w-full text-white bg-slate-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                        onClick={loginSubmit}>
-                                        Ingresar
-                                    </button>
-                                    <div className="flex items-center justify-center">
-                                        <button onClick={onRecuperar} className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500" type="">
-                                            ¿Olvidaste tu contraseña?
-                                        </button>
-                                        <div className="ml-20">
-                                            <HelpIcon />
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center">
+                                            <label className="flex items-center text-sm font-medium text-gray-900 ">
+                                                <input
+                                                    type="checkbox"
+                                                    className="text-primary-600 focus:ring-primary-500    "
+                                                />
+                                                <span className="ml-2">Recuérdame</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <button
+                                                type="button"
+                                                onClick={onRecuperar}
+                                                className="text-sm font-medium text-primary-600  hover:underline focus:outline-none"
+                                            >
+                                                ¿Olvidaste tu contraseña?
+                                            </button>
                                         </div>
                                     </div>
-
+                                    <div>
+                                        <ReCAPTCHA
+                                            sitekey={SITE_KEY}
+                                            onChange={onRecaptchaChange}
+                                            className="mt-4"
+                                        />
+                                    </div>
+                                    <div>
+                                        <button
+                                            type="button"
+                                            onClick={loginSubmit}
+                                            className="w-full flex justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                                        >
+                                            Iniciar sesión
+                                        </button>
+                                    </div>
                                 </form>
-
                             </div>
-
+                            <div className="p-4 flex items-center justify-center bg-gray-100  border-t border-gray-200 ">
+                                <button
+                                    type="button"
+                                    className="text-gray-600  hover:underline text-sm font-medium focus:outline-none"
+                                >
+                                    <HelpIcon /> ¿Necesitas ayuda?
+                                </button>
+                            </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-           
-
-
         </>
-
     );
 };
