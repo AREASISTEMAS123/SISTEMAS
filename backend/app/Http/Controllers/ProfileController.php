@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Model_has_role;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,13 +19,54 @@ class ProfileController extends Controller
             $absence = Attendance::all()->where('user_id', Auth::user()->id)->where("absence", "1")->count();
             $delay = Attendance::all()->where('user_id', Auth::user()->id)->where("delay", "1")->count();
             $justification = Attendance::all()->where('user_id', Auth::user()->id)->where("justification", "1")->count();
+            $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
 
+        if ($role->role_id == '1'){
+            $name_role = 'Gerente';
+            return response()->json([
+                    "Usuario"=>$profile,
+                    "Asistencia" => $attendance,
+                    "Faltas" => $absence,
+                    "Tardanzas" => $delay,
+                    "Justificaciones" => $justification,
+                    'rol' => $name_role]);
+        }if ($role->role_id == '1'){
+            $name_role = 'Gerente';
             return response()->json([
                 "Usuario"=>$profile,
                 "Asistencia" => $attendance,
                 "Faltas" => $absence,
                 "Tardanzas" => $delay,
-                "Justificaciones" => $justification]);
+                "Justificaciones" => $justification,
+                'rol' => $name_role]);
+        }elseif ($role->role_id == '2'){
+            $name_role = 'Lider de Departamento';
+            return response()->json([
+                "Usuario"=>$profile,
+                "Asistencia" => $attendance,
+                "Faltas" => $absence,
+                "Tardanzas" => $delay,
+                "Justificaciones" => $justification,
+                'rol' => $name_role]);
+        }elseif ($role->role_id == '3'){
+            $name_role = 'Lider de Area';
+            return response()->json([
+                "Usuario"=>$profile,
+                "Asistencia" => $attendance,
+                "Faltas" => $absence,
+                "Tardanzas" => $delay,
+                "Justificaciones" => $justification,
+                'rol' => $name_role]);
+        }else {
+            $name_role = 'Colaborador';
+            return response()->json([
+                "Usuario"=>$profile,
+                "Asistencia" => $attendance,
+                "Faltas" => $absence,
+                "Tardanzas" => $delay,
+                "Justificaciones" => $justification,
+                'rol' => $name_role]);
+        }
 
     }
 

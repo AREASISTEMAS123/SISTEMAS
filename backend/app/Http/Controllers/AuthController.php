@@ -73,8 +73,8 @@ class AuthController extends Controller
             'username.required' => 'Por favor ingrese el usuario',
              'password.required' => 'Por favor ingrese la contraseña',
             'g-recaptcha-response' => [
-               'required' => 'Please verify that you are not a robot.',
-                'captcha' => 'Captcha error! try again later or contact site admin.',]
+              'required' => 'Please verify that you are not a robot.',
+               'captcha' => 'Captcha error! try again later or contact site admin.',]
             );
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()){

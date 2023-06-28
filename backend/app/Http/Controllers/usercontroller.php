@@ -93,6 +93,7 @@ class usercontroller extends Controller
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'status' => 'required|boolean',
+            'dni' => 'required|string',
             'profile_name' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'area' => 'required|string|max:255',
@@ -106,13 +107,19 @@ class usercontroller extends Controller
             return response()->json($validator->errors());
         }
         $user = User::find($id);
-        $user->update($request->all());
+        $user->update([
+            'username' => $request->dni,
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'password' => Hash::make($request->dni)
+        ]);
 
         $profile = Profile::find($id);
         $profile->update($request->all());
 
         $role = Model_has_role::where('model_id',$id);
-        $role->update($request->all("role_id"));
+        $role->update(['role_id' => $request->role_id]);
 
         return response()->json([
             'usuario' => $user,
