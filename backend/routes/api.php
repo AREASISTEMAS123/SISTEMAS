@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 
 
+
 Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
     return $request->user();
 });
@@ -62,9 +63,10 @@ Route::get('evaluations/{id}',[App\Http\Controllers\EvaluationController::class,
 
 Route::post('addEvaluation',[App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
 
-Route::put('updateEvaluaion/{id}',[App\Http\Controllers\EvaluationController::class, 'getEvaluationbyid']);
+Route::put('updateEvaluation/{id}',[App\Http\Controllers\EvaluationController::class, 'updateEvaluation']);
 
 Route::delete('deleteCategoria/{id}',[App\Http\Controllers\EvaluationController::class, 'deleteEvaluation']);
+
 
 
 
