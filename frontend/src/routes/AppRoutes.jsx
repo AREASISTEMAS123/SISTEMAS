@@ -10,7 +10,8 @@ import {
     AdmiJustificacion,
     DetalleCumpleanos,
     JustificacionColaborador,
-    EvaluacionesColaborador
+    EvaluacionesColaborador,
+    VistaAdminColaborador
 } from "../components";
 
 const AppRoutes = () => {
@@ -36,7 +37,7 @@ const AppRoutes = () => {
                 </>
             )}
 
-            {hasRole('Lider Area') && (
+            {hasRole('Lider de Area') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -47,7 +48,7 @@ const AppRoutes = () => {
                 </>
             )}
 
-            {hasRole('Lider Departamento') && (
+            {hasRole('Lider de Departamento') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -58,14 +59,15 @@ const AppRoutes = () => {
                 </>
             )}
 
-            {hasRole('Gerencia') && (
+            {hasRole('Gerente') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
                     <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
                     <Route path="/asistenciaAdmin" element={<AsistenciaAdmin />} />
-                    <Route path="/justificaciones" element={<AdmiJustificacion />} />
+                    <Route path="/justificacion" element={<AdmiJustificacion />} />
                     <Route path="/reportes" element={<VistaReportes />} />
+                    <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                 </>
             )}
 
