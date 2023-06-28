@@ -75,6 +75,7 @@ export const Topbar = ({ toggleSidebar }) => {
           setDescripcion('');
           setFecha('');
           setMensajeError('');
+          listarTarea();
         } else {
           throw new Error('Error al guardar los datos');
         }
