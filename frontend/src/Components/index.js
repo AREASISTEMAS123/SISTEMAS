@@ -12,3 +12,5 @@ export * from './AsistenciaAdmin';
 export * from './DetalleCumpleanos'
 export * from './VistaAdminColaborador'
 export * from './EvaluacionesColaborador'
+export * from './OlvideContraseña'
+export * from './RestablecerContraseña'
