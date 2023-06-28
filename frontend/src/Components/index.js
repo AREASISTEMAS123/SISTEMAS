@@ -10,3 +10,4 @@ export * from './VistaEvaluaciones';
 export * from './AdmiJustificacion';
 export * from './AsistenciaAdmin';
 export * from './DetalleCumpleanos'
+export * from './VistaAdminColaborador'

@@ -10,8 +10,9 @@ import {
     AdmiJustificacion,
     DetalleCumpleanos,
     JustificacionColaborador,
+    VistaAdminColaborador,
     
-} from "../components";
+} from "../Components";
 import { VistaReportes } from "../Components/VistaReportes";
 import {OlvideContraseña} from "../Components/OlvideContraseña"
 function AppRoutes() {
@@ -30,6 +31,7 @@ function AppRoutes() {
             <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
             <Route path="/reportes" element={<VistaReportes />} />
             <Route path="/recuperarContraseña" element = {<OlvideContraseña/>}/>
+            <Route path="/colaboradores" element={<VistaAdminColaborador/>}/>
         </Routes>
     );
 }
