@@ -12,25 +12,54 @@ class EvaluationController extends Controller
 {
     
     public function getEvaluation()
-    {
-        $evaluations = Evaluation::with(['user' => function ($query) {
-            $query->select('id', 'name','surname', 'email');
-        }])->get();
+{
+    $evaluations = Evaluation::join('users', 'evaluations.user_id', '=', 'users.id')
+        ->select('evaluations.id', 'evaluations.user_id', 'users.id as user_id', 'users.name', 'users.email', 'evaluations.model_type', 'evaluations.created_at', 'evaluations.updated_at')
+        ->get()
+        ->map(function ($evaluation) {
+            return [
+                'id' => $evaluation->id,
+                'user_id' => [
+                    'id' => $evaluation->user_id,
+                    'name' => $evaluation->name,
+                    'email' => $evaluation->email,
+                ],
+                'model_type' => $evaluation->model_type,
+                'created_at' => $evaluation->created_at,
+                'updated_at' => $evaluation->updated_at,
+            ];
+        });
       
-        return response()->json($evaluations, 200);
-    }
-    
-    public function getEvaluationbyid($id)
-    {
-        $evaluation = Evaluation::with('user')->find($id);
+    return response()->json($evaluations, 200);
+}
 
-    if (!$evaluation) {
+
+    
+public function getEvaluationbyid($evaluationId)
+{
+    $evaluation = Evaluation::join('users', 'evaluations.user_id', '=', 'users.id')
+        ->select('evaluations.id', 'evaluations.user_id', 'users.id as user_id', 'users.name', 'users.email', 'evaluations.model_type', 'evaluations.created_at', 'evaluations.updated_at')
+        ->where('evaluations.id', $evaluationId)
+        ->first();
+      
+    if ($evaluation) {
+        $result = [
+            'id' => $evaluation->id,
+            'user_id' => [
+                'id' => $evaluation->user_id,
+                'name' => $evaluation->name,
+                'email' => $evaluation->email,
+            ],
+            'model_type' => $evaluation->model_type,
+            'created_at' => $evaluation->created_at,
+            'updated_at' => $evaluation->updated_at,
+        ];
+        return response()->json($result, 200);
+    } else {
         return response()->json(['message' => 'No se encontró la evaluación'], 404);
     }
+}
 
-    return response()->json($evaluation, 200);
-    }
-    
     
 
     public function insertEvaluation(Request $request){
@@ -57,4 +86,3 @@ class EvaluationController extends Controller
         return response()->json(['Mensaje'=>'Eliminado Correctamente'],200);
     }
 }
-
