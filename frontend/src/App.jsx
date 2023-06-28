@@ -33,7 +33,7 @@ const App = () => {
       <div className="flex h-screen w-full">
         {!isMobile && !isLoginPage && !isRecuperar &&<Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
         <div className="flex-grow flex-shrink flex-auto overflow-y-scroll">
-          {!isLoginPage && !isMobile && !isRecuperar &&(
+          {!isLoginPage  && !isRecuperar &&(
             <Topbar toggleSidebar={toggleSidebar} />
           )}
           <div className="bg-cv-secondary p-3 sm:p-5">
