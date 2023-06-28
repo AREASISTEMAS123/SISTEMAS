@@ -10,6 +10,14 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { Link } from 'react-router-dom';
 
 export const Sidebar = ({ isOpen }) => {
+  const rol = localStorage.getItem('rol');
+
+    // Función para verificar si el usuario tiene un rol específico
+    const hasRole = (targetRole) => {
+        return rol === targetRole;
+    };
+
+    
   const menuItems = [
     { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
     { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },

@@ -85,6 +85,7 @@ export const Login = () => {
                             setMsg(responseData.message);
                             localStorage.setItem('token', responseData.accessToken);
                             localStorage.setItem('iduser', responseData.user.id);
+                            localStorage.setItem('rol', responseData.rol);
                             localStorage.setItem('login', true);
                             navigate('/');
 
