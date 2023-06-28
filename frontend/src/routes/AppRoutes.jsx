@@ -30,6 +30,7 @@ function AppRoutes() {
             <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
             <Route path="/reportes" element={<VistaReportes />} />
             <Route path="/recuperarContraseña" element = {<OlvideContraseña/>}/>
+            <Route path="/evualiacionesColaborador" element={<EvaluacionesColaborador/>}/>
         </Routes>
     );
 }
