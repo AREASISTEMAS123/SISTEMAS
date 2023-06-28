@@ -42,10 +42,12 @@ class PasswordResetRequest extends Notification
     {
 
         $url = url('/api/password/find/'.$this->token);
+        $localhostUrl = 'http://localhost:5173/RestablecerContraseña?token=' . $this->token;
+
         return (new MailMessage)
-                    ->line('Recibiste este correo porque recibimos una solicitud para cambiar contraseña de tu cuenta.')
-                    ->action('Reestablecer contraseña', url($url))
-                    ->line('Si no solicitó un restablecimiento de contraseña, no se requiere ninguna otra acción.');
+            ->line('Recibiste este correo porque recibimos una solicitud para cambiar la contraseña de tu cuenta.')
+            ->action('Reestablecer contraseña', $localhostUrl)
+            ->line('Si no solicitaste un restablecimiento de contraseña, no se requiere ninguna otra acción.');
     }
 
     /**
