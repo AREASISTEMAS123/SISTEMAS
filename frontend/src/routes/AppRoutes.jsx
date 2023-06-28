@@ -10,7 +10,7 @@ import {
     AdmiJustificacion,
     DetalleCumpleanos,
     JustificacionColaborador,
-    
+    EvaluacionesColaborador
 } from "../components";
 import { VistaReportes } from "../Components/VistaReportes";
 
@@ -29,6 +29,7 @@ function AppRoutes() {
             <Route path="/homeColaborador" element={<VistaHomeColaborador />} />
             <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
             <Route path="/reportes" element={<VistaReportes />} />
+            <Route path="/evaluacionescolaborador" element={<EvaluacionesColaborador/>} />
         </Routes>
     );
 }
