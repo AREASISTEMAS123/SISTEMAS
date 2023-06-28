@@ -97,7 +97,7 @@ class AuthController extends Controller
         $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
 
         if($role->role_id == '1'){
-            $name_role = 'Gerente';
+            $name_role = 'Gerencia';
             return response()->json([
                 'message' => 'Hi'.$user->name,
                 'accessToken' => $token,
@@ -107,7 +107,7 @@ class AuthController extends Controller
                 'rol' => $name_role
             ]);
         }elseif($role->role_id == '2'){
-            $name_role = 'Lider de Departamento';
+            $name_role = 'Lider Departamento';
             return response()->json([
                 'message' => 'Hi'.$user->name,
                 'accessToken' => $token,
@@ -117,7 +117,7 @@ class AuthController extends Controller
                 'rol' => $name_role
             ]);
         }elseif($role->role_id == '3'){
-            $name_role = 'Lider de Área';
+            $name_role = 'Lider Área';
             return response()->json([
                 'message' => 'Hi'.$user->name,
                 'accessToken' => $token,

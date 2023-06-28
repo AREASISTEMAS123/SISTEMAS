@@ -22,7 +22,7 @@ class ProfileController extends Controller
             $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
 
         if ($role->role_id == '1'){
-            $name_role = 'Gerente';
+            $name_role = 'Gerencia';
             return response()->json([
                     "Usuario"=>$profile,
                     "Asistencia" => $attendance,
@@ -40,7 +40,7 @@ class ProfileController extends Controller
                 "Justificaciones" => $justification,
                 'rol' => $name_role]);
         }elseif ($role->role_id == '2'){
-            $name_role = 'Lider de Departamento';
+            $name_role = 'Lider Departamento';
             return response()->json([
                 "Usuario"=>$profile,
                 "Asistencia" => $attendance,
@@ -49,7 +49,7 @@ class ProfileController extends Controller
                 "Justificaciones" => $justification,
                 'rol' => $name_role]);
         }elseif ($role->role_id == '3'){
-            $name_role = 'Lider de Area';
+            $name_role = 'Lider Area';
             return response()->json([
                 "Usuario"=>$profile,
                 "Asistencia" => $attendance,
