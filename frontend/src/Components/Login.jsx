@@ -16,7 +16,8 @@ export const Login = () => {
     const [error, setError] = useState('');
     const [msg, setMsg] = useState('');
     const [captchaCompleted, setCaptchaCompleted] = useState(false);
-
+    const [captchaError, setCaptchaError] = useState('');
+    const [captchaValue, setCaptchaValue] = useState('');
     useEffect(() => {
         let login = localStorage.getItem("login");
         if (login) {
@@ -64,7 +65,9 @@ export const Login = () => {
                 };
                 var Data = {
                     username: username,
-                    password: password
+                    password: password,
+                    "captchaResponse": captchaValue
+
                 };
 
                 try {
@@ -84,9 +87,11 @@ export const Login = () => {
                             localStorage.setItem('iduser', responseData.user.id);
                             localStorage.setItem('login', true);
                             navigate('/');
+
                         }
                     } else {
                         setError(responseData.message);
+                        
                     }
                 } catch (err) {
                     setError(err.toString());
@@ -104,8 +109,10 @@ export const Login = () => {
         navigate("/OlvideContraseña")
     }
 
-    const onRecaptchaChange = () => {
+    const onRecaptchaChange = (value) => {
+        setCaptchaValue(value);
         setCaptchaCompleted(true);
+        setCaptchaError('');
     }
 
     return (
@@ -165,6 +172,11 @@ export const Login = () => {
                                     ) : (
                                         <span className="text-green-400">{msg.toString()}</span>
                                     )}
+                                    {error["g-recaptcha-response"] && (
+                                        <span className="text-violet-900">
+                                            {error["g-recaptcha-response"].toString()}
+                                        </span>
+                                    )}
                                 </p>
                                 <form className="space-y-4 md:space-y-6">
                                     <div>
@@ -211,11 +223,15 @@ export const Login = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <ReCAPTCHA
+                                    <ReCAPTCHA
                                             sitekey={SITE_KEY}
                                             onChange={onRecaptchaChange}
-                                            className="mt-4"
+                                            onExpired={() => setCaptchaCompleted(false)}
+                                            onErrored={() => setCaptchaError('Hubo un error en el captcha.')}
                                         />
+                                        {captchaError && (
+                                            <span className="text-red-500">{captchaError}</span>
+                                        )}
                                     </div>
                                     <div>
                                         <button

@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export const RestablecerContraseña = () => {
   const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ export const RestablecerContraseña = () => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      //CONTRASEÑAS COINCIDEN
+      //CONTRASEÑAS
       setPasswordMatch(true);
       setIsLoading(true);
 
@@ -64,20 +64,27 @@ export const RestablecerContraseña = () => {
       setSuccessMessage('');
     }
   };
-
   useEffect(() => {
     const obtenerInformacionRestablecimiento = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/password/find/${'XCBlkxu7Nzdw83zVYwPw7z7v7i0N8PkAgafBZYFU8koqCxxnuokMfKGsB8A0'}`);
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (!token) {
+          setErrorMessage('No se pudo obtener la información del restablecimiento de contraseña');
+          return;
+        }
+
+        const response = await fetch(`http://127.0.0.1:8000/api/password/find/${token}`);
         const data = await response.json();
+
         if (response.ok) {
           setPasswordResetInfo(data);
+          setErrorMessage('');
         } else {
-          // Manejar el caso en el que no se puede obtener la información del objeto PasswordReset
           setErrorMessage('No se pudo obtener la información del restablecimiento de contraseña');
         }
       } catch (error) {
-        // Manejar el error de la solicitud
         console.error('Ocurrió un error', error);
         setErrorMessage('Un error ha ocurrido mientras se obtenía la información del restablecimiento de contraseña');
       }
@@ -85,6 +92,8 @@ export const RestablecerContraseña = () => {
 
     obtenerInformacionRestablecimiento();
   }, []);
+
+
 
   return (
     <form className="w-full max-w-sm" onSubmit={handleFormSubmit}>
@@ -131,7 +140,8 @@ export const RestablecerContraseña = () => {
           <button
             className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="submit"
-            disabled={isLoading}>
+            disabled={isLoading}
+          >
             Restablecer contraseña
           </button>
         </div>
