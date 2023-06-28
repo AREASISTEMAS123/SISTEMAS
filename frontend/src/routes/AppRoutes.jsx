@@ -14,6 +14,7 @@ import {
 } from "../components";
 import { VistaReportes } from "../Components/VistaReportes";
 import {OlvideContraseña} from "../Components/OlvideContraseña"
+import {RestablecerContraseña} from "../Components/RestablecerContraseña"
 function AppRoutes() {
     return (
         <Routes>
@@ -29,7 +30,8 @@ function AppRoutes() {
             <Route path="/homeColaborador" element={<VistaHomeColaborador />} />
             <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
             <Route path="/reportes" element={<VistaReportes />} />
-            <Route path="/recuperarContraseña" element = {<OlvideContraseña/>}/>
+            <Route path="/OlvideContraseña" element = {<OlvideContraseña/>}/>
+            <Route path="/RestablecerContraseña" element = {<RestablecerContraseña/>}/>
         </Routes>
     );
 }
