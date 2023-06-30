@@ -204,6 +204,7 @@ export const Topbar = ({ toggleSidebar }) => {
     agregarTarea()
   }
 
+  const rol = localStorage.getItem('rol');
 
   return (
     <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center z-50">
@@ -236,7 +237,7 @@ export const Topbar = ({ toggleSidebar }) => {
           </button>
           <div>
             <p className="text-2xl font-medium text-white">Bonnie Green</p>
-            <p className="text-lg font-normal text-teal-300">Administrador</p>
+            <p className="text-lg font-normal text-teal-300">{rol}</p>
           </div>
           <button onClick={showMenuUser} className="outline-none">
             <img
