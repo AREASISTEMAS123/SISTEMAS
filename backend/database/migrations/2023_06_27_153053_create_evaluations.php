@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('profiles');
-            $table->integer('model_type');
             $table->timestamps();
         });
     }

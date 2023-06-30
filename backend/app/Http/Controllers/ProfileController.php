@@ -30,15 +30,6 @@ class ProfileController extends Controller
                     "Tardanzas" => $delay,
                     "Justificaciones" => $justification,
                     'rol' => $name_role]);
-        }if ($role->role_id == '1'){
-            $name_role = 'Gerente';
-            return response()->json([
-                "Usuario"=>$profile,
-                "Asistencia" => $attendance,
-                "Faltas" => $absence,
-                "Tardanzas" => $delay,
-                "Justificaciones" => $justification,
-                'rol' => $name_role]);
         }elseif ($role->role_id == '2'){
             $name_role = 'Lider Departamento';
             return response()->json([

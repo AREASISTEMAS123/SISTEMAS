@@ -67,15 +67,16 @@ class AuthController extends Controller
         $rules = array(
             'username' => 'required|string',
             'password' => 'required|string',
-           'g-recaptcha-response' => 'required|captcha',
+        //   'g-recaptcha-response' => 'required|captcha',
         );
         $messages = array(
             'username.required' => 'Por favor ingrese el usuario',
              'password.required' => 'Por favor ingrese la contraseña',
-            'g-recaptcha-response' => [
+        /*    'g-recaptcha-response' => [
               'required' => 'Please verify that you are not a robot.',
-               'captcha' => 'Captcha error! try again later or contact site admin.',]
+               'captcha' => 'Captcha error! try again later or contact site admin.',]*/
             );
+
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()){
             $messages=$validator->messages();
@@ -117,7 +118,7 @@ class AuthController extends Controller
                 'rol' => $name_role
             ]);
         }elseif($role->role_id == '3'){
-            $name_role = 'Lider Área';
+            $name_role = 'Lider Area';
             return response()->json([
                 'message' => 'Hi'.$user->name,
                 'accessToken' => $token,
