@@ -98,6 +98,13 @@ export default function TablaListaColaboradores({data }) {
 		setPage(0);
 	};
 
+	const roleNames = {
+		1: 'Gerencia',
+		2: 'Lider Departamento',
+		3: 'Lider Area',
+		4: 'Colaborador',
+	};
+
 	return (
 		<>
 			<div className='bg-white rounded-md overflow-hidden'>
@@ -137,7 +144,7 @@ export default function TablaListaColaboradores({data }) {
 									<TableCell align="left" className='whitespace-nowrap'>{users.responsible}</TableCell>
 									<TableCell align="right" className='whitespace-nowrap'>{users.date_start}</TableCell>
 									<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
-									<TableCell align="right">{users.dni}</TableCell>
+									<TableCell align="right">{roleNames[users.role[0].role_id]}</TableCell>
 									<TableCell align="right">{users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell>
 									<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 										<div className='flex items-center justify-center flex-row space-x-2'>
