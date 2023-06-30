@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
 {
-    
+
     public function getEvaluation()
 {
     $evaluations = Evaluation::join('users', 'evaluations.user_id', '=', 'users.id')
@@ -29,19 +29,19 @@ class EvaluationController extends Controller
                 'updated_at' => $evaluation->updated_at,
             ];
         });
-      
+
     return response()->json($evaluations, 200);
 }
 
 
-    
+
 public function getEvaluationbyid($evaluationId)
 {
     $evaluation = Evaluation::join('users', 'evaluations.user_id', '=', 'users.id')
         ->select('evaluations.id', 'evaluations.user_id', 'users.id as user_id', 'users.name', 'users.email', 'evaluations.model_type', 'evaluations.created_at', 'evaluations.updated_at')
         ->where('evaluations.id', $evaluationId)
         ->first();
-      
+
     if ($evaluation) {
         $result = [
             'id' => $evaluation->id,
@@ -60,15 +60,15 @@ public function getEvaluationbyid($evaluationId)
     }
 }
 
-    
+
 
     public function insertEvaluation(Request $request){
-        $Evaluation = evaluations::create($request->all());
+        $Evaluation = Evaluation::create($request->all());
         return response($Evaluation,201);
     }
 
     public function updateEvaluation(Request $request,$id){
-        $Evaluation = evaluations::find($id);
+        $Evaluation = Evaluation::find($id);
         if(is_null($Evaluation)){
             return response()->json(['Mensaje'=>'No encontrado'],404);
         }
