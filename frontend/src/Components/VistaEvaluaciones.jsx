@@ -108,7 +108,8 @@ export const VistaEvaluaciones = () => {
 
 	return (
 		<>
-			<section>
+		<div className='h-screen'>
+		<section>
 				<div className="text-center my-4">
 					<h2 className="text-2xl md:text-5xl text-white font-bold uppercase">Evaluaciones</h2>
 				</div>
@@ -367,6 +368,7 @@ export const VistaEvaluaciones = () => {
 				</>
 			) : null}
 
+		</div>
 		</>
 	)
 }

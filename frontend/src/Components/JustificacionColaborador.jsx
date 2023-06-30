@@ -40,8 +40,8 @@ export const JustificacionColaborador = () => {
 
     return (
         <>
-            
-                <h1 className="my-2 text-center font-semibold text-4xl text-white">Justificación</h1>
+            <div className="h-screen">
+            <h1 className="my-2 text-center font-semibold text-4xl text-white">Justificación</h1>
                 <button
                     type="button"
                     className="px-3 py-2 text-xs font-medium text-center text-white border-2 rounded-md my-4 mx-5 block"
@@ -57,7 +57,7 @@ export const JustificacionColaborador = () => {
                 {card.map((cardData, index) => (
                     <div className="mx-5 my-2" key={index}>
                         {/* Contenido de la tarjeta */}
-                        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                        <div className="w-full  max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                             <div className="flex-col items-center">
                                 <img
                                     className="inline-block w-24 h-24 my-1 mx-3 rounded-full shadow-lg"
@@ -172,6 +172,9 @@ export const JustificacionColaborador = () => {
                         </div>
                     </div>
                 )}
+
+            </div>
+                
             
         </>
     );

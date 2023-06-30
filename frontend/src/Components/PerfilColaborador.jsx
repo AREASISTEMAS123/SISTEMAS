@@ -8,7 +8,7 @@ export const PerfilColaborador = () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/profile", {
           headers: {
-            Authorization: "Bearer 1|JBcm3wjhcL9arL106z3tpA4cFzsFwfL5J5uj4FYI"
+            Authorization: `Bearer ${localStorage.getItem("token")}`
           }
         });
         const data = await response.json();
@@ -22,7 +22,7 @@ export const PerfilColaborador = () => {
           perfil: usuario.profile_name,
           dni: usuario.dni,
           turno: usuario.shift,
-          rol: "Colaborador",
+          rol: data.rol,
           ingreso: usuario.date_start,
           nacimiento: usuario.birthday,
           responsable: usuario.responsible,

@@ -118,7 +118,7 @@ export const Login = () => {
 
     return (
         <>
-            <div className="">
+            <div className="flex justify-center items-center h-screen">
                 <div className="grid grid-cols-2 bg-white rounded-lg  ">
                     <div className="p-5 rounded-lg">
                         <div className="bg-slate-800 rounded-md p-2 w-[80%] md:w-[70%] mx-auto">

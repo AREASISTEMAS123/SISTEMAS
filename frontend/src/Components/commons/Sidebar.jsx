@@ -22,13 +22,13 @@ export const Sidebar = ({ isOpen }) => {
     };
 
   const menuItems = [
-    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon />, requiredRoles: ["Colaborador", "Lider Área", "Gerencia", "Lider Departamento"]},
+    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon />, requiredRoles: ["Colaborador", "Lider Area", "Gerencia", "Lider Departamento"]},
     { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon />, requiredRoles: ["Gerencia", "Lider Departamento"]},
-    { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon />, requiredRoles: ["Colaborador", "Lider Área", "Lider Departamento"] },
-    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon />, requiredRoles: ["Colaborador", "Lider Área", "Gerencia", "Lider Departamento"] },
-    { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon />, requiredRoles: ["Colaborador", "Lider Área"] },
-    { route: "justificacion", title: "Justificacion", icon: <BalanceIcon />, requiredRoles: ["Colaborador", "Lider Área", "Lider Departamento"] },
-    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon />, requiredRoles: ["Gerencia", "Lider Área", "Lider Departamento"] },
+    { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon />, requiredRoles: ["Colaborador", "Lider Area", "Lider Departamento"] },
+    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon />, requiredRoles: ["Colaborador", "Lider Area", "Gerencia", "Lider Departamento"] },
+    { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon />, requiredRoles: ["Colaborador", "Lider Area"] },
+    { route: "justificacion", title: "Justificacion", icon: <BalanceIcon />, requiredRoles: ["Colaborador", "Lider Area", "Lider Departamento"] },
+    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon />, requiredRoles: ["Gerencia", "Lider Area", "Lider Departamento"] },
     { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon />, requiredRoles: ["Gerencia", "Lider Departamento"] },
     { route: "asistencias", title: "Asistencias", icon: <ChecklistIcon />, requiredRoles: ["Gerencia", "Lider Departamento"] },
     { route: "reportes", title: "Reportes", icon: <TrendingUpIcon />, requiredRoles: ["Gerencia", "Lider Departamento"] },
