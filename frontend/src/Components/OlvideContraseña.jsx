@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const OlvideContraseña = () => {
   const [email, setEmail] = useState('');
   const [correoEnviado, setCorreoEnviado] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [showMessageWait, setShowMessageWait] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -28,6 +31,8 @@ export const OlvideContraseña = () => {
         const data = await response.json();
         setCorreoEnviado(true);
         setError(null);
+        setIsButtonDisabled(true);
+      
       } else {
         const errorData = await response.json();
         setError(new Error(errorData.message));
@@ -40,6 +45,20 @@ export const OlvideContraseña = () => {
 
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (correoEnviado) {
+      setIsButtonDisabled(true);
+      setShowMessage(false);
+      setShowMessageWait(true);
+      setTimeout(() => {
+        setCorreoEnviado(false);
+        setIsButtonDisabled(false);
+        setShowMessage(true);
+        setShowMessageWait(false);
+      }, 30000);
+    }
+  }, [correoEnviado]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -69,6 +88,7 @@ export const OlvideContraseña = () => {
                   <button
                     className="bg-blue-500 text-white rounded-md px-2 py-1"
                     onClick={handleSubmit}
+                    disabled={isButtonDisabled}
                   >
                     Enviar
                   </button>
@@ -76,6 +96,19 @@ export const OlvideContraseña = () => {
                 {isLoading && <p className="text-black">Cargando...</p>}
                 {error && <p className="text-red-500">Error: {error.message}</p>}
                 {correoEnviado && !error && <p className="text-black">Correo enviado correctamente.</p>}
+                {showMessage && <p className="text-green-500">Puede volver a utilizar el botón de enviar.</p>}
+                {showMessageWait && <p>
+                  <span className='text-sm'> Recomendaciones: </span>
+
+                  <ul className='text-sm'>
+                    <li>
+                      Revisa en tu carpeta Spam
+                    </li>
+                    <li>
+                      Si deseas volver a mandar el correo debes esperar 30 segundos
+                    </li>
+                  </ul>
+                </p>}
               </div>
             </div>
           </div>
