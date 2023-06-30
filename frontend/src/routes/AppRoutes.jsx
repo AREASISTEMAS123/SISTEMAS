@@ -15,6 +15,7 @@ import {
     OlvideContraseña,
     RestablecerContraseña
 } from "../components";
+import { VistaReportes } from "../components/VistaReportes";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -47,28 +48,35 @@ const AppRoutes = () => {
                     <Route path="/asistencia" element={<RegistroAsistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
                     <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
+                    <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
                 </>
             )}
 
             {hasRole('Lider Departamento') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
+                    <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
                     <Route path="/perfil" element={<PerfilColaborador />} />
                     <Route path="/asistencia" element={<RegistroAsistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
+                    <Route path="/justificaciones" element={<AdmiJustificacion />} />
                     <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
+                    <Route path="/asistencias" element={<AsistenciaAdmin />} />
+                    <Route path="/reportes" element={<VistaReportes/>}/>
                 </>
             )}
 
             {hasRole('Gerencia') && (
                 <>
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
-                    <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
-                    <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
-                    <Route path="/asistenciaAdmin" element={<AsistenciaAdmin />} />
-                    <Route path="/justificacion" element={<AdmiJustificacion />} />
                     <Route path="/colaboradores" element={<VistaAdminColaborador />} />
+                    <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
+                    <Route path="/perfil" element={<PerfilColaborador />} />
+                    <Route path="/justificaciones" element={<AdmiJustificacion />} />
+                    <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
+                    <Route path="/asistencias" element={<AsistenciaAdmin />} />
+                    <Route path="/reportes" element={<VistaReportes/>}/>
                 </>
             )}
 
