@@ -7,27 +7,38 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import BalanceIcon from "@mui/icons-material/Balance";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
 export const Sidebar = ({ isOpen }) => {
   const rol = localStorage.getItem('rol');
 
     // Función para verificar si el usuario tiene un rol específico
-    const hasRole = (targetRole) => {
-        return rol === targetRole;
+    const hasRole = (targetRoles) => {
+      if (!Array.isArray(targetRoles)) {
+        targetRoles = [targetRoles];
+      }
+      return targetRoles.includes(rol);
     };
 
-    
   const menuItems = [
-    { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
-    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
-    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon /> },
-    { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon /> },
-    { route: "asistencia", title: "Asistencias", icon: <ChecklistIcon /> },
-    { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
-    { route: "asistenciaAdmin", title: "AsistenciaAdmin", icon: <TrendingUpIcon /> },
+    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon />, requiredRoles: ["Colaborador", "Lider Área", "Gerencia", "Lider Departamento"]},
+    { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon />, requiredRoles: ["Gerencia", "Lider Departamento"]},
+    { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon />, requiredRoles: ["Colaborador", "Lider Área", "Lider Departamento"] },
+    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon />, requiredRoles: ["Colaborador", "Lider Área", "Gerencia", "Lider Departamento"] },
+    { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon />, requiredRoles: ["Colaborador", "Lider Área"] },
+    { route: "justificacion", title: "Justificacion", icon: <BalanceIcon />, requiredRoles: ["Colaborador", "Lider Área", "Lider Departamento"] },
+    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon />, requiredRoles: ["Gerencia", "Lider Área", "Lider Departamento"] },
+    { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon />, requiredRoles: ["Gerencia", "Lider Departamento"] },
+    { route: "asistencias", title: "Asistencias", icon: <ChecklistIcon />, requiredRoles: ["Gerencia", "Lider Departamento"] },
+    { route: "reportes", title: "Reportes", icon: <TrendingUpIcon />, requiredRoles: ["Gerencia", "Lider Departamento"] },
 
   ];
+
+  const filteredMenuItems = menuItems.filter(menu => {
+    // Verificar si el usuario tiene el rol requerido para el menú actual
+    return hasRole(menu.requiredRoles);
+  });
 
   return (
     <nav className={`${isOpen ? "w-60" : "w-20"} h-screen duration-300`}>
@@ -45,7 +56,7 @@ export const Sidebar = ({ isOpen }) => {
           />
         </div>
         <div className="py-4 space-y-4">
-          {menuItems.map((menu, index) => (
+          {filteredMenuItems.map((menu, index) => (
             <Link
               key={index}
               to={`/${menu.route}`}
