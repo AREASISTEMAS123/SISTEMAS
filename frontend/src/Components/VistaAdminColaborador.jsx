@@ -1,15 +1,112 @@
+import { useEffect, useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
 import TablaListaColaboradores from "./commons/TablaListaColaboradores";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useEffect, useState } from "react";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+
+
 export const VistaAdminColaborador = () => {
   const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
 
+  const [showAlert, setShowAlert] = useState(false);
+  const [message, setMessage] = useState('');
+  const [mensajeError, setMensajeError] = useState('');
+
+
+  // Usesate de campos a insertar
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [profile, setProfile] = useState('');
+  const [dni, setDni] = useState('');
+  const [department, setDepartment] = useState('');
+  const [area, setArea] = useState('');
+  const [shift, setShift] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [dateStart, setDateStart] = useState('');
+  const [responsible, setResponsible] = useState('');
+
+
+
   const apiURL = "http://127.0.0.1:8000/api";
   const Token = localStorage.getItem("token");
 
+  // Registrar Usuario
+  const registrarUsuario = () => {
+    if (
+      name.trim() === '' ||
+      surname.trim() === '' ||
+      email.trim() === '' ||
+      profile.trim() === '' ||
+      dni.trim() === '' ||
+      department.trim() === '' ||
+      area.trim() === '' ||
+      shift.trim() === '' ||
+      birthday.trim() === '' ||
+      dateStart.trim() === '' ||
+      responsible.trim() === ''
+    ) {
+      setShowModal(true),
+        setMensajeError('Rellene todos los campos');
+      return;
+    }
+
+    const url = apiURL + '/users/register';
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        surname: surname,
+        email: email,
+        profile_name: profile,
+        dni: dni,
+        department: department,
+        area: area,
+        shift: shift,
+        birthday: birthday,
+        date_start: dateStart,
+        responsible: responsible,
+      }),
+    })
+      .then(response => {
+        if (response.ok) {
+          setShowAlert(true);
+          setMessage('Usuario agregado exitosamente');
+          //Limpiar Formulario
+          setName('');
+          setSurname('');
+          setEmail('');
+          setProfile('');
+          setDni('');
+          setDepartment('');
+          setArea('');
+          setShift('');
+          setBirthday('');
+          setDateStart('');
+          setResponsible('');
+          
+          setMensajeError('');
+          ListarUsuarios();
+        } else {
+          throw new Error('Error al guardar los datos');
+        }
+      })
+      .catch(error => {
+        setShowAlert(true);
+        setMessage(`Error al agregar usuario: ${error}`);
+      });
+  };
+
+
+
+  // Listar Colaboradores
   useEffect(() => {
     ListarUsuarios();
   }, []);
@@ -27,6 +124,44 @@ export const VistaAdminColaborador = () => {
       console.log("Error al obtener los usuarios:", error);
     }
   };
+
+
+  //Eliminar Usuario
+  const eliminarUsuario = (userId) => {
+    const url = apiURL + `/users/delete/${userId}`;
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Token}`
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          setMessage('Usuario eliminado exitosamente');
+          setShowAlert(true);
+          setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+        } else {
+          throw new Error('Error al eliminar usuario');
+        }
+      })
+      .catch(error => {
+        setMessage(`Error al eliminar usuario: ${error}`);
+        setShowAlert(true);
+      });
+  };
+
+
+
+
+  //Agregar Colaborador
+  const AddUser = () => {
+    setShowModal(false),
+      setShowAlert(false),
+      registrarUsuario()
+    console.log(registrarUsuario)
+  }
 
   return (
     <>
@@ -83,10 +218,51 @@ export const VistaAdminColaborador = () => {
               </div>
             </div>
             <div>
-              <TablaListaColaboradores data={users} />
+              <TablaListaColaboradores data={users} deleteUser={eliminarUsuario} />
             </div>
           </div>
         </section>
+
+        {showAlert ? (
+          <div>
+            <div
+              className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            >
+              <div className="relative w-96 my-6 mx-auto max-w-3xl border-2 border-white p-1 rounded-lg rotate-[5deg]">
+
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
+                  <div className="relative p-6 flex-auto">
+                    <div className='space-y-2 flex flex-col items-center'>
+                      <div className='w-full flex items-center justify-center text-green-500 text-x'>
+                        {message === 'Usuario agregado exitosamente' || message === 'Datos de usuario modificado exitosamente' || message === 'Usuario eliminado exitosamente' ? (
+                          <CheckCircleIcon className="text-green-500" sx={{ fontSize: 96 }} />
+                        ) : (
+                          <ErrorIcon className="text-red-500" sx={{ fontSize: 96 }} />
+                        )}
+                      </div>
+                      <div className='w-full flex items-center justify-center text-gray-950'>
+                        {message && <h3 className="text-3xl font-bold text-center">{message}</h3>}
+                      </div>
+                    </div>
+
+                  </div>
+                  <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
+
+                    <button
+                      className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setShowAlert(false)}
+                    >
+                      Cerrar
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </div>
+        ) : null}
 
         {showModal ? (
           <div>
@@ -111,6 +287,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="names"
+                            value={name} onChange={(e) => setName(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresar nombres completos"
                           />
@@ -125,6 +302,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="lastname"
+                            value={surname} onChange={e => setSurname(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresar ambos apellidos"
                           />
@@ -139,6 +317,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="dni"
+                            value={dni} onChange={e => setDni(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresar número de DNI"
                           />
@@ -152,8 +331,8 @@ export const VistaAdminColaborador = () => {
                           </label>
                           <input
                             type="date"
-                            name=""
                             id="birthday"
+                            value={birthday} onChange={e => setBirthday(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                           />
                         </div>
@@ -167,6 +346,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="email"
                             id="email"
+                            value={email} onChange={e => setEmail(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresa el e-mail"
                           />
@@ -181,6 +361,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="departament"
+                            value={department} onChange={e => setDepartment(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresa el departamento"
                           />
@@ -197,6 +378,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="area"
+                            value={area} onChange={e => setArea(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresa el area"
                           />
@@ -211,6 +393,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="profile"
+                            value={profile} onChange={e => setProfile(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresa el perfil"
                           />
@@ -224,6 +407,7 @@ export const VistaAdminColaborador = () => {
                           </label>
                           <select
                             id="rol"
+                            value={shift} onChange={e => setShift(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                           >
                             <option>Selecciona</option>
@@ -241,6 +425,7 @@ export const VistaAdminColaborador = () => {
                           <input
                             type="text"
                             id="responsable"
+                            value={responsible} onChange={e => setResponsible(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                             placeholder="Ingresa el nombre completo"
                           />
@@ -254,8 +439,8 @@ export const VistaAdminColaborador = () => {
                           </label>
                           <input
                             type="date"
-                            name=""
                             id="startDate"
+                            value={dateStart} onChange={e => setDateStart(e.target.value)}
                             className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
                           />
                         </div>
@@ -292,6 +477,7 @@ export const VistaAdminColaborador = () => {
                         <input id="fileImage" type="file" className="sr-only" />
                       </label>
                     </div>
+                    <p className='text-red-500 font-semibold'>{mensajeError}</p>
                   </div>
                   <div className="flex flex-col md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b space-y-2 md:space-x-4 md:space-y-0">
                     <button
@@ -303,7 +489,7 @@ export const VistaAdminColaborador = () => {
                     </button>
                     <button
                       className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
-                      type="button"
+                      type="button" onClick={AddUser}
                     >
                       Guardar
                     </button>
@@ -314,6 +500,7 @@ export const VistaAdminColaborador = () => {
             <div className="opacity-25 fixed inset-0 z-20 bg-black"></div>
           </div>
         ) : null}
+
       </div>
     </>
   );

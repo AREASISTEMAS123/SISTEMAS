@@ -81,8 +81,9 @@ TablePaginationActions.propTypes = {
 };
 TablaListaColaboradores.propTypes = {
 	data: PropTypes.array.isRequired,
+	deleteUser: PropTypes.func.isRequired,
 };
-export default function TablaListaColaboradores({data }) {
+export default function TablaListaColaboradores({ data, deleteUser }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -104,6 +105,11 @@ export default function TablaListaColaboradores({data }) {
 		3: 'Lider Area',
 		4: 'Colaborador',
 	};
+
+	const handleDeleteButtonClick = (card) => {
+		deleteUser(card)
+	}
+	
 
 	return (
 		<>
@@ -148,10 +154,10 @@ export default function TablaListaColaboradores({data }) {
 									<TableCell align="right">{users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell>
 									<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 										<div className='flex items-center justify-center flex-row space-x-2'>
-											<button className='p-2 border rounded-md'>
+											<button className='p-2 border rounded-md' >
 												<EditIcon className="mr-1 text-green-500" />
 											</button>
-											<button className='p-2 border rounded-md'>
+											<button className='p-2 border rounded-md' onClick={() => handleDeleteButtonClick(users.id)}>
 												<DeleteIcon className="ml-1 text-red-500" />
 											</button>
 										</div>
