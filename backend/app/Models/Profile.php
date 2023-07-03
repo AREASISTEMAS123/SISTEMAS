@@ -25,7 +25,9 @@ class Profile extends Model
 
         return $this->hasMany(User::class, 'id', 'user_id');
     }
-
+    public function media(){
+        return $this->hasOne(Media::class,'model_id', 'id');
+    }
     public function tasks(){
         return $this->hasMany(UserTask::class, 'user_id', 'id');
     }

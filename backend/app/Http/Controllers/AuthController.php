@@ -32,6 +32,7 @@ class AuthController extends Controller
             'birthday' => 'date',
             'date_start' => 'required|date',
             'responsible' => 'required|string|max:255',
+            'avatar' => 'required|mimes:jpg,jpeg,png'
             ]);
         if($validator->fails()){
             return response()->json($validator->errors());
@@ -56,6 +57,8 @@ class AuthController extends Controller
             'date_start' => $request->date_start,
             'responsible' => $request->responsible,
         ]);
+
+        $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
 
         $token = $user->createToken('auth_token')->plainTextToken;
         event(new Registered($user));
@@ -96,6 +99,7 @@ class AuthController extends Controller
         $profile = Profile::where('dni',$request['username'])->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
         $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
+        $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
 
         if($role->role_id == '1'){
             $name_role = 'Gerencia';
@@ -105,7 +109,8 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user,
                 'profile' => $profile,
-                'rol' => $name_role
+                'rol' => $name_role,
+                'avatar' =>$img
             ]);
         }elseif($role->role_id == '2'){
             $name_role = 'Lider Departamento';
@@ -115,7 +120,8 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user,
                 'profile' => $profile,
-                'rol' => $name_role
+                'rol' => $name_role,
+                'avatar' =>$img
             ]);
         }elseif($role->role_id == '3'){
             $name_role = 'Lider Area';
@@ -125,7 +131,8 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user,
                 'profile' => $profile,
-                'rol' => $name_role
+                'rol' => $name_role,
+                'avatar' =>$img
             ]);
         }else{
             $name_role = 'Colaborador';
@@ -135,7 +142,8 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user,
                 'profile' => $profile,
-                'rol' => $name_role
+                'rol' => $name_role,
+                'avatar' =>$img
             ]);
         }
 

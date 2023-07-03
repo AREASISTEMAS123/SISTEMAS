@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Attendance;
+use App\Models\Media;
 use App\Models\Model_has_role;
 use App\Models\Profile;
 use App\Models\User;
@@ -32,6 +33,7 @@ class usercontroller extends Controller
         $delay = Attendance::all()->where('user_id', $id)->where("delay", "1")->count();
         $justification = Attendance::all()->where('user_id', $id)->where("justification", "1")->count();
         $role = Model_has_role::where('model_id', $id)->firstOrFail();
+        $img = User::with('media')->where('id', $id)->first()->getMedia('avatars');
 
         if ($role->role_id == '1'){
             $name_role = 'Gerencia';
@@ -42,7 +44,8 @@ class usercontroller extends Controller
                 "Faltas" => $absence,
                 "Tardanzas" => $delay,
                 "Justificaciones" => $justification,
-                'rol' => $name_role], 200);
+                'rol' => $name_role,
+                'avatar' => $img], 200);
         }elseif ($role->role_id == '2'){
         $name_role = 'Lider Departamento';
 
@@ -52,7 +55,8 @@ class usercontroller extends Controller
             "Faltas" => $absence,
             "Tardanzas" => $delay,
             "Justificaciones" => $justification,
-            'rol' => $name_role], 200);
+            'rol' => $name_role,
+            'avatar' => $img], 200);
         }elseif ($role->role_id == '3'){
         $name_role = 'Lider Area';
 
@@ -62,7 +66,8 @@ class usercontroller extends Controller
             "Faltas" => $absence,
             "Tardanzas" => $delay,
             "Justificaciones" => $justification,
-            'rol' => $name_role], 200);
+            'rol' => $name_role,
+            'avatar' => $img], 200);
          }else{
         $name_role = 'Colaborador';
 
@@ -72,7 +77,8 @@ class usercontroller extends Controller
             "Faltas" => $absence,
             "Tardanzas" => $delay,
             "Justificaciones" => $justification,
-            'rol' => $name_role], 200);
+            'rol' => $name_role,
+            'avatar' => $img], 200);
     }
 
     }

@@ -10,10 +10,24 @@ use Laravel\Sanctum\HasApiTokens;
 
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
+    use InteractsWithMedia;
+
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(50)
+            ->height(50);
+
+    }
     /**
      * The attributes that are mass assignable.
      *
