@@ -22,7 +22,7 @@ export const Login = () => {
     useEffect(() => {
         let login = localStorage.getItem("login");
         if (login) {
-            navigate("/");
+            navigate("/home");
         }
         let loginStatus = localStorage.getItem("loginStatus");
         if (loginStatus) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter  } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { Topbar } from './components/commons/Topbar';
 import { Sidebar } from './components/commons/Sidebar';
@@ -32,15 +32,19 @@ const App = () => {
     setIsLoggedIn(loginStatus === 'true');
   }, []);
 
-  const isInicioPage = location.pathname === '/*';
+  const isInicioPage = !(location.pathname === '/*' && isLoggedIn);
+
   const isLoginPage = location.pathname === '/login';
-  const isRecuperar = location.pathname ==='/recuperarContraseña'
+  const isRecuperar = location.pathname === '/recuperarContraseña';
+
   return (
     <BrowserRouter>
       <div className="flex h-screen w-full">
-        { !isMobile && !isLoginPage && isInicioPage && !isRecuperar && isLoggedIn &&<Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
+        {!isMobile && !isLoginPage && isInicioPage && !isRecuperar && isLoggedIn && (
+          <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        )}
         <div className="flex-grow flex-shrink flex-auto overflow-y-scroll">
-          {!isLoginPage  && !isRecuperar && isInicioPage && isLoggedIn &&(
+          {!isLoginPage && !isRecuperar && isInicioPage && isLoggedIn && (
             <Topbar toggleSidebar={toggleSidebar} />
           )}
           <div className="bg-cv-secondary p-3 sm:p-5">
