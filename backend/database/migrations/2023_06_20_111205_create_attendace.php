@@ -32,7 +32,7 @@ return new class extends Migration
         Schema::create('justifications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('attendances')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->date('justification_date');
             $table->string('reason');
             $table->string('evidence');
