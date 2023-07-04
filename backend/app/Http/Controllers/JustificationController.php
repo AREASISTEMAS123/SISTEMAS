@@ -49,5 +49,7 @@ class JustificationController extends Controller
         } catch (Exception $e){
                 DB::rollBack();
         }
+
+        return response()->json(['Datos' => $justification, 'messages' => 'La justificacion ha sido subido con exito']);
     }
 }
