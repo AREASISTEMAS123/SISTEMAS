@@ -7,6 +7,7 @@ import { Sidebar } from './components/commons/Sidebar';
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -26,15 +27,20 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const loginStatus = localStorage.getItem('login');
+    setIsLoggedIn(loginStatus === 'true');
+  }, []);
+
   const isInicioPage = location.pathname === '/*';
   const isLoginPage = location.pathname === '/login';
   const isRecuperar = location.pathname ==='/recuperarContraseña'
   return (
     <BrowserRouter>
       <div className="flex h-screen w-full">
-        {!isMobile && !isLoginPage && isInicioPage && !isRecuperar &&<Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
+        { !isMobile && !isLoginPage && isInicioPage && !isRecuperar && isLoggedIn &&<Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
         <div className="flex-grow flex-shrink flex-auto overflow-y-scroll">
-          {!isLoginPage  && !isRecuperar && isInicioPage &&(
+          {!isLoginPage  && !isRecuperar && isInicioPage && isLoggedIn &&(
             <Topbar toggleSidebar={toggleSidebar} />
           )}
           <div className="bg-cv-secondary p-3 sm:p-5">
