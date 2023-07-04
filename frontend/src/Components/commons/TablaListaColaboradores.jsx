@@ -86,7 +86,6 @@ TablaListaColaboradores.propTypes = {
 export default function TablaListaColaboradores({ data, deleteUser }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
@@ -109,7 +108,7 @@ export default function TablaListaColaboradores({ data, deleteUser }) {
 	const handleDeleteButtonClick = (card) => {
 		deleteUser(card)
 	}
-	
+
 
 	return (
 		<>
@@ -190,6 +189,7 @@ export default function TablaListaColaboradores({ data, deleteUser }) {
 						ActionsComponent={TablePaginationActions}
 					/>
 				</div>
+				
 			</div>
 		</>
 	);

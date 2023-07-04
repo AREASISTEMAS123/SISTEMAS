@@ -28,6 +28,7 @@ export const VistaAdminColaborador = () => {
   const [birthday, setBirthday] = useState('');
   const [dateStart, setDateStart] = useState('');
   const [responsible, setResponsible] = useState('');
+  const [avatar, setAvatar ] = useState('');
 
 
 
@@ -48,7 +49,7 @@ export const VistaAdminColaborador = () => {
       birthday.trim() === '' ||
       dateStart.trim() === '' ||
       responsible.trim() === ''
-    ) {
+    ){
       setShowModal(true),
         setMensajeError('Rellene todos los campos');
       return;
@@ -56,24 +57,24 @@ export const VistaAdminColaborador = () => {
 
     const url = apiURL + '/users/register';
 
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('surname', surname);
+    formData.append('email', email);
+    formData.append('profile_name', profile);
+    formData.append('dni', dni);
+    formData.append('department', department);
+    formData.append('area', area);
+    formData.append('shift', shift);
+    formData.append('birthday', birthday);
+    formData.append('date_start', dateStart);
+    formData.append('responsible', responsible);
+    formData.append('avatar', avatar);
+
     fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name,
-        surname: surname,
-        email: email,
-        profile_name: profile,
-        dni: dni,
-        department: department,
-        area: area,
-        shift: shift,
-        birthday: birthday,
-        date_start: dateStart,
-        responsible: responsible,
-      }),
+      
+      body: formData,
     })
       .then(response => {
         if (response.ok) {
@@ -91,6 +92,7 @@ export const VistaAdminColaborador = () => {
           setBirthday('');
           setDateStart('');
           setResponsible('');
+          setAvatar('');
           
           setMensajeError('');
           ListarUsuarios();
@@ -103,6 +105,11 @@ export const VistaAdminColaborador = () => {
         setMessage(`Error al agregar usuario: ${error}`);
       });
   };
+
+  const uploadFile = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+  }
 
 
 
@@ -459,10 +466,10 @@ export const VistaAdminColaborador = () => {
                           />
                           <div className="text-gray-600 text-center md:text-start">
                             <p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
-                              Seleccione un archivo o arrastre y suelte aquí
+                              {avatar ? avatar.name : "Seleccione un archivo o arrastre y suelte aquí"}
                             </p>
                             <p className="text-xs md:text-sm text-gray-500">
-                              JPG o PNG, máximo 10MB (800 X 800 px)
+                              {avatar ? '' : "JPG o PNG, máximo 10MB (800 X 800 px)"}
                             </p>
                           </div>
                           <button>
@@ -474,7 +481,7 @@ export const VistaAdminColaborador = () => {
                             </label>
                           </button>
                         </div>
-                        <input id="fileImage" type="file" className="sr-only" />
+                        <input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={uploadFile} />
                       </label>
                     </div>
                     <p className='text-red-500 font-semibold'>{mensajeError}</p>
