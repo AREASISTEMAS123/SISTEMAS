@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { RelojAnalogico } from "./commons/RelojAnalogico";
 import { useMediaQuery } from "@mui/material";
+import { toast } from "react-hot-toast"
 
 export const RegistroAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -45,6 +46,7 @@ export const RegistroAsistencia = () => {
       setMostrarBotonEntrada(false);
       setFotoUsuario(null);
       setFotoCapturada(null);
+      toast.success("Entrada marcada exitosamente");
     } else {
       setTardanza(true);
       setEntradaMarcada(true);
@@ -52,6 +54,7 @@ export const RegistroAsistencia = () => {
       setMostrarBotonEntrada(false);
       setFotoUsuario(null);
       setFotoCapturada(null);
+      toast.success("Entrada marcada exitosamente");
     }
   };
 
@@ -63,6 +66,7 @@ export const RegistroAsistencia = () => {
     setMostrarBotonSalida(false);
     setFotoUsuario(null);
     setFotoCapturada(null);
+    toast.success("Salida marcada exitosamente");
   };
 
   const reiniciarConteo = () => {

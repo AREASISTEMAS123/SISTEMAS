@@ -26,14 +26,15 @@ const App = () => {
     };
   }, []);
 
+  const isInicioPage = location.pathname === '/*';
   const isLoginPage = location.pathname === '/login';
   const isRecuperar = location.pathname ==='/recuperarContraseña'
   return (
     <BrowserRouter>
       <div className="flex h-screen w-full">
-        {!isMobile && !isLoginPage && !isRecuperar &&<Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
+        {!isMobile && !isLoginPage && isInicioPage && !isRecuperar &&<Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />}
         <div className="flex-grow flex-shrink flex-auto overflow-y-scroll">
-          {!isLoginPage  && !isRecuperar &&(
+          {!isLoginPage  && !isRecuperar && isInicioPage &&(
             <Topbar toggleSidebar={toggleSidebar} />
           )}
           <div className="bg-cv-secondary p-3 sm:p-5">

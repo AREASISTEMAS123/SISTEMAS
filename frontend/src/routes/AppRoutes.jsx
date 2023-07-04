@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
 import {
     Cumpleanos,
     Login,
@@ -27,10 +27,14 @@ const AppRoutes = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<VistaHomeColaborador />} />
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/OlvideContraseña" element={<OlvideContraseña/>}/>
+            <Route path="/RestablecerContraseña" element={<RestablecerContraseña/>}/>
 
             {hasRole('Colaborador') && (
                 <>
+                    <Route path="/home" element ={<VistaHomeColaborador />} />
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
                     <Route path="/perfil" element={<PerfilColaborador />} />
@@ -42,6 +46,7 @@ const AppRoutes = () => {
 
             {hasRole('Lider Area') && (
                 <>
+                    <Route path="/home" element ={<VistaHomeColaborador />} />
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
                     <Route path="/perfil" element={<PerfilColaborador />} />
@@ -54,6 +59,7 @@ const AppRoutes = () => {
 
             {hasRole('Lider Departamento') && (
                 <>
+                    <Route path="/home" element ={<VistaHomeColaborador />} />
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -69,6 +75,7 @@ const AppRoutes = () => {
 
             {hasRole('Gerencia') && (
                 <>
+                    <Route path="/home" element ={<VistaHomeColaborador />} />
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
@@ -80,12 +87,7 @@ const AppRoutes = () => {
                 </>
             )}
 
-            <Route path="/login" element={<Login />} />
-
-            {/* Ruta por defecto para usuarios con roles no definidos */}
             <Route path="/*" element={<Navigate to="/login" />} />
-            <Route path="/OlvideContraseña" element={<OlvideContraseña/>}/>
-            <Route path="/RestablecerContraseña" element={<RestablecerContraseña/>}/>
         </Routes>
     );
 };

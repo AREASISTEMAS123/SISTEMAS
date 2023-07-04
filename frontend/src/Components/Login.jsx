@@ -18,6 +18,7 @@ export const Login = () => {
     const [captchaCompleted, setCaptchaCompleted] = useState(false);
     const [captchaError, setCaptchaError] = useState('');
     const [captchaValue, setCaptchaValue] = useState('');
+
     useEffect(() => {
         let login = localStorage.getItem("login");
         if (login) {
@@ -117,7 +118,6 @@ export const Login = () => {
     }
 
     return (
-        <>
             <div className="flex justify-center items-center h-screen">
                 <div className="grid grid-cols-2 bg-white rounded-lg  ">
                     <div className="p-5 rounded-lg">
@@ -257,6 +257,5 @@ export const Login = () => {
                     </div>
                 </div>
             </div>
-        </>
     );
 };
