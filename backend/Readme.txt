@@ -22,7 +22,12 @@ MAIL_FROM_ADDRESS=name@gmail.com
 MAIL_FROM_NAME=name
 
 
-captcha:
-{!! NoCaptcha::renderJs() !!}
-{!! NoCaptcha::display() !!}
+Error.Log
 
+GD Library extension not available with this PHP installation:
+ingresa al panel de control de Xampp - en admin de Apache entrar en php.ini
+buscar "extension=gd" y quitar el ";" que tiene por delante luego reinicia el apache y mysql
+por ultimo ingresar los siguientes comando:
+php artisan route:clear
+php artisan cache:clear
+php artisan optimize:clear
