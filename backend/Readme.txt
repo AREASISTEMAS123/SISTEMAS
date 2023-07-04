@@ -24,10 +24,14 @@ MAIL_FROM_NAME=name
 
 Error.Log
 
-GD Library extension not available with this PHP installation:
+*GD Library extension not available with this PHP installation:*
 ingresa al panel de control de Xampp - en admin de Apache entrar en php.ini
 buscar "extension=gd" y quitar el ";" que tiene por delante luego reinicia el apache y mysql
 por ultimo ingresar los siguientes comando:
 php artisan route:clear
 php artisan cache:clear
 php artisan optimize:clear
+
+
+para subir archivos de justificacion - 
+Crear una carpeta en Public llamada "archivos"
