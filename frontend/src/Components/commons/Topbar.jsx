@@ -170,7 +170,7 @@ export const Topbar = ({ toggleSidebar }) => {
   function logoutSubmit() {
     localStorage.setItem("login", "");
     localStorage.setItem("loginStatus", "Cierre de sesión exitoso!")
-    naviget("/");
+    window.location.reload();
   }
 
   const toggleCategoryMenu = () => {
@@ -205,6 +205,9 @@ export const Topbar = ({ toggleSidebar }) => {
   }
 
   const rol = localStorage.getItem('rol');
+  const nombre = localStorage.getItem('name');
+  const avatar = localStorage.getItem('avatar');
+  const apellido = localStorage.getItem('surname');
 
   return (
     <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center z-50">
@@ -236,12 +239,12 @@ export const Topbar = ({ toggleSidebar }) => {
             )}
           </button>
           <div>
-            <p className="text-2xl font-medium text-white">Bonnie Green</p>
+            <p className="text-2xl font-medium text-white">{nombre} {apellido}</p>
             <p className="text-lg font-normal text-teal-300">{rol}</p>
           </div>
           <button onClick={showMenuUser} className="outline-none">
             <img
-              src="https://images.pexels.com/photos/3579181/pexels-photo-3579181.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              src={avatar}
               alt="Foto de Perfil"
               className="w-14 h-14 rounded-full shadow-lg cursor-pointer"
             />

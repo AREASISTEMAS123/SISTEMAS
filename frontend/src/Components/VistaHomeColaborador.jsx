@@ -25,13 +25,15 @@ export const VistaHomeColaborador = () => {
     { title: "Faltas", item: 1 },
   ];
 
+  const nombre = localStorage.getItem('name');
+
   return (
     <>
       <div className="h-screen">
         <section className="w-full bg-cv-secondary space-y-4">
           <div className="text-center my-4">
             <h2 className="text-2xl md:text-5xl text-white font-bold uppercase">
-              Bienvenida Karla
+              Mucho Gusto {nombre}
             </h2>
           </div>
           <div className="space-y-4">

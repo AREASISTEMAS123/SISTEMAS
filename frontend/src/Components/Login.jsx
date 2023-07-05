@@ -20,16 +20,11 @@ export const Login = () => {
     const [captchaValue, setCaptchaValue] = useState('');
 
     useEffect(() => {
-        let login = localStorage.getItem("login");
-        if (login) {
-            navigate("/home");
-        }
         let loginStatus = localStorage.getItem("loginStatus");
         if (loginStatus) {
             setError(loginStatus);
             setTimeout(function () {
                 localStorage.clear();
-                window.location.reload();
             }, 3000);
         }
         setTimeout(function () {
@@ -87,13 +82,14 @@ export const Login = () => {
                             localStorage.setItem('token', responseData.accessToken);
                             localStorage.setItem('iduser', responseData.user.id);
                             localStorage.setItem('rol', responseData.rol);
+                            localStorage.setItem('name', responseData.user.name);
+                            localStorage.setItem('avatar', responseData.avatar)
+                            localStorage.setItem('surname', responseData.user.surname)
                             localStorage.setItem('login', true);
-                            navigate('/');
-
+                            window.location.reload();
                         }
                     } else {
                         setError(responseData.message);
-                        
                     }
                 } catch (err) {
                     setError(err.toString());
