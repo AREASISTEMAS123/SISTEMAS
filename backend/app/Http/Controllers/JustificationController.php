@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Justification;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
@@ -51,5 +52,11 @@ class JustificationController extends Controller
         }
 
         return response()->json(['Datos' => $justification, 'messages' => 'La justificacion ha sido subido con exito']);
+    }
+
+    public function getJustification(){
+        $justification = Justification::with('user:id,name,surname')->where('user_id',Auth::user()->id)->get();
+        $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
+        return response()->json(['Justificaciones'=>$justification, "foto" => $img]);
     }
 }

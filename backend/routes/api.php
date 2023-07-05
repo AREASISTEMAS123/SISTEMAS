@@ -48,7 +48,8 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::put('/task/update/{id}', [\App\Http\Controllers\UserTaskController::class,'updateTask']);
     Route::delete('/task/delete/{id}', [\App\Http\Controllers\UserTaskController::class,'deleteTask']);
 
-    Route::post('justification/insert', [\App\Http\Controllers\JustificationController::class,'insertJustification']);
+    Route::get('justifications',[\App\Http\Controllers\JustificationController::class,'getJustification']);
+    Route::post('justifications/insert', [\App\Http\Controllers\JustificationController::class,'insertJustification']);
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 

@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('reason');
             $table->string('evidence');
             $table->boolean('justification_status')->default(false);
-            $table->string('decline')->nullable();
+            $table->boolean('decline')->default(false);
             $table->timestamps();
         });
     }
