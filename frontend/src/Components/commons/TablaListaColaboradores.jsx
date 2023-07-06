@@ -17,6 +17,8 @@ import { useTheme } from '@mui/material/styles';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ErrorIcon from '@mui/icons-material/Error';
+import { useState } from 'react';
 
 
 function TablePaginationActions(props) {
@@ -82,11 +84,16 @@ TablePaginationActions.propTypes = {
 TablaListaColaboradores.propTypes = {
 	data: PropTypes.array.isRequired,
 	deleteUser: PropTypes.func.isRequired,
+	update: PropTypes.func.isRequired,
 };
-export default function TablaListaColaboradores({ data, deleteUser }) {
+export default function TablaListaColaboradores({ data, update, deleteUser }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-	// Avoid a layout jump when reaching the last page with empty rows.
+
+	const [showWarning, setShowWarning] = useState(false);
+	const [rowDelete, setRowDelete] = useState(null)
+
+
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
 	const handleChangePage = (event, newPage) => {
@@ -105,9 +112,19 @@ export default function TablaListaColaboradores({ data, deleteUser }) {
 		4: 'Colaborador',
 	};
 
-	const handleDeleteButtonClick = (card) => {
-		deleteUser(card)
-	}
+	const showModalWarning = (row) => {
+		setRowDelete(row);
+		setShowWarning(true);
+	};
+
+	const confirmDelete = () => {
+		deleteUser(rowDelete)
+		setShowWarning(false);
+	};
+
+	const cancelDelete = () => {
+		setShowWarning(false);
+	};
 
 
 	return (
@@ -153,11 +170,11 @@ export default function TablaListaColaboradores({ data, deleteUser }) {
 									<TableCell align="right">{users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell>
 									<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 										<div className='flex items-center justify-center flex-row space-x-2'>
-											<button className='p-2 border rounded-md' >
-												<EditIcon className="mr-1 text-green-500" />
+											<button onClick={() => update(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
+												<EditIcon className="mr-1" />
 											</button>
-											<button className='p-2 border rounded-md' onClick={() => handleDeleteButtonClick(users.id)}>
-												<DeleteIcon className="ml-1 text-red-500" />
+											<button onClick={() => showModalWarning(users.id)} className='p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white transition duration-300 ease-in-out'>
+												<DeleteIcon className="ml-1" />
 											</button>
 										</div>
 									</TableCell>
@@ -189,7 +206,54 @@ export default function TablaListaColaboradores({ data, deleteUser }) {
 						ActionsComponent={TablePaginationActions}
 					/>
 				</div>
-				
+
+				{showWarning ? (
+					<div>
+						<div
+							className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+						>
+							<div className="relative w-96 md:w-auto my-6 mx-auto max-w-3xl border-2 border-white p-1 rounded-lg rotate-[5deg]">
+
+								<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
+									<div className="relative p-6 flex-auto">
+										<div className='space-y-2 flex flex-col items-center'>
+											<div className='w-full flex flex-col items-center justify-center text-red-500 p-5 border-b border-solid border-slate-200 rounded-t'>
+												<ErrorIcon sx={{ fontSize: 125 }} />
+												<h2 className="text-4xl whitespace-nowrap font-bold">¡Atención!</h2>
+											</div>
+											<div className='flex flex-col justify-center text-cv-primary'>
+												<p className='text-2xl text-red-500 text-center'>Estás a punto de eliminar a un colaborador.</p>
+												<p>Por favor, asegúrate de que estás seguro de esta acción antes de proceder.</p>
+												<p>Si deseas continuar con la eliminación, haz clic en el botón <strong>Eliminar</strong>.</p>
+												<p>Si prefieres cancelar esta acción, haz clic en el botón <strong>Cancelar</strong>.</p>
+												<p className='text-2xl font-bold text-center'>¿Estas seguro que quieres Eliminar?</p>
+											</div>
+										</div>
+
+									</div>
+									<div className="flex items-center justify-end p-4 border-t border-solid border-slate-200 rounded-b space-x-2">
+
+										<button
+											className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-bold uppercase ease-linear transition-all duration-150"
+											type="button"
+											onClick={cancelDelete}
+										>
+											Cancelar
+										</button>
+										<button
+											className="w-full py-2 px-8 rounded-md text-white bg-red-600 border border-red-500 hover:border-red-700 hover:bg-red-700 flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+											type="button" onClick={confirmDelete}
+										>
+											Eliminar
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="opacity-50 fixed inset-0 z-40 bg-black"></div>
+					</div>
+				) : null}
+
 			</div>
 		</>
 	);
