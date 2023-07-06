@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { RelojAnalogico } from "./commons/RelojAnalogico";
 import { useMediaQuery } from "@mui/material";
-import { toast } from "react-hot-toast"
+import {
+  BsFillCameraVideoFill,
+  BsFillCameraVideoOffFill,
+} from "react-icons/bs";
+import { Toaster, toast } from "react-hot-toast"
+import { Close, CheckCircle } from '@mui/icons-material';
+
 
 export const RegistroAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -22,7 +28,6 @@ export const RegistroAsistencia = () => {
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [terceraFotoTomada, setTerceraFotoTomada] = useState(true);
-
   const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
@@ -66,7 +71,7 @@ export const RegistroAsistencia = () => {
     setMostrarBotonSalida(false);
     setFotoUsuario(null);
     setFotoCapturada(null);
-    toast.success("Salida marcada exitosamente");
+    toast.success("Salida marcada correctamente")
   };
 
   const reiniciarConteo = () => {
@@ -165,38 +170,50 @@ export const RegistroAsistencia = () => {
 
   return (
     <div
-      className={`registro-Entrada h-screen flex  ${
-        isMobile ? "flex-col" : "flex items-center justify-center"
-      }`}
+      className={`registro-Entrada h-screen flex  ${isMobile ? "flex-col" : "flex items-center justify-center"
+        }`}
     >
       <div className={`seccion-izquierda ${isMobile ? "mb-4" : "mr-4"}`}>
-        <div className="w-96 h-96 border border-gray-300">
-          {fotoUsuario && (
-            <img
-              src={fotoUsuario}
-              alt="Foto capturada"
-              className="w-full h-full object-cover"
-            />
-          )}
-          {!fotoUsuario && (
-            <video
-              className="w-full h-full object-cover"
-              ref={videoRef}
-              style={{ display: videoEnabled ? "block" : "none" }}
-              autoPlay
-              playsInline
-              muted
-            />
-          )}
+        <div className="w-96 h-96 rounded-xl bg-slate-950 relative">
+          <div className="absolute top-0 left-0 w-full h-full">
+            {videoEnabled ? (
+              <video
+                className="w-full h-full object-cover"
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="text-white text-xl">Cámara desactivada</span>
+              </div>
+            )}
+          </div>
+          <div className="absolute bottom-0 mb-4 w-full flex justify-center">
+            <button
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "50%",
+                background: videoEnabled ? "transparent" : "#EF4444",
+                color: "#fff",
+                width: "3rem",
+                height: "3rem",
+                border: videoEnabled ? "2px solid #FFFFFF" : "2px solid #EF4444",
+              }}
+              onClick={toggleCamera}
+            >
+              {videoEnabled ? (
+                <BsFillCameraVideoFill style={{ color: "#FFFFFF" }} />
+              ) : (
+                <BsFillCameraVideoOffFill style={{ color: "#FFFFFF" }} />
+              )}
+            </button>
+          </div>
         </div>
-        {mostrarBotonCamara && (
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={toggleCamera}
-          >
-            {videoEnabled ? "Desactivar cámara" : "Activar cámara"}
-          </button>
-        )}
+
         {videoEnabled && (
           <div className="flex justify-center mb-2">
             <button
@@ -210,11 +227,10 @@ export const RegistroAsistencia = () => {
         )}
       </div>
       <div
-        className={`seccion-derecha ${
-          isMobile
-            ? "mt-4 text-center"
-            : "ml-4 flex items-center justify-center"
-        }`}
+        className={`seccion-derecha ${isMobile
+          ? "mt-4 text-center"
+          : "ml-4 flex items-center justify-center"
+          }`}
       >
         <div className="flex flex-col items-center">
           <RelojAnalogico hora={horaActual} />
@@ -260,6 +276,7 @@ export const RegistroAsistencia = () => {
           )}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
