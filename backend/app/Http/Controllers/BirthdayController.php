@@ -21,6 +21,6 @@ class BirthdayController extends Controller
 
         }
 
-        return response()->json([ 'user' => $user]);
+        return response()->json([ 'users' => $user]);
     }
 }
