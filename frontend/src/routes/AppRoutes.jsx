@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import {
     Cumpleanos,
     Login,
@@ -19,6 +19,7 @@ import { VistaReportes } from "../components/VistaReportes";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
+    const isLoggedIn = localStorage.getItem('login') === 'true';
 
     // Función para verificar si el usuario tiene un rol específico
     const hasRole = (targetRole) => {
@@ -27,67 +28,47 @@ const AppRoutes = () => {
 
     return (
         <Routes>
-
-            <Route path="/login" element={<Login />} />
-            <Route path="/OlvideContraseña" element={<OlvideContraseña/>}/>
-            <Route path="/RestablecerContraseña" element={<RestablecerContraseña/>}/>
-
-            {hasRole('Colaborador') && (
+            {isLoggedIn ? (
                 <>
-                    <Route path="/home" element ={<VistaHomeColaborador />} />
+                    <Route path="/home" element={<VistaHomeColaborador />} />
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
                     <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
                     <Route path="/perfil" element={<PerfilColaborador />} />
                     <Route path="/asistencia" element={<RegistroAsistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
+                    <Route path="/logout" />
+                    {hasRole('Lider Area') && (
+                        <>
+                            <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
+                        </>
+                    )}
+                    {hasRole('Lider Departamento') && (
+                        <>
+                            <Route path="/colaboradores" element={<VistaAdminColaborador />} />
+                            <Route path="/justificaciones" element={<AdmiJustificacion />} />
+                            <Route path="/asistencias" element={<AsistenciaAdmin />} />
+                            <Route path="/reportes" element={<VistaReportes />} />
+                        </>
+                    )}
+                    {hasRole('Gerencia') && (
+                        <>
+                            <Route path="/colaboradores" element={<VistaAdminColaborador />} />
+                            <Route path="/justificaciones" element={<AdmiJustificacion />} />
+                            <Route path="/asistencias" element={<AsistenciaAdmin />} />
+                            <Route path="/reportes" element={<VistaReportes />} />
+                        </>
+                    )}
+                    <Route path="/*" element={<Navigate to="/home" />} />
                 </>
-            )}
-
-            {hasRole('Lider Area') && (
+            ) : (
                 <>
-                    <Route path="/home" element ={<VistaHomeColaborador />} />
-                    <Route path="/cumpleanos" element={<Cumpleanos />} />
-                    <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
-                    <Route path="/perfil" element={<PerfilColaborador />} />
-                    <Route path="/asistencia" element={<RegistroAsistencia />} />
-                    <Route path="/justificacion" element={<JustificacionColaborador />} />
-                    <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
-                    <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/OlvideContraseña" element={<OlvideContraseña />} />
+                    <Route path="/RestablecerContraseña" element={<RestablecerContraseña />} />
+                    <Route path="/*" element={<Navigate to="/login" />} />
                 </>
             )}
-
-            {hasRole('Lider Departamento') && (
-                <>
-                    <Route path="/home" element ={<VistaHomeColaborador />} />
-                    <Route path="/cumpleanos" element={<Cumpleanos />} />
-                    <Route path="/colaboradores" element={<VistaAdminColaborador />} />
-                    <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
-                    <Route path="/perfil" element={<PerfilColaborador />} />
-                    <Route path="/asistencia" element={<RegistroAsistencia />} />
-                    <Route path="/justificacion" element={<JustificacionColaborador />} />
-                    <Route path="/justificaciones" element={<AdmiJustificacion />} />
-                    <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
-                    <Route path="/asistencias" element={<AsistenciaAdmin />} />
-                    <Route path="/reportes" element={<VistaReportes/>}/>
-                </>
-            )}
-
-            {hasRole('Gerencia') && (
-                <>
-                    <Route path="/home" element ={<VistaHomeColaborador />} />
-                    <Route path="/cumpleanos" element={<Cumpleanos />} />
-                    <Route path="/colaboradores" element={<VistaAdminColaborador />} />
-                    <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
-                    <Route path="/perfil" element={<PerfilColaborador />} />
-                    <Route path="/justificaciones" element={<AdmiJustificacion />} />
-                    <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
-                    <Route path="/asistencias" element={<AsistenciaAdmin />} />
-                    <Route path="/reportes" element={<VistaReportes/>}/>
-                </>
-            )}
-
-            <Route path="/*" element={<Navigate to="/login" />} />
         </Routes>
     );
 };
