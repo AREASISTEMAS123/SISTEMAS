@@ -6,7 +6,7 @@ import KeyboardBackspaceTwoToneIcon from '@mui/icons-material/KeyboardBackspaceT
 export const DetalleCumpleanos = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [birthdayPeople, setBirthdayPeople] = useState([]);
+    const [birthdayUser, setBirthdayUser] = useState([]);
     const { month, day } = useParams();
 
     const handleGoBack = () => {
@@ -14,7 +14,7 @@ export const DetalleCumpleanos = () => {
     };
 
     useEffect(() => {
-        const fetchBirthdayPeople = async () => {
+        const fetchBirthdayUser = async () => {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/birthday/details', {
                     headers: {
@@ -24,12 +24,12 @@ export const DetalleCumpleanos = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    const filteredBirthdayPeople = data.filter(person => {
-                        const personMonth = new Date(person.birthday).getUTCMonth() + 1;
-                        const personDay = new Date(person.birthday).getUTCDate();
-                        return personMonth === parseInt(month) && personDay === parseInt(day);
+                    const filteredBirthdayUser = data.users.filter(user => {
+                        const userMonth = new Date(user.profile.birthday).getUTCMonth() + 1;
+                        const userDay = new Date(user.profile.birthday).getUTCDate();
+                        return userMonth === parseInt(month) && userDay === parseInt(day);
                     });
-                    setBirthdayPeople(filteredBirthdayPeople);
+                    setBirthdayUser(filteredBirthdayUser);
                 } else {
                     console.error('Error:', response.status);
                 }
@@ -38,43 +38,43 @@ export const DetalleCumpleanos = () => {
             }
         };
 
-        fetchBirthdayPeople();
+        fetchBirthdayUser();
     }, [month, day]);
 
     return (
         <div className="container mx-auto mt-4 min-h-screen">
-            <button className="text-white font-bold w-32 h-10 hover:bg-gray-700" onClick={handleGoBack}>
+            <button className="text-white font-bold w-12 h-12 md:w-32 md:h-10 hover:bg-gray-700" onClick={handleGoBack}>
                 <KeyboardBackspaceTwoToneIcon />
             </button>
-            <h2 className="text-2xl font-bold mt-4 text-white">Personas que cumplen años el {day}/{month}</h2>
-            <div className='grid grid-cols-3 gap-4 flex justify-items-start'>
-                {birthdayPeople && birthdayPeople.length > 0 ? (
-                    birthdayPeople.map(person => (
-                        <Card key={person.id} className="my-4 max-w-[90%] min-w-[90%]" sx={{ backgroundColor: '#16232B' }}>
+            <h2 className="text-2xl md:text-4xl font-bold mt-4 text-white">Personas que cumplen años el {day}/{month}</h2>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex justify-items-start'>
+                {birthdayUser && birthdayUser.length > 0 ? (
+                    birthdayUser.map(user => (
+                        <Card key={user.id} className="my-4 max-w-[90%] min-w-[90%]" sx={{ backgroundColor: '#16232B' }}>
                             <CardContent>
-                                <Typography variant="body2" sx={{ color: '#FFFFFF' }} className="flex justify-center" >
-                                    <img src={person.user[0].photo} alt="" />
+                            <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    <img src={user.media[0].original_url} alt="" />
                                 </Typography>
-                                <Typography variant="h5" component="div" sx={{ color: '#FFFFFF' }}>
-                                    Nombre: {person.user[0].name} {person.user[0].surname}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    {user.name} {user.surname}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
-                                    Fecha de cumpleaños: {person.birthday}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    Cumpleaños: {user.profile.birthday}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
-                                    Correo electrónico: {person.user[0].email}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF', wordWrap: 'break-word'}} className="text-2xl md:text-xl lg:text-lg" >
+                                    {user.email}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
-                                    Teléfono: {person.cellphone}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    {user.profile.profile_name}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
-                                    Área: {person.area}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    Área: {user.profile.area}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
-                                    Turno: {person.shift}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    Turno: {user.profile.shift}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ color: '#FFFFFF' }}>
-                                    Departamento: {person.department}
+                                <Typography variant="h9" component="div" sx={{ color: '#FFFFFF' }} className="text-2xl md:text-xl lg:text-lg">
+                                    Departamento: {user.profile.department}
                                 </Typography>
                             </CardContent>
                         </Card>

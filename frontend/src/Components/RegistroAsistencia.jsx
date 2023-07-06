@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { RelojAnalogico } from "./commons/RelojAnalogico";
 import { useMediaQuery } from "@mui/material";
-import { toast } from "react-hot-toast"
+import { Toaster, toast } from "react-hot-toast"
+import { Close, CheckCircle } from '@mui/icons-material';
 
 export const RegistroAsistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -22,7 +23,6 @@ export const RegistroAsistencia = () => {
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [terceraFotoTomada, setTerceraFotoTomada] = useState(true);
-
   const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export const RegistroAsistencia = () => {
     setMostrarBotonSalida(false);
     setFotoUsuario(null);
     setFotoCapturada(null);
-    toast.success("Salida marcada exitosamente");
+    toast.success("Salida marcada correctamente")
   };
 
   const reiniciarConteo = () => {
@@ -165,9 +165,8 @@ export const RegistroAsistencia = () => {
 
   return (
     <div
-      className={`registro-Entrada h-screen flex  ${
-        isMobile ? "flex-col" : "flex items-center justify-center"
-      }`}
+      className={`registro-Entrada h-screen flex  ${isMobile ? "flex-col" : "flex items-center justify-center"
+        }`}
     >
       <div className={`seccion-izquierda ${isMobile ? "mb-4" : "mr-4"}`}>
         <div className="w-96 h-96 border border-gray-300">
@@ -210,11 +209,10 @@ export const RegistroAsistencia = () => {
         )}
       </div>
       <div
-        className={`seccion-derecha ${
-          isMobile
-            ? "mt-4 text-center"
-            : "ml-4 flex items-center justify-center"
-        }`}
+        className={`seccion-derecha ${isMobile
+          ? "mt-4 text-center"
+          : "ml-4 flex items-center justify-center"
+          }`}
       >
         <div className="flex flex-col items-center">
           <RelojAnalogico hora={horaActual} />
@@ -260,6 +258,7 @@ export const RegistroAsistencia = () => {
           )}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
