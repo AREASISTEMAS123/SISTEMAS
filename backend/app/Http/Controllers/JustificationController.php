@@ -59,4 +59,6 @@ class JustificationController extends Controller
         $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
         return response()->json(['Justificaciones'=>$justification, "foto" => $img]);
     }
+
+
 }

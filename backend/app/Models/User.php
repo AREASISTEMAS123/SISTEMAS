@@ -28,6 +28,8 @@ class User extends Authenticatable implements HasMedia
             ->height(50);
 
     }
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,7 +44,10 @@ class User extends Authenticatable implements HasMedia
         'status',
     ];
 
+    public function Profile(){
 
+        return $this->belongsTo(Profile::class, 'id', 'user_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -14,8 +14,13 @@ class BirthdayController extends Controller
 
     public function detailsbirthday(){
 
-        $profile = Profile::with("User:id,name,surname,email","media")->get();
+        $img =[];
+        $user = User::with('Profile')->get();
+        foreach ($user as $us){
+            $img[]=$us->getMedia('avatars')->first()->getUrl('thumb');
 
-        return response()->json( $profile);
+        }
+
+        return response()->json([ 'user' => $user]);
     }
 }
