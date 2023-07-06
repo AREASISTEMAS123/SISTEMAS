@@ -35,47 +35,50 @@ export const VistaReportes = () => {
         console.error("Error fetching poem:", error);
       });
   }
-  
 
   return (
     <>
-      <h2 className="text-2xl md:text-5xl text-white font-bold uppercase mx-auto">Reportes</h2>
-      <div className="flex space-x-4 mt-5">
-        <div>
-          <div className="text-center">Inicio</div>
-          <DynamicSelect options={departamento} title={"12-05-21"} />
+      <div className="h-screen">
+        <h2 className="text-2xl md:text-5xl text-white font-bold uppercase mx-auto">
+          Reportes
+        </h2>
+        <div className="flex space-x-4 mt-5">
+          <div>
+            <div className="text-center">Inicio</div>
+            <DynamicSelect options={departamento} title={"12-05-21"} />
+          </div>
+          <div>
+            <div className="text-center">Fin</div>
+            <DynamicSelect options={area} title={"12-06-21"} />
+          </div>
         </div>
-        <div>
-          <div className="text-center">Fin</div>
-          <DynamicSelect options={area} title={"12-06-21"} />
+        <div className="flex space-x-4 mt-5 mx-auto">
+          <DynamicSelect options={departamento} title={"Departamento"} />
+          <DynamicSelect options={area} title={"Area"} />
+          <DynamicSelect options={turno} title={"Turno"} />
+          <DynamicSelect options={faltas} title={"Faltas"} />
         </div>
-      </div>
-      <div className="flex space-x-4 mt-5 mx-auto">
-        <DynamicSelect options={departamento} title={"Departamento"} />
-        <DynamicSelect options={area} title={"Area"} />
-        <DynamicSelect options={turno} title={"Turno"} />
-        <DynamicSelect options={faltas} title={"Faltas"} />
-      </div>
-      <Button
-        variant="dark"
-        onClick={() => {
-          setVerPDF(!verPDF);
-          setVerWeb(false);
-        }}
-      >
-        {verPDF ? "Ocultar PDF" : "Ver PDF"}
-      </Button>
+        <Button
+          variant="dark"
+          onClick={() => {
+            setVerPDF(!verPDF);
+            setVerWeb(false);
+          }}
+        >
+          {verPDF ? "Ocultar PDF" : "Ver PDF"}
+        </Button>
 
-      <div>
-        {poema ? (
-          <>
-            {verPDF ? (
-              <PDFViewer style={{ width: "100%", height: "90vh" }}>
-                <DocuPDF poema={poema} />
-              </PDFViewer>
-            ) : null}
-          </>
-        ) : null}
+        <div>
+          {poema ? (
+            <>
+              {verPDF ? (
+                <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                  <DocuPDF poema={poema} />
+                </PDFViewer>
+              ) : null}
+            </>
+          ) : null}
+        </div>
       </div>
     </>
   );
