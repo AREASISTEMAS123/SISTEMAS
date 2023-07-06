@@ -39,7 +39,7 @@ export const Topbar = ({ toggleSidebar }) => {
     setShowTask(!showTask);
   };
 
- 
+
 
   const apiURL = 'http://127.0.0.1:8000/api';
   const userId = localStorage.getItem("iduser");
@@ -49,7 +49,7 @@ export const Topbar = ({ toggleSidebar }) => {
   const agregarTarea = () => {
     if (titulo.trim() === '' || descripcion.trim() === '' || fecha.trim() === '') {
       setShowModal(true),
-      setMensajeError('Rellene todos los campos');
+        setMensajeError('Rellene todos los campos');
       return;
     }
 
@@ -108,7 +108,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Modificar Tarea
   const modificarTarea = (taskUpdate) => {
-    const url = apiURL +`/task/update/${taskUpdate.id}`;
+    const url = apiURL + `/task/update/${taskUpdate.id}`;
 
     fetch(url, {
       method: 'PUT',
@@ -197,17 +197,21 @@ export const Topbar = ({ toggleSidebar }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showModalUpdate, setShowModalUpdate] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  
-  const AddTask = () =>{
+
+  const AddTask = () => {
     setShowModal(false),
-    setShowAlert(false),
-    agregarTarea()
+      setShowAlert(false),
+      agregarTarea()
   }
 
   const rol = localStorage.getItem('rol');
   const nombre = localStorage.getItem('name');
   const avatar = localStorage.getItem('avatar');
   const apellido = localStorage.getItem('surname');
+
+  const firstName = nombre.split(" ")[0];
+  const firstSurname = apellido.split(" ")[0];
+  const firstSurnameInitial = firstSurname.charAt(0);
 
   return (
     <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center z-50">
@@ -229,7 +233,7 @@ export const Topbar = ({ toggleSidebar }) => {
         </button>
       )}
       <div className="relative">
-        <div className="flex justify-between items-center space-x-5">
+        <div className="flex justify-between items-center space-x-2 md:space-x-5">
           <button onClick={showTodoList} className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
             <ListAltIcon fontSize="large" />
             <span className="sr-only">Tareas</span>
@@ -239,7 +243,12 @@ export const Topbar = ({ toggleSidebar }) => {
             )}
           </button>
           <div>
-            <p className="text-2xl font-medium text-white">{nombre} {apellido}</p>
+            <p className="text-2xl font-medium text-white whitespace-nowrap">
+              {isMobile ? (
+                `${firstName} ${firstSurnameInitial}.`
+              ) : (
+                `${firstName} ${firstSurname}`
+              )}</p>
             <p className="text-lg font-normal text-teal-300">{rol}</p>
           </div>
           <button onClick={showMenuUser} className="outline-none">
@@ -286,7 +295,7 @@ export const Topbar = ({ toggleSidebar }) => {
               <span className='ml-4'>Agregar Tarea</span>
             </button>
             <div className='max-h-72 overflow-y-auto'>
-              <TareaItem data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea}/>
+              <TareaItem data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea} />
             </div>
           </div>
         </div>
@@ -337,7 +346,7 @@ export const Topbar = ({ toggleSidebar }) => {
                       type="button"
                       onClick={AddTask}
 
-                      
+
                     >Guardar</button>
                   </div>
                 </div>
@@ -361,7 +370,7 @@ export const Topbar = ({ toggleSidebar }) => {
                         {message === 'Tarea agregada exitosamente' || message === 'Tarea modificada exitosamente' || message === 'Tarea eliminada exitosamente' ? (
                           <CheckCircleIcon className="text-green-500" sx={{ fontSize: 96 }} />
                         ) : (
-                            <ErrorIcon className="text-red-500" sx={{ fontSize: 96 }} />
+                          <ErrorIcon className="text-red-500" sx={{ fontSize: 96 }} />
                         )}
                       </div>
                       <div className='w-full flex items-center justify-center text-gray-950'>
@@ -371,7 +380,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
                   </div>
                   <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
-                    
+
                     <button
                       className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
                       type="button"
@@ -379,7 +388,7 @@ export const Topbar = ({ toggleSidebar }) => {
                     >
                       Cerrar
                     </button>
-                    
+
                   </div>
                 </div>
               </div>
@@ -404,18 +413,18 @@ export const Topbar = ({ toggleSidebar }) => {
                   </div>
                   <div className="relative p-6 flex-auto">
                     {selectedCard && (
-                    <div className='space-y-2 flex flex-col items-center'>
-                      <div className='w-full'>
-                        <label htmlFor="title" className="block mb-2 font-medium text-gray-900">Titulo de Tarea</label>
+                      <div className='space-y-2 flex flex-col items-center'>
+                        <div className='w-full'>
+                          <label htmlFor="title" className="block mb-2 font-medium text-gray-900">Titulo de Tarea</label>
                           <input type="text" id="title" value={selectedCard.tittle} onChange={(event) =>
                             setSelectedCard((prevTask) => ({
                               ...prevTask,
                               tittle: event.target.value,
                             }))
                           } className="w-full p-4 text-gray-900 border-b-2 border-gray-300  bg-white outline-none sm:text-md placeholder-gray-700 font-semibold" placeholder='Escribe aquí...' />
-                      </div>
-                      <div className='w-full'>
-                        <label htmlFor="task" className="block mb-2 font-medium text-gray-900">Descripción</label>
+                        </div>
+                        <div className='w-full'>
+                          <label htmlFor="task" className="block mb-2 font-medium text-gray-900">Descripción</label>
                           <textarea id="task" rows="4" value={selectedCard.description} onChange={(event) =>
                             setSelectedCard((prevTask) => ({
                               ...prevTask,
@@ -423,17 +432,17 @@ export const Topbar = ({ toggleSidebar }) => {
                             }))
                           } className="p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold" placeholder="Escribe aquí..."></textarea>
 
-                      </div>
-                      <div className='w-full'>
-                        <label htmlFor="time" className="block mb-2 font-medium text-gray-900">Fecha y Hora Limite</label>
+                        </div>
+                        <div className='w-full'>
+                          <label htmlFor="time" className="block mb-2 font-medium text-gray-900">Fecha y Hora Limite</label>
                           <input type="datetime-local" name="" id="time" value={selectedCard.limit_date} onChange={(event) =>
                             setSelectedCard((prevTask) => ({
                               ...prevTask,
                               limit_date: event.target.value,
                             }))
                           } className='p-2.5 w-full text-gray-900 bg-gray-100 border rounded-lg border-gray-300 outline-none resize-none placeholder-gray-700 font-semibold' />
+                        </div>
                       </div>
-                    </div>
                     )}
 
                   </div>
