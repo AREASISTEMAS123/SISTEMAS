@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import SearchIcon from "@mui/icons-material/Search";
 import TablaListaColaboradores from "./commons/TablaListaColaboradores";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -16,6 +15,11 @@ export const VistaAdminColaborador = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState('');
   const [mensajeError, setMensajeError] = useState('');
+
+  //UseState Filtar
+  const [filterName, setFilterName] = useState('');
+  const [filterDepartment, setFilterDepartment] = useState('');
+  const [filterDate, setfilterDate] = useState('')
 
 
   // Usesate de campos a insertar
@@ -228,52 +232,66 @@ export const VistaAdminColaborador = () => {
             </h2>
           </div>
           <div className="space-y-4">
-            <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
-              <button
-                onClick={() => setShowModal(true)}
-                className="py-2 px-4 rounded-md text-cv-primary bg-cv-cyan font-semibold flex items-center justify-center text-xl uppercase"
-              >
-                <PersonAddIcon />
-                <p className="ml-2">Agregar Colaborador</p>
-              </button>
-              <div className="flex items-center justify-between p-1 rounded-md bg-slate-300">
+            <div className="flex flex-col items-end space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+              <div className="w-full">
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="p-2 rounded-md text-cv-primary bg-cv-cyan font-semibold flex items-center justify-center text-lg uppercase"
+                >
+                  <PersonAddIcon />
+                  <p className="ml-2 whitespace-nowrap">Agregar Colaborador</p>
+                </button>
+              </div>
+              <div className="w-full">
+                <label
+                  htmlFor="filterStartDate"
+                  className="block mb-1 font-medium text-cv-cyan"
+                >
+                  Filtrar por Fecha de Ingreso
+                </label>
                 <input
                   type="date"
-                  name=""
-                  id=""
-                  className="bg-slate-300 p-1 outline-none text-cv-primary"
+                  id="filterStartDate"
+                  value={filterDate}
+                  onChange={(e) => setfilterDate(e.target.value)}
+                  className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                 />
-                <button className="ml-1 p-1 rounded-sm text-cv-primary bg-slate-300 hover:bg-slate-400">
-                  <SearchIcon />
-                </button>
               </div>
-              <div className="flex items-center justify-between p-1 rounded-md bg-slate-300">
+              <div className="w-full">
+                <label
+                  htmlFor="filterDepartment"
+                  className="block mb-1 font-medium text-cv-cyan"
+                >
+                  Filtrar por Departamento
+                </label>
                 <input
                   type="text"
-                  name=""
-                  id=""
-                  placeholder="Buscar por departamento"
-                  className="bg-slate-300 p-1 outline-none text-cv-primary"
+                  id="filterDepartment"
+                  value={filterDepartment}
+                  onChange={(e) => setFilterDepartment(e.target.value)}
+                  placeholder="Ingresa un departamento"
+                  className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                 />
-                <button className="ml-1 p-1 rounded-sm text-cv-primary bg-slate-300 hover:bg-slate-400">
-                  <SearchIcon />
-                </button>
               </div>
-              <div className="flex items-center justify-between p-1 rounded-md bg-slate-300">
+              <div className="w-full">
+                <label
+                  htmlFor="filterNames"
+                  className="block mb-1 font-medium text-cv-cyan"
+                >
+                  Filtrar por Nombre o Apellido
+                </label>
                 <input
                   type="text"
-                  name=""
-                  id=""
-                  placeholder="Buscar por nombre"
-                  className="bg-slate-300 p-1 outline-none text-cv-primary"
+                  id="filterNames"
+                  value={filterName}
+                  onChange={(e) => setFilterName(e.target.value)}
+                  placeholder="Ingresa un nombre"
+                  className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                 />
-                <button className="ml-1 p-1 rounded-sm text-cv-primary bg-slate-300 hover:bg-slate-400">
-                  <SearchIcon />
-                </button>
               </div>
             </div>
             <div>
-              <TablaListaColaboradores data={users} update={handleEditButtonClick} deleteUser={eliminarUsuario} />
+              <TablaListaColaboradores data={users} update={handleEditButtonClick} deleteUser={eliminarUsuario} filterName={filterName} filterDepartment={filterDepartment} filterDate={filterDate} />
             </div>
           </div>
         </section>
