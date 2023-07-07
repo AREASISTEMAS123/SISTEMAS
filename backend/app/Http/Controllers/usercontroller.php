@@ -138,7 +138,7 @@ class usercontroller extends Controller
         $img = Media::where('model_id', $id)->get();
         $img->update($request->all());
         if ($request->hasFile('avatar')){
-            $img->media()->delete();
+            $img->clearMediaCollection('avatars');
             $img->addMedia($file)->toMediaCollection('avatars');
         }
 
