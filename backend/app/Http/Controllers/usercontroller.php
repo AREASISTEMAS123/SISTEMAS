@@ -17,6 +17,7 @@ class usercontroller extends Controller
     public function getUser()
     {
         $profile = Profile::with("User","role","media")->get();
+
         return response()->json([
             'profile' => $profile]);
     }
@@ -108,11 +109,15 @@ class usercontroller extends Controller
             'date_start' => 'required|date',
             'responsible' => 'required|string|max:255',
             'role_id' => 'required',
-            'avatar' => 'required|mimes:jpg,jpeg,png'
+            'avatar' => 'required|mimes:jpg,jpeg,png',
+
         ]);
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+
+
+
         $user = User::find($id);
         $user->update([
             'username' => $request->dni,
@@ -128,23 +133,19 @@ class usercontroller extends Controller
         $role = Model_has_role::where('model_id',$id);
         $role->update(['role_id' => $request->role_id]);
 
-        if ($request->hasFile('avatar') && isset($request['avatar'])){
-            Media::where('model_id', $id)->delete();
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
 
-            return response()->json([
-                'usuario' => $user,
-                'perfil' => $profile,
-                'messages' => "Usuario actualizado con exito"],200);
-        }else{
-            return response()->json([
-                'usuario' => $user,
-                'perfil' => $profile,
-                'messages' => "Usuario actualizado con exito"],200);
-
+        $file = $request->file('avatar');
+        $img = Media::where('model_id', $id)->get();
+        $img->update($request->all());
+        if ($request->hasFile('avatar')){
+            $img->media()->delete();
+            $img->addMedia($file)->toMediaCollection('avatars');
         }
 
-
+            return response()->json([
+                'usuario' => $user,
+                'perfil' => $profile,
+                'messages' => "Usuario actualizado con exito"],200);
     }
 }
 
