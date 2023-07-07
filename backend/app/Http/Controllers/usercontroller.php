@@ -107,7 +107,8 @@ class usercontroller extends Controller
             'birthday' => 'date',
             'date_start' => 'required|date',
             'responsible' => 'required|string|max:255',
-            'role_id' => 'required'
+            'role_id' => 'required',
+            'avatar' => 'required|mimes:jpg,jpeg,png'
         ]);
         if($validator->fails()){
             return response()->json($validator->errors());
@@ -127,10 +128,22 @@ class usercontroller extends Controller
         $role = Model_has_role::where('model_id',$id);
         $role->update(['role_id' => $request->role_id]);
 
-        return response()->json([
-            'usuario' => $user,
-            'perfil' => $profile,
-            'messages' => "Usuario actualizado con exito"],200);
+        if ($request->hasFile('avatar') && isset($request['avatar'])){
+            Media::where('model_id', $id)->delete();
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+
+            return response()->json([
+                'usuario' => $user,
+                'perfil' => $profile,
+                'messages' => "Usuario actualizado con exito"],200);
+        }else{
+            return response()->json([
+                'usuario' => $user,
+                'perfil' => $profile,
+                'messages' => "Usuario actualizado con exito"],200);
+
+        }
+
 
     }
 }
