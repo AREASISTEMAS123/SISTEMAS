@@ -16,9 +16,15 @@ class usercontroller extends Controller
 {
     public function getUser()
     {
-        $profile = Profile::with("User","role")->get();
-        return response()->json([
-            'profile' => $profile]);
+
+        $img =[];
+        $user = User::with('Profile',"role")->get();
+        foreach ($user as $us){
+            $img[]=$us->getMedia('avatars')->first()->getUrl('thumb');
+
+        }
+
+        return response()->json([ 'users' => $user]);
     }
 
     public function getUserById($id)

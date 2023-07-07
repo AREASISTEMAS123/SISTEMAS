@@ -49,6 +49,9 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Profile::class, 'id', 'user_id');
     }
 
+    public function role(){
+        return $this->hasMany(Model_has_role::class, 'model_id','id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
