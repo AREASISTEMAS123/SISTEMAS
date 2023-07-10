@@ -130,8 +130,8 @@ class usercontroller extends Controller
         $profile = Profile::find($id);
         $profile->update($request->all());
 
-        $role = Model_has_role::where('model_id',$id);
-        $role->update(['role_id' => $request->role_id])->get();
+        $role = Model_has_role::where('model_id',$id)->get();
+        $role->update(['role_id' => $request->role_id]);
 
 
         $file = $request->file('avatar');
