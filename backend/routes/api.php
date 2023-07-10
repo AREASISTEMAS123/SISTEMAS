@@ -27,12 +27,17 @@ Route::get('password/find/{token}',[\App\Http\Controllers\Auth\PasswordResetCont
 Route::post('password/reset', [\App\Http\Controllers\Auth\PasswordResetController::class,'reset']);
 
 
-Route::middleware(['auth:sanctum'])->group(function (){
+Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/users',[App\Http\Controllers\usercontroller::class, 'getUser']);
+
+    Route::get('/users/justifications', [\App\Http\Controllers\JustificationController::class, 'getAllJustification']);
+
+    Route::get('/users', [App\Http\Controllers\usercontroller::class, 'getUser']);
     Route::get('/users/{id}',[App\Http\Controllers\usercontroller::class, 'getUserById']);
     Route::put('/users/update/{id}', [\App\Http\Controllers\usercontroller::class,'updateUser']);
     Route::delete('/users/delete/{id}',[App\Http\Controllers\usercontroller::class,'deleteUser']);
+
+
 
     Route::get('/profile',[App\Http\Controllers\ProfileController::class, 'getProfile']);
     Route::post('/profile/changePassword',[App\Http\Controllers\ProfileController::class, 'change_password']);
@@ -50,7 +55,6 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::get('justifications',[\App\Http\Controllers\JustificationController::class,'getJustification']);
     Route::post('justifications/insert', [\App\Http\Controllers\JustificationController::class,'insertJustification']);
-
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
 

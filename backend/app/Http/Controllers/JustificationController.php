@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Justification;
+use App\Models\Model_has_role;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -58,9 +60,22 @@ class JustificationController extends Controller
     }
 
     public function getJustification(){
+
         $justification = Justification::with('user:id,name,surname')->where('user_id',Auth::user()->id)->get();
         $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
-        return response()->json(['Justificaciones'=>$justification, "foto" => $img]);
+        return response()->json(['Justificaciones'=>$justification, "foto" => $img],200);
+    }
+
+    public function getAllJustification(){
+        $justification = Justification::with('User','media')->get();
+        $declines = Justification::all()->where('decline','1')->count();
+        $process = Justification::all()->where('justification_status','0')->count();
+        $accept = Justification::all()->where('justification_status', '1')->count();
+
+        return response()->json([ 'Justifications' => $justification,
+            'rechazados' => $declines,
+            'proceso' => $process,
+            'aceptados' => $accept]);
     }
 
 

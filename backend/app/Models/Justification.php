@@ -17,7 +17,7 @@ class Justification extends Model
         'decline',
     ];
 
-    public function user(){
+    public function User(){
         return $this->hasMany(User::class,'id', 'user_id');
     }
     public function media(){
