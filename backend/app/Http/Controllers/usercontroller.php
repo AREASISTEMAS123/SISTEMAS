@@ -109,7 +109,7 @@ class usercontroller extends Controller
             'date_start' => 'required|date',
             'responsible' => 'required|string|max:255',
             'role_id' => 'required',
-            'avatar' => 'required|mimes:jpg,jpeg,png',
+           // 'avatar' => 'required|mimes:jpg,jpeg,png',
 
         ]);
         if($validator->fails()){
@@ -130,22 +130,22 @@ class usercontroller extends Controller
         $profile = Profile::find($id);
         $profile->update($request->all());
 
-        $role = Model_has_role::where('model_id',$id)->get();
+        $role = Model_has_role::where('model_id',$id);
         $role->update(['role_id' => $request->role_id]);
 
 
-        $file = $request->file('avatar');
+       /* $file = $request->file('avatar');
         $img = Media::where('model_id', $id)->get();
         $img->update($request->all());
         if ($request->hasFile('avatar')){
             $img->clearMediaCollection('avatars');
             $img->addMedia($file)->toMediaCollection('avatars');
-        }
+        }*/
 
             return response()->json([
                 'usuario' => $user,
                 'perfil' => $profile,
-                'rol' => $role,
+                'rol' => $role->get(),
                 'messages' => "Usuario actualizado con exito"],200);
     }
 }
