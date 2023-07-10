@@ -63,11 +63,56 @@ public function getEvaluationbyid($evaluationId)
 
 
 
-    public function insertEvaluation(Request $request){
-        $Evaluation = Evaluation::create($request->all());
-        return response($Evaluation,201);
-    }
+public function insertEvaluation(Request $request)
+{
+    $evaluation = Evaluations::create($request->all());
 
+    $evaluationId = $evaluation->id;
+
+    SoftSkill::create([
+       
+        'evaluation_id' => $evaluationId,
+        'note1' => null,
+        'note2' => null,
+        'note3' => null,
+        'note4' => null,
+        'prom1' => null,
+        'note5' => null,
+        'note6' => null,
+        'prom2' => null,
+        'prom_end' => null,
+    ]);
+
+    TaskProcesses::create([
+    
+        'evaluation_id' => $evaluationId,
+        'note1' => null,
+        'note2' => null,
+        'note3' => null,
+        'note4' => null,
+        'prom1' => null,
+        'note5' => null,
+        'note6' => null,
+        'prom2' => null,
+        'prom_end' => null,
+    ]);
+
+    Observation::create([
+     
+        'evaluation_id' => $evaluationId,
+        'note1' => null,
+        'note2' => null,
+        'note3' => null,
+        'note4' => null,
+        'prom1' => null,
+        'note5' => null,
+        'note6' => null,
+        'prom2' => null,
+        'prom_end' => null,
+    ]);
+
+    return response($evaluation, 201);
+}
     public function updateEvaluation(Request $request,$id){
         $Evaluation = Evaluation::find($id);
         if(is_null($Evaluation)){
