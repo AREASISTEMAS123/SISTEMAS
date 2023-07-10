@@ -33,6 +33,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('profiles')->onDelete('cascade');
+            $table->boolean('justification_type')->default(false);
             $table->date('justification_date');
             $table->string('reason');
             $table->string('evidence');

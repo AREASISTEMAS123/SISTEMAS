@@ -16,12 +16,14 @@ class JustificationController extends Controller
         $rules = array(
 
             'justification_date' => 'required|date',
+            'justification_type' => 'required',
             'reason' => 'required|string',
             'evidence' => 'required',
 
         );
         $messages = array(
             'evidence.required' => 'Por favor ingrese un archivo que evidencie la justificacion',
+            'justification_type.required' => 'Por favor ingrese el tipo de justificacion',
             'reason.required' => 'Por favor ingrese una breve descripcion de la justificacion',
             'justification_date.required' => 'Por favor ingrese una fecha para la justificacion',
 
@@ -39,6 +41,7 @@ class JustificationController extends Controller
             $justification -> reason = $request->get('reason');
             $justification -> user_id = auth()->id();
             $justification -> justification_date = $request->get('justification_date');
+            $justification -> justification_type = $request->get('justification_type');
 
             if($request->hasFile('evidence')){
                 $archivo =$request->file('evidence');
