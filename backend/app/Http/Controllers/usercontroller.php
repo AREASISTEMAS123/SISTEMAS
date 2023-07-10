@@ -145,6 +145,7 @@ class usercontroller extends Controller
             return response()->json([
                 'usuario' => $user,
                 'perfil' => $profile,
+                'rol' => $role,
                 'messages' => "Usuario actualizado con exito"],200);
     }
 }
