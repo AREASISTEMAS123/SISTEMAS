@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('justification')->default(false);
             $table->boolean('delay')->default(false);
             $table->boolean('non_working_days')->default(false);
+            $table->date('date');
             $table->timestamps();
         });
 
@@ -39,7 +40,7 @@ return new class extends Migration
             $table->string('evidence');
             $table->boolean('justification_status')->default(false);
             $table->boolean('decline')->default(false);
-            $table->string('reason_accept_decline')->nullable();
+            $table->string('reason_decline')->nullable();
             $table->timestamps();
         });
     }

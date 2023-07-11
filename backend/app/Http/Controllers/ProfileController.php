@@ -16,8 +16,8 @@ class ProfileController extends Controller
     public function getProfile(){
             $profile = Profile::with('User', )->where("id", Auth::user()->id)->get();
             $attendance = Attendance::all()->where('user_id', Auth::user()->id)->where("attendance", "1")->count();
-            $absence = Attendance::all()->where('user_id', Auth::user()->id)->where("absence", "1")->count();
-            $delay = Attendance::all()->where('user_id', Auth::user()->id)->where("delay", "1")->count();
+            $absence = Attendance::all()->where('user_id', Auth::user()->id)->where("justification","0")->where("absence", "1")->count();
+            $delay = Attendance::all()->where('user_id', Auth::user()->id)->where("justification","0")->where("delay", "1")->count();
             $justification = Attendance::all()->where('user_id', Auth::user()->id)->where("justification", "1")->count();
             $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
             $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');

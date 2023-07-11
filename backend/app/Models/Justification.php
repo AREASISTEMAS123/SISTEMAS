@@ -15,6 +15,7 @@ class Justification extends Model
         'evidence',
         'justification_status',
         'decline',
+        'reason_decline'
     ];
 
     public function User(){

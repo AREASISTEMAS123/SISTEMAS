@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Justification;
 use App\Models\Model_has_role;
 use App\Models\Profile;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,5 +80,36 @@ class JustificationController extends Controller
             'aceptados' => $accept]);
     }
 
+    public function detailsJustification($id){
+        $justification = Justification::with('User')->where('id', $id)->get();
+    return response()->json($justification);
+    }
+
+    public function acceptJustification($id, $userid){
+
+        $justification = Justification::where('id', $id)->firstOrFail();
+
+        if($justification->justification_type == '0'){
+           $attendance = Attendance::create([
+                'user_id' => $userid,
+                'absence' => '1',
+                'justification' => '1',
+                'date' => $justification->justification_date
+            ]);
+            $justification->update(['justification_status' => '1']);
+
+            return response()->json([ "message" => "Justificacion acceptado con exito"]);
+        }else{
+            $attendance = Attendance::create([
+                'user_id' => $userid,
+                'delay' => '1',
+                'justification' => '1',
+                'date' => $justification->justification_date
+            ]);
+            $justification->update(['justification_status' => '1']);
+
+            return response()->json([ "message" => "Justificacion acceptado con exito"]);
+        }
+    }
 
 }

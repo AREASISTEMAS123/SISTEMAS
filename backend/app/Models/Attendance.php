@@ -17,7 +17,8 @@ class Attendance extends Model
         'absence',
         'justification',
         'delay',
-        'non_working_days'
+        'non_working_days',
+        'date'
     ];
 
     public function profile(){
