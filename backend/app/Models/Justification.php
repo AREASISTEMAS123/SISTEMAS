@@ -24,4 +24,7 @@ class Justification extends Model
     public function media(){
         return $this->hasMany(Media::class,'model_id', 'user_id');
     }
+    public function Profile(){
+        return $this->hasMany(Profile::class,'user_id', 'id');
+    }
 }
