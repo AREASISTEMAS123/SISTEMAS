@@ -6,10 +6,9 @@ import {
   BsFillCameraVideoOffFill,
 } from "react-icons/bs";
 import { Toaster, toast } from "react-hot-toast"
-import { Close, CheckCircle } from '@mui/icons-material';
 
 
-export const RegistroAsistencia = () => {
+export const Asistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
   const [marcarEntrada, setMarcarEntrada] = useState(false);
   const [tardanza, setTardanza] = useState(false);
@@ -21,7 +20,7 @@ export const RegistroAsistencia = () => {
   const [cameraStream, setCameraStream] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const videoRef = useRef(null);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(5);
   const [capturing, setCapturing] = useState(false);
   const [mostrarBotonEntrada, setMostrarBotonEntrada] = useState(false);
   const [mostrarBotonSalida, setMostrarBotonSalida] = useState(false);
@@ -51,6 +50,7 @@ export const RegistroAsistencia = () => {
       setMostrarBotonEntrada(false);
       setFotoUsuario(null);
       setFotoCapturada(null);
+      setMostrarBotonCamara(true)
       toast.success("Entrada marcada exitosamente");
     } else {
       setTardanza(true);
@@ -59,6 +59,7 @@ export const RegistroAsistencia = () => {
       setMostrarBotonEntrada(false);
       setFotoUsuario(null);
       setFotoCapturada(null);
+      setMostrarBotonCamara(true)
       toast.success("Entrada marcada exitosamente");
     }
   };
@@ -71,11 +72,12 @@ export const RegistroAsistencia = () => {
     setMostrarBotonSalida(false);
     setFotoUsuario(null);
     setFotoCapturada(null);
+    setMostrarBotonCamara(false)
     toast.success("Salida marcada correctamente")
   };
 
   const reiniciarConteo = () => {
-    setTimer(10);
+    setTimer(5);
     setCapturing(false);
   };
 
@@ -133,7 +135,7 @@ export const RegistroAsistencia = () => {
           .then((blob) => {
             setFotoUsuario(URL.createObjectURL(blob));
             setCapturing(false);
-            setTimer(10);
+            setTimer(5);
 
             if (!segundaFotoTomada) {
               setMostrarBotonEntrada(true);
@@ -145,15 +147,16 @@ export const RegistroAsistencia = () => {
             }
 
             stopCamera();
+            setMostrarBotonCamara(false)
             setVideoEnabled(false);
             setFotoCapturada(blob);
           })
           .catch((error) => {
             console.log("Error taking photo:", error);
             setCapturing(false);
-            setTimer(10);
+            setTimer(5);
           });
-      }, 10000);
+      }, 5000);
     }
   };
 
@@ -170,7 +173,7 @@ export const RegistroAsistencia = () => {
 
   return (
     <div
-      className={`registro-Entrada h-screen flex  ${isMobile ? "flex-col" : "flex items-center justify-center"
+      className={`registro-Entrada h-screen flex  ${isMobile ? "flex-col" : "flex justify-center"
         }`}
     >
       <div className={`seccion-izquierda ${isMobile ? "mb-4" : "mr-4"}`}>
@@ -191,7 +194,7 @@ export const RegistroAsistencia = () => {
             )}
           </div>
           <div className="absolute bottom-0 mb-4 w-full flex justify-center">
-            <button
+            {mostrarBotonCamara &&(<button
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -210,7 +213,7 @@ export const RegistroAsistencia = () => {
               ) : (
                 <BsFillCameraVideoOffFill style={{ color: "#FFFFFF" }} />
               )}
-            </button>
+            </button>)}
           </div>
         </div>
 
@@ -229,7 +232,7 @@ export const RegistroAsistencia = () => {
       <div
         className={`seccion-derecha ${isMobile
           ? "mt-4 text-center"
-          : "ml-4 flex items-center justify-center"
+          : "ml-4 flex justify-center"
           }`}
       >
         <div className="flex flex-col items-center">

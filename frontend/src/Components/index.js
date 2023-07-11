@@ -3,13 +3,13 @@ export * from './CumpleanosCardColaborador';
 export * from './JustificacionColaborador';
 export * from './EvaluacionesCard';
 export * from './Login';
-export * from './PerfilColaborador';
-export * from './RegistroAsistencia'
+export * from './Perfil';
+export * from './Asistencia'
 export * from './VistaHomeColaborador';
 export * from './VistaEvaluaciones';
 export * from './AdmiJustificacion';
 export * from './AsistenciaAdmin';
-export * from './DetalleCumpleanos'
+export * from './CumpleanosDetalle'
 export * from './VistaAdminColaborador'
 export * from './EvaluacionesColaborador'
 export * from './OlvideContraseña'
