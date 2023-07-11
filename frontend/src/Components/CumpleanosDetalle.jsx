@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import KeyboardBackspaceTwoToneIcon from '@mui/icons-material/KeyboardBackspaceTwoTone';
 
-export const DetalleCumpleanos = () => {
+export const CumpleanosDetalle = () => {
     const navigate = useNavigate();
     const [birthdayUser, setBirthdayUser] = useState([]);
     const { month, day } = useParams();
@@ -42,7 +42,6 @@ export const DetalleCumpleanos = () => {
 
     return (
         <div className="container mx-auto mt-4 min-h-screen">
-            <div className="text-white font-semibold">Perfil</div>
             <button className="text-white font-bold w-12 h-12 md:w-32 md:h-10 hover:bg-gray-700" onClick={handleGoBack}>
                 <KeyboardBackspaceTwoToneIcon />
             </button>

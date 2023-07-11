@@ -2,13 +2,13 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import {
     Cumpleanos,
     Login,
-    RegistroAsistencia,
-    PerfilColaborador,
+    Asistencia,
+    Perfil,
     VistaEvaluaciones,
     VistaHomeColaborador,
     AsistenciaAdmin,
     AdmiJustificacion,
-    DetalleCumpleanos,
+    CumpleanosDetalle,
     JustificacionColaborador,
     EvaluacionesColaborador,
     VistaAdminColaborador,
@@ -32,9 +32,9 @@ const AppRoutes = () => {
                 <>
                     <Route path="/home" element={<VistaHomeColaborador />} />
                     <Route path="/cumpleanos" element={<Cumpleanos />} />
-                    <Route path="/detalleCumpleanos/:month/:day" element={<DetalleCumpleanos />} />
-                    <Route path="/perfil" element={<PerfilColaborador />} />
-                    <Route path="/asistencia" element={<RegistroAsistencia />} />
+                    <Route path="/detalleCumpleanos/:month/:day" element={<CumpleanosDetalle />} />
+                    <Route path="/perfil" element={<Perfil />} />
+                    <Route path="/asistencia" element={<Asistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
                     <Route path="/logout" />

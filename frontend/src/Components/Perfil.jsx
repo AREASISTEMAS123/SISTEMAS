@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export const PerfilColaborador = () => {
+export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
 
   useEffect(() => {
