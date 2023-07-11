@@ -29,7 +29,7 @@ export const CumpleanosCardColaborador = () => {
 						</div>
 					</div>
 				</div>
-				<button className="p-5 w-full bg-white text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
+				<button className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
 					<WavingHandIcon/>
 					<p className='ml-2'>Saludar</p>
 				</button>

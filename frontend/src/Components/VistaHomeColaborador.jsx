@@ -26,6 +26,7 @@ export const VistaHomeColaborador = () => {
   ];
 
   const nombre = localStorage.getItem('name');
+  const firstName = nombre.split(" ")[0];
 
   return (
     <>
@@ -33,7 +34,7 @@ export const VistaHomeColaborador = () => {
         <section className="w-full bg-cv-secondary space-y-4">
           <div className="text-center my-4">
             <h2 className="text-2xl md:text-5xl text-white font-bold uppercase">
-              Mucho Gusto {nombre}
+              Mucho Gusto {firstName}
             </h2>
           </div>
           <div className="space-y-4">

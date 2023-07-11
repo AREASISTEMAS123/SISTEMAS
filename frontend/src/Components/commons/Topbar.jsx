@@ -41,7 +41,6 @@ export const Topbar = ({ toggleSidebar }) => {
 
 
 
-  const apiURL = 'http://127.0.0.1:8000/api';
   const userId = localStorage.getItem("iduser");
   const Token = localStorage.getItem("token");
 
@@ -53,9 +52,8 @@ export const Topbar = ({ toggleSidebar }) => {
       return;
     }
 
-    const url = apiURL + '/task/insert';
 
-    fetch(url, {
+    fetch(import.meta.env.VITE_API_URL + '/task/insert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -88,7 +86,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Listar Tareas
   const listarTarea = () => {
-    fetch(apiURL + '/task/' + userId, {
+    fetch(import.meta.env.VITE_API_URL + '/task/' + userId, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${Token}`
@@ -108,7 +106,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Modificar Tarea
   const modificarTarea = (taskUpdate) => {
-    const url = apiURL + `/task/update/${taskUpdate.id}`;
+    const url = import.meta.env.VITE_API_URL + `/task/update/${taskUpdate.id}`;
 
     fetch(url, {
       method: 'PUT',
@@ -142,7 +140,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Eliminar Tarea
   const eliminarTarea = (taskId) => {
-    const url = apiURL + `/task/delete/${taskId}`;
+    const url = import.meta.env.VITE_API_URL + `/task/delete/${taskId}`;
 
     fetch(url, {
       method: 'DELETE',
@@ -255,7 +253,7 @@ export const Topbar = ({ toggleSidebar }) => {
             <img
               src={avatar}
               alt="Foto de Perfil"
-              className="w-14 h-14 rounded-full shadow-lg cursor-pointer"
+              className="w-14 h-14 rounded-full shadow-lg cursor-pointer object-cover"
             />
           </button>
         </div>

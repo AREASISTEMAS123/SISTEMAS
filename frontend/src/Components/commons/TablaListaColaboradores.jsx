@@ -83,13 +83,13 @@ TablePaginationActions.propTypes = {
 };
 TablaListaColaboradores.propTypes = {
 	data: PropTypes.array.isRequired,
-	update: PropTypes.func.isRequired,
+	abrirEditarModal: PropTypes.func.isRequired,
 	deleteUser: PropTypes.func.isRequired,
 	filterName: PropTypes.string.isRequired,
 	filterDepartment: PropTypes.string.isRequired,
 	filterDate: PropTypes.string.isRequired,
 };
-export default function TablaListaColaboradores({ data, update, deleteUser, filterName, filterDepartment, filterDate }) {
+export default function TablaListaColaboradores({ data, abrirEditarModal, deleteUser, filterName, filterDepartment, filterDate }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -143,6 +143,7 @@ export default function TablaListaColaboradores({ data, update, deleteUser, filt
 						<TableHead className='bg-cv-primary'>
 							<TableRow >
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Nombre</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Email</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>DNI</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Departamento</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Area</TableCell>
@@ -157,13 +158,11 @@ export default function TablaListaColaboradores({ data, update, deleteUser, filt
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{(rowsPerPage > 0
-								? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								: data
-							).filter((users) => {
+							{data
+							.filter((users) => {
 								const normalizedFilter = removeAccents(filterName.toLowerCase());
-								const normalizedName = removeAccents(users.user[0].name.toLowerCase());
-								const normalizedSurname = removeAccents(users.user[0].surname.toLowerCase());
+								const normalizedName = users.user && users.user[0] ? removeAccents(users.user[0].name.toLowerCase()) : '';
+								const normalizedSurname = users.user && users.user[0] ? removeAccents(users.user[0].surname.toLowerCase()) : '';
 
 								if (filterName.includes(' ')) {
 									const [firstName, lastName] = filterName.split(' ');
@@ -182,15 +181,16 @@ export default function TablaListaColaboradores({ data, update, deleteUser, filt
 								}
 							})
 								.filter((users) =>
-									users.department.toLowerCase().includes(filterDepartment.toLowerCase()) &&
+									(users.department && users.department.toLowerCase().includes(filterDepartment.toLowerCase())) &&
 									users.date_start.toLowerCase().includes(filterDate.toLowerCase())
-								
-								).map((users) => (
+								)
+								.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((users) => (
 									<TableRow
 										key={users.id}
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
-										<TableCell align="left" width="auto" className='whitespace-nowrap'>{users.user[0].name + " " + users.user[0].surname}</TableCell>
+										<TableCell align="left" width="auto" className='whitespace-nowrap'>{users.user && users.user[0]?.name + " " + users.user[0]?.surname}</TableCell>
+										<TableCell align="right">{users.user && users.user[0]?.email}</TableCell>
 										<TableCell align="right">{users.dni}</TableCell>
 										<TableCell align="right">{users.department}</TableCell>
 										<TableCell align="right">{users.area}</TableCell>
@@ -199,11 +199,12 @@ export default function TablaListaColaboradores({ data, update, deleteUser, filt
 										<TableCell align="left" className='whitespace-nowrap'>{users.responsible}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.date_start}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
-										<TableCell align="right">{roleNames[users.role[0].role_id]}</TableCell>
-										<TableCell align="right">{users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell>
+										{/*<TableCell align="right">{roleNames[users.role[0].role_id]}</TableCell>*/}
+										<TableCell align="right">{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
+										<TableCell align="right">{users.user && users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell>
 										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
-												<button onClick={() => update(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
+												<button onClick={() => abrirEditarModal(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
 													<EditIcon className="mr-1" />
 												</button>
 												<button onClick={() => showModalWarning(users.id)} className='p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white transition duration-300 ease-in-out'>
