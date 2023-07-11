@@ -41,6 +41,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
 
 
+  //Local Storage
   const userId = localStorage.getItem("iduser");
   const Token = localStorage.getItem("token");
 
@@ -106,9 +107,8 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Modificar Tarea
   const modificarTarea = (taskUpdate) => {
-    const url = import.meta.env.VITE_API_URL + `/task/update/${taskUpdate.id}`;
 
-    fetch(url, {
+    fetch(import.meta.env.VITE_API_URL + `/task/update/${taskUpdate.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -140,9 +140,8 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Eliminar Tarea
   const eliminarTarea = (taskId) => {
-    const url = import.meta.env.VITE_API_URL + `/task/delete/${taskId}`;
 
-    fetch(url, {
+    fetch(import.meta.env.VITE_API_URL + `/task/delete/${taskId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
