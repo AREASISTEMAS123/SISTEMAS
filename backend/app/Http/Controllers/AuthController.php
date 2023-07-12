@@ -25,7 +25,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'string|min:8',
             'profile_name' => 'required|string|max:255',
-            'dni' => 'required|string|max:8',
+            'dni' => 'required|string|max:8|unique:profiles',
             'department' => 'required|string|max:255',
             'area' => 'required|string|max:255',
             'shift' => 'required|string|max:255',
