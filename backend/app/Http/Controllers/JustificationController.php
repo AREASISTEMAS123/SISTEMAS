@@ -7,12 +7,15 @@ use App\Models\Justification;
 use App\Models\Model_has_role;
 use App\Models\Profile;
 use App\Models\User;
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
+use PhpParser\Node\NullableType;
+use function PHPUnit\Framework\isNull;
 
 class JustificationController extends Controller
 {
@@ -88,28 +91,118 @@ class JustificationController extends Controller
     public function acceptJustification($id, $userid){
 
         $justification = Justification::where('id', $id)->firstOrFail();
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
+        $att = Attendance::where('user_id',$userid)->where('date',$date)->exists();
+        if ( $att == 'true'){
 
-        if($justification->justification_type == '0'){
-           $attendance = Attendance::create([
-                'user_id' => $userid,
-                'absence' => '1',
-                'justification' => '1',
-                'date' => $justification->justification_date
-            ]);
-            $justification->update(['justification_status' => '1']);
+            $att = Attendance::where('user_id', $userid)->where('date',$date)->firstOrFail();
+            if ($att->user_id == $userid && $att->date = $date){
 
-            return response()->json([ "message" => "Justificacion acceptado con exito"]);
-        }else{
-            $attendance = Attendance::create([
-                'user_id' => $userid,
-                'delay' => '1',
-                'justification' => '1',
-                'date' => $justification->justification_date
-            ]);
-            $justification->update(['justification_status' => '1']);
+                if($justification->justification_type == '0'){
+                    $att->update([
+                        'attendance' =>'0',
+                        'absence' => '1',
+                        'justification' => '1',
+                    ]);
+                    $justification->update(['justification_status' => '1']);
 
-            return response()->json([ "message" => "Justificacion acceptado con exito"]);
+                    return response()->json([ "message" => "Justificacion acceptado con exito"]);
+                }else{
+                    $att->update([
+                        'justification' => '1',
+                    ]);
+                    $justification->update(['justification_status' => '1']);
+
+                    return response()->json([ "message" => "Justificacion acceptado con exito"]);
+                }
+
+            }
+
+        } else{
+
+            if($justification->justification_type == '0'){
+                $attendance = Attendance::create([
+                    'user_id' => $userid,
+                    'absence' => '1',
+                    'justification' => '1',
+                    'date' => $justification->justification_date
+                ]);
+                $justification->update(['justification_status' => '1']);
+
+                return response()->json([ "message" => "Justificacion acceptado con exito"]);
+            }else{
+                $attendance = Attendance::create([
+                    'user_id' => $userid,
+                    'delay' => '1',
+                    'justification' => '1',
+                    'date' => $justification->justification_date
+                ]);
+                $justification->update(['justification_status' => '1']);
+
+                return response()->json([ "message" => "Justificacion acceptado con exito"]);
+            }
+
         }
+
+    }
+
+    public function declineJustification(Request $request, $id, $userid){
+
+        $validator = Validator::make($request->all(),[
+            'reason_decline' => 'required|string']);
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $justification = Justification::where('id', $id)->firstOrFail();
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
+        $att = Attendance::where('user_id',$userid)->where('date',$date)->exists();
+
+        if ( $att == 'true'){
+            $att = Attendance::where('user_id', $userid)->where('date',$date)->firstOrFail();
+            if ($att->user_id == $userid && $att->date == $date){
+                if($justification->justification_type == '0'){
+
+                    $justification->update(['decline' => '1',
+                        'reason_decline' => $request->reason_decline]);
+
+                    return response()->json([ "message" => "Justificacion rechazada"]);
+                }else{
+
+                    $justification->update(['decline' => '1',
+                        'reason_decline' => $request->reason_decline]);
+
+                    return response()->json([ "message" => "Justificacion rechazada"]);
+                }
+
+            }
+        }else{
+            if($justification->justification_type == '0'){
+                $attendance = Attendance::create([
+                    'user_id' => $userid,
+                    'absence' => '1',
+                    'date' => $justification->justification_date
+                ]);
+                $justification->update(['decline' => '1',
+                    'reason_decline' => $request->reason_decline]);
+
+                return response()->json([ "message" => "Justificacion rechazada"]);
+            }else{
+                $attendance = Attendance::create([
+                    'user_id' => $userid,
+                    'delay' => '1',
+                    'date' => $justification->justification_date
+                ]);
+                $justification->update(['decline' => '1',
+                    'reason_decline' => $request->reason_decline]);
+
+                return response()->json([ "message" => "Justificacion rechazada"]);
+            }
+
+        }
+
     }
 
 }

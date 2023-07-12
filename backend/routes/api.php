@@ -33,7 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/justifications', [\App\Http\Controllers\JustificationController::class, 'getAllJustification']);
     Route::get('/users/justifications/{id}', [\App\Http\Controllers\JustificationController::class, 'detailsJustification']);
     Route::post('/users/justifications/{id}/accept/{userid}',[\App\Http\Controllers\JustificationController::class, 'acceptJustification']);
-
+    Route::post('/users/justifications/{id}/decline/{userid}',[\App\Http\Controllers\JustificationController::class,'declineJustification']);
 
     Route::get('/users', [App\Http\Controllers\usercontroller::class, 'getUser']);
     Route::get('/users/{id}',[App\Http\Controllers\usercontroller::class, 'getUserById']);
