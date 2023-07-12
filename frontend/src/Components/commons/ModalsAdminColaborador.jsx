@@ -354,6 +354,8 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 }
 
 
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) => {
 
@@ -367,7 +369,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Name, setName] = useState('');
 	const [Surname, setSurname] = useState('');
 	const [Email, setEmail] = useState('');
-	const [Status, setStatus] = useState('')
+	const [Status, setStatus] = useState(0)
 	const [Profile, setProfile] = useState('');
 	const [Dni, setDni] = useState('');
 	const [Departament, setDepartament] = useState('');
@@ -408,7 +410,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	};
 
 	const handleStatusChange = (event) => {
-		setStatus(event.target.value);
+		setStatus(event.target.checked ? 1 : 0);
 	};
 
 	const handleProfileChange = (event) => {
@@ -591,19 +593,13 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										>
 											Estado
 										</span>
-
-										<label className="relative inline-flex items-center cursor-pointer">
-											<input type="checkbox"
-												value={Status}
-												checked={Status === 1}
-												onChange={handleStatusChange}
-												className="sr-only peer" />
-											<div className="w-11 h-6 peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cv-cyan"></div>
-											<span className="ml-3 text-sm font-medium">
-												{Status === 1 ? 'Activo' : 'Inactivo'}
-											</span>
-										</label>
-
+										<FormControlLabel
+											control={<Switch defaultChecked={Status} />} 
+											checked={Status}
+											onChange={handleStatusChange}
+											label={Status === 1 ? 'Activo' : 'Inactivo'}
+										/>
+										
 									</div>
 								</div>
 								<div className="w-full flex flex-col space-y-1">

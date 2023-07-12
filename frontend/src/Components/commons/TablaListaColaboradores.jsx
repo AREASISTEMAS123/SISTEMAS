@@ -199,9 +199,8 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 										<TableCell align="left" className='whitespace-nowrap'>{users.responsible}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.date_start}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
-										{/*<TableCell align="right">{roleNames[users.role[0].role_id]}</TableCell>*/}
 										<TableCell align="right">{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
-										<TableCell align="right">{users.user && users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell>
+										<TableCell align="right">{users.user && users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell> 
 										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
 												<button onClick={() => abrirEditarModal(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>

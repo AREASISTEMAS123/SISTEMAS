@@ -101,7 +101,11 @@ export const VistaAdminColaborador = () => {
       if (response.ok) {
         const usuariosActualizados = users.map((usuario) => {
           if (usuario.id === usuarioEditado.id) {
-            return data;
+            //return data;
+            return {
+              ...usuario,
+              ...usuarioEditado,
+            };
           }
           return usuario;
         });
