@@ -355,7 +355,20 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 
 
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { alpha, styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
+
+const CvSwitch = styled(Switch)(({ theme }) => ({
+	'& .MuiSwitch-switchBase.Mui-checked': {
+		color: '#57F3FF',
+		'&:hover': {
+			backgroundColor: alpha('#57F3FF', theme.palette.action.hoverOpacity),
+		},
+	},
+	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+		backgroundColor: '#57F3FF',
+	},
+}));
 
 export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) => {
 
@@ -380,6 +393,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Responsible, setResponsible] = useState('');
 	const [Role, setRole] = useState('')
 	//const [Avatar, setAvatar] = useState(null);
+	//const avatarUrl = import.meta.env.VITE_BACKEND_SERVER_URL + `/storage/${usuario.id}/${usuario.media.file_name}`
 
 	useEffect(() => {
 		setName(usuario.user[0].name);
@@ -473,6 +487,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			responsible: Responsible,
 			role_id: Role,
 		};
+		
 
 		editarUsuario(usuarioEditado);
 	};
@@ -594,12 +609,12 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											Estado
 										</span>
 										<FormControlLabel
-											control={<Switch defaultChecked={Status} />} 
+											control={<CvSwitch defaultChecked={Status} />}
 											checked={Status}
 											onChange={handleStatusChange}
 											label={Status === 1 ? 'Activo' : 'Inactivo'}
 										/>
-										
+
 									</div>
 								</div>
 								<div className="w-full flex flex-col space-y-1">
@@ -707,34 +722,38 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 							</div>
 
 							<div className="mx-auto w-full">
-								{/* <label
-                          htmlFor="fileImage"
-                          className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300"
-                        >
-                          <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 items-center justify-center">
-                            <CloudUploadIcon
-                              className="text-cv-secondary hover:text-cv-primary"
-                              sx={{ fontSize: 70 }}
-                            />
-                            <div className="text-gray-600 text-center md:text-start">
-                              <p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
-                                {avatar ? avatar.name : "Seleccione un archivo o arrastre y suelte aquí"}
-                              </p>
-                              <p className="text-xs md:text-sm text-gray-500">
-                                {avatar ? '' : "JPG o PNG, máximo 10MB (800 X 800 px)"}
-                              </p>
-                            </div>
-                            <button>
-                              <label
-                                htmlFor="fileImage"
-                                className="py-2 px-4 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-sm font-semibold uppercase ease-linear transition-all duration-150"
-                              >
-                                Seleccionar
-                              </label>
-                            </button>
-                          </div>
-                          <input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={uploadFile} />
-                        </label> */}
+								{/*
+								<img src={Avatar} className="rounded-md w-10 h-10" name={usuario.media.file_name} alt="" />
+								
+								<label
+									htmlFor="fileImage"
+									className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300"
+								>
+									<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 items-center justify-center">
+										<CloudUploadIcon
+											className="text-cv-secondary hover:text-cv-primary"
+											sx={{ fontSize: 70 }}
+										/>
+										<div className="text-gray-600 text-center md:text-start">
+											<p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
+												{Avatar ? usuario.media.file_name : "Seleccione un archivo o arrastre y suelte aquí"}
+											</p>
+											<p className="text-xs md:text-sm text-gray-500">
+												{Avatar ? '' : "JPG o PNG, máximo 10MB (800 X 800 px)"}
+											</p>
+										</div>
+										<button>
+											<label
+												htmlFor="fileImage"
+												className="py-2 px-4 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-sm font-semibold uppercase ease-linear transition-all duration-150"
+											>
+												Seleccionar
+											</label>
+										</button>
+									</div>
+									<input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={handleAvatarChange} />
+								</label>
+								*/}
 							</div>
 						</div>
 
@@ -757,6 +776,6 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 				</div>
 			</div>
 			<div className="opacity-25 fixed inset-0 z-20 bg-black"></div>
-		</div>
+		</div >
 	)
 }

@@ -1,8 +1,32 @@
-import React from "react";
+
+import { useEffect, useState } from 'react';
+import moment from 'moment';
 import { Tabla } from "./Tabla";
 import { DynamicSelect } from "./commons";
+import CircularProgressBar from './commons/CircularProgressBar';
 
 export const AsistenciaAdmin = () => {
+
+  const [selectedDate, setSelectedDate] = useState('');
+
+  useEffect(() => {
+    const currentDate = moment().format('YYYY-MM-DD');
+    setSelectedDate(currentDate);
+  }, []);
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value);
+  };
+
+  const formatSelectedDate = (dateValue) => {
+    if (!dateValue) return '';
+
+    const date = moment(dateValue, 'YYYY-MM-DD').toDate();
+    const formattedDate = moment(date).locale('es').format('LL');
+    return formattedDate;
+  };
+console.log(selectedDate)
+
   const colaborador = [{ label: "Artuo Antonio Montejo Soto", value: "1" }];
   const departamento = [
     { label: "Estrategico", value: "estrategico" },
@@ -33,82 +57,70 @@ export const AsistenciaAdmin = () => {
     { label: "Diciembre", value: "diciembre" },
   ];
 
+
+
   return (
-    <div className="max-w-screen-lg mx-auto h-screen">
-      <div className="flex flex-col sm:flex-row justify-between">
-        <div className="bg-gray-200 p-4 rounded-md shadow-md w-96 mr-5">
-          <h3 className="text-3xl font-bold mb-2 text-center">INFORMACIÓN</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <ul className="list-disc">
-                <li className="flex justify-between">
-                  <span>Faltas</span>
-                  <span className="ml-4">8</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Asistencia</span>
-                  <span className="ml-4">12</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Tardanza</span>
-                  <span className="ml-4">5</span>
-                </li>
-              </ul>
+    <div className="max-w-screen-lg mx-auto">
+      <div className="flex flex-col items-center justify-center space-y-2">
+        <div className="w-full mb-3">
+          <h2 className="text-2xl text-white">Asistencia</h2>
+        </div>
+        
+        <div className="w-full flex flex-col md:flex-row justify-between space-y-3 md:space-x-5">
+          <div className="w-full md:w-1/3 space-y-4 bg-cv-primary p-5 rounded-lg">
+            <h2 className="text-white text-center text-xl uppercase font-semibold">Leyenda</h2>
+            <div className="w-full flex items-center justify-between space-x-3">
+              <h3 className="text-white uppercase font-normal">Asistencia</h3>
+              <div className="w-5 h-5 rounded-full bg-[#24FF00]"></div>
             </div>
-            <div>
-              <ul className="list-disc pl-6">
-                <li className="flex justify-between">
-                  <span>Justificación</span>
-                  <span className="ml-4">8</span>
-                </li>
-              </ul>
+            <div className="w-full flex items-center justify-between space-x-3">
+              <h3 className="text-white uppercase font-normal">Tardanza</h3>
+              <div className="w-5 h-5 rounded-full bg-[#FAFF00]"></div>
+            </div>
+            <div className="w-full flex items-center justify-between space-x-3">
+              <h3 className="text-white uppercase font-normal">Falta</h3>
+              <div className="w-5 h-5 rounded-full bg-[#FF0000]"></div>
+            </div>
+            <div className="w-full flex items-center justify-between space-x-3">
+              <h3 className="text-white uppercase font-normal">Justificado</h3>
+              <div className="w-5 h-5 rounded-full bg-[#57F3FF]"></div>
+            </div>
+            <div className="w-full flex items-center justify-between space-x-3">
+              <h3 className="text-white uppercase font-normal">Dia no Laborable</h3>
+              <div className="w-5 h-5 rounded-full bg-[#9A9A9A]"></div>
             </div>
           </div>
+
+          <div className="w-full">
+            <div className="w-full bg-cv-primary rounded-lg">
+              
+              <div className="w-full flex items-center justify-between p-2 space-x-3">
+                <h2 className="text-white text-center text-xl uppercase font-semibold">Fecha:</h2>
+                <div className="w-full flex items-center justify-between relative">
+                  <input type="date" defaultValue={selectedDate}
+                    onChange={handleDateChange} className='date w-full p-1 outline-none font-semibold text-cv-primary bg-cv-primary rounded-lg' />
+                  <p className="text-white bg-cv-primary text-center text-xl uppercase font-semibold absolute">{formatSelectedDate(selectedDate)}</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-x-5">
+              <div className="flex flex-col items-center justify-center">
+                <h2 className="mb-4 text-lg font-bold uppercase text-white">Ingresos</h2>
+                <CircularProgressBar progress={75} color={'#24FF00'} />
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                <h2 className="mb-4 text-lg font-bold uppercase text-white">Tardanzas</h2>
+                <CircularProgressBar progress={20} color={'#FAFF00'} />
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                <h2 className="mb-4 text-lg font-bold uppercase text-white">Faltas</h2>
+                <CircularProgressBar progress={5} color={'#FF0000'} />
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div className="bg-gray-200 p-4 rounded-md shadow-md w-96 mt-5 sm:mt-0">
-          <h3 className="text-3xl font-bold mb-2 text-center">Leyenda</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <ul className="list-disc">
-                <li className="flex justify-between">
-                  <span>Falta</span>
-                  <span className="ml-4">
-                    <div className="w-5 h-5 rounded-full bg-red-600"></div>
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Asistencia</span>
-                  <span className="ml-4">
-                    <div className="w-5 h-5 rounded-full bg-green-600"></div>
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Tardanza</span>
-                  <span className="ml-4">
-                    <div className="w-5 h-5 rounded-full bg-yellow-400"></div>
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <ul className="list-disc pl-6">
-                <li className="flex justify-between">
-                  <span>Justificación</span>
-                  <span className="ml-4">
-                    <div className="w-5 h-5 rounded-full bg-cyan-500"></div>
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Día no laborable</span>
-                  <span className="ml-4">
-                    <div className="w-5 h-5 rounded-full bg-slate-500"></div>
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row space-x-4 mt-5">

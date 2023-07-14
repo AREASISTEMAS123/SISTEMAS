@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.date::-webkit-calendar-picker-indicator{
+	background-color: #57F3FF;
+	padding: 5px;
+	cursor: pointer;
+	border-radius: 3px;
+}
