@@ -1,11 +1,27 @@
 
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import TablaAsistencias from './commons/TablaAsistencias'
 import { DynamicSelect } from "./commons";
 import CircularProgressBar from './commons/CircularProgressBar';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import CloseIcon from '@mui/icons-material/Close';
+const ProgressBar = ({ title, progress, color }) => {
+  return (
+    <div className="w-full flex flex-col items-center justify-center">
+      <h2 className="mb-4 text-lg font-bold uppercase text-white">{title}</h2>
+      <CircularProgressBar progress={progress} color={color} />
+    </div>
+  );
+};
+ProgressBar.propTypes = {
+  title: PropTypes.string.isRequired,
+  progress: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+};
+
 
 export const AsistenciaAdmin = () => {
 
@@ -50,6 +66,17 @@ export const AsistenciaAdmin = () => {
 
   const data = ['Operativo', 'Sistemas', 'Mañana', 'Cristian Vasquez', 1];
 
+  const items = [
+    { title: 'Ingresos', progress: 75, color: '#24FF00' },
+    { title: 'Tardanzas', progress: 20, color: '#FAFF00' },
+    { title: 'Faltas', progress: 5, color: '#FF0000' },
+  ];
+
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
+
+  const handleNextItem = () => {
+    setCurrentItemIndex((prevIndex) => (prevIndex + 1) % items.length);
+  };
   //onBlur = {() => setIsInputReady(false)}
   return (
     <div className="max-w-screen-lg mx-auto space-y-3">
@@ -95,19 +122,24 @@ export const AsistenciaAdmin = () => {
                 </div>
               </div>
             </div>
-            <div className="flex w-full overflow-x-auto items-center justify-center space-y-2 md:space-x-5 md:space-y-0">
-              <div className="w-full flex flex-col items-center justify-center">
-                <h2 className="mb-4 text-lg font-bold uppercase text-white">Ingresos</h2>
-                <CircularProgressBar progress={75} color={'#24FF00'} />
-              </div>
-              <div className="w-full flex flex-col items-center justify-center">
-                <h2 className="mb-4 text-lg font-bold uppercase text-white">Tardanzas</h2>
-                <CircularProgressBar progress={20} color={'#FAFF00'} />
-              </div>
-              <div className="w-full flex flex-col items-center justify-center">
-                <h2 className="mb-4 text-lg font-bold uppercase text-white">Faltas</h2>
-                <CircularProgressBar progress={5} color={'#FF0000'} />
-              </div>
+            <div className="flex w-full overflow-x-auto items-center justify-center md:space-x-5">
+              {items.map((item, index) => (
+                <div
+                  key={index}
+                  className={`w-full flex flex-col items-center justify-center ${index !== currentItemIndex ? 'hidden md:flex' : ''
+                    }`}
+                >
+                  <ProgressBar {...item} />
+                </div>
+              ))}
+              <button
+                className="block md:hidden w-12 h-12 p-2 rounded-full bg-cv-primary text-cv-cyan"
+                onClick={handleNextItem}
+              >
+                <div className='flex items-end justify-center '>
+                <ArrowForwardIosIcon sx={{ fontSize: 24 }} />
+                </div>
+              </button>
             </div>
           </div>
         </div>
