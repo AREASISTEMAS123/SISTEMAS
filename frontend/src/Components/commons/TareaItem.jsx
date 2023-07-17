@@ -100,21 +100,21 @@ export const TareaItem = ({ data, update, setSelectedCard, eliminarTarea }) => {
 		<ul className='divide-y divide-gray-700'>
 			{timeRemaining.map((card) => (
 				<li key={card.id} className="px-2 py-3 sm:py-4 cursor-pointer hover:bg-cv-secondary">
-					<div className="flex items-center space-x-4" >
+					<div className="flex flex-col md:flex-row items-center justify-center md:space-x-4" >
 						<div className="flex-1 min-w-0" onClick={() => handleCardClick(card)}>
 							<div className='flex items-center justify-between space-x-6'>
 								<div className='flex items-end space-x-4'>
-									<p className="text-lg w-56 font-semibold truncate text-white text-ellipsis">{card.tittle}</p>
+									<p className="text-lg w-full md:w-56 font-semibold truncate text-white text-ellipsis">{card.tittle}</p>
 									{/*<p className="text-sm font-light truncate text-white">{card.limit_date}</p>*/}
-									<p className="text-sm font-light truncate text-white">{lettersDate(card.limit_date)}</p>
+									<p className="w-full text-sm font-light truncate text-white">{lettersDate(card.limit_date)}</p>
 								</div>
 								<p className={`text-sm font-extralight truncate ${card.timeColor}`}>
 									{card.timeRemaining}
 								</p>
 							</div>
-							<p className="text-lg w-80 text-ellipsis text-white truncate">{card.description}</p>
+							<p className="text-lg w-full md:w-80 text-ellipsis text-white truncate">{card.description}</p>
 						</div>
-						<button onClick={()=>handleDeleteClick(card.id)} className='p-3 w-20 border border-cv-secondary text-green-500 bg-cv-primary flex items-center justify-center rounded-lg text-xl hover:bg-green-500 hover:text-cv-primary'>
+						<button onClick={()=>handleDeleteClick(card.id)} className='p-3 w-full md:w-20 border border-cv-secondary text-green-500 bg-cv-primary flex items-center justify-center rounded-lg text-xl hover:bg-green-500 hover:text-cv-primary'>
 							<TaskAltIcon fontSize="large" />
 						</button>
 					</div>

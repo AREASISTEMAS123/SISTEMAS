@@ -285,7 +285,7 @@ export const Topbar = ({ toggleSidebar }) => {
           </div>
         </div>
 
-        <div className={`${showTask ? 'block' : 'hidden'} absolute right-5 w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50]`}>
+        <div className={`${showTask ? 'block' : 'hidden'} absolute flex items-center justify-center right-0 md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">
             <button onClick={() => { setShowModal(true); setShowTask(false); }} className="p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-xl font-bold uppercase  hover:bg-green-500 hover:text-cv-primary">
               <AddTaskIcon fontSize="large" />
