@@ -21,7 +21,11 @@ class Attendance extends Model
         'date'
     ];
 
+    // public function user(){
+    //     return $this->hasMany(User::class,'id','user_id');
+    // }
+
     public function profile(){
-        return $this->hasMany(Attendance::class, 'id','user_id');
+        return $this->hasMany(Profile::class,'user_id','user_id');
     }
 }

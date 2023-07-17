@@ -60,6 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('justifications/insert', [\App\Http\Controllers\JustificationController::class,'insertJustification']);
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
+    Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class,'insertAttendance']);
 
 
 
