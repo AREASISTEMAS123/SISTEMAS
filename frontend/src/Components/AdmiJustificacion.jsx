@@ -1,44 +1,20 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CloseIcon from "@mui/icons-material/Close";
-import SearchIcon from "@mui/icons-material/Search";
+import moment from 'moment';
+
 export const AdmiJustificacion = () => {
   const [faltasList, setFaltasList] = useState([]);
   const [showDatos, setShowDatos] = useState(false);
-  const [search, setSearch] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardJustificar, setCardJustificar] = useState(false);
-  const [filteredNames, setFilteredNames] = useState([]);
   const [cardStatus, setCardStatus] = useState({});
   const [showDetalleButton, setShowDetalleButton] = useState(false);
   const [showDetalleCard, setshowDetalleCard] = useState(false);
-
+  const [searchInput, setSearchInput] = useState("");
   const handleClick = (id) => {
     setSelectedCard(id);
     setShowDatos(true);
-  };
-  const closeDatos = () => {
-    setShowDatos(false);
-    if (cardStatus[selectedCard] === "Aceptado") {
-      setShowDatos(false);
-    } else {
-      setShowDatos(false);
-      setCardStatus((prevStatus) => ({
-        ...prevStatus,
-        [selectedCard]: "Rechazado",
-      }));
-    }
-  };
-
-  const handleSearch = (e) => {
-    const search = e.target.value;
-    setSearch(search);
-
-    const filteredNames = faltasList.filter((persona) =>
-      persona.name.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredNames(filteredNames);
   };
 
   const llenarJustificacionAceptar = () => {
@@ -75,7 +51,7 @@ export const AdmiJustificacion = () => {
     if (cardStatus[selectedCard] === "Aceptado") {
       setCardStatus((prevStatus) => ({
         ...prevStatus,
-        [selectedCard]: "Aceptado",
+        [selectedCard]: "Rechazado",
       }));
     } else {
       setCardStatus((prevStatus) => ({
@@ -96,13 +72,35 @@ export const AdmiJustificacion = () => {
     }
   };
 
+
+  const cerrar = () => {
+    setShowDatos(false);
+  }
   const onClickDetalle = () => {
     setshowDetalleCard(true);
   };
   const closeDetalle = () => {
     setshowDetalleCard(false);
   };
+  const handleDownload = () => {
+    // Crear contenido del archivo
+    const fileContent = "Contenido del archivo que deseas descargar";
 
+    // Crear objeto Blob a partir del contenido del archivo
+    const blob = new Blob([fileContent], { type: "text/plain" });
+
+    // Crear URL del objeto Blob
+    const url = URL.createObjectURL(blob);
+
+    // Crear un enlace temporal y simular un clic para descargar el archivo
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "archivo.txt";
+    link.click();
+
+    // Liberar el objeto URL
+    URL.revokeObjectURL(url);
+  };
   useEffect(() => {
     fetch("https://randomuser.me/api/?results=10")
       .then((response) => response.json())
@@ -110,10 +108,12 @@ export const AdmiJustificacion = () => {
         const results = data.results;
         const people = results.map((user) => {
           const { registered, name, gender } = user;
+          const formattedDate = moment(registered.date).format('DD/MM/YYYY'); // Formato de fecha deseado
+
           return {
             id: user.login.uuid,
             name: `${name.first} ${name.last}`,
-            fecha: registered.age,
+            fecha: formattedDate,
             razon: gender,
           };
         });
@@ -136,12 +136,10 @@ export const AdmiJustificacion = () => {
             type="search"
             className="text-white relative m-0 -mr-0.5 bg-gray-50 placeholder-white min-w-0  rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] "
             placeholder="Nombre"
-            value={search}
-            onChange={handleSearch}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
-          <button>
-            <SearchIcon sx={{ color: "white" }} />
-          </button>
+
         </div>
       </div>
       <div className="ml-6 mb-3 inline-block">
@@ -160,75 +158,78 @@ export const AdmiJustificacion = () => {
         </select>
       </div>
 
-      <div className="grid grid-cols-3">
-        {faltasList.map((post) => {
-          return (
-            <Grid key={post.id} container spacing={5}>
-              <Grid item xs={12}>
-                <Card
-                  className="my-4 max-w-[90%] min-w-[90%]"
-                  sx={{ backgroundColor: "#16232B" }}
-                >
-                  <CardContent>
-                    <Typography
-                      variant="h5"
-                      component="div"
-                      sx={{ color: "#FFFFFF" }}
-                    >
-                      {post.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ color: "#FFFFFF" }}
-                    >
-                      Fecha: {post.fecha}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ color: "#FFFFFF" }}
-                    >
-                      Razón: {post.razon}
-                    </Typography>
-                    <div className="mt-2">
-                      <hr></hr>
+      <div className="grid grid-cols-3 gap-4 bg-cv-secondary min-w-sm">
+        {faltasList
+          .filter((post) =>
+            post.name.toLowerCase().includes(searchInput.toLowerCase())
+          )
+
+          .map((post) => {
+            return (
+              <div className="bg-cv-primary border border-gray-200 rounded-lg shadow" key={post.id}>
+                <div className="flex flex-col items-center pb-10">
+                  <div className="flex mt-4">
+                    <div className="relative w-15 h-15 overflow-hidden bg-gray-100 rounded-full">
+                      <img src="https://images.pexels.com/photos/3579181/pexels-photo-3579181.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Foto de Perfil" className="md:w-14 md:h-14 rounded-full shadow-lg border-2 border-white" />
                     </div>
-                    <div className="flex pt-3">
+                    <h5 className="ml-10 text-center p-3 text-xl font-medium text-white">{post.name}</h5>
+                  </div>
+                  <div className="flex mt-4 space-x-3 md:mt-6">
+                    <ul>
+                      <li className="px-4 py-2 text-sm font-medium text-start text-white rounded-lg">
+                        <label>Razón</label>
+                        <textarea
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          disabled
+                          value={post.razon}
+                        ></textarea>
+                      </li>
+                      <li className="text-start px-4 py-2 text-sm font-medium text-white">
+                        <label>Fecha</label>
+                        <input
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                          disabled
+                          value={post.fecha}
+                        ></input>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="px-4 py-2 text-sm font-medium rounded-tl text-white">
+                    <button className="rounded-lg bg-slate-700 p-2" onClick={handleDownload}>Descargar archivos adjuntados</button>
+                  </div>
+                  <div className="px-4 py-2 text-sm font-medium rounded-tl  justify-center">
+                    <button
+                      className="ml-10 text-white text-center"
+                      onClick={() => handleClick(post.id)}>
+                      {cardStatus[post.id] || "Rechazado"}
+                      <KeyboardArrowRightIcon
+                        className=""
+                        sx={{ color: "white" }}
+                      />
+                    </button>
+                  </div>
+                  <div>
+                    {cardStatus[post.id] && showDetalleButton && (
                       <button
-                        className="ml-10 text-white"
-                        onClick={() => handleClick(post.id)}
-                      >
-                        {cardStatus[post.id] || "Rechazado"}
-                        <KeyboardArrowRightIcon
-                          className=""
-                          sx={{ color: "white" }}
-                        />
+                        className="text-white ml-10"
+                        onClick={onClickDetalle}>
+                        Detalle
                       </button>
-                      {cardStatus[post.id] && showDetalleButton && (
-                        <button
-                          className="text-white ml-10"
-                          onClick={onClickDetalle}
-                        >
-                          Detalle
-                        </button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          );
-        })}
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         {showDatos && (
-          <div className="fixed inset-0 flex items-center justify-center z-10 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div className=" bg-slate-500 relative w-full max-w-md max-h-full">
-              <div className="relative bg-slate-500 p-4  max-w-md rounded-lg shadow dark:bg-gray-700">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" relative w-96 my-6 mx-auto max-w-3xl border-2 border-white p-1 rounded-lg rotate-[5deg]">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg] ">
                 {faltasList.map((item) => {
                   if (item.id === selectedCard) {
                     return (
                       <div key={item.id} className="px-6 py-6 lg:px-8">
-                        <button onClick={closeDatos}>
+                        <button onClick={cerrar}>
                           <CloseIcon />
                         </button>
                         <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
@@ -247,13 +248,15 @@ export const AdmiJustificacion = () => {
                             <input
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                               disabled
+
                             />
                           </div>
                           <div>
                             <label>Pruebas Adjuntas:</label>
-                            <input
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                              disabled
+                            <button
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                              placeholder="haz click para descargar el archivo"
+                              onClick={handleDownload}
                             />
                           </div>
                           <div>
@@ -263,19 +266,20 @@ export const AdmiJustificacion = () => {
                               disabled
                             />
                           </div>
-
-                          <button
-                            onClick={llenarJustificacionAceptar}
-                            className="w-full text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                          >
-                            ACEPTAR
-                          </button>
-                          <button
-                            onClick={llenarJustificacionRechazar}
-                            className="w-full text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                          >
-                            RECHAZAR
-                          </button>
+                          <div className="flex items-center p-6 border-t border-gray-200 rounded-b ">
+                            <button
+                              onClick={llenarJustificacionAceptar}
+                              className="text-white bg-cv-secondary hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            >
+                              ACEPTAR
+                            </button>
+                            <button
+                              onClick={llenarJustificacionRechazar}
+                              className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10"
+                            >
+                              RECHAZAR
+                            </button>
+                          </div>
                         </form>
                       </div>
                     );
@@ -288,9 +292,9 @@ export const AdmiJustificacion = () => {
           </div>
         )}
         {cardJustificar && (
-          <div className="fixed inset-0 flex items-center justify-center z-10 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div className="relative w-full max-w-md max-h-full">
-              <div className="bg-slate-500 p-4  max-w-md text-white card w-96 bg-base-100 shadow-xl">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-96 my-6 mx-auto max-w-3xl border-2 border-white p-1 rounded-lg rotate-[5deg]">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
                 {faltasList.map((item) => {
                   if (item.id === selectedCard) {
                     return (
@@ -338,9 +342,9 @@ export const AdmiJustificacion = () => {
           </div>
         )}
         {showDetalleCard && (
-          <div className="fixed inset-0 flex items-center justify-center z-10 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div className="relative w-full max-w-md max-h-full">
-              <div className="bg-slate-500 p-4  max-w-md text-white card w-96 bg-base-100 shadow-xl">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-96 my-6 mx-auto max-w-3xl border-2 border-white p-1 rounded-lg rotate-[5deg]">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
                 {faltasList.map((item) => {
                   if (item.id === selectedCard) {
                     return (
