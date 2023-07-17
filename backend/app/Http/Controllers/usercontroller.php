@@ -122,6 +122,7 @@ class usercontroller extends Controller
             'name' => $request->input('name'),
             'surname' => $request->surname,
             'email' => $request->email,
+            'status' => $request->status,
             'password' => Hash::make($request->dni)
         ]); 
 
