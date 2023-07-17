@@ -109,45 +109,40 @@ class usercontroller extends Controller
             'date_start' => 'required|date',
             'responsible' => 'required|string|max:255',
             'role_id' => 'required',
-           // 'avatar' => 'required|mimes:jpg,jpeg,png',
-
+            // 'avatar' => 'required|mimes:jpg,jpeg,png',
         ]);
         if($validator->fails()){
             return response()->json($validator->errors());
         }
 
-
-
+        
         $user = User::find($id);
         $user->update([
             'username' => $request->dni,
-            'name' => $request->name,
+            'name' => $request->input('name'),
             'surname' => $request->surname,
             'email' => $request->email,
             'status' => $request->status,
             'password' => Hash::make($request->dni)
-        ]);
+        ]); 
 
-        $profile = Profile::find($id);
-        $profile->update($request->all());
+        $profile = Profile::find($id); 
+        $profile->update($request->all()); 
 
-        $role = Model_has_role::where('model_id',$id);
-        $role->update(['role_id' => $request->role_id]);
+        $role = Model_has_role::where('model_id', $id); 
+        $role->update(['role_id' => $request->role_id]); 
 
+        $userAvatar = $user->getMedia('avatars')->first(); 
 
-       /* $file = $request->file('avatar');
-        $img = Media::where('model_id', $id)->get();
-        $img->update($request->all());
-        if ($request->hasFile('avatar')){
-            $img->clearMediaCollection('avatars');
-            $img->addMedia($file)->toMediaCollection('avatars');
-        }*/
+        if ($request->hasFile('avatar')) { 
+            if ($userAvatar) { 
+                $userAvatar->delete(); 
+            } 
+            $avatarFile = $request->file('avatar'); 
+            $user->addMedia($avatarFile)->toMediaCollection('avatars'); 
+        } 
 
-            return response()->json([
-                'usuario' => $user,
-                'perfil' => $profile,
-                'rol' => $role->get(),
-                'messages' => "Usuario actualizado con exito"],200);
+        return response()->json(['messages' => "Usuario actualizado con éxito"], 200);
     }
 }
 
