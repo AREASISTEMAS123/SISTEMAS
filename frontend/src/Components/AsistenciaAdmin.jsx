@@ -1,13 +1,17 @@
 
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Tabla } from "./Tabla";
+import TablaAsistencias from './commons/TablaAsistencias'
 import { DynamicSelect } from "./commons";
 import CircularProgressBar from './commons/CircularProgressBar';
+
+import CloseIcon from '@mui/icons-material/Close';
 
 export const AsistenciaAdmin = () => {
 
   const [selectedDate, setSelectedDate] = useState('');
+  const [isInputReady, setIsInputReady] = useState(false);
+
 
   useEffect(() => {
     const currentDate = moment().format('YYYY-MM-DD');
@@ -25,48 +29,36 @@ export const AsistenciaAdmin = () => {
     const formattedDate = moment(date).locale('es').format('LL');
     return formattedDate;
   };
-console.log(selectedDate)
+  console.log(selectedDate)
 
-  const colaborador = [{ label: "Artuo Antonio Montejo Soto", value: "1" }];
+
   const departamento = [
-    { label: "Estrategico", value: "estrategico" },
+    { label: "Estrategico", value: "Estratégico" },
     { label: "Operaciones", value: "operaciones" },
-    { label: "Recurso Humanos", value: "recurso_humanos" },
+    { label: "Recurso Humanos", value: "Recurso Humanos" },
   ];
   const area = [
     { label: "Sistemas", value: "sistemas" },
-    { label: "Diseño Grafico", value: "diseno_grafico" },
+    { label: "Diseño Grafico", value: "Diseño Gráfico" },
     { label: "Otra opción", value: "otra_opcion" },
   ];
   const turno = [
     { label: "Mañana", value: "manana" },
     { label: "Tarde", value: "tarde" },
   ];
-  const months = [
-    { label: "Enero", value: "enero" },
-    { label: "Febrero", value: "febrero" },
-    { label: "Marzo", value: "marzo" },
-    { label: "Abril", value: "abril" },
-    { label: "Mayo", value: "mayo" },
-    { label: "Junio", value: "junio" },
-    { label: "Julio", value: "julio" },
-    { label: "Agosto", value: "agosto" },
-    { label: "Septiembre", value: "septiembre" },
-    { label: "Octubre", value: "octubre" },
-    { label: "Noviembre", value: "noviembre" },
-    { label: "Diciembre", value: "diciembre" },
-  ];
 
 
+  const data = ['Operativo', 'Sistemas', 'Mañana', 'Cristian Vasquez', 1];
 
+  //onBlur = {() => setIsInputReady(false)}
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="max-w-screen-lg mx-auto space-y-3">
       <div className="flex flex-col items-center justify-center space-y-2">
         <div className="w-full mb-3">
           <h2 className="text-2xl text-white">Asistencia</h2>
         </div>
-        
-        <div className="w-full flex flex-col md:flex-row justify-between space-y-3 md:space-x-5">
+
+        <div className="w-full flex flex-col md:flex-row justify-between space-y-3 md:space-x-5 md:space-y-0">
           <div className="w-full md:w-1/3 space-y-4 bg-cv-primary p-5 rounded-lg">
             <h2 className="text-white text-center text-xl uppercase font-semibold">Leyenda</h2>
             <div className="w-full flex items-center justify-between space-x-3">
@@ -91,9 +83,9 @@ console.log(selectedDate)
             </div>
           </div>
 
-          <div className="w-full">
+          <div className="w-full space-y-3">
             <div className="w-full bg-cv-primary rounded-lg">
-              
+
               <div className="w-full flex items-center justify-between p-2 space-x-3">
                 <h2 className="text-white text-center text-xl uppercase font-semibold">Fecha:</h2>
                 <div className="w-full flex items-center justify-between relative">
@@ -103,53 +95,62 @@ console.log(selectedDate)
                 </div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-center space-y-2 md:space-x-5">
-              <div className="flex flex-col items-center justify-center">
+            <div className="flex w-full overflow-x-auto items-center justify-center space-y-2 md:space-x-5 md:space-y-0">
+              <div className="w-full flex flex-col items-center justify-center">
                 <h2 className="mb-4 text-lg font-bold uppercase text-white">Ingresos</h2>
                 <CircularProgressBar progress={75} color={'#24FF00'} />
               </div>
-              <div className="flex flex-col items-center justify-center">
+              <div className="w-full flex flex-col items-center justify-center">
                 <h2 className="mb-4 text-lg font-bold uppercase text-white">Tardanzas</h2>
                 <CircularProgressBar progress={20} color={'#FAFF00'} />
               </div>
-              <div className="flex flex-col items-center justify-center">
+              <div className="w-full flex flex-col items-center justify-center">
                 <h2 className="mb-4 text-lg font-bold uppercase text-white">Faltas</h2>
                 <CircularProgressBar progress={5} color={'#FF0000'} />
               </div>
             </div>
           </div>
-
         </div>
 
       </div>
 
-      <div className="flex flex-col sm:flex-row space-x-4 mt-5">
-        <div className="mb-4 sm:mb-0">
-          <DynamicSelect options={colaborador} title={"Colaborador"} />
-        </div>
-        <div className="flex mb-4 sm:mb-0">
-          <div>
-            <DynamicSelect options={departamento} title={"Departamento"} />
+      <div className="flex flex-col">
+        <div className='flex flex-col items-center space-y-3 sm:flex-row sm:space-x-3 sm:space-y-0'>
+          <div className="relative w-full">
+            <input
+              type="text"
+              id=""
+              value=""
+              onChange=""
+              onFocus={() => setIsInputReady(true)}
+              placeholder="Ingresa nombres y/o apellidos del colaborador"
+              className="block w-full p-3 pr-10 text-sm border border-gray-300 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
+            />
+            <button onClick="" className="absolute inset-y-0 right-0 flex items-center px-3 py-2 rounded-md text-cv-primary hover:bg-cv-cyan">
+              <CloseIcon />
+            </button>
           </div>
+          <button onClick="" className='w-full sm:w-40 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold'>Buscar</button>
         </div>
-        <div className="flex mb-4 sm:mb-0">
-          <div>
-            <DynamicSelect options={area} title={"Area"} />
-          </div>
-        </div>
-        <div className="flex mb-4 sm:mb-0">
-          <div>
-            <DynamicSelect options={turno} title={"Turno"} />
-          </div>
-        </div>
-        <div className="flex mb-4 sm:mb-0">
-          <div>
-            <DynamicSelect options={months} title={"Mes"} />
-          </div>
-        </div>
-      </div>
 
-      <Tabla />
+
+        {isInputReady && (
+          <div className='w-full flex flex-col md:flex-row items-center justify-between space-y-3 sm:space-x-3 sm:space-y-0'>
+            <div className="w-full">
+              <DynamicSelect options={departamento} title={"Departamento"} />
+            </div>
+            <div className="w-full">
+              <DynamicSelect options={area} title={"Area"} />
+            </div>
+            <div className="w-full">
+              <DynamicSelect options={turno} title={"Turno"} />
+            </div>
+          </div>
+        )}
+      </div>
+        
+
+      <TablaAsistencias data={data} />
     </div>
   );
 };
