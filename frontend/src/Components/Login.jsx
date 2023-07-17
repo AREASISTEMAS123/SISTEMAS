@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import cv_negativo from "../assets/logo.svg";
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import cv_negativo from "../assets/cv_negativo.jpg";
 import HelpIcon from '@mui/icons-material/Help';
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -114,11 +111,12 @@ export const Login = () => {
     }
 
     return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="grid grid-cols-2 bg-white rounded-lg  ">
-                    <div className="p-5 rounded-lg">
-                        <div className="bg-slate-800 rounded-md p-2 w-[80%] md:w-[70%] mx-auto">
-                            <div className="p-2 grid place-content-center">
+        <div className="m-auto p-auto">
+            <div className="grid place-content-center p-auto ">
+                <div className="grid grid-cols-1 sm:grid-cols-2 bg-white rounded-lg justify-center items-center ">
+                    <div className="p-5 rounded-lg ">
+                        <div className="bg-slate-800 rounded-2xl p-12  ">
+                            <div className="flex justify-center">
                                 <img
                                     className=""
                                     src="https://img.freepik.com/vector-gratis/joven-programador-que-trabaja-computadora-portatil-personaje-dibujos-animados_24797-2123.jpg"
@@ -127,42 +125,25 @@ export const Login = () => {
                                     alt="Imagen"
                                 />
                             </div>
-                            <div className="rounded-2xl p-2 m-3 bg-auto text-white bg-cv-secondary text-center">
+                            <div className="rounded-2xl p-2 m-4 bg-auto text-white bg-cv-secondary text-center">
                                 <p className="font-light text-lg">
                                     Céntrate hacia dónde quieres ir, no en lo que temes.
                                 </p>
                             </div>
-                            <div className="m-2 text-center">
-                                <p className="m-2 inline-block">
-                                    <a href="https://www.facebook.com/AgenciaConsigueVentas" target="_blank" rel="noopener noreferrer">
-                                        <FacebookOutlinedIcon sx={{ color: "white" }} />
-                                    </a>
-                                </p>
-                                <p className="m-2 inline-block">
-                                    <a href="https://www.instagram.com/consigueventasonline/" target="_blank" rel="noopener noreferrer">
-                                        <InstagramIcon sx={{ color: "white" }} />
-                                    </a>
-                                </p>
-                                <p className="m-2 inline-block">
-                                    <a href="https://www.youtube.com/@consigueventas7332" target="_blank" rel="noopener noreferrer">
-                                        <YouTubeIcon sx={{ color: "white" }} />
-                                    </a>
-                                </p>
-                            </div>
+
                         </div>
                     </div>
 
                     <div className="flex items-center justify-center">
-                        <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
-                            <div className="flex justify-center items-center">
+                        <div className="w-full bg-white rounded-lg   md:mt-0 sm:max-w-md xl:p-0 ">
+                            <div className="flex justify-center items-center  mt-2">
                                 <img
                                     width={300}
                                     src={cv_negativo}
                                     alt="Logo"
-                                    type="img/svc"
                                 />
                             </div>
-                            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <div className="p-6 space-y-4 ">
                                 <p>
                                     {error !== "" ? (
                                         <span className="text-red-500">{error.toString()}</span>
@@ -175,9 +156,9 @@ export const Login = () => {
                                         </span>
                                     )}
                                 </p>
-                                <form className="space-y-4 md:space-y-6">
+                                <form className="space-y-4 ">
                                     <div>
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 ">Usuario</label>
+                                        <label className="block  text-sm font-medium text-gray-900 ">Usuario</label>
                                         <input
                                             className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
                                             required=""
@@ -188,7 +169,7 @@ export const Login = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block mb-2 sm:text-sm font-medium text-gray-900 w-full">Contraseña</label>
+                                        <label className="block  sm:text-sm font-medium text-gray-900 w-full">Contraseña</label>
                                         <input
                                             placeholder="••••••••"
                                             className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
@@ -199,28 +180,8 @@ export const Login = () => {
                                             onChange={(e) => handleInputChange(e, "password")}
                                         />
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center">
-                                            <label className="flex items-center text-sm font-medium text-gray-900 ">
-                                                <input
-                                                    type="checkbox"
-                                                    className="text-primary-600 focus:ring-primary-500    "
-                                                />
-                                                <span className="ml-2">Recuérdame</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <button
-                                                type="button"
-                                                onClick={onRecuperar}
-                                                className="text-sm font-medium text-primary-600  hover:underline focus:outline-none"
-                                            >
-                                                ¿Olvidaste tu contraseña?
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div>
-                                    <ReCAPTCHA
+                                    <div className="block w-full">
+                                        <ReCAPTCHA
                                             sitekey={SITE_KEY}
                                             onChange={onRecaptchaChange}
                                             onExpired={() => setCaptchaCompleted(false)}
@@ -230,28 +191,35 @@ export const Login = () => {
                                             <span className="text-red-500">{captchaError}</span>
                                         )}
                                     </div>
-                                    <div>
+                                    <div className=" ">
                                         <button
                                             type="button"
                                             onClick={loginSubmit}
-                                            className="w-full flex justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                                            className=" w-full  justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                                         >
                                             Iniciar sesión
                                         </button>
+                                        <button
+                                            type="button"
+                                            onClick={onRecuperar}
+                                            className="w-full text-sm font-medium text-primary-600  hover:underline focus:outline-none text-center mt-2"
+                                        >
+                                            ¿Olvidaste tu contraseña?
+                                        </button>
+                                        <div className="flex justify-end">
+                                            <button >
+                                                <HelpIcon />
+                                            </button>
+                                        </div>
+
                                     </div>
                                 </form>
-                            </div>
-                            <div className="p-4 flex items-center justify-center bg-gray-100  border-t border-gray-200 ">
-                                <button
-                                    type="button"
-                                    className="text-gray-600  hover:underline text-sm font-medium focus:outline-none"
-                                >
-                                    <HelpIcon /> ¿Necesitas ayuda?
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+        </div>
     );
 };

@@ -16,6 +16,7 @@ import {
     RestablecerContraseña
 } from "../components";
 import { VistaReportes } from "../components/VistaReportes";
+import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -57,6 +58,7 @@ const AppRoutes = () => {
                             <Route path="/justificaciones" element={<AdmiJustificacion />} />
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
+                            <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion/>}/>
                         </>
                     )}
                     <Route path="/*" element={<Navigate to="/home" />} />
