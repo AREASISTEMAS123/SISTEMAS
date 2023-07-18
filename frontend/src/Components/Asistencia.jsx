@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { RelojAnalogico } from "./commons/RelojAnalogico";
-import { useMediaQuery } from "@mui/material";
-import {
-  BsFillCameraVideoFill,
-  BsFillCameraVideoOffFill,
-} from "react-icons/bs";
-import { Toaster, toast } from "react-hot-toast"
-
+import React, { useState, useEffect, useRef } from 'react';
+import { RelojAnalogico } from './commons/RelojAnalogico';
+import { useMediaQuery } from '@mui/material';
+import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from 'react-icons/bs';
+import { Toaster, toast } from 'react-hot-toast';
 
 export const Asistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -27,7 +23,7 @@ export const Asistencia = () => {
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [terceraFotoTomada, setTerceraFotoTomada] = useState(true);
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,6 +38,7 @@ export const Asistencia = () => {
   const handleEntrada = () => {
     const hora = horaActual.getHours();
     const minutos = horaActual.getMinutes();
+    const fecha = new Date().toISOString().slice(0, 10); // Obtenemos la fecha actual en formato yyyy-mm-dd
 
     if (hora === 8 && minutos >= 0 && minutos <= 10) {
       setTardanza(false);
@@ -49,18 +46,39 @@ export const Asistencia = () => {
       setBotonDesactivado(true);
       setMostrarBotonEntrada(false);
       setFotoUsuario(null);
-      setFotoCapturada(null);
-      setMostrarBotonCamara(true)
-      toast.success("Entrada marcada exitosamente");
+      setFotoCapturada(null)
+      setMostrarBotonCamara(true);
+
+      // Enviar la solicitud de registro de entrada al servidor
+      const formData = new FormData();
+      formData.append('date', fecha);
+      formData.append('admission_time', horaActual.toLocaleTimeString());
+      formData.append('admission_image', fotoCapturada);
+
+      fetch('http://127.0.0.1:8000/api/attendance/insert', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Manejar la respuesta del servidor si es necesario
+          console.log(data);
+          toast.success('Entrada marcada exitosamente');
+        })
+        .catch((error) => {
+          console.error('Error al enviar la solicitud:', error);
+        });
     } else {
       setTardanza(true);
       setEntradaMarcada(true);
       setBotonDesactivado(true);
       setMostrarBotonEntrada(false);
       setFotoUsuario(null);
-      setFotoCapturada(null);
-      setMostrarBotonCamara(true)
-      toast.success("Entrada marcada exitosamente");
+      setMostrarBotonCamara(true);
+      toast.success('Entrada marcada exitosamente');
     }
   };
 
@@ -72,8 +90,8 @@ export const Asistencia = () => {
     setMostrarBotonSalida(false);
     setFotoUsuario(null);
     setFotoCapturada(null);
-    setMostrarBotonCamara(false)
-    toast.success("Salida marcada correctamente")
+    setMostrarBotonCamara(false);
+    toast.success('Salida marcada correctamente');
   };
 
   const reiniciarConteo = () => {
@@ -89,7 +107,7 @@ export const Asistencia = () => {
         videoRef.current.srcObject = stream;
       })
       .catch((error) => {
-        console.log("Error accessing camera:", error);
+        console.log('Error accessing camera:', error);
       });
   };
 
@@ -147,12 +165,11 @@ export const Asistencia = () => {
             }
 
             stopCamera();
-            setMostrarBotonCamara(false)
             setVideoEnabled(false);
             setFotoCapturada(blob);
           })
           .catch((error) => {
-            console.log("Error taking photo:", error);
+            console.log('Error taking photo:', error);
             setCapturing(false);
             setTimer(5);
           });
@@ -173,28 +190,36 @@ export const Asistencia = () => {
 
   return (
     <div
-      className={`registro-Entrada h-screen flex  ${isMobile ? "flex-col" : "flex justify-center"
+      className={`registro-Entrada h-screen flex  ${isMobile ? 'flex-col' : 'flex justify-center'
         }`}
     >
-      <div className={`seccion-izquierda ${isMobile ? "mb-4" : "mr-4"}`}>
-        <div className="w-96 h-96 rounded-xl bg-slate-950 relative">
+      <div className={`seccion-izquierda w-full ${isMobile ? 'mb-4' : 'mr-4'}`}>
+        <div className="w-full h-96 rounded-xl bg-slate-950 relative">
           <div className="absolute top-0 left-0 w-full h-full">
-            {videoEnabled ? (
-              <video
+            {fotoCapturada ? ( // Mostrar la foto capturada si está disponible
+              <img
+                src={URL.createObjectURL(fotoCapturada)}
+                alt="Foto Capturada"
                 className="w-full h-full object-cover"
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <span className="text-white text-xl">Cámara desactivada</span>
-              </div>
+              videoEnabled ? (
+                <video
+                  className="w-full h-full object-cover"
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-white text-xl">Cámara desactivada</span>
+                </div>
+              )
             )}
           </div>
           <div className="absolute bottom-0 mb-4 w-full flex justify-center">
-            {mostrarBotonCamara &&(<button
+            {mostrarBotonCamara && (<button
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -222,26 +247,26 @@ export const Asistencia = () => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
               onClick={handleCapture}
-              disabled={capturing}
+              disabled={capturing || fotoCapturada !== null} // Deshabilitar el botón si ya se capturó una foto
             >
-              {capturing ? `Capturando (${timer})` : "Tomar foto"}
+              {capturing ? `Capturando (${timer})` : 'Tomar foto'}
             </button>
           </div>
         )}
       </div>
       <div
         className={`seccion-derecha ${isMobile
-          ? "mt-4 text-center"
-          : "ml-4 flex justify-center"
+          ? 'mt-4 text-center'
+          : 'ml-4 flex justify-center'
           }`}
       >
         <div className="flex flex-col items-center">
           <RelojAnalogico hora={horaActual} />
           <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
             {horaActual.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
             })}
           </p>
           {mostrarBotonEntrada && (

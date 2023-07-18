@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +16,7 @@ export const Perfil = () => {
         if (response.ok) {
           const data = await response.json();
           setColaborador(data);
+          setIsChecked(data?.Usuario[0]?.user[0]?.status === 1);
         } else {
           console.error("Error fetching data:", response.status);
         }
@@ -25,6 +27,10 @@ export const Perfil = () => {
 
     fetchData();
   }, []);
+
+  const handleChange = () => {
+    setIsChecked(!isChecked);
+  };
 
   return (
     <div className="min-h-screen">
@@ -51,7 +57,7 @@ export const Perfil = () => {
                     DNI
                   </h2>
                   <div className="text-white p-4 rounded-xl mx-3">
-                  <div>{colaborador.Usuario && colaborador.Usuario[0].dni}</div>
+                    <div>{colaborador.Usuario && colaborador.Usuario[0].dni}</div>
                   </div>
                 </div>
 
@@ -70,7 +76,7 @@ export const Perfil = () => {
                     Celular
                   </h2>
                   <div className="text-white p-4 rounded-xl mx-3">
-                  <div>{colaborador.Usuario[0].cellphone}</div>
+                    <div>{colaborador.Usuario[0].cellphone}</div>
                   </div>
                 </div>
 
@@ -79,7 +85,7 @@ export const Perfil = () => {
                     Correo Electrónico
                   </h2>
                   <div className="text-white p-4 rounded-xl mx-3">
-                  <div>{colaborador.Usuario[0].user[0].email} </div>
+                    <div>{colaborador.Usuario[0].user[0].email} </div>
                   </div>
                 </div>
               </div>
@@ -167,13 +173,30 @@ export const Perfil = () => {
               <h2 className="font-bold mx-3 text-white">
                 ESTADO
               </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
-                <div>{colaborador.Usuario[0].user[0].status}</div>
-              </div>
+              <label className="flex items-center cursor-pointer">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    className="hidden"
+                    checked={isChecked}
+                    onChange={handleChange}
+                    disabled
+                  />
+                  <div
+                    className={`w-10 h-6 transition rounded-full ${isChecked ? 'bg-blue-600' : 'bg-gray-400'
+                      }`}
+                  ></div>
+                  <div
+                    className={`w-4 h-4 absolute top-1 left-1 transition rounded-full ${isChecked ? 'transform translate-x-4 bg-white' : 'bg-gray-300'
+                      }`}
+                  ></div>
+                </div>
+                <span className="ml-3 text-gray-700">Toggle Switch</span>
+              </label>
             </div>
           </div>
           <div className="text-2xl font-bold text-white mx-3 mt-10 text-center">
-            DATOS DE LA EMPRESA
+            DATOS DE ASISTENCIA
           </div>
           <div className="grid grid-cols-1 gap-3 mb-20">
             <div className="flex flex-col items-center ">
