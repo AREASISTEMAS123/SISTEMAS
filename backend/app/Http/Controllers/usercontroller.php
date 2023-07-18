@@ -115,7 +115,7 @@ class usercontroller extends Controller
             return response()->json($validator->errors());
         }
 
-        
+
         $user = User::find($id);
         $user->update([
             'username' => $request->dni,
@@ -124,23 +124,23 @@ class usercontroller extends Controller
             'email' => $request->email,
             'status' => $request->status,
             'password' => Hash::make($request->dni)
-        ]); 
+        ]);
 
-        $profile = Profile::find($id); 
-        $profile->update($request->all()); 
+        $profile = Profile::find($id);
+        $profile->update($request->all());
 
-        $role = Model_has_role::where('model_id', $id); 
-        $role->update(['role_id' => $request->role_id]); 
+        $role = Model_has_role::where('model_id', $id);
+        $role->update(['role_id' => $request->role_id]);
 
-        $userAvatar = $user->getMedia('avatars')->first(); 
+        $userAvatar = $user->getMedia('avatars')->first();
 
-        if ($request->hasFile('avatar')) { 
-            if ($userAvatar) { 
-                $userAvatar->delete(); 
-            } 
-            $avatarFile = $request->file('avatar'); 
-            $user->addMedia($avatarFile)->toMediaCollection('avatars'); 
-        } 
+        if ($request->hasFile('avatar')) {
+           if ($userAvatar) {
+                $userAvatar->delete();
+            }
+            $avatarFile = $request->file('avatar');
+            $user->addMedia($avatarFile)->toMediaCollection('avatars');
+        }
 
         return response()->json(['messages' => "Usuario actualizado con éxito"], 200);
     }
