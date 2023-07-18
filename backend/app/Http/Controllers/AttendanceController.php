@@ -7,11 +7,14 @@ use App\Models\Attendance;
 
 class AttendanceController extends Controller
 {
-    public function getattendance(){
-        $attendance_user = Attendance::all();
+    public function getAttendance(){
+        $attendance_user = Attendance::with('user', 'profile')->get();
 
         return response()->json(['attendance' => $attendance_user]);
     }
+
+
+
 
     public function insertAttendance(Request $request) {
         
