@@ -72,7 +72,7 @@ class JustificationController extends Controller
     }
 
     public function getAllJustification(){
-        $justification = Justification::with('User','media')->with('Profile')->get();
+        $justification = Justification::with('User.media','Profile')->get();
         $declines = Justification::all()->where('decline','1')->count();
         $process = Justification::all()->where('justification_status','0')->count();
         $accept = Justification::all()->where('justification_status', '1')->count();
@@ -202,6 +202,20 @@ class JustificationController extends Controller
             }
 
         }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public function getJustificationById(){
 
     }
 
