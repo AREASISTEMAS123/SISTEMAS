@@ -7,28 +7,30 @@ use App\Models\Attendance;
 use App\Models\Profile;
 
 class AttendanceController extends Controller
-{   
-    
-    public function getattendance(){
-        $attendance_user = Attendance::all();
+
+    public function getAttendance(){
+        $attendance_user = Attendance::with('user', 'profile')->get();
 
         return response()->json(['attendance' => $attendance_user]);
     }
 
+
+
+
     public function insertAttendance(Request $request) {
         $user_id = auth()->id();
-        
+
         // Obtener el registro de asistencia del usuario para la fecha actual
-        $attendance = Attendance::where('user_id', $user_id) 
-            ->whereDate('date', date('Y-m-d')) 
+        $attendance = Attendance::where('user_id', $user_id)
+            ->whereDate('date', date('Y-m-d'))
             ->first();
-        
+
         if (empty($attendance) == 1) {
 
             // No existe un registro de asistencia para la fecha actual, crear uno nuevo
 
             $attendance = new Attendance();
-    
+
             $attendance->date = $request->input('date');
             $attendance->admission_time = $request->input('admission_time');
 
@@ -39,26 +41,26 @@ class AttendanceController extends Controller
             // Si el turno es tarde, la hora de entrada es a las 14:11:00, si es mañana, a las 08:11:00
 
             $user_profile[0]['shift'] = 'Tarde' ? $hora = '14:11:00' : $hora = '08:11:00';
-            
+
             // Aumentamos los valores de asistencia o tardanza dependiendo de la condicional
 
             if ($attendance->admission_time >= $hora){
                 $attendance->delay = 1;
             } else {
-                $attendance->attendance = 1;    
+                $attendance->attendance = 1;
             }
 
             $attendance->user_id = $user_id;
-    
+
             if ($request->hasFile("admission_image")) {
                 $file = $request->file("admission_image");
                 $attendance->admission_image = $file->getClientOriginalName();
             }
-    
+
             $attendance->save();
-    
+
             return response()->json(['attendance' => $attendance]);
-            
+
         } else {
 
             // Existe un registro de asistencia para la fecha actual
@@ -68,7 +70,7 @@ class AttendanceController extends Controller
                 // Actualizar el registro existente con la hora de salida
 
                 $attendance->departure_time = $request->input('departure_time');
-        
+
                 if ($request->hasFile("departure_image")) {
                     $file = $request->file("departure_image");
                     $attendance->departure_image = $file->getClientOriginalName();
