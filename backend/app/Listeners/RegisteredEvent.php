@@ -25,6 +25,6 @@ class RegisteredEvent
      */
     public function handle($event)
     {
-        $event->user->roles()->sync([4]);
+        $event->user->roles()->sync([3]);
     }
 }
