@@ -28,7 +28,6 @@ export const AdmiDetalleDeJustificacion = () => {
                 });
                 const data = await response.json();
                 setFaltasList(data);
-                console.log(data)
             } catch (error) {
                 console.error('Error al obtener los datos de la API:', error);
             }
@@ -43,12 +42,20 @@ export const AdmiDetalleDeJustificacion = () => {
     const onCloseModalRechazo = () => {
         setShowModalRechazado(false);
     }
+
     const onOpenModalRechazo = (e, item) => {
         e.preventDefault();
         setSelectedItem(item);
         setShowModalRechazado(true);
     };
-
+    const onOpenModalAceptado = (e, item) => {
+        e.preventDefault();
+        setSelectedItem(item);
+        setShowModalAceptado(true);
+    }
+    const onCloseModalAceptado = () => {
+        setShowModalAceptado(false);
+    }
 
 
     const onClickAceptar = (e, id, userid) => {
@@ -83,7 +90,7 @@ export const AdmiDetalleDeJustificacion = () => {
                 setMessage(error.message);
             });
 
-        setShowModalAceptado(true);
+        setShowModalAceptado(false);
     };
 
 
@@ -96,7 +103,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
         if (!reason_decline) {
             // El campo del motivo está vacío, puedes mostrar un mensaje de error o tomar otra acción
-            console.log('Por favor, proporciona un motivo de rechazo');
+            setMessage('Por favor, proporciona un motivo de rechazo');
             return;
         }
 
@@ -124,7 +131,7 @@ export const AdmiDetalleDeJustificacion = () => {
             .catch((error) => {
                 setMessage(error.message);
             });
-        setShowModalRechazado(true);
+        setShowModalRechazado(false);
     };
 
 
@@ -136,39 +143,38 @@ export const AdmiDetalleDeJustificacion = () => {
                 <button className='text-gray-300' style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder} ><KeyboardBackspaceIcon></KeyboardBackspaceIcon></button>
             </div>
             <div className='border border-gray-300 rounded-lg p-3 mt-5'>
+
                 {faltasList.map((item) => (
                     <div key={item.user[0].id}>
+
                         <form className="space-y-6" >
-                            <div className="flex items-center mb-4">
+                            <div className="flex mb-4">
                                 <h3 className="mr-2 text-gray-300">NOMBRE COMPLETO: <span className='text-white'>{item.user[0].name.toUpperCase()} {item.user[0].surname.toUpperCase()}</span> </h3>
-                                <label className='text-gray-300' style={{ marginLeft: 'auto' }} >DNI:</label>
-                                <h1 className='text-white'>{item.user[0].username}</h1>
+                                <div className='flex ml-auto'>
+                                    <label className='text-gray-300'>DNI: </label>
+                                    <p className='text-white'>{item.user[0].username}</p>
+                                </div>
                             </div>
+
                             <div className="flex items-center mb-4">
                                 <label className='text-gray-300'>JUSTIFICACIÓN DE: <span className='text-white'>{item.justification_type === 0 ? "Falta".toUpperCase() : "Tardanza".toUpperCase()}</span></label>
+                                <div className='flex  ml-auto '>
+                                    <p className='text-gray-300'  >FECHA:  </p>
+                                    <p className='text-white'>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p className='text-gray-300'  >FECHA:  </p>
-                                <p className='text-white'>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
-                            </div>
+
 
                             <div>
                                 <label className='text-gray-300' >MOTIVO :</label>
                                 <p className='text-white'>{item.reason}</p>
                             </div>
-                            <div>
-                                <label className='text-gray-300' >Estado :</label>
-                                <div className='text-white'>
-                                    {item.justification_status === 0 && item.decline === 0 ? 'En proceso' : null}
-                                    {item.justification_status === 1 && item.decline === 0 ? 'Aceptado' : null}
-                                    {item.decline === 1 ? 'Rechazado' : null}
-                                </div>
 
 
-                            </div>
                             <div>
                                 <label className='text-gray-300'>EVIDENCIA:</label>
                             </div>
+
                             <div className='flex items-center justify-center'>
                                 {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
                                     <img src={`http://localhost:8000/archivos/${item.evidence}`} alt="Image" />
@@ -188,7 +194,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
                                 <button
                                     className="bg-sky-400 hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                    onClick={(e) => onClickAceptar(e, item.id, item.user_id)}
+                                    onClick={(e) => onOpenModalAceptado(e, item)}
                                 >
                                     ACEPTAR
                                 </button>
@@ -202,14 +208,29 @@ export const AdmiDetalleDeJustificacion = () => {
 
             </div>
 
-            {showModalAceptado && (
+            {showModalAceptado && selectedItem && (
                 <div className="fixed inset-0 flex items-center justify-center top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div className="relative max-w-2xl max-h-full">
                         <div className="relative bg-white rounded-lg shadow">
-                            <div className="flex flex-col items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                <h2 className='block'>Justificacion aceptada</h2>
-                                <button className='inline-block text-center w-full' onClick={OnClickRetroceder}>
-                                    <CheckCircleIcon color="success" ></CheckCircleIcon>
+                            <div className="flex flex-col items-center justify-center p-4 border-b rounded-t">
+                                <h1 className="uppercase text-center mb-4">Aceptando la justificacion</h1>
+                                <h3 className="inline-block">
+                                    <CheckCircleIcon sx={{ color: "#3F8116", fontSize: 40 }} />
+                                </h3>
+                            </div>
+
+                            <div className="flex items-center p-6 border-t border-gray-200 rounded-b">
+                                <button
+                                    onClick={(e) => onClickAceptar(e, selectedItem.id, selectedItem.user_id)}
+                                    className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                >
+                                    Aceptar
+                                </button>
+                                <button
+                                    onClick={onCloseModalAceptado}
+                                    className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10"
+                                >
+                                    CERRAR
                                 </button>
                             </div>
                         </div>
@@ -221,12 +242,13 @@ export const AdmiDetalleDeJustificacion = () => {
                     <div className="relative max-w-2xl max-h-full">
                         <div className="relative bg-white rounded-lg shadow">
                             <div className="flex flex-col items-center justify-center p-4 border-b rounded-t">
-                                <h1 className="text-center mb-4">Rechazaste la justificacion</h1>
+                                <h1 className="uppercase text-center mb-4">Rechazando la justificacion</h1>
                                 <h3 className="inline-block">
                                     <ReportProblemIcon sx={{ color: "#F3AE37", fontSize: 40 }} />
                                 </h3>
                             </div>
                             <div className="p-6 space-y-6">
+                                {messages && <p className='text-red-500'>{messages}</p>}
                                 <p>Motivo</p>
                                 <textarea
                                     value={reason_decline}

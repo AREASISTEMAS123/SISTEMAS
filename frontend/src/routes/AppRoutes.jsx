@@ -17,6 +17,7 @@ import {
 } from "../components";
 import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
+import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');

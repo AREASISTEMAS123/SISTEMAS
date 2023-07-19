@@ -1,20 +1,20 @@
 import { useState } from "react";
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { useEffect } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
+import { useNavigate } from 'react-router-dom';
+import CircleIcon from '@mui/icons-material/Circle';
 export const JustificacionColaborador = () => {
     const [cards, setCards] = useState([]);
     const [showTerminos, setShowTerminos] = useState(false);
     const [showJusti, setShowJusti] = useState(false);
     const [justification_date, setJustification_date] = useState('');
     const [justification_type, setJustification_type] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [decline, setDecline] = useState('');
     const [reason, setReason] = useState('');
     const [evidence, setEvidence] = useState(null);
     const [messages, setMessage] = useState('');
-    const [showDetalles, setShowDetalles] = useState(false);
-    const [selectedCard, setSelectedCard] = useState(null);
 
     const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState('')
     const [buscadorStatus, setBuscadorStatus] = useState('')
@@ -44,7 +44,26 @@ export const JustificacionColaborador = () => {
     }, []);
 
 
-
+    const isRechazadoOrAceptado = (prop) => {
+        if (prop.decline === 1) {
+            return 'Rechazado';
+        } else if (prop.justification_status === 0 && prop.decline === 0) {
+            return 'En proceso';
+        } else {
+            return 'Aceptado';
+        }
+    }
+    const colorIcon = (prop) => {
+        if (isRechazadoOrAceptado(prop) === 'Rechazado') {
+            return 'red'
+        }
+        if (isRechazadoOrAceptado(prop) === 'En proceso') {
+            return 'yellow'
+        }
+        if (isRechazadoOrAceptado(prop) === 'Aceptado') {
+            return 'green'
+        }
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         const token = `Bearer ${localStorage.getItem('token')}`;
@@ -86,7 +105,6 @@ export const JustificacionColaborador = () => {
             });
 
     };
-    const avatar = localStorage.getItem('avatar');
 
 
     const onShowTerminos = () => {
@@ -110,51 +128,38 @@ export const JustificacionColaborador = () => {
         fetchData();
     };
 
-
+    const onClearFilter = () => {
+        setBuscadorFecha('')
+        setBuscadorStatus('')
+        setbuscador_tipoJustificacion('')
+    }
     const onCancelJusti = () => {
         setShowJusti(false);
         setJustification_date('');
         setReason('');
         setEvidence(null);
     };
+    //const navigate = useNavigate();
 
-    const mostrarDetalles = (id) => {
-        setShowDetalles(true);
-        setSelectedCard(id);
-    }
-    const cerrarDetalles = () => {
-        setShowDetalles(false);
-    }
+    /*const mostrarDetalles = (id) => {
 
-
-    const isRechazadoOrAceptado = (prop) => {
-        if (prop.decline === '1') {
-            return 'Rechazado';
-        } else {
-            if (prop.justification_status === 0) {
-                return 'En proceso'
-            } else {
-                return 'Aceptado';
-            }
-        }
-    }
-
+        navigate(`/detalles/${id}`);
+    }*/
     return (
-        <div className="h-screen">
-            <h1 className="my-2 text-center font-semibold text-4xl text-white">Justificaciones</h1>
-            <div className="grid grid-cols-6 gap-4 my-10">
-                <div className="col-start-5 col-end-7 justify-self-end">
-                    <button
-                        type="button"
-                        className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
-                        onClick={onShowTerminos}
-                    >
-                        AGREGAR JUSTIFICACIÓN
-                    </button>
-                </div>
+        <div className="p-3 h-screen">
+            <h1 className="my-2 uppercase font-semibold text-4xl text-white">Justificaciones</h1>
+            <div className="flex flex-wrap justify-center my-8">
+                <button
+                    type="button"
+                    className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
+                    onClick={onShowTerminos}
+                >
+                    AGREGAR JUSTIFICACIÓN
+                </button>
+
             </div>
 
-            <div className="col-end-6 col-span-1 flex items-center">
+            <div className="flex justify-center">
                 {/* Buscador por tipo de justificacion: falta o tardanza */}
                 <div className="mr-2 ">
                     <select
@@ -180,7 +185,7 @@ export const JustificacionColaborador = () => {
                         <option value="2">Rechazado</option>
                     </select>
                 </div>
-                <div>
+                <div className="mr-2">
                     <input
                         className="px-3 py-2 rounded-md bg-gray-200"
                         type="date"
@@ -188,6 +193,14 @@ export const JustificacionColaborador = () => {
                         value={buscadorFecha}
                         onChange={(e) => setBuscadorFecha(e.target.value)}
                     />
+                </div>
+                <div className="">
+                    <button 
+                        className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
+                        onClick={onClearFilter}
+                        >
+                        Limpiar
+                    </button>
                 </div>
             </div>
             <div className="grid grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
@@ -214,46 +227,46 @@ export const JustificacionColaborador = () => {
                     })
                     .filter((post) => {
                         const justificationTypeArray = Array.isArray(post.justification_status) ? post.justification_status : [post.justification_status];
+
                         if (buscadorStatus === "") {
                             // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
                             return true;
+                        } else if (buscadorStatus === "0") {
+                            // Filtrar por "En proceso"
+                            return justificationTypeArray.includes(0) && post.decline === 0;
+                        } else if (buscadorStatus === "1") {
+                            // Filtrar por "Aceptado"
+                            return justificationTypeArray.includes(1) && post.decline === 0;
+                        } else if (buscadorStatus === "2") {
+                            // Filtrar por "Rechazado"
+                            return post.decline === 1;
                         } else {
-                            // Filtrar por el tipo de justificación seleccionado
-                            return justificationTypeArray.includes(Number(buscadorStatus));
+                            return false; // Valor de búsqueda inválido, no se muestra ningún card
                         }
                     })
                     .map((card, index) => (
                         <div className="bg-cv-primary  text-white  rounded-lg shadow" key={index}>
-                            <div className="flex flex-col items-center pb-10 max-h-[200px] overflow-hidden">
+                            <div className="flex flex-col items-center pb-10  overflow-hidden">
                                 {/* Contenido de la tarjeta */}
                                 <div className="mt-4 flex items-center">
-                                    <div className="justify-start w-15 h-15 bg-gray-100 rounded-full">
-                                        <img
-                                            src={avatar}
-                                            alt="Foto de Perfil"
-                                            className="md:w-14 md:h-14 rounded-full shadow-lg border-2 border-white"
-                                        />
-                                    </div>
+
                                     <div className="text-white ml-4">
-                                        <h1>{card.user[0].name} {card.user[0].surname}</h1>
+                                        <h1>JUSTIFICACIÓN Nº{card.id}</h1>
                                     </div>
                                 </div>
 
                                 <div className="flex mt-4 space-x-3 md:mt-6 text-white">
                                     <ul>
-                                        <li className="text-sm font-medium flex items-center">
-                                            <label className="mr-2">Motivo:</label>
-                                            <div className="w-3/4 whitespace-normal"> {/* Agrega la clase 'whitespace-normal' */}
-                                                <textarea
-                                                    className="bg-transparent text-sm align-top w-full resize-none h-auto"
-                                                    disabled
-                                                    value={card.reason}
-                                                ></textarea>
-
+                                        <div className="text-sm font-medium flex  ">
+                                            <p >
+                                               <span className="uppercase">Estado: </span>  {isRechazadoOrAceptado(card)}
+                                            </p>
+                                            <div className="" style={{ marginLeft: 'auto' }}>
+                                                <CircleIcon sx={{ color: colorIcon(card) }}></CircleIcon>
                                             </div>
-                                        </li>
-                                        <li className="text-sm font-medium flex items-center ">
-                                            <label>Fecha: </label>
+                                        </div>
+                                        <li className="text-sm font-medium flex  ">
+                                            <label className="uppercase">Fecha: </label>
                                             <div className="w-1/4">
                                                 <input
                                                     className="mx-1 bg-transparent"
@@ -262,15 +275,21 @@ export const JustificacionColaborador = () => {
                                                 ></input>
                                             </div>
                                         </li>
-                                        <li className="text-sm font-medium flex items-center ">
+                                        <li className="text-sm font-medium flex  ">
                                             <p>
-                                                Estado: {isRechazadoOrAceptado(card)}
+                                               <span className="uppercase"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
                                             </p>
                                         </li>
-                                        <li className="text-sm font-medium flex items-center ">
-                                            <p>
-                                                Tipo: {card.justification_type === 0 ? "Falta" : "Tardanza"}
-                                            </p>
+                                        <li className="text-sm font-medium  ">
+                                            <label className="uppercase">Motivo:</label>
+                                            <div className=""> {/* Agrega la clase 'whitespace-normal' */}
+                                                <textarea
+                                                    className="bg-transparent text-sm align-top w-full resize-none h-auto"
+                                                    disabled
+                                                    value={card.reason}
+                                                ></textarea>
+
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -429,70 +448,6 @@ export const JustificacionColaborador = () => {
                         </div>
                     </div>
                 </div>
-            )}
-
-            {showDetalles && (
-                <div className="fixed inset-0 flex items-center justify-center  top-0 left-0 right-0 z-50  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div className="relative w-full max-w-md max-h-full">
-                        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none  z-50">
-                            {cards.map((item) => {
-                                if (item.id === selectedCard) {
-                                    return (
-                                        <div key={item.id} className="px-6 py-6 lg:px-8">
-                                            <button onClick={cerrarDetalles}>
-                                                <CloseIcon />
-                                            </button>
-                                            <h3 className="mb-4 text-xl font-medium  ">
-                                                {item.user[0].name} {item.user[0].surname}
-                                            </h3>
-                                            <form className="space-y-6" action="#">
-
-                                                <div>
-                                                    <label>Fecha de {item.justification_type === 0 ? "Falta" : "Tardanza"}:</label>
-                                                    <textarea
-                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                        rows={1}
-                                                        disabled
-                                                        defaultValue={new Date(item.justification_date).toLocaleDateString("es-ES", { timeZone: "UTC" })}
-                                                    ></textarea>
-                                                </div>
-                                                <div>
-                                                    <label>Pruebas Adjuntas:</label>
-                                                    <a href="http://localhost:8000/storage/1/conversions/3135768-thumb.jpg" download>
-                                                        <button className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                                            Click aquí para descargar
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <label>Razón de {item.justification_type === 0 ? "Falta" : "Tardanza"}:</label>
-                                                    <textarea
-                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                                        rows={1}
-                                                        disabled
-                                                    >{item.reason}
-                                                    </textarea>
-                                                </div>
-                                                <div>
-                                                    <label>Razón de {isRechazadoOrAceptado(item)}</label>
-                                                    <textarea
-                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                                        rows={1}
-                                                        disabled
-                                                    >{item.reason_accept_decline}
-                                                    </textarea>
-                                                </div>
-
-                                            </form>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })}
-                        </div>
-                    </div>
-                </div>
-
             )}
         </div>
     );
