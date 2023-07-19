@@ -70,6 +70,10 @@ class JustificationController extends Controller
         $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
         return response()->json(['Justificaciones'=>$justification, "foto" => $img],200);
     }
+    public function getJustificationById($id){
+        $justification = Justification::with('User')->where('id', $id)->get();
+        return response()->json($justification);
+    }
 
     public function getAllJustification(){
         $justification = Justification::with('User.media','Profile')->get();
@@ -204,19 +208,4 @@ class JustificationController extends Controller
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-    public function getJustificationById(){
-
-    }
-
 }

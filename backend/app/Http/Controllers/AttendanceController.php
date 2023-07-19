@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Profile;
 
-class AttendanceController extends Controller
+class AttendanceController extends Controller{
 
     public function getAttendance(){
         $attendance_user = Attendance::with('user', 'profile')->get();
