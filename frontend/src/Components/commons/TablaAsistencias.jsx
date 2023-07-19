@@ -14,6 +14,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { useTheme } from '@mui/material/styles';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 function TablePaginationActions(props) {
@@ -116,7 +117,8 @@ export default function TablaAsistencias({data}) {
                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Area</TableCell>
                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Turno</TableCell>
                 <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Colaborador</TableCell>
-                <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Asistencia</TableCell>                
+                <TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Asistencia</TableCell>
+                <TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap sticky right-0 bg-cv-primary'>Acciones</TableCell>                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -156,6 +158,14 @@ export default function TablaAsistencias({data}) {
                     <TableCell align="right"></TableCell>
                     <TableCell align="right"></TableCell>
                     <TableCell align="right"></TableCell>
+                    <TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
+                      <div className='flex items-center justify-center'>
+                        <button onClick="" className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
+                          <VisibilityIcon className='sm:mr-2'/>
+                          <span className='hidden sm:inline'>Ver mas</span>
+                        </button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (

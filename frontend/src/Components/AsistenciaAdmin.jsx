@@ -122,7 +122,7 @@ export const AsistenciaAdmin = () => {
                 </div>
               </div>
             </div>
-            <div className="flex w-full overflow-x-auto items-center justify-center md:space-x-5">
+            <div className="flex w-full px-5 overflow-x-auto items-end justify-center md:space-x-5">
               {items.map((item, index) => (
                 <div
                   key={index}

@@ -88,8 +88,9 @@ TablaListaColaboradores.propTypes = {
 	filterName: PropTypes.string.isRequired,
 	filterDepartment: PropTypes.string.isRequired,
 	filterDate: PropTypes.string.isRequired,
+	filterShift: PropTypes.string.isRequired,
 };
-export default function TablaListaColaboradores({ data, abrirEditarModal, deleteUser, filterName, filterDepartment, filterDate }) {
+export default function TablaListaColaboradores({ data, abrirEditarModal, deleteUser, filterName, filterDepartment, filterDate, filterShift }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -110,9 +111,8 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 
 	const roleNames = {
 		1: 'Gerencia',
-		2: 'Lider Departamento',
-		3: 'Lider Area',
-		4: 'Colaborador',
+		2: 'Lider Nucleo',
+		3: 'Colaborador',
 	};
 
 	const showModalWarning = (row) => {
@@ -182,7 +182,8 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 							})
 								.filter((users) =>
 									(users.department && users.department.toLowerCase().includes(filterDepartment.toLowerCase())) &&
-									users.date_start.toLowerCase().includes(filterDate.toLowerCase())
+									users.date_start.toLowerCase().includes(filterDate.toLowerCase()) &&
+									(users.shift && users.shift.toLowerCase().includes(filterShift.toLowerCase()))
 								)
 								.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((users) => (
 									<TableRow
