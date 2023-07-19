@@ -24,7 +24,7 @@ class AttendanceController extends Controller
     # --------- Insertar asistencias de los colaboradores --------- #
 
     public function insertAttendance(Request $request)
-    {   
+    {
         //Recogemos el ID del usuario logeado
         $user_id = auth()->id();
 
@@ -70,9 +70,9 @@ class AttendanceController extends Controller
                 $filename = time() . "-" . $file->getClientOriginalName();
                 $uploadSuccess = $file->move($path, $filename);
                 $attendance->admission_image = $file->getClientOriginalName();
-                
+
             } else {
-                
+
                 // Retornar error si la imagen no existe
                 return response()->json(['message' => 'Image is required']);
             }
@@ -121,7 +121,7 @@ class AttendanceController extends Controller
                     // Retornar error si la imagen no existe
                     return response()->json(['message' => 'Image is required']);
                 }
-    
+
                 //Guardamos los cambios en la base de datos
                 $attendance->save();
 

@@ -31,6 +31,7 @@ class AuthController extends Controller
             'shift' => 'required|string|max:255',
             'birthday' => 'date',
             'date_start' => 'required|date',
+            'date_end' => 'required|date',
             'responsible' => 'required|string|max:255',
             'avatar' => 'required|mimes:jpg,jpeg,png'
             ]);
@@ -55,6 +56,7 @@ class AuthController extends Controller
             'shift'=> $request->shift,
             'birthday' => $request->birthday,
             'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
             'responsible' => $request->responsible,
         ]);
 
