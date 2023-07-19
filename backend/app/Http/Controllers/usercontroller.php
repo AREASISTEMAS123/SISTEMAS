@@ -107,6 +107,7 @@ class usercontroller extends Controller
             'shift' => 'required|string|max:255',
             'birthday' => 'date',
             'date_start' => 'required|date',
+            'date_end' => 'required|date',
             'responsible' => 'required|string|max:255',
             'role_id' => 'required',
             // 'avatar' => 'required|mimes:jpg,jpeg,png',
