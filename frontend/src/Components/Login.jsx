@@ -82,6 +82,7 @@ export const Login = () => {
                             localStorage.setItem('name', responseData.user.name);
                             localStorage.setItem('avatar', responseData.avatar)
                             localStorage.setItem('surname', responseData.user.surname)
+                            localStorage.setItem('shift', responseData.profile.shift)
                             localStorage.setItem('login', true);
                             window.location.reload();
                         }

@@ -209,13 +209,23 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 										>
 											Departamento
 										</label>
-										<input
+										{/*<input
 											type="text"
 											id="departament"
 											value={departament} onChange={handleDepartamentChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 											placeholder="Ingresa el departamento"
-										/>
+										/>*/}
+										<select
+											id="departament"
+											value={departament}
+											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option value="">Selecciona</option>
+											<option value="Administrativo">Administrativo</option>
+											<option value="Comercial">Comercial</option>
+											<option value="Operativo">Operativo</option>
+										</select>
 									</div>
 								</div>
 								<div className="w-full flex flex-col space-y-1">
@@ -310,10 +320,10 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 										/>
 										<div className="text-gray-600 text-center md:text-start">
 											<p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
-												{avatar ? avatar.name : "Seleccione un archivo o arrastre y suelte aquí"}
+												{avatar ? avatar.name : "Seleccione un archivo de imagen"}
 											</p>
 											<p className="text-xs md:text-sm text-gray-500">
-												{avatar ? '' : "JPG o PNG, máximo 10MB (800 X 800 px)"}
+												{avatar ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
 											</p>
 										</div>
 										<button>
@@ -392,8 +402,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [DateStart, setDateStart] = useState('');
 	const [Responsible, setResponsible] = useState('');
 	const [Role, setRole] = useState('')
-	//const [Avatar, setAvatar] = useState(null);
-	//const avatarUrl = import.meta.env.VITE_BACKEND_SERVER_URL + `/storage/${usuario.id}/${usuario.media.file_name}`
+	const [Avatar, setAvatar] = useState(null);
+	const [avatarLocal, setAvatarLocal] = useState(null);
 
 	useEffect(() => {
 		setName(usuario.user[0].name);
@@ -409,6 +419,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setDateStart(usuario.date_start);
 		setResponsible(usuario.responsible);
 		setRole(usuario.role[0].role_id);
+		setAvatar(usuario.user[0].media[0].original_url);
 	}, [usuario]);
 
 	const handleNameChange = (event) => {
@@ -463,35 +474,36 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setRole(event.target.value);
 	};
 
-	//const handleAvatarChange = (event) => {
-	//	const file = event.target.files[0];
-	//	setAvatar(file);
-	//};
+	const handleAvatarChange = (event) => {
+		const file = event.target.files[0];
+		setAvatar(file);
+		setAvatarLocal(file)
+	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
 		const usuarioEditado = {
 			...usuario,
-			name: Name,
-			surname: Surname,
-			email: Email,
-			status: Status,
-			profile_name: Profile,
-			dni: Dni,
-			department: Departament,
-			area: Area,
-			shift: Shift,
-			birthday: Birthday,
-			date_start: DateStart,
-			responsible: Responsible,
-			role_id: Role,
+			Name,
+			Surname,
+			Email,
+			Status,
+			Profile,
+			Dni,
+			Departament,
+			Area,
+			Shift,
+			Birthday,
+			DateStart,
+			Responsible,
+			Role,
+			Avatar,
 		};
 		
 
 		editarUsuario(usuarioEditado);
 	};
-
 
 	return (
 		<div>
@@ -593,14 +605,24 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										>
 											Departamento
 										</label>
-										<input
+										{/*<input
 											type="text"
 											id="departament"
 											value={Departament}
 											onChange={handleDepartamentChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 											placeholder="Ingresa el departamento"
-										/>
+										/>*/}
+										<select
+											id="departament"
+											value={Departament}
+											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option value="">Selecciona</option>
+											<option value="Administrativo">Administrativo</option>
+											<option value="Comercial">Comercial</option>
+											<option value="Operativo">Operativo</option>
+										</select>
 									</div>
 									<div className="w-full">
 										<span
@@ -633,6 +655,16 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 											placeholder="Ingresa el area"
 										/>
+										{/*<select
+											id="area"
+											value={Area}
+											onChange={handleAreaChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option value="">Selecciona</option>
+											<option value="Administración">Administración</option>
+											<option value="Talento Humano">Talento Humano</option>
+											<option value="Social Media Manager">Social Media Manager</option>
+										</select>*/}
 									</div>
 									<div className="w-full">
 										<label
@@ -682,9 +714,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										>
 											<option value="">Selecciona</option>
 											<option value="1">Gerencia</option>
-											<option value="2">Lider Departamento</option>
-											<option value="3">Lider Area</option>
-											<option value="4">Colaborador</option>
+											<option value="2">Líder Núcleo</option>
+											<option value="3">Colaborador</option>
 										</select>
 									</div>
 									<div className="w-full">
@@ -722,24 +753,19 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 							</div>
 
 							<div className="mx-auto w-full">
-								{/*
-								<img src={Avatar} className="rounded-md w-10 h-10" name={usuario.media.file_name} alt="" />
-								
 								<label
 									htmlFor="fileImage"
 									className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300"
 								>
 									<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 items-center justify-center">
-										<CloudUploadIcon
-											className="text-cv-secondary hover:text-cv-primary"
-											sx={{ fontSize: 70 }}
-										/>
+										
+										<img src={avatarLocal ? URL.createObjectURL(avatarLocal) : Avatar} className="rounded-md w-16 h-16" name="hola" alt="" />
 										<div className="text-gray-600 text-center md:text-start">
 											<p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
-												{Avatar ? usuario.media.file_name : "Seleccione un archivo o arrastre y suelte aquí"}
+												{avatarLocal ? avatarLocal.name : "Seleccione una nueva imagen"}
 											</p>
 											<p className="text-xs md:text-sm text-gray-500">
-												{Avatar ? '' : "JPG o PNG, máximo 10MB (800 X 800 px)"}
+												{avatarLocal ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
 											</p>
 										</div>
 										<button>
@@ -753,7 +779,6 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 									</div>
 									<input id="fileImage" accept="image/png,image/jpeg,image/jpg" type="file" className="sr-only" onChange={handleAvatarChange} />
 								</label>
-								*/}
 							</div>
 						</div>
 

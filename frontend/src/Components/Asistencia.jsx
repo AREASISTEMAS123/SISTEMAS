@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RelojAnalogico } from './commons/RelojAnalogico';
-import { useMediaQuery } from '@mui/material';
-import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from 'react-icons/bs';
-import { Toaster, toast } from 'react-hot-toast';
+import { useMediaQuery } from "@mui/material";
+import { toast } from "react-hot-toast";
+import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from "react-icons/bs";
 
 export const Asistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -23,13 +23,12 @@ export const Asistencia = () => {
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [terceraFotoTomada, setTerceraFotoTomada] = useState(true);
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
       setHoraActual(new Date());
     }, 1000);
-
     return () => {
       clearInterval(interval);
     };
@@ -40,7 +39,7 @@ export const Asistencia = () => {
     const minutos = horaActual.getMinutes();
     const fecha = new Date().toISOString().slice(0, 10); // Obtenemos la fecha actual en formato yyyy-mm-dd
 
-    if (hora === 8 && minutos >= 0 && minutos <= 10) {
+    if (hora === 10) {
       setTardanza(false);
       setEntradaMarcada(true);
       setBotonDesactivado(true);
@@ -52,8 +51,12 @@ export const Asistencia = () => {
       // Enviar la solicitud de registro de entrada al servidor
       const formData = new FormData();
       formData.append('date', fecha);
-      formData.append('admission_time', horaActual.toLocaleTimeString());
-      formData.append('admission_image', fotoCapturada);
+      formData.append('admission_time', horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+
+      const shift = localStorage.getItem('shift');
+      const iduser = localStorage.getItem('iduser');
+      const photoName = `${shift.charAt(0)}-${iduser}-e-${fecha}`;
+      formData.append('admission_image', fotoCapturada, photoName);
 
       fetch('http://127.0.0.1:8000/api/attendance/insert', {
         method: 'POST',
@@ -110,7 +113,6 @@ export const Asistencia = () => {
         console.log('Error accessing camera:', error);
       });
   };
-
   const stopCamera = () => {
     if (cameraStream && videoRef.current) {
       cameraStream.getTracks().forEach((track) => track.stop());
@@ -153,7 +155,7 @@ export const Asistencia = () => {
           .then((blob) => {
             setFotoUsuario(URL.createObjectURL(blob));
             setCapturing(false);
-            setTimer(5);
+            setTimer(10);
 
             if (!segundaFotoTomada) {
               setMostrarBotonEntrada(true);
@@ -161,7 +163,7 @@ export const Asistencia = () => {
             } else if (segundaFotoTomada) {
               setMostrarBotonSalida(true);
               setTerceraFotoTomada(true);
-              setMostrarBotonCamara(false);
+              setMostrarBotonCamara(false)
             }
 
             stopCamera();
@@ -171,12 +173,11 @@ export const Asistencia = () => {
           .catch((error) => {
             console.log('Error taking photo:', error);
             setCapturing(false);
-            setTimer(5);
+            setTimer(10);
           });
       }, 5000);
     }
   };
-
   useEffect(() => {
     if (videoEnabled) {
       startCamera();
@@ -190,121 +191,94 @@ export const Asistencia = () => {
 
   return (
     <div
-      className={`registro-Entrada h-screen flex  ${isMobile ? 'flex-col' : 'flex justify-center'
+      className={`registro-Entrada  h-screen flex  ${isMobile ? "flex-col" : "flex  justify-center"
         }`}
     >
-      <div className={`seccion-izquierda w-full ${isMobile ? 'mb-4' : 'mr-4'}`}>
-        <div className="w-full h-96 rounded-xl bg-slate-950 relative">
+      <div className={`seccion-izquierda w-full ${isMobile ? "mb-4" : "mr-4"}`}>
+        <div className="w-full h-4/6 rounded-xl bg-slate-950 relative ">
           <div className="absolute top-0 left-0 w-full h-full">
-            {fotoCapturada ? ( // Mostrar la foto capturada si está disponible
-              <img
-                src={URL.createObjectURL(fotoCapturada)}
-                alt="Foto Capturada"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              videoEnabled ? (
+            {fotoUsuario && (
+              <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" />
+            )}
+            {!fotoUsuario && (
+              (videoEnabled ? (
                 <video
                   className="w-full h-full object-cover"
                   ref={videoRef}
+                  style={{ display: videoEnabled ? 'block' : 'none' }}
                   autoPlay
                   playsInline
                   muted
                 />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-white text-xl">Cámara desactivada</span>
-                </div>
-              )
+              ) : (<div className="w-full h-full flex items-center justify-center">
+                <span className="text-white text-xl">Cámara desactivada</span>
+              </div>)
+              ))}
+          </div>
+          <div className="absolute bottom-0 mb-4 w-full flex items-center justify-center">
+            {mostrarBotonCamara && (
+              <button
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "50%",
+                  background: videoEnabled ? "transparent" : "#EF4444",
+                  color: "#fff",
+                  width: "3rem",
+                  height: "3rem",
+                  border: videoEnabled ? "2px solid #FFFFFF" : "2px solid #EF4444",
+                }}
+                onClick={toggleCamera}
+              >
+                {videoEnabled ? (
+                  <BsFillCameraVideoFill style={{ color: "#FFFFFF" }} />
+                ) : (
+                  <BsFillCameraVideoOffFill style={{ color: "#FFFFFF" }} />
+                )}
+              </button>
             )}
           </div>
-          <div className="absolute bottom-0 mb-4 w-full flex justify-center">
-            {mostrarBotonCamara && (<button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "50%",
-                background: videoEnabled ? "transparent" : "#EF4444",
-                color: "#fff",
-                width: "3rem",
-                height: "3rem",
-                border: videoEnabled ? "2px solid #FFFFFF" : "2px solid #EF4444",
-              }}
-              onClick={toggleCamera}
-            >
-              {videoEnabled ? (
-                <BsFillCameraVideoFill style={{ color: "#FFFFFF" }} />
-              ) : (
-                <BsFillCameraVideoOffFill style={{ color: "#FFFFFF" }} />
-              )}
-            </button>)}
-          </div>
         </div>
-
-        {videoEnabled && (
-          <div className="flex justify-center mb-2">
+        <div className='grid justify-items-center'>
+          {videoEnabled && (
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 mr-2"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
               onClick={handleCapture}
-              disabled={capturing || fotoCapturada !== null} // Deshabilitar el botón si ya se capturó una foto
+              disabled={capturing}
             >
               {capturing ? `Capturando (${timer})` : 'Tomar foto'}
             </button>
-          </div>
-        )}
-      </div>
-      <div
-        className={`seccion-derecha ${isMobile
-          ? 'mt-4 text-center'
-          : 'ml-4 flex justify-center'
-          }`}
-      >
-        <div className="flex flex-col items-center">
-          <RelojAnalogico hora={horaActual} />
-          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
-            {horaActual.toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-            })}
-          </p>
-          {mostrarBotonEntrada && (
-            <div className="mb-2">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                onClick={handleEntrada}
-              >
-                Marcar asistencia
-              </button>
-            </div>
-          )}
-          {entradaMarcada && (
-            <p className="text-green-500 font-bold mt-4">Entrada marcada</p>
-          )}
-
-          {mostrarBotonSalida && (
-            <div className="mb-2">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                onClick={handleSalida}
-              >
-                Marcar salida
-              </button>
-            </div>
-          )}
-
-          {salidaMarcada && (
-            <p className="text-green-500 font-bold mt-4">Salida marcada</p>
-          )}
-          {tardanza && (
-            <p className="text-red-500 font-bold mt-4">
-              Tardanza (marcado después de las 8:10)
-            </p>
           )}
         </div>
       </div>
-      <Toaster />
+      <div className="seccion-derecha flex flex-col items-center justify-start ml-4 ">
+        <RelojAnalogico hora={horaActual} />
+        <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
+          {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+        </p>
+        {mostrarBotonEntrada && (
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={handleEntrada}
+          >
+            Marcar entrada
+          </button>
+        )}
+        {entradaMarcada && <p className="text-green-500 font-bold mt-4">Entrada marcada</p>}
+        {mostrarBotonSalida && (
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={handleSalida}
+          >
+            Marcar salida
+          </button>
+        )}
+        {salidaMarcada && <p className="text-green-500 font-bold mt-4">Salida marcada</p>}
+        {tardanza && (
+          <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 8:10)</p>
+        )}
+      </div>
     </div>
   );
 };

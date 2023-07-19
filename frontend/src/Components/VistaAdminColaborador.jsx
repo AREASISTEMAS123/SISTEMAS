@@ -20,6 +20,7 @@ export const VistaAdminColaborador = () => {
   const [filterName, setFilterName] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('');
   const [filterDate, setFilterDate] = useState('')
+  const [filterShift, setFilterShift] = useState('')
 
   const Token = localStorage.getItem("token");
 
@@ -88,14 +89,31 @@ export const VistaAdminColaborador = () => {
 
   const editarUsuario = async (usuarioEditado) => {
 
+    const formData = new FormData();
+    formData.append('name', usuarioEditado.Name);
+    formData.append('surname', usuarioEditado.Surname);
+    formData.append('email', usuarioEditado.Email);
+    formData.append('status', usuarioEditado.Status);
+    formData.append('profile_name', usuarioEditado.Profile);
+    formData.append('dni', usuarioEditado.Dni);
+    formData.append('department', usuarioEditado.Departament);
+    formData.append('area', usuarioEditado.Area);
+    formData.append('shift', usuarioEditado.Shift);
+    formData.append('birthday', usuarioEditado.Birthday);
+    formData.append('date_start', usuarioEditado.DateStart);
+    formData.append('responsible', usuarioEditado.Responsible);
+    formData.append('role_id', usuarioEditado.Role);
+    formData.append('avatar', usuarioEditado.Avatar);
+    formData.append('_method', 'PUT');
+
     try {
       const response = await fetch(import.meta.env.VITE_API_URL +  `/users/update/${usuarioEditado.id}`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${Token}`
         },
-        body: JSON.stringify(usuarioEditado),
+        //body: JSON.stringify(usuarioEditado),
+        body: formData,
       });
       const data = await response.json();
       if (response.ok) {
@@ -175,6 +193,9 @@ export const VistaAdminColaborador = () => {
   const clearFilterDate = () => {
     setFilterDate("");
   };
+  const clearFilterShift  = () => {
+    setFilterShift("");
+  };
   const clearFilterDepartment  = () => {
     setFilterDepartment("");
   };
@@ -245,6 +266,28 @@ export const VistaAdminColaborador = () => {
               </div>
               <div className="w-full">
                 <label
+                  htmlFor="filterDepartment"
+                  className="block mb-1 font-medium text-cv-cyan"
+                >
+                  Filtrar por Turno
+                </label>
+                <div className="flex items-center justify-between w-full rounded-md bg-slate-300">
+                  <select
+                    id="rol"
+                    value={filterShift} onChange={(e) => setFilterShift(e.target.value)}
+                    className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
+                  >
+                    <option>Selecciona</option>
+                    <option value="Mañana">Mañana</option>
+                    <option value="Tarde">Tarde</option>
+                  </select>
+                  <button onClick={clearFilterShift} className="p-2 rounded-md text-cv-primary hover:bg-cv-cyan">
+                    <CloseIcon />
+                  </button>
+                </div>
+              </div>
+              <div className="w-full">
+                <label
                   htmlFor="filterNames"
                   className="block mb-1 font-medium text-cv-cyan"
                 >
@@ -267,7 +310,7 @@ export const VistaAdminColaborador = () => {
             </div>
             <div>
               <TablaListaColaboradores data={users} abrirEditarModal={abrirEditarModal}
-                eliminarUsuario={eliminarUsuario} deleteUser={eliminarUsuario} filterName={filterName} filterDepartment={filterDepartment} filterDate={filterDate} />
+                eliminarUsuario={eliminarUsuario} deleteUser={eliminarUsuario} filterName={filterName} filterDepartment={filterDepartment} filterDate={filterDate} filterShift={filterShift} />
             </div>
           </div>
         </section>
