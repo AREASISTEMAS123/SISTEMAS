@@ -19,6 +19,7 @@ class ProfileController extends Controller
             $absence = Attendance::all()->where('user_id', Auth::user()->id)->where("justification","0")->where("absence", "1")->count();
             $delay = Attendance::all()->where('user_id', Auth::user()->id)->where("justification","0")->where("delay", "1")->count();
             $justification = Attendance::all()->where('user_id', Auth::user()->id)->where("justification", "1")->count();
+            $non_working_days = Attendance::all()->where('user_id', Auth::user()->id)->where("non_working_days", "1")->count();
             $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
             $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
 
@@ -30,26 +31,18 @@ class ProfileController extends Controller
                     "Faltas" => $absence,
                     "Tardanzas" => $delay,
                     "Justificaciones" => $justification,
+                    "Dias no laborales" => $non_working_days,
                     'rol' => $name_role,
                     'avatar' =>$img]);
         }elseif ($role->role_id == '2'){
-            $name_role = 'Lider Departamento';
+            $name_role = 'Lider Nucleo';
             return response()->json([
                 "Usuario"=>$profile,
                 "Asistencia" => $attendance,
                 "Faltas" => $absence,
                 "Tardanzas" => $delay,
                 "Justificaciones" => $justification,
-                'rol' => $name_role,
-                'avatar' =>$img]);
-        }elseif ($role->role_id == '3'){
-            $name_role = 'Lider Area';
-            return response()->json([
-                "Usuario"=>$profile,
-                "Asistencia" => $attendance,
-                "Faltas" => $absence,
-                "Tardanzas" => $delay,
-                "Justificaciones" => $justification,
+                "Dias no laborales" => $non_working_days,
                 'rol' => $name_role,
                 'avatar' =>$img]);
         }else {
@@ -60,6 +53,7 @@ class ProfileController extends Controller
                 "Faltas" => $absence,
                 "Tardanzas" => $delay,
                 "Justificaciones" => $justification,
+                "Dias no laborales" => $non_working_days,
                 'rol' => $name_role,
                 'avatar' =>$img]);
         }
