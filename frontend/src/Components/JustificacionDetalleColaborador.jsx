@@ -8,11 +8,11 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 export const JustificacionDetalleColaborador = () => {
     const { id, userid } = useParams();
     const [faltasList, setFaltasList] = useState([]);
-   /* useEffect(() => {
+   useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = `Bearer ${localStorage.getItem('token')}`;
-                const response = await fetch(`http://127.0.0.1:8000/api/users/justifications/${id}`, {
+                const response = await fetch(`http://127.0.0.1:8000/api/justifications/details/${id}`, {
                     headers: {
                         Authorization: token
                     }
@@ -25,12 +25,21 @@ export const JustificacionDetalleColaborador = () => {
             }
         };
         fetchData();
-    }, [id, userid]);*/
+    }, [id, userid]);
     const OnClickRetroceder = () => {
         navigate(`/justificacion`);
     }
     const navigate = useNavigate();
-
+    
+    const isRechazadoOrAceptado = (prop) => {
+        if (prop.decline === 1) {
+            return 'Rechazado';
+        } else if (prop.justification_status === 0 && prop.decline === 0) {
+            return 'En proceso';
+        } else {
+            return 'Aceptado';
+        }
+    }
     return (
         <div>
             <div className="flex items-center mb-4">
@@ -45,14 +54,12 @@ export const JustificacionDetalleColaborador = () => {
                             <div>
                                 <label className='text-gray-300' >Estado :</label>
                                 <div className='text-white'>
-                                    {item.justification_status === 0 && item.decline === 0 ? 'En proceso' : null}
-                                    {item.justification_status === 1 && item.decline === 0 ? 'Aceptado' : null}
-                                    {item.decline === 1 ? 'Rechazado' : null}
+                                   <p>{isRechazadoOrAceptado(item)}</p>
                                 </div>
                             </div>
                             <div>
-                                <label className='text-gray-300' >MOTIVO :</label>
-                                <p className='text-white'>{item.reason}</p>
+                                <label className='text-gray-300' >{isRechazadoOrAceptado(item)==='Rechazado' ? 'MOTIVO' :null}</label>
+                                <p className='text-white'>{ item.reason_decline}</p>
                             </div>
                             <h1 className='text-center text-white text-lg mb-5' >DATOS DE JUSTIFICACIÓN</h1>
                             <div className="flex items-center mb-4">

@@ -39,6 +39,7 @@ const AppRoutes = () => {
                     <Route path="/asistencia" element={<Asistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
+                    <Route path="/details/:id" element={<JustificacionDetalleColaborador/>}/>
                     <Route path="/logout" />
                     {hasRole('Lider Nucleo') && (
                         <>

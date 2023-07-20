@@ -139,12 +139,11 @@ export const JustificacionColaborador = () => {
         setReason('');
         setEvidence(null);
     };
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    /*const mostrarDetalles = (id) => {
-
-        navigate(`/detalles/${id}`);
-    }*/
+    const mostrarDetalles = (id) => {
+        navigate(`/details/${id}`);
+    }
     return (
         <div className="p-3 h-screen">
             <h1 className="my-2 uppercase font-semibold text-4xl text-white">Justificaciones</h1>
@@ -195,10 +194,10 @@ export const JustificacionColaborador = () => {
                     />
                 </div>
                 <div className="">
-                    <button 
+                    <button
                         className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
                         onClick={onClearFilter}
-                        >
+                    >
                         Limpiar
                     </button>
                 </div>
@@ -259,7 +258,7 @@ export const JustificacionColaborador = () => {
                                     <ul>
                                         <div className="text-sm font-medium flex  ">
                                             <p >
-                                               <span className="uppercase">Estado: </span>  {isRechazadoOrAceptado(card)}
+                                                <span className="uppercase">Estado: </span>  {isRechazadoOrAceptado(card)}
                                             </p>
                                             <div className="" style={{ marginLeft: 'auto' }}>
                                                 <CircleIcon sx={{ color: colorIcon(card) }}></CircleIcon>
@@ -277,7 +276,7 @@ export const JustificacionColaborador = () => {
                                         </li>
                                         <li className="text-sm font-medium flex  ">
                                             <p>
-                                               <span className="uppercase"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
+                                                <span className="uppercase"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
                                             </p>
                                         </li>
                                         <li className="text-sm font-medium  ">
