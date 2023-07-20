@@ -26,6 +26,11 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 	const [dateEnd, setDateEnd] = useState('');
 	//const [responsible, setResponsible] = useState('');
 	const [avatar, setAvatar] = useState(null);
+	const [avatarLocal, setAvatarLocal] = useState(null);
+
+	const [selectAreaDisabled, setSelectAreaDisabled] = useState(true);
+	const [selectProfileDisabled, setSelectProfileDisabled] = useState(true);
+	const [inputText, setInputText] = useState(false);
 
 	const handleNameChange = (event) => {
 		setName(event.target.value);
@@ -39,36 +44,58 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 		setEmail(event.target.value);
 	};
 
-	const handleProfileChange = (event) => {
-		setProfile(event.target.value);
-	};
 	const handleDniChange = (event) => {
 		setDni(event.target.value);
 	};
+
 	const handleDepartamentChange = (event) => {
 		setDepartament(event.target.value);
+		setArea('')
+		setProfile('')
+		setSelectAreaDisabled(false)
 	};
+
 	const handleAreaChange = (event) => {
 		setArea(event.target.value);
+		setProfile('')
+		setSelectProfileDisabled(false)
+		if (event.target.options[event.target.selectedIndex].id === 'otro') {
+			setInputText(true)
+			setArea('')
+		} else {
+			console.log()
+		}
+
 	};
+
+	const handleProfileChange = (event) => {
+		setProfile(event.target.value);
+	};
+
 	const handleShiftChange = (event) => {
 		setShift(event.target.value);
 	};
+
 	const handleBirthdayChange = (event) => {
 		setBirthday(event.target.value);
 	};
+
 	const handleDateStartChange = (event) => {
 		setDateStart(event.target.value);
 	};
+
 	const handleDateEndChange = (event) => {
 		setDateEnd(event.target.value);
 	}
+
 	//const handleResponsibleChange = (event) => {
 	//	setResponsible(event.target.value);
 	//};
+
 	const handleAvatarChange = (event) => {
 		const file = event.target.files[0];
 		setAvatar(file);
+		setAvatarLocal(file)
 	};
 
 	const handleSubmit = (event) => {
@@ -121,6 +148,129 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 
 		agregarUsuario(nuevoUsuario);
 	};
+
+	// Validar SelectBox
+
+	const renderAreaOptions = () => {
+		switch (departament) {
+			case 'Administrativo':
+				return (
+					<>
+						<option value="Administración">Administración</option>
+						<option value="Talento Humano">Talento Humano</option>
+					</>
+				);
+			case 'Comercial':
+				return (
+					<>
+						<option value="Comercial">Comercial</option>
+					</>
+				);
+			case 'Operativo':
+				return (
+					<>
+						<option value="Creativo">Creativo</option>
+						<option value="Diseño Web">Diseño Web</option>
+						<option value="Ejecutivo de Cuenta">Ejecutivo de Cuenta</option>
+						<option value="Medios Audiovisuales">Medios Audiovisuales</option>
+						<option value="Sistemas">Sistemas</option>
+						<option value="Otro" id='otro'>Otro</option>
+					</>
+				);
+			default:
+				return (
+					<option value="">Selecciona</option>
+				);
+		}
+	};
+
+	const renderPositionOptions = () => {
+		switch (area) {
+			case 'Administración':
+				return (
+					<>
+						<option value="Líder de Perfil Asistente Administrativo">Líder de Perfil Asistente Administrativo</option>
+						<option value="Asistente Administrativo">Asistente Administrativo</option>
+					</>
+				);
+			case 'Talento Humano':
+				return (
+					<>
+						<option value="Líder de Perfil de Talento Humano">Líder de Perfil de Talento Humano</option>
+						<option value="Asistente de Talento Humano">Asistente de Talento Humano</option>
+					</>
+				);
+			case 'Comercial':
+				return (
+					<>
+						<option value="Asistente Comercial">Asistente Comercial</option>
+						<option value="Asistente de Logística">Asistente de Logística</option>
+						<option value="Cerradores">Cerradores</option>
+						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Líder de Perfil de Asistencia Logística">Líder de Perfil de Asistencia Logística</option>
+						<option value="Líder de Perfil Ejecutivo de Cuentas">Líder de Perfil Ejecutivo de Cuentas</option>
+					</>
+				);
+			case 'Creativo':
+				return (
+					<>
+						<option value="Líder de Núcleo Creativo">Líder de Núcleo Creativo</option>
+						<option value="Diseñador Gráfico">Diseñador Gráfico</option>
+					</>
+				);
+			case 'Diseño Web':
+				return (
+					<>
+						<option value="Líder de Núcleo de Diseño Web">Líder de Núcleo de Diseño Web</option>
+						<option value="Maquetador Web">Maquetador Web</option>
+						<option value="Desarrollador Web - Wordpress">Desarrollador Web - Wordpress</option>
+					</>
+				);
+
+			case 'Ejecutivo de Cuenta':
+				return (
+					<>
+						<option value="Coordinador de Marca">Coordinador de Marca</option>
+					</>
+				);
+			case 'Medios Audiovisuales':
+				return (
+					<>
+						<option value="Líder de Núcleo Medios Visuales">Líder de Núcleo Medios Visuales</option>
+						<option value="Asistente de Medios Visuales">Asistente de Medios Visuales</option>
+					</>
+				);
+			case 'Sistemas':
+				return (
+					<>
+						<option value="Líder de Perfil de Sistemas">Líder de Perfil de Sistemas</option>
+						<option value="Analista de Documentación">Analista de Documentación</option>
+						<option value="Frontend">Frontend</option>
+						<option value="Backend">Backend</option>
+						<option value="Base de Datos">Base de Datos</option>
+					</>
+				);
+			default:
+				return (
+					<>
+						<option value="Coordinador de Marca">Coordinador de Marca</option>
+						<option value="Líder de Marca">Líder de Marca</option>
+						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Community Manager">Community Manager</option>
+						<option value="Publicidad Digital">Publicidad Digital</option>
+					</>
+				);
+		}
+	};
+
+
+
+
+
+
+
+
+
 	return (
 		<div>
 			<div className="fixed top-0 left-0 z-50 w-full h-full p-2 overflow-x-hidden overflow-y-auto">
@@ -210,63 +360,6 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 									</div>
 									<div className="w-full">
 										<label
-											htmlFor="departament"
-											className="block mb-1 font-medium text-gray-900"
-										>
-											Departamento
-										</label>
-										{/*<input
-											type="text"
-											id="departament"
-											value={departament} onChange={handleDepartamentChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el departamento"
-										/>*/}
-										<select
-											id="departament"
-											value={departament}
-											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-										>
-											<option value="">Selecciona</option>
-											<option value="Administrativo">Administrativo</option>
-											<option value="Comercial">Comercial</option>
-											<option value="Operativo">Operativo</option>
-										</select>
-									</div>
-								</div>
-								<div className="w-full flex flex-col space-y-1">
-									<div className="w-full">
-										<label
-											htmlFor="area"
-											className="block mb-1 font-medium text-gray-900"
-										>
-											Area
-										</label>
-										<input
-											type="text"
-											id="area"
-											value={area} onChange={handleAreaChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el area"
-										/>
-									</div>
-									<div className="w-full">
-										<label
-											htmlFor="profile"
-											className="block mb-1 font-medium text-gray-900"
-										>
-											Perfil
-										</label>
-										<input
-											type="text"
-											id="profile"
-											value={profile} onChange={handleProfileChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el perfil"
-										/>
-									</div>
-									<div className="w-full">
-										<label
 											htmlFor="rol"
 											className="block mb-1 font-medium text-gray-900"
 										>
@@ -282,6 +375,83 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											<option value="Tarde">Tarde</option>
 										</select>
 									</div>
+
+								</div>
+								<div className="w-full flex flex-col space-y-1">
+									<div className="w-full">
+										<label
+											htmlFor="departament"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Departamento
+										</label>
+										<select
+											id="departament"
+											value={departament}
+											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option>Selecciona</option>
+											<option value="Administrativo">Administrativo</option>
+											<option value="Comercial">Comercial</option>
+											<option value="Operativo">Operativo</option>
+										</select>
+									</div>
+									<div className="w-full">
+										<label
+											htmlFor="area"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Núcleo
+										</label>
+										<select
+											id="area"
+											value={area}
+											onChange={handleAreaChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											disabled={selectAreaDisabled}
+										>
+											<option>Selecciona</option>
+											{departament && (
+												renderAreaOptions()
+											)}
+										</select>
+
+										{inputText && (
+											<input
+												type="text"
+												id="area"
+												value={area} onChange={handleAreaChange}
+												className="w-full mt-1 p-2 text-gray-900 rounded-md border-2 border-green-600  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+												placeholder="Ingresa el núcleo"
+											/>
+										)}
+
+
+
+
+									</div>
+									<div className="w-full">
+										<label
+											htmlFor="profile"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Perfil
+										</label>
+										<select
+											id="profile"
+											value={profile}
+											onChange={handleProfileChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											disabled={selectProfileDisabled}
+										>
+											<option>Selecciona</option>
+											{area && (
+												renderPositionOptions()
+											)}
+										</select>
+
+									</div>
+
 									{/*<div className="w-full">
 										<label
 											htmlFor="responsable"
@@ -334,10 +504,16 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 									className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300"
 								>
 									<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 items-center justify-center">
-										<CloudUploadIcon
-											className="text-cv-secondary hover:text-cv-primary"
-											sx={{ fontSize: 70 }}
-										/>
+
+										{avatarLocal ? (
+											<img src={URL.createObjectURL(avatarLocal)} className="rounded-md w-16 h-16" name="avatar" alt="" />
+										) : (
+											<CloudUploadIcon
+												className="text-cv-secondary hover:text-cv-primary"
+												sx={{ fontSize: 70 }}
+											/>
+										)}
+
 										<div className="text-gray-600 text-center md:text-start">
 											<p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
 												{avatar ? avatar.name : "Seleccione un archivo de imagen"}
@@ -387,6 +563,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { alpha, styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
+//import { SelectBoxModalAdd } from './SelectBoxModalColaborador';
 
 const CvSwitch = styled(Switch)(({ theme }) => ({
 	'& .MuiSwitch-switchBase.Mui-checked': {
@@ -426,6 +603,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Avatar, setAvatar] = useState(null);
 	const [avatarLocal, setAvatarLocal] = useState(null);
 
+	const [inputText, setInputText] = useState(false);
+
 	useEffect(() => {
 		setName(usuario.user[0].name);
 		setSurname(usuario.user[0].surname);
@@ -460,20 +639,30 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setStatus(event.target.checked ? 1 : 0);
 	};
 
-	const handleProfileChange = (event) => {
-		setProfile(event.target.value);
-	};
-
 	const handleDniChange = (event) => {
 		setDni(event.target.value);
 	};
 
 	const handleDepartamentChange = (event) => {
 		setDepartament(event.target.value);
+		setArea('')
+		setProfile('')
 	};
 
 	const handleAreaChange = (event) => {
 		setArea(event.target.value);
+		setProfile('')
+		if (event.target.options[event.target.selectedIndex].id === 'otro') {
+			setInputText(true)
+			setArea('')
+		} else {
+			console.log()
+		}
+
+	};
+
+	const handleProfileChange = (event) => {
+		setProfile(event.target.value);
 	};
 
 	const handleShiftChange = (event) => {
@@ -527,10 +716,128 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			Role,
 			Avatar,
 		};
-		
+
 
 		editarUsuario(usuarioEditado);
 	};
+
+
+
+
+	// Validar SelectBox
+
+	const renderAreaOptions = () => {
+		switch (Departament) {
+			case 'Administrativo':
+				return (
+					<>
+						<option value="Administración">Administración</option>
+						<option value="Talento Humano">Talento Humano</option>
+					</>
+				);
+			case 'Comercial':
+				return (
+					<>
+						<option value="Comercial">Comercial</option>
+					</>
+				);
+			case 'Operativo':
+				return (
+					<>
+						<option value="Creativo">Creativo</option>
+						<option value="Diseño Web">Diseño Web</option>
+						<option value="Ejecutivo de Cuenta">Ejecutivo de Cuenta</option>
+						<option value="Medios Audiovisuales">Medios Audiovisuales</option>
+						<option value="Sistemas">Sistemas</option>
+						<option value="Otro" id='otro'>Otro</option>
+					</>
+				);
+			default:
+				return (
+					<option value="">Selecciona</option>
+				);
+		}
+	};
+
+	const renderPositionOptions = () => {
+		switch (Area) {
+			case 'Administración':
+				return (
+					<>
+						<option value="Líder de Perfil Asistente Administrativo">Líder de Perfil Asistente Administrativo</option>
+						<option value="Asistente Administrativo">Asistente Administrativo</option>
+					</>
+				);
+			case 'Talento Humano':
+				return (
+					<>
+						<option value="Líder de Perfil de Talento Humano">Líder de Perfil de Talento Humano</option>
+						<option value="Asistente de Talento Humano">Asistente de Talento Humano</option>
+					</>
+				);
+			case 'Comercial':
+				return (
+					<>
+						<option value="Asistente Comercial">Asistente Comercial</option>
+						<option value="Asistente de Logística">Asistente de Logística</option>
+						<option value="Cerradores">Cerradores</option>
+						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Líder de Perfil de Asistencia Logística">Líder de Perfil de Asistencia Logística</option>
+						<option value="Líder de Perfil Ejecutivo de Cuentas">Líder de Perfil Ejecutivo de Cuentas</option>
+					</>
+				);
+			case 'Creativo':
+				return (
+					<>
+						<option value="Líder de Núcleo Creativo">Líder de Núcleo Creativo</option>
+						<option value="Diseñador Gráfico">Diseñador Gráfico</option>
+					</>
+				);
+			case 'Diseño Web':
+				return (
+					<>
+						<option value="Líder de Núcleo de Diseño Web">Líder de Núcleo de Diseño Web</option>
+						<option value="Maquetador Web">Maquetador Web</option>
+						<option value="Desarrollador Web - Wordpress">Desarrollador Web - Wordpress</option>
+					</>
+				);
+
+			case 'Ejecutivo de Cuenta':
+				return (
+					<>
+						<option value="Coordinador de Marca">Coordinador de Marca</option>
+					</>
+				);
+			case 'Medios Audiovisuales':
+				return (
+					<>
+						<option value="Líder de Núcleo Medios Visuales">Líder de Núcleo Medios Visuales</option>
+						<option value="Asistente de Medios Visuales">Asistente de Medios Visuales</option>
+					</>
+				);
+			case 'Sistemas':
+				return (
+					<>
+						<option value="Líder de Perfil de Sistemas">Líder de Perfil de Sistemas</option>
+						<option value="Analista de Documentación">Analista de Documentación</option>
+						<option value="Frontend">Frontend</option>
+						<option value="Backend">Backend</option>
+						<option value="Base de Datos">Base de Datos</option>
+					</>
+				);
+			default:
+				return (
+					<>
+						<option value="Coordinador de Marca">Coordinador de Marca</option>
+						<option value="Líder de Marca">Líder de Marca</option>
+						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Community Manager">Community Manager</option>
+						<option value="Publicidad Digital">Publicidad Digital</option>
+					</>
+				);
+		}
+	};
+
 
 	return (
 		<div>
@@ -627,28 +934,20 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 									</div>
 									<div className="w-full">
 										<label
-											htmlFor="departament"
+											htmlFor="shift"
 											className="block mb-1 font-medium text-gray-900"
 										>
-											Departamento
+											Turno
 										</label>
-										{/*<input
-											type="text"
-											id="departament"
-											value={Departament}
-											onChange={handleDepartamentChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el departamento"
-										/>*/}
 										<select
-											id="departament"
-											value={Departament}
-											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											id="shift"
+											value={Shift}
+											onChange={handleShiftChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 										>
-											<option value="">Selecciona</option>
-											<option value="Administrativo">Administrativo</option>
-											<option value="Comercial">Comercial</option>
-											<option value="Operativo">Operativo</option>
+											<option>Selecciona</option>
+											<option value="Mañana">Mañana</option>
+											<option value="Tarde">Tarde</option>
 										</select>
 									</div>
 									<div className="w-full">
@@ -669,29 +968,50 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 								<div className="w-full flex flex-col space-y-1">
 									<div className="w-full">
 										<label
+											htmlFor="departament"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Departamento
+										</label>
+										<select
+											id="departament"
+											value={Departament}
+											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option value="">Selecciona</option>
+											<option value="Administrativo">Administrativo</option>
+											<option value="Comercial">Comercial</option>
+											<option value="Operativo">Operativo</option>
+										</select>
+									</div>
+									<div className="w-full">
+										<label
 											htmlFor="area"
 											className="block mb-1 font-medium text-gray-900"
 										>
-											Area
+											Núcleo
 										</label>
-										<input
-											type="text"
+										<select
 											id="area"
 											value={Area}
 											onChange={handleAreaChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el area"
-										/>
-										{/*<select
-											id="area"
-											value={Area}
-											onChange={handleAreaChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 										>
-											<option value="">Selecciona</option>
-											<option value="Administración">Administración</option>
-											<option value="Talento Humano">Talento Humano</option>
-											<option value="Social Media Manager">Social Media Manager</option>
-										</select>*/}
+											<option>Selecciona</option>
+											{Departament && (
+												renderAreaOptions()
+											)}
+										</select>
+
+										{inputText && (
+											<input
+												type="text"
+												id="area"
+												value={Area} onChange={handleAreaChange}
+												className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+												placeholder="Ingresa el núcleo"
+											/>
+										)}
 									</div>
 									<div className="w-full">
 										<label
@@ -700,33 +1020,19 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										>
 											Perfil
 										</label>
-										<input
-											type="text"
+										<select
 											id="profile"
 											value={Profile}
 											onChange={handleProfileChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el perfil"
-										/>
-									</div>
-									<div className="w-full">
-										<label
-											htmlFor="shift"
-											className="block mb-1 font-medium text-gray-900"
-										>
-											Turno
-										</label>
-										<select
-											id="shift"
-											value={Shift}
-											onChange={handleShiftChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 										>
 											<option>Selecciona</option>
-											<option value="Mañana">Mañana</option>
-											<option value="Tarde">Tarde</option>
+											{Area && (
+												renderPositionOptions()
+											)}
 										</select>
 									</div>
+
 									<div className="w-full">
 										<label
 											htmlFor="rol"
@@ -781,7 +1087,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											htmlFor="endDate"
 											className="block mb-1 font-medium text-gray-900"
 										>
-											Fecha de Finalizacion
+											Fecha de Finalización
 										</label>
 										<input
 											type="date"
@@ -799,8 +1105,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 									className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300"
 								>
 									<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 items-center justify-center">
-										
-										<img src={avatarLocal ? URL.createObjectURL(avatarLocal) : Avatar} className="rounded-md w-16 h-16" name="hola" alt="" />
+
+										<img src={avatarLocal ? URL.createObjectURL(avatarLocal) : Avatar} className="rounded-md w-16 h-16" name="avatar" alt="" />
 										<div className="text-gray-600 text-center md:text-start">
 											<p className="text-xs md:text-base font-medium text-cv-secondary hover:text-cv-primary">
 												{avatarLocal ? avatarLocal.name : "Seleccione una nueva imagen"}
