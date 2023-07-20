@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Profile;
+use App\Models\User;
+use App\Traits\AttendanceNotificationTrait;
+use Illuminate\Support\Facades\DB;
 
-class AttendanceController extends Controller
+class AttendanceController extends Controller {
 
     public function getAttendance(){
         $attendance_user = Attendance::with('user', 'profile')->get();
@@ -14,8 +17,8 @@ class AttendanceController extends Controller
         return response()->json(['attendance' => $attendance_user]);
     }
 
-
-
+    // Traigo el trait de notification
+    use AttendanceNotificationTrait;
 
     public function insertAttendance(Request $request) {
         $user_id = auth()->id();
@@ -84,5 +87,41 @@ class AttendanceController extends Controller
                 return response()->json(['error' => 'Ya marcaste asistencia']);
             }
         }
+
+        // Logica para notificar a gerencia y el lider de departamento
+        
+        // Obtener user por ID
+        $user = User::all()
+                        ->except($attendance->user_id);
+                        // ->each(function(User $user) use ($attendance){
+
+                        // });
+        // Calcula el numero de faltas del usuario
+        $faltasCount = $this->calculateFaltasCount($user_id);
+
+        // Si el usuario tiene 2 faltas se envia advertencia al lider del departamento, si tiene 3 la alerta llega a gerencia
+        if($faltasCount === 3) {
+            // auth()->user()->
+        } else if ($faltasCount === 2) {
+            $this->sendNotification($user, $faltasCount, 'advertencia');
+        }
+    }
+
+    // Método para calcular el número de faltas del usuario
+    private function calculateFaltasCount($user_id)
+    {
+        // Obtener las asistencias del usuario
+        $attendances = Attendance::where('user_id', $user_id)->get();
+
+        // Contar las faltas
+        $faltasCount = 0;
+        foreach ($attendances as $attendance) {
+            // Si el campo 'attendance' es false, entonces es falta
+            if (!$attendance->attendance) {
+                $faltasCount++;
+            }
+        }
+
+        return $faltasCount;
     }
 }
