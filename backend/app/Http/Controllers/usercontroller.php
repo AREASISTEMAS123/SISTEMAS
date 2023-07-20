@@ -48,7 +48,7 @@ class usercontroller extends Controller
                 'rol' => $name_role,
                 'avatar' => $img], 200);
         }elseif ($role->role_id == '2'){
-        $name_role = 'Lider Area';
+        $name_role = 'Lider Nucleo';
 
         return response()->json([
             "usuario" =>$user,
