@@ -25,6 +25,8 @@ ProgressBar.propTypes = {
 
 export const AsistenciaAdmin = () => {
 
+  const Token = localStorage.getItem("token");
+  const [attendance, setAttendance] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [isInputReady, setIsInputReady] = useState(false);
 
@@ -64,7 +66,7 @@ export const AsistenciaAdmin = () => {
   ];
 
 
-  const data = ['Operativo', 'Sistemas', 'Mañana', 'Cristian Vasquez', 1];
+  //const data = ['Operativo', 'Sistemas', 'Mañana', 'Cristian Vasquez', 1];
 
   const items = [
     { title: 'Ingresos', progress: 75, color: '#24FF00' },
@@ -78,6 +80,34 @@ export const AsistenciaAdmin = () => {
     setCurrentItemIndex((prevIndex) => (prevIndex + 1) % items.length);
   };
   //onBlur = {() => setIsInputReady(false)}
+
+
+  //Listar Usuarios
+  useEffect(() => {
+    obtenerAsistencia();
+  }, []);
+
+  const obtenerAsistencia = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL + "/attendance", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setAttendance(data.attendance);
+        console.log(data);
+        console.log(data.attendance[0].departure_image);
+      } else {
+        console.error('Error al obtener los usuarios:', data.error);
+      }
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+    }
+  };
+
   return (
     <div className="max-w-screen-lg mx-auto space-y-3">
       <div className="flex flex-col items-center justify-center space-y-2">
@@ -182,7 +212,7 @@ export const AsistenciaAdmin = () => {
       </div>
         
 
-      <TablaAsistencias data={data} />
+      <TablaAsistencias data={attendance} />
     </div>
   );
 };

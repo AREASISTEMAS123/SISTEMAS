@@ -149,8 +149,8 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Area</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Perfil</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Turno</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Responsable</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Ingreso</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Finalización</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Nacimiento</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Rol</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Estado</TableCell>
@@ -197,8 +197,8 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 										<TableCell align="right">{users.area}</TableCell>
 										<TableCell align="right">{users.profile_name}</TableCell>
 										<TableCell align="right">{users.shift}</TableCell>
-										<TableCell align="left" className='whitespace-nowrap'>{users.responsible}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.date_start}</TableCell>
+										<TableCell align="left" className='whitespace-nowrap'>{users.date_end}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
 										<TableCell align="right">{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
 										<TableCell align="right">{users.user && users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell> 

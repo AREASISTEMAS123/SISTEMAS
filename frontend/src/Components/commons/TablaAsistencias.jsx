@@ -148,16 +148,17 @@ export default function TablaAsistencias({data}) {
                   (users.department && users.department.toLowerCase().includes(filterDepartment.toLowerCase())) &&
                   users.date_start.toLowerCase().includes(filterDate.toLowerCase())
                 )*/
-                .slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((users) => (
+                
+                .slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((item) => (
                   <TableRow
-                    key={users.id}
+                    key={item.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell align="left" width="auto" className='whitespace-nowrap'></TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right"></TableCell>
+                    <TableCell align="left" width="auto" className='whitespace-nowrap'>{item.profile[0].department}</TableCell>
+                    <TableCell align="right">{item.profile[0].area}</TableCell>
+                    <TableCell align="right">{item.profile[0].shift}</TableCell>
+                    <TableCell align="right">{item.user.name}</TableCell>
+                    <TableCell align="right">{item.attendance}</TableCell>
                     <TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
                       <div className='flex items-center justify-center'>
                         <button onClick="" className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>

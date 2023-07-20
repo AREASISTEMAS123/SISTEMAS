@@ -23,7 +23,8 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 	const [shift, setShift] = useState('');
 	const [birthday, setBirthday] = useState('');
 	const [dateStart, setDateStart] = useState('');
-	const [responsible, setResponsible] = useState('');
+	const [dateEnd, setDateEnd] = useState('');
+	//const [responsible, setResponsible] = useState('');
 	const [avatar, setAvatar] = useState(null);
 
 	const handleNameChange = (event) => {
@@ -59,9 +60,12 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 	const handleDateStartChange = (event) => {
 		setDateStart(event.target.value);
 	};
-	const handleResponsibleChange = (event) => {
-		setResponsible(event.target.value);
-	};
+	const handleDateEndChange = (event) => {
+		setDateEnd(event.target.value);
+	}
+	//const handleResponsibleChange = (event) => {
+	//	setResponsible(event.target.value);
+	//};
 	const handleAvatarChange = (event) => {
 		const file = event.target.files[0];
 		setAvatar(file);
@@ -79,7 +83,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 			!shift ||
 			!birthday ||
 			!dateStart ||
-			!responsible ||
+			//!responsible ||
 			!avatar ||
 			name.trim() === '' ||
 			surname.trim() === '' ||
@@ -91,7 +95,8 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 			shift.trim() === '' ||
 			birthday.trim() === '' ||
 			dateStart.trim() === '' ||
-			responsible.trim() === ''
+			dateEnd.trim() === ''
+			//responsible.trim() === ''
 		) {
 			setMensajeError('Rellene todos los campos');
 			return;
@@ -109,7 +114,8 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 			shift,
 			birthday,
 			dateStart,
-			responsible,
+			dateEnd,
+			//responsible,
 			avatar,
 		};
 
@@ -276,7 +282,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											<option value="Tarde">Tarde</option>
 										</select>
 									</div>
-									<div className="w-full">
+									{/*<div className="w-full">
 										<label
 											htmlFor="responsable"
 											className="block mb-1 font-medium text-gray-900"
@@ -290,7 +296,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 											placeholder="Ingresa el nombre completo"
 										/>
-									</div>
+									</div>*/}
 									<div className="w-full">
 										<label
 											htmlFor="startDate"
@@ -302,6 +308,20 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="date"
 											id="startDate"
 											value={dateStart} onChange={handleDateStartChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										/>
+									</div>
+									<div className="w-full">
+										<label
+											htmlFor="startDate"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Fecha de Finalizacion
+										</label>
+										<input
+											type="date"
+											id="startDate"
+											value={dateEnd} onChange={handleDateEndChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 										/>
 									</div>
@@ -400,7 +420,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Shift, setShift] = useState('');
 	const [Birthday, setBirthday] = useState('');
 	const [DateStart, setDateStart] = useState('');
-	const [Responsible, setResponsible] = useState('');
+	const [DateEnd, setDateEnd] = useState('');
+	//const [Responsible, setResponsible] = useState('');
 	const [Role, setRole] = useState('')
 	const [Avatar, setAvatar] = useState(null);
 	const [avatarLocal, setAvatarLocal] = useState(null);
@@ -417,7 +438,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setShift(usuario.shift);
 		setBirthday(usuario.birthday);
 		setDateStart(usuario.date_start);
-		setResponsible(usuario.responsible);
+		setDateEnd(usuario.date_end);
+		//setResponsible(usuario.responsible);
 		setRole(usuario.role[0].role_id);
 		setAvatar(usuario.user[0].media[0].original_url);
 	}, [usuario]);
@@ -466,9 +488,13 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setDateStart(event.target.value);
 	};
 
-	const handleResponsibleChange = (event) => {
-		setResponsible(event.target.value);
-	};
+	const handleDateEndChange = (event) => {
+		setDateEnd(event.target.value);
+	}
+
+	//const handleResponsibleChange = (event) => {
+	//	setResponsible(event.target.value);
+	//};
 
 	const handleRoleChange = (event) => {
 		setRole(event.target.value);
@@ -496,7 +522,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			Shift,
 			Birthday,
 			DateStart,
-			Responsible,
+			DateEnd,
+			//Responsible,
 			Role,
 			Avatar,
 		};
@@ -718,7 +745,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											<option value="3">Colaborador</option>
 										</select>
 									</div>
-									<div className="w-full">
+									{/*<div className="w-full">
 										<label
 											htmlFor="responsable"
 											className="block mb-1 font-medium text-gray-900"
@@ -733,7 +760,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 											placeholder="Ingresa el nombre completo"
 										/>
-									</div>
+									</div> */}
 									<div className="w-full">
 										<label
 											htmlFor="startDate"
@@ -746,6 +773,20 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="startDate"
 											value={DateStart}
 											onChange={handleDateStartChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										/>
+									</div>
+									<div className="w-full">
+										<label
+											htmlFor="endDate"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Fecha de Finalizacion
+										</label>
+										<input
+											type="date"
+											id="endDate"
+											value={DateEnd} onChange={handleDateEndChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 										/>
 									</div>
