@@ -6,6 +6,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import '../css/detalleJustificacionAdmi.css'
 export const AdmiDetalleDeJustificacion = () => {
     const { id, userid } = useParams();
     const [faltasList, setFaltasList] = useState([]);
@@ -134,45 +135,103 @@ export const AdmiDetalleDeJustificacion = () => {
         setShowModalRechazado(false);
     };
 
-
-
+    const definiendo_rol = (role_id) => {
+        if (role_id === 1) {
+            return "Gerencia";
+        } else if (role_id === 2) {
+            return "Lider de nucleo";
+        } else if (role_id === 3) {
+            return "Colaborador";
+        } else {
+            return;
+        }
+    }
     return (
         <div>
             <div className="flex items-center mb-4">
-                <h3 className="mr-2 text-gray-300">JUSTIFICACIONES </h3>
+                <h3 className="mr-2 text-gray-300 text-2xl">JUSTIFICACIONES </h3>
                 <button className='text-gray-300' style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder} ><KeyboardBackspaceIcon></KeyboardBackspaceIcon></button>
             </div>
             <div className='border border-gray-300 rounded-lg p-3 mt-5'>
 
                 {faltasList.map((item) => (
                     <div key={item.user[0].id}>
-
-                        <form className="space-y-6" >
-                            <div className="flex mb-4">
-                                <h3 className="mr-2 text-gray-300">NOMBRE COMPLETO: <span className='text-white'>{item.user[0].name.toUpperCase()} {item.user[0].surname.toUpperCase()}</span> </h3>
-                                <div className='flex ml-auto'>
-                                    <label className='text-gray-300'>DNI: </label>
-                                    <p className='text-white'>{item.user[0].username}</p>
+                        <form className=" md:w-full lg:w-2/3 xl:w-1/2 mx-auto" >
+                            <h1 className=' text-white mb-10 text-xl md:w-full lg:w-2/3 xl:w-1/2 mx-auto font-semibold'> DATOS DEL {definiendo_rol(item.user[0].role[0].role_id).toUpperCase()}</h1>
+                            <div className="flex  flex-wrap w-full">
+                                <div className='  flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-gray-300">Nombres </label>
+                                    <input
+                                        type="text"
+                                        className=" text-black rounded-lg text-center bg-input my-2 "
+                                        value={item.user[0].name.toUpperCase()}
+                                        disabled
+                                    />
+                                </div>
+                                <div className='ml-auto   flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-gray-300">Apellidos </label>
+                                    <input
+                                        type="text"
+                                        className=" text-black rounded-lg text-center bg-input my-2 "
+                                        value={item.user[0].surname.toUpperCase()}
+                                        disabled
+                                    />
                                 </div>
                             </div>
-
-                            <div className="flex items-center mb-4">
-                                <label className='text-gray-300'>JUSTIFICACIÓN DE: <span className='text-white'>{item.justification_type === 0 ? "Falta".toUpperCase() : "Tardanza".toUpperCase()}</span></label>
-                                <div className='flex  ml-auto '>
-                                    <p className='text-gray-300'  >FECHA:  </p>
-                                    <p className='text-white'>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
+                            <div className="flex  flex-wrap w-full">
+                                <div className=' flex flex-col'>
+                                    <label className='font-semibold text-gray-300'>DNI </label>
+                                    <input
+                                        disabled
+                                        className=' text-black bg-input rounded-lg text-center my-2'
+                                        value={item.user[0].username}
+                                    />
                                 </div>
+                                <div className='ml-auto   flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-gray-300">Perfil </label>
+                                    <input
+                                        className='text-black bg-input rounded-lg text-center my-2'
+                                        value={item.user[0].profile.profile_name}
+                                        disabled
+                                    />
+                                </div>
+
+                            </div>
+                            
+
+                            <div className="flex  flex-wrap w-full">
+                                <div className=' flex flex-col'>
+                                    <label className='font-semibold mr-2 text-gray-300'>Razón de justificación </label>
+                                    <input
+                                        disabled
+                                        className='text-black bg-input rounded-lg text-center my-2'
+                                        value={`${item.justification_type === 0 ? "Falta".toUpperCase() : "Tardanza".toUpperCase()}`}
+                                    />
+                                </div>
+                                <div className='ml-auto   flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-gray-300">Fecha </label>
+                                    <input
+                                        className='text-black bg-input rounded-lg text-center my-2'
+                                        value={moment(item.justification_date).format("DD/MM/YYYY")}
+                                        disabled
+                                    />
+                                </div>
+
+                            </div>
+                            <div className=' ml-auto flex flex-col'>
+                                <label className='font-semibold  text-gray-300' >Motivo </label>
+                                <textarea className='text-black w-full  bg-input rounded-lg overflow-hidden text-center my-2 p-2 '
+                                    disabled
+                                    value={item.reason}
+                                    rows={Math.max(2, Math.ceil(item.reason.length / 50))}
+                                   
+                                ></textarea>
+                                
                             </div>
 
 
                             <div>
-                                <label className='text-gray-300' >MOTIVO :</label>
-                                <p className='text-white'>{item.reason}</p>
-                            </div>
-
-
-                            <div>
-                                <label className='text-gray-300'>EVIDENCIA:</label>
+                                <label className='font-semibold text-gray-300'>Evidencia:</label>
                             </div>
 
                             <div className='flex items-center justify-center'>
@@ -186,14 +245,14 @@ export const AdmiDetalleDeJustificacion = () => {
                             </div>
                             <div className="flex items-center justify-center p-6 border-t border-gray-200 rounded-b ">
                                 <button
-                                    className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center text-sky-400 mx-10 border-sky-400"
+                                    className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10 bt-rechazar "
                                     onClick={(e) => onOpenModalRechazo(e, item)} // Agregar el evento e y el parámetro item
                                 >
                                     RECHAZAR
                                 </button>
 
                                 <button
-                                    className="bg-sky-400 hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    className="bt-aceptar hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                     onClick={(e) => onOpenModalAceptado(e, item)}
                                 >
                                     ACEPTAR
