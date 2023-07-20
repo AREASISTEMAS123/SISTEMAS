@@ -48,17 +48,6 @@ class usercontroller extends Controller
                 'rol' => $name_role,
                 'avatar' => $img], 200);
         }elseif ($role->role_id == '2'){
-        $name_role = 'Lider Departamento';
-
-        return response()->json([
-            "usuario" =>$user,
-            "Asistencia" => $attendance,
-            "Faltas" => $absence,
-            "Tardanzas" => $delay,
-            "Justificaciones" => $justification,
-            'rol' => $name_role,
-            'avatar' => $img], 200);
-        }elseif ($role->role_id == '3'){
         $name_role = 'Lider Area';
 
         return response()->json([

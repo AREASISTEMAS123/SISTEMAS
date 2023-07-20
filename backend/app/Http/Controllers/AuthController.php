@@ -114,18 +114,7 @@ class AuthController extends Controller
                 'rol' => $name_role,
                 'avatar' =>$img
             ]);
-        }elseif($role->role_id == '2'){
-            $name_role = 'Lider Departamento';
-            return response()->json([
-                'message' => 'Hi'.$user->name,
-                'accessToken' => $token,
-                'token_type' => 'Bearer',
-                'user' => $user,
-                'profile' => $profile,
-                'rol' => $name_role,
-                'avatar' =>$img
-            ]);
-        }elseif($role->role_id == '3'){
+        } elseif($role->role_id == '2'){
             $name_role = 'Lider Area';
             return response()->json([
                 'message' => 'Hi'.$user->name,
