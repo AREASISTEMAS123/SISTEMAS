@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import moment from "moment";
 import { useNavigate } from 'react-router-dom';
-import { PieChart } from '@mui/x-charts/PieChart';
+import { PieChart } from '@mui/x-charts';
+import { Chart } from "react-google-charts";
 
 export const AdmiJustificacion = () => {
     const [faltasList, setFaltasList] = useState([]);
@@ -9,18 +10,26 @@ export const AdmiJustificacion = () => {
     const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState('')
     const [buscadorStatus, setBuscadorStatus] = useState('')
     const [buscadorFecha, setBuscadorFecha] = useState('')
-
+    const [buscador_tipoArea, setBuscador_tipoArea] = useState('')
     const navigate = useNavigate();
 
     const handleClick = (id) => {
         navigate(`/detalles/${id}`);
 
     };
+
+    const onCleanFilter = () =>{
+        setBuscadorFecha('');
+        setBuscadorStatus('')
+        setBuscador_tipoArea('')
+        setSearchInput('')
+        setbuscador_tipoJustificacion('')
+    }
+
     const fetchData = async () => {
         try {
             // Realiza la llamada a tu API para obtener los datos de la base de datos
             const token = `Bearer ${localStorage.getItem('token')}`;
-            console.log('admi', token)
             const response = await fetch('http://127.0.0.1:8000/api/users/justifications', {
                 headers: {
                     Authorization: token
@@ -48,17 +57,71 @@ export const AdmiJustificacion = () => {
             return 'Aceptado';
         }
     }
-    const calculateProgress = (faltasList, type) => {
+    const isFaltaOrTardanza = (prop) => {
+        //post.justification_type === 0 ? "Falta" : "Tardanza"
+        if (prop.justification_type == 0) {
+            return 'Falta'
+        } else {
+            return 'Tardanza';
+        }
+    }
+    const calculateProgress = (faltasList, estado) => {
         const totalFaltas = faltasList.length;
-        const totalTipo = faltasList.filter((post) => isRechazadoOrAceptado(post) === type).length;
+        const totalEstado = faltasList.filter((post) => isRechazadoOrAceptado(post) === estado).length;
 
         if (totalFaltas === 0) {
             return 0;
         }
 
-        return Math.round((totalTipo / totalFaltas) * 100);
+        return Math.round(totalEstado);
     };
 
+    const calculateBars = (faltasList, type) => {
+        const totalFaltas = faltasList.length;
+        const totalTipo = faltasList.filter((post) => isFaltaOrTardanza(post) === type).length;
+        if (totalFaltas === 0) {
+            return;
+        }
+        return totalTipo;
+    };
+
+
+
+    const data = [
+        ["Tipo ", "Cantidad"],
+        ["Falta", calculateBars(faltasList, 'Falta')],
+        ["Tardanza", calculateBars(faltasList, 'Tardanza')],
+    ];
+
+    const options = {
+        legend: { position: "none" },
+        bar: { groupWidth: "50%" },
+        chartArea: { width: "50%", height: "50%" },
+        colors: ["#b0120a", "#ffab91"],
+        title: 'Tipos de justificación',
+        hAxis: { title: 'Tipos' },
+        vAxis: { title: 'Cantidad' },
+
+    };
+
+    // Obtén el rango de valores en tus datos
+    let minValue = Infinity;
+    let maxValue = -Infinity;
+
+    for (let i = 1; i < data.length; i++) {
+        const value = data[i][1];
+        minValue = Math.min(minValue, value);
+        maxValue = Math.max(maxValue, value);
+    }
+
+    // Configura el rango de valores en el vAxis
+    options.vAxis = {
+        viewWindowMode: "pretty",
+        viewWindow: {
+            min: 0,
+            max: maxValue,
+        },
+    };
 
     return (
         <div >
@@ -102,9 +165,16 @@ export const AdmiJustificacion = () => {
                             width={300}
                             height={200}
                         />
+                        {calculateProgress(faltasList, 'Rechazado') === 0 && calculateProgress(faltasList, 'En proceso') === 0 && calculateProgress(faltasList, 'Aceptado') === 0 && (
+                            <p className="text-white">No hay datos para mostrar.</p>
+                        )}
                     </div>
                 </div>
+                <div className="  inline-flex mr-4 mx-4">
 
+                    <Chart chartType="ColumnChart" data={data} options={options} />
+
+                </div>
             </div>
 
 
@@ -116,7 +186,7 @@ export const AdmiJustificacion = () => {
                 <h1>Justificaciones</h1>
             </div>
 
-            <div className="mb-3 inline-block">
+            <div className="mb-3 inline">
                 <div className=" mb-4 flex flex-wrap items-stretch">
                     <input
                         type="search"
@@ -125,6 +195,19 @@ export const AdmiJustificacion = () => {
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
                     />
+                    <div style={{ marginLeft: 'auto' }}>
+                        <button type="button"
+                            className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
+                            onClick={onCleanFilter}
+                            >
+                            Limpiar
+                            
+                        </button>
+                    </div>
+
+                </div>
+                <div>
+
                 </div>
             </div>
 
@@ -152,6 +235,20 @@ export const AdmiJustificacion = () => {
                         <option value="0">En proceso</option>
                         <option value="1">Aceptado</option>
                         <option value="2">Rechazado</option>
+                    </select>
+                </div>
+                <div className="mr-2">
+                    <select
+                        className="px-3 py-2 rounded-md bg-gray-200"
+                        value={buscador_tipoArea}
+                        onChange={(e) => {
+                            setBuscador_tipoArea(e.target.value);
+                        }}
+                    >
+                        <option value="">Area</option>
+                        <option value="Sistemas">Sistemas</option>
+                        <option value="Creativo">Creativo</option>
+                        <option value="Diseño Web">Diseño Web</option>
                     </select>
                 </div>
                 <div>
@@ -189,6 +286,7 @@ export const AdmiJustificacion = () => {
                     })
                     .filter((post) => {
                         const justificationTypeArray = Array.isArray(post.justification_type) ? post.justification_type : [post.justification_type];
+
                         if (buscador_tipoJustificacion === "") {
                             // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
                             return true;
@@ -197,6 +295,30 @@ export const AdmiJustificacion = () => {
                             return justificationTypeArray.includes(Number(buscador_tipoJustificacion));
                         }
                     })
+                    //revisar porque solo aparecen 3 
+                    .filter((post) => {
+                        if (post.profile && post.profile.length > 0 && post.profile[0].area) {
+                            const justificationTypeArray = Array.isArray(post.profile[0].area) ? post.profile[0].area : [post.profile[0].area];
+                            console.log('post ', post.profile[0].area);
+                            if (buscador_tipoArea === "") {
+                                return true;
+                            } else if (buscador_tipoArea === "Sistemas") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Sistemas');
+                            } else if (buscador_tipoArea === "Creativo") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Creativo');
+                            } else if (buscador_tipoArea === "Diseño Web") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Diseño Web');
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    })
+
                     .filter((post) => {
                         const justificationTypeArray = Array.isArray(post.justification_status) ? post.justification_status : [post.justification_status];
 
@@ -218,15 +340,14 @@ export const AdmiJustificacion = () => {
                     })
 
                     .map((post, index) => {
-                        const fotoURL = `http://localhost:8000/storage/${post.user[0].id}/${post.media[0].file_name}`;
 
                         return (
                             <div className="bg-cv-primary  text-white  rounded-lg shadow" key={index}>
-                                <div className="flex flex-col items-center pb-10 max-h-[200px] overflow-hidden">
+                                <div className="flex flex-col items-center pb-10  overflow-hidden">
                                     <div className="mt-4 flex items-center">
                                         <div className="justify-start w-15 h-15 overflow-hidden bg-gray-100 rounded-full">
                                             <img
-                                                src={fotoURL}
+                                                src={post.user[0].media[0].original_url}
                                                 alt="Foto de Perfil"
                                                 className="md:w-14 md:h-14 rounded-full shadow-lg border-2 border-white"
                                             />
@@ -237,7 +358,7 @@ export const AdmiJustificacion = () => {
                                     </div>
                                     <div className="flex mt-4 space-x-3 md:mt-6 text-white">
                                         <ul>
-                                            <li className="text-sm font-medium flex items-center">
+                                            <li className="text-sm font-medium ">
                                                 <label className="mr-2">Motivo:</label>
                                                 <div className="whitespace-normal">
                                                     <textarea
@@ -247,6 +368,12 @@ export const AdmiJustificacion = () => {
                                                     ></textarea>
                                                 </div>
 
+                                            </li>
+                                            <li className="text-sm font-medium flex items-center ">
+                                                <p>
+                                                    Area: {post.profile && post.profile[0] && post.profile[0].area}
+
+                                                </p>
                                             </li>
                                             <li className="text-sm font-medium flex items-center ">
                                                 <label>Fecha: </label>
@@ -265,10 +392,11 @@ export const AdmiJustificacion = () => {
                                             </li>
                                             <li className="text-sm font-medium flex items-center ">
                                                 <p>
-                                                    Tipo: {post.justification_type === 0 ? "Falta" : "Tardanza"}
+                                                    Tipo: {isFaltaOrTardanza(post)}
                                                 </p>
 
                                             </li>
+
                                         </ul>
                                     </div>
                                 </div>
