@@ -191,16 +191,16 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										<TableCell align="left" width="auto" className='whitespace-nowrap'>{users.user && users.user[0]?.name + " " + users.user[0]?.surname}</TableCell>
-										<TableCell align="right">{users.user && users.user[0]?.email}</TableCell>
+										<TableCell align="left">{users.user && users.user[0]?.email}</TableCell>
 										<TableCell align="right">{users.dni}</TableCell>
 										<TableCell align="right">{users.department}</TableCell>
-										<TableCell align="right">{users.area}</TableCell>
-										<TableCell align="right">{users.profile_name}</TableCell>
+										<TableCell align="right" className='whitespace-nowrap'>{users.area}</TableCell>
+										<TableCell align="left" className='whitespace-nowrap'>{users.profile_name}</TableCell>
 										<TableCell align="right">{users.shift}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.date_start}</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>{users.date_end}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
-										<TableCell align="right">{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
+										<TableCell align="left" className='whitespace-nowrap'>{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
 										<TableCell align="right">{users.user && users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell> 
 										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
