@@ -32,7 +32,7 @@ class AuthController extends Controller
             'birthday' => 'date',
             'date_start' => 'required|date',
             'date_end' => 'required|date',
-            'responsible' => 'required|string|max:255',
+            'responsible' => 'string|max:255',
             'avatar' => 'required|mimes:jpg,jpeg,png'
             ]);
         if($validator->fails()){
