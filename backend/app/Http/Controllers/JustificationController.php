@@ -88,7 +88,7 @@ class JustificationController extends Controller
     }
 
     public function detailsJustification($id){
-        $justification = Justification::with('User.role')->where('id', $id)->get();
+        $justification = Justification::with('User.role','User.Profile')->where('id', $id)->get();
     return response()->json($justification);
     }
 
