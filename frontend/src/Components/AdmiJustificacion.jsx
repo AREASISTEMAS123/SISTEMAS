@@ -11,6 +11,7 @@ export const AdmiJustificacion = () => {
     const [buscadorStatus, setBuscadorStatus] = useState('')
     const [buscadorFecha, setBuscadorFecha] = useState('')
     const [buscador_tipoArea, setBuscador_tipoArea] = useState('')
+    const [buscadorDpto, setBuscadorDpto] = useState('')
     const navigate = useNavigate();
 
     const handleClick = (id) => {
@@ -18,12 +19,13 @@ export const AdmiJustificacion = () => {
 
     };
 
-    const onCleanFilter = () =>{
+    const onCleanFilter = () => {
         setBuscadorFecha('');
         setBuscadorStatus('')
         setBuscador_tipoArea('')
         setSearchInput('')
         setbuscador_tipoJustificacion('')
+        setBuscadorDpto('')
     }
 
     const fetchData = async () => {
@@ -199,15 +201,11 @@ export const AdmiJustificacion = () => {
                         <button type="button"
                             className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
                             onClick={onCleanFilter}
-                            >
+                        >
                             Limpiar
-                            
+
                         </button>
                     </div>
-
-                </div>
-                <div>
-
                 </div>
             </div>
 
@@ -235,6 +233,20 @@ export const AdmiJustificacion = () => {
                         <option value="0">En proceso</option>
                         <option value="1">Aceptado</option>
                         <option value="2">Rechazado</option>
+                    </select>
+                </div>
+                <div className="mr-2">
+                    <select
+                        className="px-3 py-2 rounded-md bg-gray-200"
+                        value={buscadorDpto}
+                        onChange={(e) => {
+                            setBuscadorDpto(e.target.value);
+                        }}
+                    >
+                        <option value="">Departamento</option>
+                        <option value="Sistemas">Sistemas</option>
+                        <option value="Creativo">Creativo</option>
+                        <option value="Diseño Web">Diseño Web</option>
                     </select>
                 </div>
                 <div className="mr-2">

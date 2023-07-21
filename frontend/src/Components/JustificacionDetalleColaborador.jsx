@@ -8,7 +8,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 export const JustificacionDetalleColaborador = () => {
     const { id, userid } = useParams();
     const [faltasList, setFaltasList] = useState([]);
-   useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = `Bearer ${localStorage.getItem('token')}`;
@@ -30,7 +30,7 @@ export const JustificacionDetalleColaborador = () => {
         navigate(`/justificacion`);
     }
     const navigate = useNavigate();
-    
+
     const isRechazadoOrAceptado = (prop) => {
         if (prop.decline === 1) {
             return 'Rechazado';
@@ -41,45 +41,65 @@ export const JustificacionDetalleColaborador = () => {
         }
     }
     return (
-        <div>
+        <div className="container mx-auto py-8 px-4">
             <div className="flex items-center mb-4">
                 <h3 className="mr-2 text-gray-300">Justificaciones </h3>
-                <button className='text-gray-300' style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder} ><KeyboardBackspaceIcon></KeyboardBackspaceIcon></button>
+                <button className='text-gray-300 ml-auto' style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder} >
+                    <KeyboardBackspaceIcon></KeyboardBackspaceIcon>
+                </button>
             </div>
             <div className='border border-gray-300 rounded-lg p-3 mt-5'>
                 {faltasList.map((item) => (
-                    <div key={item.user[0].id}>
+                    <div key={item.user[0].id} className="justify-item-center">
                         <h1 className='text-center text-white text-lg mb-5' >JUSTIFICACIÓN Nº {item.id}</h1>
-                        <form className="space-y-6" >
-                            <div>
-                                <label className='text-gray-300' >Estado :</label>
-                                <div className='text-white'>
-                                   <p>{isRechazadoOrAceptado(item)}</p>
+                        <form className="md:w-full lg:w-2/3 xl:w-1/2 mx-auto" >
+                            <div className='flex  flex-wrap '>
+                                <div className='flex flex-col w-full md:w-1/2'>
+                                    <label className='font-semibold	 mr-2 text-gray-300' >Estado :</label>
+                                    <input
+                                        disabled
+                                        className='text-black rounded-lg text-center bg-input my-2'
+                                        value={isRechazadoOrAceptado(item)}
+                                    ></input>
+
                                 </div>
                             </div>
-                            <div>
-                                <label className='text-gray-300' >{isRechazadoOrAceptado(item)==='Rechazado' ? 'MOTIVO' :null}</label>
-                                <p className='text-white'>{ item.reason_decline}</p>
+                            <div className="w-full md:w-1/2 ">
+                                <label className='text-gray-300' >{isRechazadoOrAceptado(item) === 'Rechazado' ? 'MOTIVO' : null}</label>
+                                <p className='text-black rounded-lg text-center bg-input my-2'>{item.reason_decline}</p>
                             </div>
-                            <h1 className='text-center text-white text-lg mb-5' >DATOS DE JUSTIFICACIÓN</h1>
-                            <div className="flex items-center mb-4">
-                                <h3 className="mr-2 text-gray-300">NOMBRE COMPLETO: <span className='text-white'>{item.user[0].name.toUpperCase()} {item.user[0].surname.toUpperCase()}</span> </h3>
-                                <label className='text-gray-300' style={{ marginLeft: 'auto' }} >DNI:</label>
-                                <h1 className='text-white'>{item.user[0].username}</h1>
+                            <h1 className='text-center text-white text-lg my-5' >DATOS DE JUSTIFICACIÓN</h1>
+                            <div className='flex  flex-wrap w-full"'>
+                                <div className='  flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-gray-300"> JUSTIFICACIÓN DE: </label>
+                                    <input
+                                        type="text"
+                                        className="text-black rounded-lg text-center bg-input my-2"
+                                        value={`${item.justification_type === 0 ? "Falta" : "Tardanza"}`.toUpperCase()}
+                                        disabled
+                                    />
+                                </div>
+                                <div className='ml-auto   flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-gray-300">FECHA </label>
+                                    <input
+                                        type="text"
+                                        className=" text-black rounded-lg text-center bg-input my-2 "
+                                        value={moment(item.justification_date).format("DD/MM/YYYY")}
+                                        disabled
+                                    />
+                                </div>
                             </div>
-                            <div className="flex items-center mb-4">
-                                <label className='text-gray-300'>JUSTIFICACIÓN DE: <span className='text-white'>{item.justification_type === 0 ? "Falta".toUpperCase() : "Tardanza".toUpperCase()}</span></label>
-                            </div>
-                            <div>
-                                <p className='text-gray-300'  >FECHA:  </p>
-                                <p className='text-white'>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
-                            </div>
-                            <div>
-                                <label className='text-gray-300' >MOTIVO :</label>
-                                <p className='text-white'>{item.reason}</p>
-                            </div>
-                            
 
+                            <div className=' ml-auto flex flex-col'>
+                                <label className='font-semibold  text-gray-300' >Motivo </label>
+                                <textarea className='text-black w-full  bg-input rounded-lg overflow-hidden text-center my-2 p-2 '
+                                    disabled
+                                    value={item.reason}
+                                    rows={Math.max(2, Math.ceil(item.reason.length / 50))}
+                                   
+                                ></textarea>
+                                
+                            </div>
                             <div>
                                 <label className='text-gray-300'>EVIDENCIA:</label>
                             </div>
@@ -92,7 +112,7 @@ export const JustificacionDetalleColaborador = () => {
                                     <div>Unsupported file format</div>
                                 )}
                             </div>
-                           
+
                         </form>
                     </div>
                 ))}

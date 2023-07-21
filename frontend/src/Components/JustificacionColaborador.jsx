@@ -15,6 +15,7 @@ export const JustificacionColaborador = () => {
     const [reason, setReason] = useState('');
     const [evidence, setEvidence] = useState(null);
     const [messages, setMessage] = useState('');
+    const [dateError, setDateError] = useState('');
 
     const [buscador_tipoJustificacion, setbuscador_tipoJustificacion] = useState('')
     const [buscadorStatus, setBuscadorStatus] = useState('')
@@ -144,6 +145,29 @@ export const JustificacionColaborador = () => {
     const mostrarDetalles = (id) => {
         navigate(`/details/${id}`);
     }
+    const handleDateChange = (e) => {
+        const selectedDate = new Date(e.target.value);
+        const currentDate = new Date();
+
+        const minDate = new Date();
+        minDate.setDate(currentDate.getDate() - 3);
+
+        const maxDate = new Date();
+        maxDate.setDate(currentDate.getDate() + 3);
+
+        if (selectedDate >= minDate && selectedDate <= maxDate) {
+            setJustification_date(e.target.value);
+            setDateError('');
+        } else {
+            setDateError('Solo puedes seleccionar 3 días antes o 3 días después del día de hoy.');
+        }
+    };
+    const handleTextChange = (e) => {
+        const textArea = e.target.value;
+        if (textArea.length <= 255) { // Establecer el valor mínimo permitido (por ejemplo, 50 caracteres)
+            setReason(textArea);
+        }
+    }
     return (
         <div className="p-3 h-screen">
             <h1 className="my-2 uppercase font-semibold text-4xl text-white">Justificaciones</h1>
@@ -160,9 +184,9 @@ export const JustificacionColaborador = () => {
 
             <div className="flex justify-center">
                 {/* Buscador por tipo de justificacion: falta o tardanza */}
-                <div className="mr-2 ">
+                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2 ">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscador_tipoJustificacion}
                         onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
                     >
@@ -172,9 +196,9 @@ export const JustificacionColaborador = () => {
                     </select>
                 </div>
                 {/* Buscador por tipo de status: en proceso o aceptado */}
-                <div className="mr-2">
+                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscadorStatus}
                         onChange={(e) => setBuscadorStatus(e.target.value)}
                     >
@@ -184,9 +208,9 @@ export const JustificacionColaborador = () => {
                         <option value="2">Rechazado</option>
                     </select>
                 </div>
-                <div className="mr-2">
+                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
                     <input
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         type="date"
                         id="fecha"
                         value={buscadorFecha}
@@ -202,7 +226,7 @@ export const JustificacionColaborador = () => {
                     </button>
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
                 {cards
                     .filter((post) => {
                         if (buscadorFecha === "") {
@@ -248,7 +272,6 @@ export const JustificacionColaborador = () => {
                             <div className="flex flex-col items-center pb-10  overflow-hidden">
                                 {/* Contenido de la tarjeta */}
                                 <div className="mt-4 flex items-center">
-
                                     <div className="text-white ml-4">
                                         <h1>JUSTIFICACIÓN Nº{card.id}</h1>
                                     </div>
@@ -279,15 +302,14 @@ export const JustificacionColaborador = () => {
                                                 <span className="uppercase"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
                                             </p>
                                         </li>
-                                        <li className="text-sm font-medium  ">
-                                            <label className="uppercase">Motivo:</label>
-                                            <div className=""> {/* Agrega la clase 'whitespace-normal' */}
+                                        <li className="text-sm font-medium ">
+                                            <label className="mr-2">Motivo:</label>
+                                            <div className="whitespace-normal">
                                                 <textarea
-                                                    className="bg-transparent text-sm align-top w-full resize-none h-auto"
+                                                    className="bg-transparent text-sm align-top w-full h-full resize-none"
                                                     disabled
                                                     value={card.reason}
                                                 ></textarea>
-
                                             </div>
                                         </li>
                                     </ul>
@@ -343,9 +365,12 @@ export const JustificacionColaborador = () => {
             {showJusti && (
                 <div className="justify-center w-full max-h-full items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                     {/* Formulario */}
-                    <div className="relative w-128 my-6 mx-auto  border-2 border-white p-1 rounded-lg rotate-[5deg]">
+                    <div className="relative w-full md:max-w-2xl my-6 mx-auto border-2 border-white p-1 rounded-lg rotate-[5deg]">
                         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
-                            <button type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " onClick={onCancelJusti}>
+                            <button
+                                type="button"
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 md:p-2.5 inline-flex items-center"
+                                onClick={onCancelJusti}>
                                 <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" ></path></svg>
                                 <span className="sr-only">Close modal</span>
                             </button>
@@ -356,11 +381,11 @@ export const JustificacionColaborador = () => {
 
                                 <form className="justify-center items-center text-center " onSubmit={handleSubmit} >
                                     {messages && <p className="text-red-500">{messages}</p>}
-                                    <div className="flex w-full">
+                                    <div className="flex flex-col md:flex-row w-full">
                                         <div className="m-2 flex flex-col text-sm ">
                                             <label >Tipo de justificación</label>
                                             <select
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-1"
                                                 defaultValue="Seleccione"
                                                 onChange={(event) => {
                                                     const selectedValue = event.target.value;
@@ -391,25 +416,26 @@ export const JustificacionColaborador = () => {
                                                 type="date"
                                                 name="justification_date"
                                                 value={justification_date}
-                                                onChange={(e) => setJustification_date(e.target.value)}
-
+                                                onChange={handleDateChange}
                                             />
-
+                                            {dateError && <p className="text-red-500">{dateError}</p>}
                                         </div>
                                     </div>
 
-                                    <div className="flex my-2">
+                                    <div className="flex flex-col md:flex-row my-2">
                                         <textarea
-                                            rows="4"
+
                                             type="text"
                                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300   "
                                             placeholder="Describe el motivo de su tardanza o falta"
                                             name="reason"
                                             value={reason}
-                                            onChange={(e) => setReason(e.target.value)}
+                                            onChange={handleTextChange}
+                                            minLength={255}
                                         ></textarea>
+                                        <p>Caracteres restantes: {255 - reason.length}</p>
                                     </div>
-                                    <div className="flex my-2">
+                                    <div className="flex flex-col md:flex-row my-2">
                                         <div className="flex flex-col items-center text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300">
                                             <div className="flex items-center justify-center w-8 h-8 text-gray-500">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -429,12 +455,12 @@ export const JustificacionColaborador = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex  border-gray-200 mt-4 ">
-                                        <button onClick={onCancelJusti} className="border border-black hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10">
+                                    <div className="flex justify-center md:justify-end border-gray-200 mt-4">
+                                        <button onClick={onCancelJusti} className="border border-black hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2 md:my-0 md:mx-2">
                                             CANCELAR
                                         </button>
                                         <button
-                                            className="text-white bg-cv-secondary hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                                            className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2 md:my-0 md:mx-2 "
                                             onClick={handleSubmit}
                                             type="submit"
                                         >
