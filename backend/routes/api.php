@@ -64,6 +64,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class,'insertAttendance']);
 
 
+Route::get('notifications',[App\Http\Controllers\EvaluationController::class, 'getNotification']);
+Route::get('notification/details',[App\Http\Controllers\EvaluationController::class, 'detailsNotification']);
+
+Route::get('notification/{id}',[App\Http\Controllers\EvaluationController::class, 'getNotificationbyid']);
+
+Route::post('addNotificaction',[App\Http\Controllers\EvaluationController::class, 'insertNotificationn']);
+
+Route::put('updateNotificaction/{id}',[App\Http\Controllers\EvaluationController::class, 'updateNotification']);
+
+Route::delete('deleteNotificaction/{id}',[App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
+
+
+
 
 Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
     return $request->user();
