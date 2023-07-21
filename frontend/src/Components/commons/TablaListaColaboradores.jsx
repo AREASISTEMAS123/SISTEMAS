@@ -146,7 +146,7 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Email</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>DNI</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Departamento</TableCell>
-								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Area</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Núcleo</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Perfil</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Turno</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>F. Ingreso</TableCell>

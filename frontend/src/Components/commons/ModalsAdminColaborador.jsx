@@ -62,8 +62,6 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 		if (event.target.options[event.target.selectedIndex].id === 'otro') {
 			setInputText(true)
 			setArea('')
-		} else {
-			console.log()
 		}
 
 	};
@@ -262,14 +260,6 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 				);
 		}
 	};
-
-
-
-
-
-
-
-
 
 	return (
 		<div>
@@ -538,14 +528,14 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 						</div>
 						<div className="flex flex-col md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b space-y-2 md:space-x-4 md:space-y-0">
 							<button
-								className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase ease-linear transition-all duration-150"
+								className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300"
 								type="button"
 								onClick={cerrarAgregarModal}
 							>
 								Cancelar
 							</button>
 							<button
-								className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+								className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
 								type="button" onClick={handleSubmit}
 							>
 								Guardar
@@ -660,6 +650,17 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		}
 
 	};
+	useEffect(() => {
+		const selectedValue = Area
+		const validOptions = ['Creativo', 'Diseño Web', 'Ejecutivo de Cuenta', 'Medios Audiovisuales', 'Sistemas', 'Comercial', 'Talento Humano', 'Administración', 'select', ''];
+		const isOtherOption = !validOptions.includes(selectedValue);
+
+		if (isOtherOption) {
+			setInputText(true);
+		} else {
+			setInputText(false);
+		}
+	}, [Area])
 
 	const handleProfileChange = (event) => {
 		setProfile(event.target.value);
@@ -997,7 +998,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											onChange={handleAreaChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 										>
-											<option>Selecciona</option>
+											<option value="select">Selecciona</option>
 											{Departament && (
 												renderAreaOptions()
 											)}
@@ -1008,7 +1009,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 												type="text"
 												id="area"
 												value={Area} onChange={handleAreaChange}
-												className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+												className="w-full mt-1 p-2 text-gray-900 rounded-md border-2 border-green-600  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
 												placeholder="Ingresa el núcleo"
 											/>
 										)}
@@ -1131,14 +1132,14 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 
 						<div className="flex flex-col md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b space-y-2 md:space-x-4 md:space-y-0">
 							<button
-								className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase ease-linear transition-all duration-150"
+								className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300"
 								type="button"
 								onClick={cerrarEditarModal}
 							>
 								Cancelar
 							</button>
 							<button
-								className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+								className="w-full py-2 px-8 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
 								type="button" onClick={handleSubmit}
 							>
 								Guardar
