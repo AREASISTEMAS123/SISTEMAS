@@ -18,6 +18,7 @@ class Profile extends Model
         'shift',
         'birthday',
         'date_start',
+        'date_end',
         'responsible',
     ];
 

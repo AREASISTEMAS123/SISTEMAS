@@ -31,7 +31,8 @@ class AuthController extends Controller
             'shift' => 'required|string|max:255',
             'birthday' => 'date',
             'date_start' => 'required|date',
-            'responsible' => 'required|string|max:255',
+            'date_end' => 'required|date',
+            'responsible' => 'string|max:255',
             'avatar' => 'required|mimes:jpg,jpeg,png'
             ]);
         if($validator->fails()){
@@ -55,6 +56,7 @@ class AuthController extends Controller
             'shift'=> $request->shift,
             'birthday' => $request->birthday,
             'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
             'responsible' => $request->responsible,
         ]);
 
@@ -112,19 +114,8 @@ class AuthController extends Controller
                 'rol' => $name_role,
                 'avatar' =>$img
             ]);
-        }elseif($role->role_id == '2'){
-            $name_role = 'Lider Departamento';
-            return response()->json([
-                'message' => 'Hi'.$user->name,
-                'accessToken' => $token,
-                'token_type' => 'Bearer',
-                'user' => $user,
-                'profile' => $profile,
-                'rol' => $name_role,
-                'avatar' =>$img
-            ]);
-        }elseif($role->role_id == '3'){
-            $name_role = 'Lider Area';
+        } elseif($role->role_id == '2'){
+            $name_role = 'Lider Nucleo';
             return response()->json([
                 'message' => 'Hi'.$user->name,
                 'accessToken' => $token,
