@@ -1,101 +1,125 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RelojAnalogico } from './commons/RelojAnalogico';
 import { useMediaQuery } from "@mui/material";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from "react-icons/bs";
 
 export const Asistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
-  const [marcarEntrada, setMarcarEntrada] = useState(false);
-  const [tardanza, setTardanza] = useState(false);
+  const [mostrarBotonEntrada, setMostrarBotonEntrada] = useState(false);
+  const [mostrarBotonSalida, setMostrarBotonSalida] = useState(false);
   const [entradaMarcada, setEntradaMarcada] = useState(false);
   const [salidaMarcada, setSalidaMarcada] = useState(false);
-  const [botonDesactivado, setBotonDesactivado] = useState(false);
+  const [tardanza, setTardanza] = useState(false);
   const [fotoUsuario, setFotoUsuario] = useState(null);
   const [fotoCapturada, setFotoCapturada] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
-  const videoRef = useRef(null);
   const [timer, setTimer] = useState(5);
   const [capturing, setCapturing] = useState(false);
-  const [mostrarBotonEntrada, setMostrarBotonEntrada] = useState(false);
-  const [mostrarBotonSalida, setMostrarBotonSalida] = useState(false);
-  const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
-  const [terceraFotoTomada, setTerceraFotoTomada] = useState(true);
+  const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
       setHoraActual(new Date());
     }, 1000);
+
+    // Al cargar la página, verificar si ya se ha marcado entrada o salida para el día actual
+    const fecha = new Date().toISOString().slice(0, 10);
+    const entradaMarcadaLocal = localStorage.getItem(`entrada_${fecha}`);
+    const salidaMarcadaLocal = localStorage.getItem(`salida_${fecha}`);
+    setEntradaMarcada(entradaMarcadaLocal === 'true');
+    setSalidaMarcada(salidaMarcadaLocal === 'true');
+
+    // Verificar si existe una salida marcada para el día actual en el Local Storage
+    const existeSalidaMarcada = salidaMarcadaLocal === 'true';
+
+    // Si existe una salida marcada para el día actual, ocultar el botón de la cámara
+    setMostrarBotonCamara(!existeSalidaMarcada);
+
+    const existeEntradaMarcada = entradaMarcadaLocal == 'true';
+    setSegundaFotoTomada(existeEntradaMarcada)
+
     return () => {
       clearInterval(interval);
     };
   }, []);
 
-  const handleEntrada = () => {
+  const handleRegistroAsistencia = (tipo) => {
+    const fecha = new Date().toISOString().slice(0, 10);
+
+    const formData = new FormData();
+    formData.append('date', fecha);
+    formData.append(`${tipo}_time`, horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+
+    const shift = localStorage.getItem('shift');
+    const iduser = localStorage.getItem('iduser');
+    const photoName = `${shift.charAt(0)}-${iduser}-${tipo === 'admission' ? 'e' : 's'}-${fecha}.jpg`;
+    formData.append(`${tipo}_image`, fotoCapturada, photoName);
+
+    fetch('http://127.0.0.1:8000/api/attendance/insert', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Manejar la respuesta del servidor si es necesario
+        console.log(data);
+        if (tipo === 'admission') {
+          setMostrarBotonEntrada(false)
+          setFotoUsuario(null);
+          setFotoCapturada(null);
+          setMostrarBotonCamara(true);
+          setVideoEnabled(false)
+
+          // Marcar entrada en Local Storage para este día
+          localStorage.setItem(`entrada_${fecha}`, 'true');
+
+          toast.success('Entrada marcada exitosamente');
+        } else {
+          setMostrarBotonSalida(false)
+          setMostrarBotonCamara(false)
+          setFotoUsuario(null);
+          setFotoCapturada(null);
+          setVideoEnabled(false);
+          setCameraStream(null);
+
+          // Marcar salida en Local Storage para este día
+          localStorage.setItem(`salida_${fecha}`, 'true');
+
+          toast.success('Salida marcada correctamente');
+        }
+      })
+      .catch((error) => {
+        console.error('Error al enviar la solicitud:', error);
+      });
+  };
+
+  // Función para verificar si el usuario está dentro del horario permitido
+  const verificarHorario = () => {
     const hora = horaActual.getHours();
     const minutos = horaActual.getMinutes();
-    const fecha = new Date().toISOString().slice(0, 10); // Obtenemos la fecha actual en formato yyyy-mm-dd
+    const turno = localStorage.getItem('shift');
 
-    if (hora === 10) {
-      setTardanza(false);
-      setEntradaMarcada(true);
-      setBotonDesactivado(true);
-      setMostrarBotonEntrada(false);
-      setFotoUsuario(null);
-      setFotoCapturada(null)
-      setMostrarBotonCamara(true);
-
-      // Enviar la solicitud de registro de entrada al servidor
-      const formData = new FormData();
-      formData.append('date', fecha);
-      formData.append('admission_time', horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-
-      const shift = localStorage.getItem('shift');
-      const iduser = localStorage.getItem('iduser');
-      const photoName = `${shift.charAt(0)}-${iduser}-e-${fecha}`;
-      formData.append('admission_image', fotoCapturada, photoName);
-
-      fetch('http://127.0.0.1:8000/api/attendance/insert', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Manejar la respuesta del servidor si es necesario
-          console.log(data);
-          toast.success('Entrada marcada exitosamente');
-        })
-        .catch((error) => {
-          console.error('Error al enviar la solicitud:', error);
-        });
-    } else {
+    if (
+      (turno === 'Mañana' && (hora < 8 || (hora === 8 && minutos < 10)) || hora >= 13) ||
+      (turno === 'Tarde' && (hora < 14 || (hora === 14 && minutos < 10)) || hora >= 19)
+    ) {
       setTardanza(true);
-      setEntradaMarcada(true);
-      setBotonDesactivado(true);
-      setMostrarBotonEntrada(false);
-      setFotoUsuario(null);
-      setMostrarBotonCamara(true);
-      toast.success('Entrada marcada exitosamente');
+    } else {
+      setTardanza(false);
     }
   };
 
-  const handleSalida = () => {
-    setMarcarEntrada(false);
-    setEntradaMarcada(false);
-    setSalidaMarcada(true);
-    setBotonDesactivado(true);
-    setMostrarBotonSalida(false);
-    setFotoUsuario(null);
-    setFotoCapturada(null);
-    setMostrarBotonCamara(false);
-    toast.success('Salida marcada correctamente');
-  };
+  useEffect(() => {
+    // Verificar el horario cada vez que cambie la horaActual
+    verificarHorario();
+  }, [horaActual]);
 
   const reiniciarConteo = () => {
     setTimer(5);
@@ -113,6 +137,7 @@ export const Asistencia = () => {
         console.log('Error accessing camera:', error);
       });
   };
+
   const stopCamera = () => {
     if (cameraStream && videoRef.current) {
       cameraStream.getTracks().forEach((track) => track.stop());
@@ -128,10 +153,11 @@ export const Asistencia = () => {
       startCamera();
     }
     setVideoEnabled(!videoEnabled);
-    reiniciarConteo(); // Reiniciar el conteo al cambiar el estado de la cámara
+    reiniciarConteo();
   };
 
-  const intervalRef = useRef(null); // Variable de referencia para almacenar el identificador del intervalo
+  const videoRef = useRef(null);
+  const intervalRef = useRef(null);
 
   const handleCapture = () => {
     if (cameraStream) {
@@ -139,30 +165,30 @@ export const Asistencia = () => {
       const videoTrack = cameraStream.getVideoTracks()[0];
       const imageCapture = new ImageCapture(videoTrack);
 
-      clearInterval(intervalRef.current); // Cancelar el intervalo del contador anterior
+      clearInterval(intervalRef.current);
 
       const countdown = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
 
-      intervalRef.current = countdown; // Almacenar el identificador del nuevo intervalo
+      intervalRef.current = countdown;
 
       setTimeout(() => {
-        clearInterval(countdown); // Cancelar el intervalo del contador actual
+        clearInterval(countdown);
 
         imageCapture
           .takePhoto()
           .then((blob) => {
             setFotoUsuario(URL.createObjectURL(blob));
             setCapturing(false);
-            setTimer(10);
+            setTimer(5);
 
             if (!segundaFotoTomada) {
               setMostrarBotonEntrada(true);
+              setMostrarBotonCamara(false);
               setSegundaFotoTomada(true);
-            } else if (segundaFotoTomada) {
-              setMostrarBotonSalida(true);
-              setTerceraFotoTomada(true);
+            } else {
+              setMostrarBotonSalida(true)
               setMostrarBotonCamara(false)
             }
 
@@ -173,15 +199,16 @@ export const Asistencia = () => {
           .catch((error) => {
             console.log('Error taking photo:', error);
             setCapturing(false);
-            setTimer(10);
+            setTimer(5);
           });
       }, 5000);
     }
   };
+
   useEffect(() => {
     if (videoEnabled) {
       startCamera();
-      reiniciarConteo(); // Reiniciar el conteo al activar la cámara
+      reiniciarConteo();
     }
 
     return () => {
@@ -260,7 +287,7 @@ export const Asistencia = () => {
         {mostrarBotonEntrada && (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={handleEntrada}
+            onClick={() => handleRegistroAsistencia('admission')}
           >
             Marcar entrada
           </button>
@@ -269,7 +296,7 @@ export const Asistencia = () => {
         {mostrarBotonSalida && (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={handleSalida}
+            onClick={() => handleRegistroAsistencia('departure')}
           >
             Marcar salida
           </button>
@@ -279,6 +306,7 @@ export const Asistencia = () => {
           <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 8:10)</p>
         )}
       </div>
+      <Toaster/>
     </div>
   );
 };
