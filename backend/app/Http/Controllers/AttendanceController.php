@@ -18,6 +18,31 @@ class AttendanceController extends Controller
         return response()->json(['attendance' => $attendance_user]);
     }
 
+    public function getAttendanceByID()
+    {
+        //Recogemos el ID del usuario logeado
+        $user_id = auth()->id();
+
+        // Obtener el registro de asistencia del usuario para el usuario actualmente logeado
+        $attendance = Attendance::where('user_id', $user_id)->get();
+
+        //Retornamos la respuesta en formato JSON
+        return response()->json(['attendance' => $attendance]);
+    }
+
+    public function orderAttendance(Request $request)
+    {
+        // Obtener los valores de los parámetros 'date' y 'orden' de la URL
+        $date = $request->query('date');
+        $orden = $request->query('orden', 'desc'); // Orden predeterminado si no se especifica (ascendente)
+
+        // Ejemplo: Obtener los registros de asistencia ordenados por fecha y orden
+        #$attendance_ordered = Attendance::orderBy('date', $orden)->where('date', $date)->get();
+
+        $attendance_ordered = Attendance::with('user', 'profile')->where('date', $date)->orderBy('date', $orden)->get();
+
+        return response()->json(['attendance' => $attendance_ordered]);
+    }
 
     public function insertAttendance(Request $request)
     {
@@ -64,7 +89,7 @@ class AttendanceController extends Controller
                 $path = "attendance/" . $folderName; // Ruta de la carpeta con la fecha de hoy
                 $filename = time() . "-" . $file->getClientOriginalName();
                 $uploadSuccess = $file->move($path, $filename);
-                $attendance->admission_image = $file->getClientOriginalName();
+                $attendance->admission_image = $path . "/" . $filename;
 
             } else {
                 // Retornar error si la imagen no existe
@@ -79,7 +104,13 @@ class AttendanceController extends Controller
 
         } else {
 
-// 
+            $existingAttendance = $request->input('admission_time');
+
+            if ($existingAttendance != null) {
+                // Ya se ha registrado la asistencia para esta fecha y usuario
+                return response()->json(['message' => 'Ya has marcado asistencia para hoy']);
+            }
+
             // La hora actual es mayor que la de salida, si no marcó hora de salida, se le marca falta.
             if ($departure_hour < date('H:i:s') && is_null($attendance->departure_time)) {
 
@@ -109,11 +140,11 @@ class AttendanceController extends Controller
                     $path = "attendance/" . $folderName; // Ruta de la carpeta con la fecha de hoy
                     $filename = time() . "-" . $file->getClientOriginalName();
                     $uploadSuccess = $file->move($path, $filename);
-                    $attendance->departure_image = $file->getClientOriginalName();
+                    $attendance->departure_image = $path . "/" . $filename;
 
                 } else {
                     // Retornar error si la imagen no existe
-                    return response()->json(['message' => 'Se requiere una imagen 5465456']);
+                    return response()->json(['message' => 'Se requiere una imagen']);
                 }
 
                 // Guardamos los cambios en la base de datos
@@ -127,32 +158,5 @@ class AttendanceController extends Controller
                 return response()->json(['error' => 'Ya marcaste asistencia']);
             }
         }
-        // Traemos el usuario por su ID
-        $user = User::find($user_id);
-
-        //Calcula el numero de faltas del usuario
-        $faltasCount = $this->calculateFaltasCount($user_id);
-
-        //
-        if ($faltasCount === 3) {
-            $this->sendNotification($user_id, $faltasCount, 'falta grave');
-        } else if ($faltasCount === 2) {
-            $this->sendNotification($user, $faltasCount, 'advertencia');
-        }
-    }
-    private function calculateFaltasCount($user_id)
-    {
-        // Obten las asistencias del usuario
-        $attendances = Attendance::where('user_id', $user_id)->get();
-
-        // Contar las faltas
-        $faltasCount = 0;
-        foreach ($attendances as $attendance) {
-            // Si el campo 'attendance' es false, entonces es falta
-            if (!$attendance->attendance) {
-                $faltasCount++;
-            }
-        }
-        return $faltasCount;
     }
 }
