@@ -124,7 +124,20 @@ export const AdmiJustificacion = () => {
             max: maxValue,
         },
     };
-
+    const getFilteredAreas = () => {
+        if (buscadorDpto === 'Administrativo') {
+            return [
+                'Administración',
+                'Talento Humano',
+            ];
+        } else if (buscadorDpto === 'Operativo') {
+            return ['Sistemas', 'Comercial', 'Social Media Manager','Creativo','Medios Audiovisuales','Diseño Web'];
+        } else if (buscadorDpto === 'Comercial') {
+            return ['Comercial'];
+        } else {
+            return [];
+        }
+    };
     return (
         <div >
             <div className="flex items-center justify-center">
@@ -244,9 +257,9 @@ export const AdmiJustificacion = () => {
                         }}
                     >
                         <option value="">Departamento</option>
-                        <option value="Sistemas">Sistemas</option>
-                        <option value="Creativo">Creativo</option>
-                        <option value="Diseño Web">Diseño Web</option>
+                        <option value="Administrativo">Administrativo</option>
+                        <option value="Operativo">Operativo</option>
+                        <option value="Comercial">Comercial</option>
                     </select>
                 </div>
                 <div className="mr-2">
@@ -257,10 +270,12 @@ export const AdmiJustificacion = () => {
                             setBuscador_tipoArea(e.target.value);
                         }}
                     >
-                        <option value="">Area</option>
-                        <option value="Sistemas">Sistemas</option>
-                        <option value="Creativo">Creativo</option>
-                        <option value="Diseño Web">Diseño Web</option>
+                        <option value="">Nucleo</option>
+                        {getFilteredAreas().map((area) => (
+                            <option key={area} value={area}>
+                                {area}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div>
@@ -307,7 +322,24 @@ export const AdmiJustificacion = () => {
                             return justificationTypeArray.includes(Number(buscador_tipoJustificacion));
                         }
                     })
-                    //revisar porque solo aparecen 3 
+
+
+                    .filter((post) => {
+                        const justificationTypeArray = Array.isArray(post.profile[0].department) ? post.profile[0].department : [post.profile[0].department];
+
+                        if (buscadorDpto === "") {
+                            return true;
+                        } else if (buscadorDpto === "Operativo") {
+                            return justificationTypeArray.includes('Operativo');
+                        } else if (buscadorDpto === "Administrativo") {
+                            return justificationTypeArray.includes('Administrativo');
+                        } else if (buscadorDpto === "Comercial") {
+                            return justificationTypeArray.includes('Comercial');
+                        } else {
+                            return false;
+                        }
+                    })
+
                     .filter((post) => {
                         if (post.profile && post.profile.length > 0 && post.profile[0].area) {
                             const justificationTypeArray = Array.isArray(post.profile[0].area) ? post.profile[0].area : [post.profile[0].area];
@@ -323,6 +355,21 @@ export const AdmiJustificacion = () => {
                             } else if (buscador_tipoArea === "Diseño Web") {
                                 // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Diseño Web');
+                            } else if (buscador_tipoArea === "Administración") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Administración');
+                            } else if (buscador_tipoArea === "Talento Humano") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Talento Humano');
+                            } else if (buscador_tipoArea === "Social Media Manager") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Social Media Manager');
+                            } else if (buscador_tipoArea === "Medios Audiovisuales") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Medios Audiovisuales');
+                            } else if (buscador_tipoArea === "Comercial") {
+                                // Filtrar por "Sistemas"
+                                return justificationTypeArray.includes('Comercial');
                             } else {
                                 return false;
                             }
