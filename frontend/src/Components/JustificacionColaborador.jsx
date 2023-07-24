@@ -306,9 +306,10 @@ export const JustificacionColaborador = () => {
                                             <label className="mr-2">Motivo:</label>
                                             <div className="whitespace-normal">
                                                 <textarea
-                                                    className="bg-transparent text-sm align-top w-full h-full resize-none"
+                                                    className="bg-transparent text-sm align-top w-full h-full "
                                                     disabled
                                                     value={card.reason}
+                                                    rows={Math.max(2, Math.ceil(card.reason.length / 50))}
                                                 ></textarea>
                                             </div>
                                         </li>
