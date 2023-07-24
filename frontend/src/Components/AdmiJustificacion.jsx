@@ -12,6 +12,8 @@ export const AdmiJustificacion = () => {
     const [buscadorFecha, setBuscadorFecha] = useState('')
     const [buscador_tipoArea, setBuscador_tipoArea] = useState('')
     const [buscadorDpto, setBuscadorDpto] = useState('')
+
+
     const navigate = useNavigate();
 
     const handleClick = (id) => {
@@ -38,15 +40,33 @@ export const AdmiJustificacion = () => {
                 }
             });
             const data = await response.json();
-
-            // Actualiza el estado "cards" con los datos recibidos de la API
-            setFaltasList(data.Justifications);
+    
+            if (Array.isArray(data.Justifications)) {
+                const userApiUrl = 'http://127.0.0.1:8000/api/profile';
+                const userResponse = await fetch(userApiUrl, {
+                    headers: {
+                        Authorization: token
+                    }
+                });
+                const userData = await userResponse.json();
+    
+                const userShift = userData.Usuario[0].shift;
+    
+                const filteredData = data.Justifications.filter(
+                    (justification) => justification.profile[0].shift === userShift
+                );
+    
+                setFaltasList(filteredData);
+            } else {
+                console.error('Error: No valid justifications data found.');
+            }
         } catch (error) {
-            // Manejo de errores en caso de fallo en la llamada a la API
             console.error('Error al obtener los datos de la API:', error);
-
         }
     };
+
+
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -131,7 +151,7 @@ export const AdmiJustificacion = () => {
                 'Talento Humano',
             ];
         } else if (buscadorDpto === 'Operativo') {
-            return ['Sistemas', 'Comercial', 'Social Media Manager','Creativo','Medios Audiovisuales','Diseño Web'];
+            return ['Sistemas', 'Comercial', 'Social Media Manager', 'Creativo', 'Medios Audiovisuales', 'Diseño Web'];
         } else if (buscadorDpto === 'Comercial') {
             return ['Comercial'];
         } else {
@@ -288,7 +308,7 @@ export const AdmiJustificacion = () => {
                     />
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 bg-cv-secondary  mt-5">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
                 {faltasList
                     .filter((post) => {
                         if (searchInput === "") {
@@ -343,7 +363,6 @@ export const AdmiJustificacion = () => {
                     .filter((post) => {
                         if (post.profile && post.profile.length > 0 && post.profile[0].area) {
                             const justificationTypeArray = Array.isArray(post.profile[0].area) ? post.profile[0].area : [post.profile[0].area];
-                            console.log('post ', post.profile[0].area);
                             if (buscador_tipoArea === "") {
                                 return true;
                             } else if (buscador_tipoArea === "Sistemas") {
@@ -398,82 +417,80 @@ export const AdmiJustificacion = () => {
                         }
                     })
 
-                    .map((post, index) => {
-
-                        return (
-                            <div className="bg-cv-primary  text-white  rounded-lg shadow" key={index}>
-                                <div className="flex flex-col items-center pb-10  overflow-hidden">
-                                    <div className="mt-4 flex items-center">
-                                        <div className="justify-start w-15 h-15 overflow-hidden bg-gray-100 rounded-full">
-                                            <img
-                                                src={post.user[0].media[0].original_url}
-                                                alt="Foto de Perfil"
-                                                className="md:w-14 md:h-14 rounded-full shadow-lg border-2 border-white"
-                                            />
-                                        </div>
-                                        <div className="text-white ml-4">
-                                            <h1>{post.user[0].name} {post.user[0].surname}</h1>
-                                        </div>
+                    .map((post) => (
+                        <div className="bg-cv-primary  text-white  rounded-lg shadow" key={post.id}>
+                            <div className="flex flex-col items-center pb-10  overflow-hidden">
+                                <div className="mt-4 flex items-center">
+                                    <div className=" mx-3 w-14 h-14 bg-gray-100 rounded-full overflow-hidden">
+                                        <img
+                                            src={post.user[0].media[0].original_url}
+                                            alt="Foto de Perfil"
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
-                                    <div className="flex mt-4 space-x-3 md:mt-6 text-white">
-                                        <ul>
-                                            <li className="text-sm font-medium ">
-                                                <label className="mr-2">Motivo:</label>
-                                                <div className="whitespace-normal">
-                                                    <textarea
-                                                        className="bg-transparent text-sm align-top w-full h-full resize-none"
-                                                        disabled
-                                                        value={post.reason}
-                                                    ></textarea>
-                                                </div>
-
-                                            </li>
-                                            <li className="text-sm font-medium flex items-center ">
-                                                <p>
-                                                    Area: {post.profile && post.profile[0] && post.profile[0].area}
-
-                                                </p>
-                                            </li>
-                                            <li className="text-sm font-medium flex items-center ">
-                                                <label>Fecha: </label>
-                                                <div className="w-1/4">
-                                                    <input
-                                                        className="mx-1 bg-transparent"
-                                                        disabled
-                                                        value={moment(post.justification_date).format("DD/MM/YYYY")}
-                                                    ></input>
-                                                </div>
-                                            </li>
-                                            <li className="text-sm font-medium flex items-center ">
-                                                <p>
-                                                    Estado: {isRechazadoOrAceptado(post)}
-                                                </p>
-                                            </li>
-                                            <li className="text-sm font-medium flex items-center ">
-                                                <p>
-                                                    Tipo: {isFaltaOrTardanza(post)}
-                                                </p>
-
-                                            </li>
-
-                                        </ul>
+                                    <div className="text-white ml-4">
+                                        <h1>{post.user[0].name} {post.user[0].surname}</h1>
                                     </div>
                                 </div>
-                                <div className="text-sm font-medium text-black">
-                                    <button
-                                        className={`block w-full px-3 py-2 text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cyan-400'
-                                            }`}
-                                        onClick={() => {
-                                            handleClick(post.id);
-                                        }}
-                                    >
-                                        Revisar
-                                    </button>
-                                </div>
+                                <div className="flex mt-4 space-x-3 md:mt-6 text-white">
+                                    <ul>
+                                        <li className="text-sm font-medium ">
+                                            <label className="mr-2">Motivo:</label>
+                                            <div className="whitespace-normal">
+                                                <textarea
+                                                    className="bg-transparent text-sm align-top w-full h-full resize-none"
+                                                    disabled
+                                                    value={post.reason}
+                                                ></textarea>
+                                            </div>
 
+                                        </li>
+                                        <li className="text-sm font-medium flex items-center ">
+                                            <p>
+                                                Area: {post.profile && post.profile[0] && post.profile[0].area}
+
+                                            </p>
+                                        </li>
+                                        <li className="text-sm font-medium flex items-center ">
+                                            <label>Fecha: </label>
+                                            <div className="w-1/4">
+                                                <input
+                                                    className="mx-1 bg-transparent"
+                                                    disabled
+                                                    value={moment(post.justification_date).format("DD/MM/YYYY")}
+                                                ></input>
+                                            </div>
+                                        </li>
+                                        <li className="text-sm font-medium flex items-center ">
+                                            <p>
+                                                Estado: {isRechazadoOrAceptado(post)}
+                                            </p>
+                                        </li>
+                                        <li className="text-sm font-medium flex items-center ">
+                                            <p>
+                                                Tipo: {isFaltaOrTardanza(post)}
+                                            </p>
+
+                                        </li>
+
+                                    </ul>
+                                </div>
                             </div>
-                        );
-                    })}
+                            <div className="text-sm font-medium text-black">
+                                <button
+                                    className={`block w-full px-3 py-2 text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cyan-400'
+                                        }`}
+                                    onClick={() => {
+                                        handleClick(post.id);
+                                    }}
+                                >
+                                    Revisar
+                                </button>
+                            </div>
+
+                        </div>
+
+                    ))}
             </div>
         </div>
     );
