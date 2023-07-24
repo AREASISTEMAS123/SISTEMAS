@@ -41,50 +41,50 @@ export const Perfil = () => {
           </div>
           <div className="flex flex-col md:flex-row mt-6">
             <div className="md:w-3/4">
-              <div className="flex items-center">
-                <h2 className="font-bold mx-3 text-white">
-                  Nombre Completo
-                </h2>
-                <div className="text-white p-4 rounded-xl">
+              <div className="flex flex-col ">
+                <div className="font-bold mx-3 text-sm text-white">
+                  NOMBRE COMPLETO
+                </div>
+                <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                   <div>
                     <div>{colaborador.Usuario[0].user[0].name} {colaborador.Usuario[0].user[0].surname}</div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
-                <div className="flex items-center">
-                  <h2 className="font-bold mx-3 text-white">
+                <div className="flex flex-col ">
+                  <div className="font-bold mx-3 text-sm text-white">
                     DNI
-                  </h2>
-                  <div className="text-white p-4 rounded-xl mx-3">
+                  </div>
+                  <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                     <div>{colaborador.Usuario && colaborador.Usuario[0].dni}</div>
                   </div>
                 </div>
 
-                <div className="flex items-center">
-                  <h2 className="font-bold mx-3 text-white">
-                    Nacimiento
-                  </h2>
-                  <div className="text-white p-4 rounded-xl mx-3">
+                <div className="flex flex-col ">
+                  <div className="font-bold mx-3 text-sm text-white">
+                    NACIMIENTO
+                  </div>
+                  <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                     <div>{colaborador.Usuario && colaborador.Usuario[0].birthday}</div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
-                <div className="flex items-center">
-                  <h2 className="font-bold mx-3 text-white">
-                    Celular
-                  </h2>
-                  <div className="text-white p-4 rounded-xl mx-3">
+                <div className="flex flex-col ">
+                  <div className="font-bold mx-3 text-sm text-white">
+                    CELULAR
+                  </div>
+                  <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                     <div>{colaborador.Usuario[0].cellphone}</div>
                   </div>
                 </div>
 
-                <div className="flex items-center">
-                  <h2 className="font-bold mx-3 text-white">
-                    Correo Electrónico
-                  </h2>
-                  <div className="text-white p-4 rounded-xl mx-3">
+                <div className="flex flex-col ">
+                  <div className="font-bold mx-3 text-sm text-white">
+                    CORREO ELECTRONICO
+                  </div>
+                  <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                     <div>{colaborador.Usuario[0].user[0].email} </div>
                   </div>
                 </div>
@@ -103,104 +103,91 @@ export const Perfil = () => {
           <div className="text-2xl font-bold text-white mx-3 mt-10 text-center">
             DATOS DE LA EMPRESA
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Departamento
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                DEPARTAMENTO
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.Usuario && colaborador.Usuario[0].department}</div>
               </div>
             </div>
 
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Área
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                AREA
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.Usuario && colaborador.Usuario[0].area}</div>
               </div>
             </div>
 
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Perfil
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                PERFIL
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.Usuario && colaborador.Usuario[0].profile_name}</div>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Turno
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                TURNO
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.Usuario && colaborador.Usuario[0].shift}</div>
               </div>
             </div>
 
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Rol
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                ROL
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.rol}</div>
               </div>
             </div>
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Ingreso
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                INGRESO
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.Usuario && colaborador.Usuario[0].date_start}</div>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
-                Responsable
-              </h2>
-              <div className="text-white p-4 rounded-xl mx-3">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
+                RESPONSABLE
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
                 <div>{colaborador.Usuario && colaborador.Usuario[0].responsible}</div>
               </div>
             </div>
-            <div className="flex items-center">
-              <h2 className="font-bold mx-3 text-white">
+            <div className="flex flex-col ">
+              <div className="font-bold mx-3 text-sm text-white">
                 ESTADO
-              </h2>
-              <label className="flex items-center cursor-pointer">
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    className="hidden"
-                    checked={isChecked}
-                    onChange={handleChange}
-                    disabled
-                  />
-                  <div
-                    className={`w-10 h-6 transition rounded-full ${isChecked ? 'bg-blue-600' : 'bg-gray-400'
-                      }`}
-                  ></div>
-                  <div
-                    className={`w-4 h-4 absolute top-1 left-1 transition rounded-full ${isChecked ? 'transform translate-x-4 bg-white' : 'bg-gray-300'
-                      }`}
-                  ></div>
-                </div>
-                <span className="ml-3 text-gray-700">Toggle Switch</span>
-              </label>
+              </div>
+              <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
+              {isChecked ? (
+                <div>Habilitado</div>
+              ) : (
+                <div>Deshabilitado</div>
+              )}
+              </div>
             </div>
           </div>
           <div className="text-2xl font-bold text-white mx-3 mt-10 text-center">
             DATOS DE ASISTENCIA
           </div>
           <div className="grid grid-cols-1 gap-3 mb-20">
-            <div className="flex flex-col items-center ">
-              <div className="md:w-1/2 items-center mt-6  ">
+            <div className="flex flex-col  items-center">
+              <div className="md:w-1/2  mt-6  items-center">
                 <div className="bg-cv-primary text-white p-4 mt-4 rounded-xl mx-3 ">
                   <h3 className="border-b pb-5 pt-1 font-bold mb-4 text-center">
                     Información
