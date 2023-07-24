@@ -59,3 +59,25 @@ class NotificationController extends Controller
     }
 
 }
+
+class TwoFailsNotification extends Notification
+{
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->line('Tienes 2 faltas. Por favor, contáctanos para más información.')
+            ->action('Ir al sitio', url('/'))
+            ->line('Gracias por usar nuestra aplicación.');
+    }
+}
+
+class BirthdayNotification extends Notification
+{
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->line('¡Feliz cumpleaños!')
+            ->action('Ir al sitio', url('/'))
+            ->line('Esperamos que tengas un excelente día.');
+    }
+}
