@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Model_has_role;
+use App\Models\Attendance;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -17,11 +17,11 @@ class AdminNotifications extends Notification
      *
      * @return void
      */
-    public $role_id;
+    public $absence;
 
-    public function __construct(Model_has_role $role_id)
+    public function __construct(Attendance $absence)
     {
-        $this->role_id = $role_id;
+        $this->absence = $absence;
     }
 
     /**
@@ -58,7 +58,7 @@ class AdminNotifications extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->role_id . 'Tienes una notificacion importante'
+            'message' => $this->absence . 'Tienes una notificacion importante'
         ];
     }
 }

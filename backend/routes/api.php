@@ -29,6 +29,8 @@ Route::post('password/reset', [\App\Http\Controllers\Auth\PasswordResetControlle
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
+    Route::post('/notifications', [\App\Http\Controllers\NotificationController::class, 'insertNotification']);
+
 
     Route::get('/users/justifications', [\App\Http\Controllers\JustificationController::class, 'getAllJustification']);
     Route::get('/users/justifications/{id}', [\App\Http\Controllers\JustificationController::class, 'detailsJustification']);
@@ -62,6 +64,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
     Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class,'insertAttendance']);
+
+    
 
 
 Route::get('notifications',[App\Http\Controllers\EvaluationController::class, 'getNotification']);

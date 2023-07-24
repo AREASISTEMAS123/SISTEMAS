@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Profile;
+use App\Models\User;
 
 class AttendanceController extends Controller
 {
+    public $user_id;
 
     public function getAttendance()
     {
@@ -77,7 +79,7 @@ class AttendanceController extends Controller
 
         } else {
 
-
+// 
             // La hora actual es mayor que la de salida, si no marcó hora de salida, se le marca falta.
             if ($departure_hour < date('H:i:s') && is_null($attendance->departure_time)) {
 
@@ -125,5 +127,32 @@ class AttendanceController extends Controller
                 return response()->json(['error' => 'Ya marcaste asistencia']);
             }
         }
+        // Traemos el usuario por su ID
+        $user = User::find($user_id);
+
+        //Calcula el numero de faltas del usuario
+        $faltasCount = $this->calculateFaltasCount($user_id);
+
+        //
+        if ($faltasCount === 3) {
+            $this->sendNotification($user_id, $faltasCount, 'falta grave');
+        } else if ($faltasCount === 2) {
+            $this->sendNotification($user, $faltasCount, 'advertencia');
+        }
+    }
+    private function calculateFaltasCount($user_id)
+    {
+        // Obten las asistencias del usuario
+        $attendances = Attendance::where('user_id', $user_id)->get();
+
+        // Contar las faltas
+        $faltasCount = 0;
+        foreach ($attendances as $attendance) {
+            // Si el campo 'attendance' es false, entonces es falta
+            if (!$attendance->attendance) {
+                $faltasCount++;
+            }
+        }
+        return $faltasCount;
     }
 }
