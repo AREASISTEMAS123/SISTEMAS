@@ -78,8 +78,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
 
 
-
-
     Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
         return $request->user();
     });
