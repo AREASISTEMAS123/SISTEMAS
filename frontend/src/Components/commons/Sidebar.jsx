@@ -69,6 +69,8 @@ export const Sidebar = ({ isOpen }) => {
     <nav className={`${isOpen ? "w-60" : "w-20"} min-h-screen duration-300`}>
       <div className="w-full h-full p-5 bg-cv-primary text-white relative">
         <div className="w-full">
+          <a href="/home">
+
           <img
             src={CVLogo}
             alt="Logo"
@@ -79,6 +81,7 @@ export const Sidebar = ({ isOpen }) => {
             alt="Logo"
             className={`${!isOpen ? "block pb-5" : "hidden"} duration-300`}
           />
+          </a>
         </div>
         <div className="py-4 space-y-4">
           {menuItems.map((menu, index) => (
