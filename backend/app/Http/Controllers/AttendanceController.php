@@ -151,10 +151,10 @@ class AttendanceController extends Controller
                 $attendance->admission_image = $path . "/" . $filename;
 
             } 
-            #else {
+            else {
                 // Retornar error si la imagen no existe
-            #    return response()->json(['message' => 'Se requiere una imagen']);
-            #}
+                return response()->json(['message' => 'Se requiere una imagen']);
+            }
 
             // Guardamos los cambios en la base de datos
             $attendance->save();
@@ -203,10 +203,10 @@ class AttendanceController extends Controller
                     $attendance->departure_image = $path . "/" . $filename;
 
                 } 
-                #else {
+                else {
                     // Retornar error si la imagen no existe
-                #    return response()->json(['message' => 'Se requiere una imagen']);
-                #}
+                    return response()->json(['message' => 'Se requiere una imagen']);
+                }
 
                 // Guardamos los cambios en la base de datos
                 $attendance->save();
