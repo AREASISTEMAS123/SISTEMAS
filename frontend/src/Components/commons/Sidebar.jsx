@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CVLogo from "../../assets/logo.svg";
 import CVIsotipo from "../../assets/isotipo.svg";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
@@ -10,39 +10,64 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
+const getRole = () => {
+  return localStorage.getItem('rol');
+};
+
+const sidebarContent = {
+  Colaborador: [
+    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
+    { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon /> },
+    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
+    { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon /> },
+    { route: "justificacion", title: "Justificacion", icon: <BalanceIcon /> },
+  ],
+  "Lider Nucleo": [
+    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
+    { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
+    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
+    { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
+  ],
+  Gerencia: [
+    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
+    { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
+    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
+    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon /> },
+    { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon /> },
+    { route: "asistencias", title: "Asistencias", icon: <ChecklistIcon /> },
+    { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
+  ],
+};
+
 export const Sidebar = ({ isOpen }) => {
-  const rol = localStorage.getItem('rol');
+  const rol = getRole();
+  const menuItems = sidebarContent[rol] || [];
 
-    // Función para verificar si el usuario tiene un rol específico
-    const hasRole = (targetRoles) => {
-      if (!Array.isArray(targetRoles)) {
-        targetRoles = [targetRoles];
-      }
-      return targetRoles.includes(rol);
-    };
+  const [isAsistenciaOpen, setIsAsistenciaOpen] = useState(false);
+  const [isJustificacionesOpen, setIsJustificacionesOpen] = useState(false);
+  const [isEvaluacionesOpen, setIsEvaluacionesOpen] = useState(false);
 
-  const menuItems = [
-    { route: "perfil", title: "Perfil", icon: <AccountCircleIcon />, requiredRoles: ["Colaborador", "Lider Nucleo", "Gerencia"]},
-    { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon />, requiredRoles: ["Gerencia", "Lider Nucleo"]},
-    { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon />, requiredRoles: ["Colaborador", "Lider Nucleo"] },
-    { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon />, requiredRoles: ["Colaborador", "Gerencia", "Lider Nucleo"] },
-    { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon />, requiredRoles: ["Colaborador", "Lider Nucleo"] },
-    { route: "justificacion", title: "Justificacion", icon: <BalanceIcon />, requiredRoles: ["Colaborador", "Lider Nucleo"] },
-    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon />, requiredRoles: ["Gerencia", "Lider Nucleo"] },
-    { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon />, requiredRoles: ["Gerencia", "Lider Nucleo"] },
-    { route: "asistencias", title: "Asistencias", icon: <ChecklistIcon />, requiredRoles: ["Gerencia", "Lider Nucleo"] },
-    { route: "reportes", title: "Reportes", icon: <TrendingUpIcon />, requiredRoles: ["Gerencia", "Lider Nucleo"] },
+  const toggleAsistenciaDropdown = () => {
+    setIsAsistenciaOpen(!isAsistenciaOpen);
+    setIsJustificacionesOpen(false);
+    setIsEvaluacionesOpen(false);
+  };
 
-  ];
+  const toggleJustificacionesDropdown = () => {
+    setIsJustificacionesOpen(!isJustificacionesOpen);
+    setIsAsistenciaOpen(false);
+    setIsEvaluacionesOpen(false);
+  };
 
-  const filteredMenuItems = menuItems.filter(menu => {
-    // Verificar si el usuario tiene el rol requerido para el menú actual
-    return hasRole(menu.requiredRoles);
-  });
+  const toggleEvaluacionesDropdown = () => {
+    setIsEvaluacionesOpen(!isEvaluacionesOpen);
+    setIsAsistenciaOpen(false);
+    setIsJustificacionesOpen(false);
+  };
 
   return (
-    <nav className={`${isOpen ? "w-60" : "w-20"} h-screen duration-300`}>
-      <div className="w-full h-full p-5 bg-cv-primary text-white">
+    <nav className={`${isOpen ? "w-60" : "w-20"} min-h-screen duration-300`}>
+      <div className="w-full h-full p-5 bg-cv-primary text-white relative">
         <div className="w-full">
           <img
             src={CVLogo}
@@ -56,7 +81,7 @@ export const Sidebar = ({ isOpen }) => {
           />
         </div>
         <div className="py-4 space-y-4">
-          {filteredMenuItems.map((menu, index) => (
+          {menuItems.map((menu, index) => (
             <Link
               key={index}
               to={`/${menu.route}`}
@@ -72,6 +97,111 @@ export const Sidebar = ({ isOpen }) => {
               </div>
             </Link>
           ))}
+          {rol === "Lider Nucleo" && (
+            <>
+              <div className="relative">
+                <div
+                  className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+                  onClick={toggleAsistenciaDropdown}
+                >
+                  <div className="font-semibold flex items-center gap-x-4">
+                    <span>
+                      <ChecklistIcon />
+                    </span>
+                    <span
+                      className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
+                    >
+                      Asistencia
+                    </span>
+                  </div>
+                </div>
+                {isAsistenciaOpen && (
+                  <div className="absolute left-0 top-12 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
+                    <Link
+                      to="/asistencia"
+                      className="block px-4 py-2 text-white hover:bg-cv-secondary"
+                    >
+                      Asistencia
+                    </Link>
+                    <Link
+                      to="/asistencias"
+                      className="block px-4 py-2 text-white hover:bg-cv-secondary"
+                    >
+                      Asistencias
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <div className="relative">
+                <div
+                  className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+                  onClick={toggleJustificacionesDropdown}
+                >
+                  <div className="font-semibold flex items-center gap-x-4">
+                    <span>
+                      <BalanceIcon />
+                    </span>
+                    <span
+                      className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
+                    >
+                      Justificaciones
+                    </span>
+                  </div>
+                </div>
+                {isJustificacionesOpen && (
+                  <div className="absolute left-0 top-12 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
+                    <Link
+                      to="/justificacion"
+                      className="block px-4 py-2 text-white hover:bg-cv-secondary"
+                    >
+                      Justificacion
+                    </Link>
+                    <Link
+                      to="/justificaciones"
+                      className="block px-4 py-2 text-white hover:bg-cv-secondary"
+                    >
+                      Justificaciones
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <div className="relative">
+                <div
+                  className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+                  onClick={toggleEvaluacionesDropdown}
+                >
+                  <div className="font-semibold flex items-center gap-x-4">
+                    <span>
+                      <DescriptionIcon />
+                    </span>
+                    <span
+                      className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
+                    >
+                      Evaluaciones
+                    </span>
+                  </div>
+                </div>
+                {isEvaluacionesOpen && (
+                  <div className="absolute left-0 top-12 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
+                    <Link
+                      to="/evaluacion"
+                      className="block px-4 py-2 text-white hover:bg-cv-secondary"
+                    >
+                      Evaluacion
+                    </Link>
+                    <Link
+                      to="/evaluaciones"
+                      className="block px-4 py-2 text-white hover:bg-cv-secondary"
+                    >
+                      Evaluaciones
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </nav>

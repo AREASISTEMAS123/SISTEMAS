@@ -39,7 +39,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen w-full">
+      <div className="flex h-full w-full">
         {!isMobile && !isLoginPage && isInicioPage && !isRecuperar && isLoggedIn && (
           <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         )}
