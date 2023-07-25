@@ -3,7 +3,6 @@ import moment from "moment";
 import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts';
 import { Chart } from "react-google-charts";
-
 export const AdmiJustificacion = () => {
     const [faltasList, setFaltasList] = useState([]);
     const [searchInput, setSearchInput] = useState("");
@@ -40,7 +39,7 @@ export const AdmiJustificacion = () => {
                 }
             });
             const data = await response.json();
-    
+
             if (Array.isArray(data.Justifications)) {
                 const userApiUrl = 'http://127.0.0.1:8000/api/profile';
                 const userResponse = await fetch(userApiUrl, {
@@ -49,13 +48,13 @@ export const AdmiJustificacion = () => {
                     }
                 });
                 const userData = await userResponse.json();
-    
+
                 const userShift = userData.Usuario[0].shift;
-    
+
                 const filteredData = data.Justifications.filter(
                     (justification) => justification.profile[0].shift === userShift
                 );
-    
+
                 setFaltasList(filteredData);
             } else {
                 console.error('Error: No valid justifications data found.');
@@ -80,7 +79,6 @@ export const AdmiJustificacion = () => {
         }
     }
     const isFaltaOrTardanza = (prop) => {
-        //post.justification_type === 0 ? "Falta" : "Tardanza"
         if (prop.justification_type == 0) {
             return 'Falta'
         } else {
@@ -159,9 +157,9 @@ export const AdmiJustificacion = () => {
         }
     };
     return (
-        <div >
-            <div className="flex items-center justify-center">
-                <div className="bg-cv-primary p-4 inline-flex mr-4 mx-4">
+        <div className="">
+            <div className="flex flex-col items-center justify-center md:flex-row md:justify-between">
+                <div className="bg-cv-primary p-4 mt-4 md:mt-0 md:mr-4 md:mx-4 w-full md:w-auto">
                     <div className="text-white text-center ">
                         <ul className="my-4">
                             <li className="my-4">
@@ -184,7 +182,7 @@ export const AdmiJustificacion = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="">
+                    <div className="w-full md:w-1/2">
                         <PieChart
                             series={[
                                 {
@@ -205,7 +203,7 @@ export const AdmiJustificacion = () => {
                         )}
                     </div>
                 </div>
-                <div className="  inline-flex mr-4 mx-4">
+                <div className=" w-full md:w-1/2 mt-4 md:mt-0 ">
 
                     <Chart chartType="ColumnChart" data={data} options={options} />
 
@@ -217,36 +215,38 @@ export const AdmiJustificacion = () => {
 
 
 
-            <div className="text-center font-semibold text-6xl	text-white	mb-5">
+            <div className="text-center font-semibold text-4xl md:text-5xl lg:text-6xl text-white mb-5">
                 <h1>Justificaciones</h1>
             </div>
 
-            <div className="mb-3 inline">
-                <div className=" mb-4 flex flex-wrap items-stretch">
+
+            <div className="mb-3">
+                <div className="mb-4 flex flex-wrap items-stretch">
                     <input
                         type="search"
-                        className="px-3 py-2 rounded-md bg-gray-200 "
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         placeholder="NOMBRE APELLIDO"
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
                     />
-                    <div style={{ marginLeft: 'auto' }}>
-                        <button type="button"
-                            className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
+                    <div className="ml-auto">
+                        <button
+                            type="button"
+                            className="px-3 py-2 text-xs md:text-sm font-medium text-center bg-cyan-400 border-2 rounded-md mx-0 md:mx-5 border-black"
                             onClick={onCleanFilter}
                         >
                             Limpiar
-
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div className="col-end-6 col-span-1 flex items-center">
+
+            <div className="col-end-6 col-span-1 flex flex-col md:flex-row md:items-center">
                 {/* Buscador por tipo de justificacion: falta o tardanza */}
-                <div className="mr-2 ">
+                <div className="mb-2 md:mb-0 md:mr-2">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscador_tipoJustificacion}
                         onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
                     >
@@ -256,9 +256,9 @@ export const AdmiJustificacion = () => {
                     </select>
                 </div>
                 {/* Buscador por tipo de status: en proceso o aceptado */}
-                <div className="mr-2">
+                <div className="mb-2 md:mb-0 md:mr-2">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscadorStatus}
                         onChange={(e) => setBuscadorStatus(e.target.value)}
                     >
@@ -268,9 +268,9 @@ export const AdmiJustificacion = () => {
                         <option value="2">Rechazado</option>
                     </select>
                 </div>
-                <div className="mr-2">
+                <div className="mb-2 md:mb-0 md:mr-2">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscadorDpto}
                         onChange={(e) => {
                             setBuscadorDpto(e.target.value);
@@ -282,15 +282,15 @@ export const AdmiJustificacion = () => {
                         <option value="Comercial">Comercial</option>
                     </select>
                 </div>
-                <div className="mr-2">
+                <div className="mb-2 md:mb-0 md:mr-2">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscador_tipoArea}
                         onChange={(e) => {
                             setBuscador_tipoArea(e.target.value);
                         }}
                     >
-                        <option value="">Nucleo</option>
+                        <option value="">Núcleo</option>
                         {getFilteredAreas().map((area) => (
                             <option key={area} value={area}>
                                 {area}
@@ -298,9 +298,9 @@ export const AdmiJustificacion = () => {
                         ))}
                     </select>
                 </div>
-                <div>
+                <div className="mb-2 md:mb-0 md:mr-2">
                     <input
-                        className="px-3 py-2 rounded-md bg-gray-200"
+                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         type="date"
                         id="fecha"
                         value={buscadorFecha}
@@ -308,6 +308,7 @@ export const AdmiJustificacion = () => {
                     />
                 </div>
             </div>
+
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
                 {faltasList
                     .filter((post) => {
@@ -366,28 +367,20 @@ export const AdmiJustificacion = () => {
                             if (buscador_tipoArea === "") {
                                 return true;
                             } else if (buscador_tipoArea === "Sistemas") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Sistemas');
                             } else if (buscador_tipoArea === "Creativo") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Creativo');
                             } else if (buscador_tipoArea === "Diseño Web") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Diseño Web');
                             } else if (buscador_tipoArea === "Administración") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Administración');
                             } else if (buscador_tipoArea === "Talento Humano") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Talento Humano');
                             } else if (buscador_tipoArea === "Social Media Manager") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Social Media Manager');
                             } else if (buscador_tipoArea === "Medios Audiovisuales") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Medios Audiovisuales');
                             } else if (buscador_tipoArea === "Comercial") {
-                                // Filtrar por "Sistemas"
                                 return justificationTypeArray.includes('Comercial');
                             } else {
                                 return false;
@@ -401,19 +394,15 @@ export const AdmiJustificacion = () => {
                         const justificationTypeArray = Array.isArray(post.justification_status) ? post.justification_status : [post.justification_status];
 
                         if (buscadorStatus === "") {
-                            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
                             return true;
                         } else if (buscadorStatus === "0") {
-                            // Filtrar por "En proceso"
                             return justificationTypeArray.includes(0) && post.decline === 0;
                         } else if (buscadorStatus === "1") {
-                            // Filtrar por "Aceptado"
                             return justificationTypeArray.includes(1) && post.decline === 0;
                         } else if (buscadorStatus === "2") {
-                            // Filtrar por "Rechazado"
                             return post.decline === 1;
                         } else {
-                            return false; // Valor de búsqueda inválido, no se muestra ningún card
+                            return false;
                         }
                     })
 
