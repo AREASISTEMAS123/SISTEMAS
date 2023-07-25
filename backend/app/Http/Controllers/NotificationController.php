@@ -48,7 +48,6 @@ class NotificationController extends Controller
         return response($notif,200);
     }
 
-
     public function deleteNotification(Request $request,$id){
         $notif = Notification::find($id);
         if(is_null($notif)){

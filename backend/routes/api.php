@@ -42,8 +42,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/users/update/{id}', [\App\Http\Controllers\usercontroller::class, 'updateUser']);
     Route::delete('/users/delete/{id}', [App\Http\Controllers\usercontroller::class, 'deleteUser']);
 
-
-
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'getProfile']);
     Route::post('/profile/changePassword', [App\Http\Controllers\ProfileController::class, 'change_password']);
 
@@ -65,8 +63,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
     Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class, 'insertAttendance']);
     Route::get('/attendance/order', [\App\Http\Controllers\AttendanceController::class, 'orderAttendance']);
-
     Route::get('/attendance/id', [\App\Http\Controllers\AttendanceController::class, 'getAttendanceByID']);
+    Route::get('/attendance/report', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
+
 
     Route::get('notifications', [App\Http\Controllers\EvaluationController::class, 'getNotification']);
     Route::get('notification/details', [App\Http\Controllers\EvaluationController::class, 'detailsNotification']);
@@ -78,9 +77,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('updateNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'updateNotification']);
 
     Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
-
-    
-
 
     Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
         return $request->user();
@@ -96,9 +92,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('updateEvaluation/{id}', [App\Http\Controllers\EvaluationController::class, 'updateEvaluation']);
 
     Route::delete('deleteCategoria/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteEvaluation']);
-
-
-
-
 
 });
