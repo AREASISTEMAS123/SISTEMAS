@@ -99,7 +99,6 @@ export const Sidebar = ({ isOpen }) => {
           ))}
           {rol === "Lider Nucleo" && (
             <>
-              {/* Dropdown Asistencia */}
               <div className="relative">
                 <div
                   className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
@@ -118,7 +117,6 @@ export const Sidebar = ({ isOpen }) => {
                 </div>
                 {isAsistenciaOpen && (
                   <div className="absolute left-0 top-12 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
-                    {/* Contenido del dropdown de Asistencia */}
                     <Link
                       to="/asistencia"
                       className="block px-4 py-2 text-white hover:bg-cv-secondary"
@@ -135,7 +133,6 @@ export const Sidebar = ({ isOpen }) => {
                 )}
               </div>
 
-              {/* Dropdown Justificaciones */}
               <div className="relative">
                 <div
                   className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
@@ -154,7 +151,6 @@ export const Sidebar = ({ isOpen }) => {
                 </div>
                 {isJustificacionesOpen && (
                   <div className="absolute left-0 top-12 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
-                    {/* Contenido del dropdown de Justificaciones */}
                     <Link
                       to="/justificacion"
                       className="block px-4 py-2 text-white hover:bg-cv-secondary"
@@ -171,7 +167,6 @@ export const Sidebar = ({ isOpen }) => {
                 )}
               </div>
 
-              {/* Dropdown Evaluaciones */}
               <div className="relative">
                 <div
                   className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
@@ -190,7 +185,6 @@ export const Sidebar = ({ isOpen }) => {
                 </div>
                 {isEvaluacionesOpen && (
                   <div className="absolute left-0 top-12 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
-                    {/* Contenido del dropdown de Evaluaciones */}
                     <Link
                       to="/evaluacion"
                       className="block px-4 py-2 text-white hover:bg-cv-secondary"
