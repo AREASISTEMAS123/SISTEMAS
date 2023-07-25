@@ -97,7 +97,13 @@ class AttendanceController extends Controller
             }
         }
         
-        $total = Attendance::where('date', date('Y-m-d'))->count();
+        $total = 0;
+
+        foreach ($profile as $user) {
+             if (Attendance::where('user_id', $user->user_id)->where('date', date('Y-m-d'))->count() >= 1) {
+                $total = $total + 1;
+             }
+        }
 
         return response()->json(['attendance' => $attendances, 'delays' => $delays, 'absences' => $absence, 'total' => $total]);
     }
