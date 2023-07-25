@@ -219,7 +219,7 @@ export const VistaAdminColaborador = () => {
               <div className="w-full">
                 <button
                   onClick={abrirAgregarModal}
-                  className="p-2 rounded-md text-cv-primary bg-cv-cyan font-semibold flex items-center justify-center text-lg uppercase"
+                  className="p-2 rounded-md text-cv-primary bg-cv-cyan font-semibold flex items-center justify-center text-lg uppercase active:scale-95 ease-in-out duration-300"
                 >
                   <PersonAddIcon />
                   <p className="ml-2 whitespace-nowrap">Agregar Colaborador</p>
@@ -228,7 +228,7 @@ export const VistaAdminColaborador = () => {
               <div className="w-full">
                 <label
                   htmlFor="filterStartDate"
-                  className="block mb-1 font-medium text-cv-cyan"
+                  className="block mb-1 text-sm font-thin text-cv-cyan"
                 >
                   Filtrar por Fecha de Ingreso
                 </label>
@@ -248,7 +248,7 @@ export const VistaAdminColaborador = () => {
               <div className="w-full">
                 <label
                   htmlFor="filterDepartment"
-                  className="block mb-1 font-medium text-cv-cyan"
+                  className="block mb-1 text-sm font-thin text-cv-cyan"
                 >
                   Filtrar por Departamento
                 </label>
@@ -268,14 +268,14 @@ export const VistaAdminColaborador = () => {
               </div>
               <div className="w-full">
                 <label
-                  htmlFor="filterDepartment"
-                  className="block mb-1 font-medium text-cv-cyan"
+                  htmlFor="filerRole"
+                  className="block mb-1 text-sm font-thin text-cv-cyan"
                 >
                   Filtrar por Turno
                 </label>
                 <div className="flex items-center justify-between w-full rounded-md bg-slate-300">
                   <select
-                    id="rol"
+                    id="filerRole"
                     value={filterShift} onChange={(e) => setFilterShift(e.target.value)}
                     className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                   >
@@ -291,7 +291,7 @@ export const VistaAdminColaborador = () => {
               <div className="w-full">
                 <label
                   htmlFor="filterNames"
-                  className="block mb-1 font-medium text-cv-cyan"
+                  className="block mb-1 text-sm font-thin text-cv-cyan"
                 >
                   Filtrar por Nombre o Apellido
                 </label>

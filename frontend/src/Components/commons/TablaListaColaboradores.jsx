@@ -268,14 +268,14 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 									<div className="flex items-center justify-end p-4 border-t border-solid border-slate-200 rounded-b space-x-2">
 
 										<button
-											className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-bold uppercase ease-linear transition-all duration-150"
+											className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-bold uppercase active:scale-95 ease-in-out duration-300"
 											type="button"
 											onClick={cancelDelete}
 										>
 											Cancelar
 										</button>
 										<button
-											className="w-full py-2 px-8 rounded-md text-white bg-red-600 border border-red-500 hover:border-red-700 hover:bg-red-700 flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+											className="w-full py-2 px-8 rounded-md text-white bg-red-600 border border-red-500 hover:border-red-700 hover:bg-red-700 flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
 											type="button" onClick={confirmDelete}
 										>
 											Eliminar

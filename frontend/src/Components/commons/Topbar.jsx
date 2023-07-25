@@ -252,7 +252,7 @@ export const Topbar = ({ toggleSidebar }) => {
             <img
               src={avatar}
               alt="Foto de Perfil"
-              className="w-14 h-14 rounded-full shadow-lg cursor-pointer object-cover"
+              className="w-14 h-14 border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover"
             />
           </button>
         </div>
@@ -287,7 +287,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
         <div className={`${showTask ? 'block' : 'hidden'} absolute flex items-center justify-center right-0 md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">
-            <button onClick={() => { setShowModal(true); setShowTask(false); }} className="p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-xl font-bold uppercase  hover:bg-green-500 hover:text-cv-primary">
+            <button onClick={() => { setShowModal(true); setShowTask(false); }} className="p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-xl font-bold uppercase  hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300">
               <AddTaskIcon fontSize="large" />
               <span className='ml-4'>Agregar Tarea</span>
             </button>
@@ -332,14 +332,14 @@ export const Topbar = ({ toggleSidebar }) => {
                   </div>
                   <div className="flex items-center justify-between p-6 border-t border-solid border-slate-200 rounded-b">
                     <button
-                      className="py-2 px-4 rounded-md text-gray-500 bg-gray-300 hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+                      className="py-2 px-4 rounded-md text-gray-500 bg-gray-300 hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
                       type="button"
                       onClick={() => setShowModal(false)}
                     >
                       Cancelar
                     </button>
                     <button
-                      className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase ease-linear transition-all duration-150"
+                      className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
                       type="button"
                       onClick={AddTask}
 

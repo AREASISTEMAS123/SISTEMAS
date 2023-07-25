@@ -512,7 +512,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 												{avatar ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
 											</p>
 										</div>
-										<button>
+										<button className='active:scale-95 ease-in-out duration-300'>
 											<label
 												htmlFor="fileImage"
 												className="py-2 px-4 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-sm font-semibold uppercase ease-linear transition-all duration-150"
@@ -1116,7 +1116,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 												{avatarLocal ? '' : "Formatos permitidos: JPG, JPEG, PNG"}
 											</p>
 										</div>
-										<button>
+										<button className='active:scale-95 ease-in-out duration-300'>
 											<label
 												htmlFor="fileImage"
 												className="py-2 px-4 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-sm font-semibold uppercase ease-linear transition-all duration-150"
