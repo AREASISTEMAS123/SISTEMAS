@@ -154,7 +154,7 @@ class AttendanceController extends Controller
 
         if (empty($attendance)) {
             // No existe un registro de asistencia para la fecha actual, crear uno nuevo
-            $attendance = new Attendance();WW
+            $attendance = new Attendance();
 
             // Recogemos los valores de fecha y tiempo de marcado de entrada
             $attendance->date = $request->input('date');
