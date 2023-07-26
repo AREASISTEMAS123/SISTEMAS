@@ -267,4 +267,26 @@ class AttendanceController extends Controller
             }
         }
     }
+
+    
+
+    public function editUnavailableDays()
+{
+    $user = Auth::user();
+    $unavailableDays = $user->unavailable_days ?? [];
+
+    return view('unavailable-days.edit', compact('unavailableDays'));
+}
+
+public function updateUnavailableDays(Request $request)
+{
+    $user = Auth::user();
+    $user->update([
+        'unavailable_days' => $request->input('unavailable_days', []),
+    ]);
+
+    // Puedes agregar una notificación o un mensaje de éxito aquí si lo deseas.
+
+    return redirect()->route('unavailable-days.edit');
+}
 }
