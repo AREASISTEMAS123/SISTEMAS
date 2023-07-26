@@ -45,7 +45,7 @@ export const Perfil = () => {
                 <div className="font-bold mx-3 text-sm text-white">
                   NOMBRE COMPLETO
                 </div>
-                <div className="text-gray-500 p-4 bg-white rounded-xl mx-3">
+                <div className="text-gray-500 p-4 bg-input rounded-xl mx-3">
                   <div>
                     <div>{colaborador.Usuario[0].user[0].name} {colaborador.Usuario[0].user[0].surname}</div>
                   </div>

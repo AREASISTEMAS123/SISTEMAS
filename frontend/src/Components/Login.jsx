@@ -113,7 +113,7 @@ export const Login = () => {
 
     return (
         <div className="grid place-content-center ">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 bg-white rounded-lg justify-center items-center">
+            <div className="grid gap-0 grid-cols-1 md:grid-cols-2 bg-white rounded-lg justify-center items-center">
                 <div className="p-5 rounded-lg ">
                     <div className="bg-slate-800 rounded-2xl p-12  ">
                         <div className="flex justify-center">
@@ -137,84 +137,83 @@ export const Login = () => {
                 <div className="p-5 rounded-lg md:order-1">
                     <div className=" bg-white rounded-lg md:max-w-md xl:p-0 ">
                         <div className="flex justify-center items-center">
-                            <img
-                                width={300}
-                                src={cv_negativo}
-                                alt="Logo"
-                            />
+                            <img width={300} className="w-64 md:w-72" src={cv_negativo} alt="Logo" />
                         </div>
-                        <div className="p-6 space-y-4 ">
-                            <p>
-                                {error !== "" ? (
-                                    <span className="text-red-500">{error.toString()}</span>
-                                ) : (
-                                    <span className="text-green-400">{msg.toString()}</span>
-                                )}
-                                {error["g-recaptcha-response"] && (
-                                    <span className="text-violet-900">
-                                        {error["g-recaptcha-response"].toString()}
-                                    </span>
-                                )}
-                            </p>
-                            <form className="space-y-4 ">
-                                <div>
-                                    <label className="block  text-sm font-medium text-gray-900 ">Usuario</label>
-                                    <input
-                                        className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
-                                        required=""
-                                        placeholder="Es tu DNI"
-                                        name="username"
-                                        value={username}
-                                        onChange={(e) => handleInputChange(e, "username")}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block  sm:text-sm font-medium text-gray-900 w-full">Contraseña</label>
-                                    <input
-                                        placeholder="••••••••"
-                                        className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
-                                        required=""
-                                        type="password"
-                                        name="password"
-                                        value={password}
-                                        onChange={(e) => handleInputChange(e, "password")}
-                                    />
-                                </div>
-                                <div >
-                                    <ReCAPTCHA
-                                        sitekey={SITE_KEY}
-                                        onChange={onRecaptchaChange}
-                                        onExpired={() => setCaptchaCompleted(false)}
-                                        onErrored={() => setCaptchaError('Hubo un error en el captcha.')}
-                                    />
-                                    {captchaError && (
-                                        <span className="text-red-500">{captchaError}</span>
+                        <div className="">
+                            <div className="p-1 space-y-2 sm:space-y-8 md:space-y-10 lg:space-y-12 xl:space-y-16 ">
+                                <p>
+                                    {error !== "" ? (
+                                        <span className="text-red-500">{error.toString()}</span>
+                                    ) : (
+                                        <span className="text-green-400">{msg.toString()}</span>
                                     )}
-                                </div>
-                                <div className=" ">
-                                    <button
-                                        type="button"
-                                        onClick={loginSubmit}
-                                        className=" w-full  justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                                    >
-                                        Iniciar sesión
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={onRecuperar}
-                                        className="w-full text-sm font-medium text-primary-600  hover:underline focus:outline-none text-center mt-2"
-                                    >
-                                        ¿Olvidaste tu contraseña?
-                                    </button>
-                                    <div className="flex justify-end">
-                                        <button >
-                                            <HelpIcon />
-                                        </button>
+                                    {error["g-recaptcha-response"] && (
+                                        <span className="text-violet-900">
+                                            {error["g-recaptcha-response"].toString()}
+                                        </span>
+                                    )}
+                                </p>
+                                <form className="space-y-4 ">
+                                    <div>
+                                        <label className="block  text-sm font-medium text-gray-900 ">Usuario</label>
+                                        <input
+                                            className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
+                                            required=""
+                                            placeholder="Es tu DNI"
+                                            name="username"
+                                            value={username}
+                                            onChange={(e) => handleInputChange(e, "username")}
+                                        />
                                     </div>
+                                    <div>
+                                        <label className="block  sm:text-sm font-medium text-gray-900 w-full">Contraseña</label>
+                                        <input
+                                            placeholder="••••••••"
+                                            className="bg-gray-50 border ml-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   "
+                                            required=""
+                                            type="password"
+                                            name="password"
+                                            value={password}
+                                            onChange={(e) => handleInputChange(e, "password")}
+                                        />
+                                    </div>
+                                    <div >
+                                        <ReCAPTCHA
+                                            sitekey={SITE_KEY}
+                                            onChange={onRecaptchaChange}
+                                            onExpired={() => setCaptchaCompleted(false)}
+                                            onErrored={() => setCaptchaError('Hubo un error en el captcha.')}
+                                        />
+                                        {captchaError && (
+                                            <span className="text-red-500">{captchaError}</span>
+                                        )}
+                                    </div>
+                                    <div className=" ">
+                                        <button
+                                            type="button"
+                                            onClick={loginSubmit}
+                                            className=" w-full  justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                                        >
+                                            Iniciar sesión
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={onRecuperar}
+                                            className="w-full text-sm font-medium text-primary-600  hover:underline focus:outline-none text-center mt-2"
+                                        >
+                                            ¿Olvidaste tu contraseña?
+                                        </button>
+                                        <div className="flex justify-end">
+                                            <button >
+                                                <HelpIcon />
+                                            </button>
+                                        </div>
 
-                                </div>
-                            </form>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

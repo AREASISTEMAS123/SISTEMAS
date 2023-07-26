@@ -197,7 +197,7 @@ export const AdmiDetalleDeJustificacion = () => {
                                 </div>
 
                             </div>
-                            
+
 
                             <div className="flex  flex-wrap w-full">
                                 <div className=' flex flex-col'>
@@ -224,9 +224,9 @@ export const AdmiDetalleDeJustificacion = () => {
                                     disabled
                                     value={item.reason}
                                     rows={Math.max(2, Math.ceil(item.reason.length / 50))}
-                                   
+
                                 ></textarea>
-                                
+
                             </div>
 
 
@@ -244,19 +244,24 @@ export const AdmiDetalleDeJustificacion = () => {
                                 )}
                             </div>
                             <div className="flex items-center justify-center p-6 border-t border-gray-200 rounded-b ">
-                                <button
-                                    className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10 bt-rechazar "
-                                    onClick={(e) => onOpenModalRechazo(e, item)} // Agregar el evento e y el parámetro item
-                                >
-                                    RECHAZAR
-                                </button>
 
-                                <button
-                                    className="bt-aceptar hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                    onClick={(e) => onOpenModalAceptado(e, item)}
-                                >
-                                    ACEPTAR
-                                </button>
+                                {item.decline === 0 && item.justification_status === 0 && (
+                                    <>
+                                        <button
+                                            className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10 bt-rechazar"
+                                            onClick={(e) => onOpenModalRechazo(e, item)}
+                                        >
+                                            RECHAZAR
+                                        </button>
+
+                                        <button
+                                            className="bt-aceptar hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                            onClick={(e) => onOpenModalAceptado(e, item)}
+                                        >
+                                            ACEPTAR
+                                        </button>
+                                    </>
+                                )}
 
 
                             </div>
