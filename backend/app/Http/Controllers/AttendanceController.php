@@ -124,7 +124,7 @@ class AttendanceController extends Controller
             }
         }
     
-        return response()->json(['notificaciones' => $notifications]);
+        #return response()->json(['notificaciones' => $notifications]);
 
         //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendances, 
@@ -133,6 +133,7 @@ class AttendanceController extends Controller
         'justifications' => $justifications,
         'date' => date('Y-m-d'),
         'total' => $total]);
+
     }
 
 
