@@ -34,13 +34,13 @@ class AttendanceController extends Controller
 
     public function setDefaultValues(){
         
-        $users = User::all('id');   
+        $users = User::where('status', 1)->get();
 
-        foreach ($users as $user) {
+         foreach ($users as $user) {
 
             if (Attendance::where('user_id', $user->id)->whereDate('date', date('Y-m-d'))->exists()) {
                 continue;
-            } else {
+            } else{
                 $attendance = new Attendance();
                 $attendance->user_id = $user->id;
                 $attendance->date = date('Y-m-d');
@@ -48,6 +48,7 @@ class AttendanceController extends Controller
                 $attendance->save();
             }
         }
+
 
         return response()->json(['message' => 'Se han actualizado los valores por defecto']);
     }
@@ -75,6 +76,8 @@ class AttendanceController extends Controller
             $profile = Profile::where('shift', 'Tarde')->get('user_id'); 
             $shift = 'Tarde';
         }
+
+
 
         foreach ($profile as $user) {
             if (Attendance::where('user_id', $user->user_id)->where('attendance', 1)->where('date', date('Y-m-d'))->count() == 1) {
@@ -117,10 +120,11 @@ class AttendanceController extends Controller
         for($id = 1; $id <= $userCounter; $id++) {
             $absence = Attendance::all()->where('user_id', $id)->where('absence', '1')->count();
             if ($absence === 3) {
-                $notif = Notification::create(['id', 'notifiable_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
+                $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
                 array_push($notifications, $notif);
             } else if ($absence === 2) {
-                array_push($notifications, "El usuario con ID " . $id . " tiene 2 faltas");
+                $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 2 faltas']);
+                array_push($notifications, $notif);
             }
         }
     
