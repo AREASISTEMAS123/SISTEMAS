@@ -127,7 +127,12 @@ class AttendanceController extends Controller
         return response()->json(['notificaciones' => $notifications]);
 
         //Retornamos la respuesta en formato JSON
-        return response()->json(['attendance' => $attendances, 'delays' => $delays, 'absences' => $absence, 'total' => $total]);
+        return response()->json(['attendance' => $attendances, 
+        'delays' => $delays, 
+        'absences' => $absence, 
+        'justifications' => $justifications,
+        'date' => date('Y-m-d'),
+        'total' => $total]);
     }
 
 
@@ -149,7 +154,7 @@ class AttendanceController extends Controller
 
         if (empty($attendance)) {
             // No existe un registro de asistencia para la fecha actual, crear uno nuevo
-            $attendance = new Attendance();
+            $attendance = new Attendance();WW
 
             // Recogemos los valores de fecha y tiempo de marcado de entrada
             $attendance->date = $request->input('date');
@@ -234,7 +239,7 @@ class AttendanceController extends Controller
                 else {
                     // Retornar error si la imagen no existe
                     return response()->json(['message' => 'Se requiere una imagen']);
-                }
+                }   
 
                 // Guardamos los cambios en la base de datos
                 $attendance->save();
