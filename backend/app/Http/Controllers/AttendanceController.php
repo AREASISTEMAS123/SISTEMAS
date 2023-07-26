@@ -30,20 +30,6 @@ class AttendanceController extends Controller
         return response()->json(['attendance' => $attendance]);
     }
 
-    public function orderAttendance(Request $request)
-    {
-        // Obtener los valores de los parámetros 'date' y 'orden' de la URL
-        $date = $request->query('date');
-        $orden = $request->query('orden', 'desc'); // Orden predeterminado si no se especifica (ascendente)
-
-        // Ejemplo: Obtener los registros de asistencia ordenados por fecha y orden
-        #$attendance_ordered = Attendance::orderBy('date', $orden)->where('date', $date)->get();
-
-        $attendance_ordered = Attendance::with('user', 'profile')->where('date', $date)->orderBy('date', $orden)->get();
-
-        return response()->json(['attendance' => $attendance_ordered]);
-    }
-
     public function setDefaultValues(){
         
         $users = User::all('id');   

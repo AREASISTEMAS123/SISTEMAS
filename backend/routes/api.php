@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'getattendance']);
     Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class, 'insertAttendance']);
-    Route::get('/attendance/order', [\App\Http\Controllers\AttendanceController::class, 'orderAttendance']);
+    //Route::get('/attendance/order', [\App\Http\Controllers\AttendanceController::class, 'orderAttendance']);
     Route::get('/attendance/id', [\App\Http\Controllers\AttendanceController::class, 'getAttendanceByID']);
     Route::get('/attendance/report', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 
