@@ -26,21 +26,36 @@ export const Asistencia = () => {
       setHoraActual(new Date());
     }, 1000);
 
-    // Al cargar la página, verificar si ya se ha marcado entrada o salida para el día actual
     const fecha = new Date().toISOString().slice(0, 10);
     const entradaMarcadaLocal = localStorage.getItem(`entrada_${fecha}`);
     const salidaMarcadaLocal = localStorage.getItem(`salida_${fecha}`);
     setEntradaMarcada(entradaMarcadaLocal === 'true');
     setSalidaMarcada(salidaMarcadaLocal === 'true');
 
-    // Verificar si existe una salida marcada para el día actual en el Local Storage
     const existeSalidaMarcada = salidaMarcadaLocal === 'true';
 
-    // Si existe una salida marcada para el día actual, ocultar el botón de la cámara
     setMostrarBotonCamara(!existeSalidaMarcada);
 
     const existeEntradaMarcada = entradaMarcadaLocal == 'true';
     setSegundaFotoTomada(existeEntradaMarcada)
+
+    fetch('http://127.0.0.1:8000/api/attendance/id', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const asistenciasHoy = data.attendance.filter((asistencia) => asistencia.date === fecha);
+        if (asistenciasHoy.length === 0) {
+          setSegundaFotoTomada(false)
+        } else {
+          setSegundaFotoTomada(true)
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener las asistencias:', error);
+      });
 
     return () => {
       clearInterval(interval);
