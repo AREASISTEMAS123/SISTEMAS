@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\AttendanceReport;
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\Notification;
 
 class AttendanceController extends Controller
 {
@@ -22,7 +23,7 @@ class AttendanceController extends Controller
     public function getAttendanceByID()
     {
         //Recogemos el ID del usuario logeado
-        $user_id = auth()->id();
+        $user_id = auth()->id();    
 
         // Obtener el registro de asistencia del usuario para el usuario actualmente logeado
         $attendance = Attendance::where('user_id', $user_id)->get();
@@ -97,6 +98,7 @@ class AttendanceController extends Controller
 
         $attendanceReport = new AttendanceReport();
 
+        //Setear los valores en la tabla AttendanceReport 
         $attendanceReport->attendances = $attendances;
         $attendanceReport->delays = $delays;
         $attendanceReport->absences = $absence;
@@ -105,8 +107,26 @@ class AttendanceController extends Controller
         $attendanceReport->justifications = $justifications;
         $attendanceReport->date = date('Y-m-d');
 
+        //Guardar la informacion en la tabla AttendanceReport 
         $attendanceReport->save();
 
+        //Agregamos una nueva notificacion (Validacion de Faltas)
+        $userCounter = User::all()->count();
+        $notifications = [];
+    
+        for($id = 1; $id <= $userCounter; $id++) {
+            $absence = Attendance::all()->where('user_id', $id)->where('absence', '1')->count();
+            if ($absence === 3) {
+                $notif = Notification::create(['id', 'notifiable_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
+                array_push($notifications, $notif);
+            } else if ($absence === 2) {
+                array_push($notifications, "El usuario con ID " . $id . " tiene 2 faltas");
+            }
+        }
+    
+        return response()->json(['notificaciones' => $notifications]);
+
+        //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendances, 'delays' => $delays, 'absences' => $absence, 'total' => $total]);
     }
 

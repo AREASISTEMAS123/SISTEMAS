@@ -35,7 +35,7 @@ class NotificationController extends Controller
                 array_push($notifications, "El usuario con ID " . $id . " tiene 2 faltas");
             }
         }
-    
+        
         return response()->json(['notificaciones' => $notifications]);
     }
 
