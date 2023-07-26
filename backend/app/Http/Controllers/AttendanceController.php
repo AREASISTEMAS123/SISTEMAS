@@ -91,13 +91,7 @@ class AttendanceController extends Controller
             }
         }
         
-        $total = 0;
 
-        foreach ($profile as $user) {
-             if (Attendance::where('user_id', $user->user_id)->where('date', date('Y-m-d'))->count() >= 1) {
-                $total = $total + 1;
-             }
-        }
 
         $attendanceReport = new AttendanceReport();
 
@@ -105,13 +99,12 @@ class AttendanceController extends Controller
         $attendanceReport->attendances = $attendances;
         $attendanceReport->delays = $delays;
         $attendanceReport->absences = $absence;
-        $attendanceReport->total = $total;
         $attendanceReport->shift = $shift;
         $attendanceReport->justifications = $justifications;
         $attendanceReport->date = date('Y-m-d');
 
         //Guardar la informacion en la tabla AttendanceReport 
-        $attendanceReport->save();
+
 
         //Agregamos una nueva notificacion (Validacion de Faltas)
         $userCounter = User::all()->count();
@@ -129,7 +122,15 @@ class AttendanceController extends Controller
         }
     
         #return response()->json(['notificaciones' => $notifications]);
+        $total = 0;
 
+        foreach ($profile as $user) {
+             if (Attendance::where('user_id', $user->user_id)->where('date', date('Y-m-d'))->count() >= 1) {
+                $total = $total + 1;
+             }
+        }
+        $attendanceReport->total = $total;
+        $attendanceReport->save();
         //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendances, 
         'delays' => $delays, 
