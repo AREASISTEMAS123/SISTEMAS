@@ -23,7 +23,7 @@ class AttendanceController extends Controller
     public function getAttendanceByID()
     {
         //Recogemos el ID del usuario logeado
-        $user_id = auth()->id();    
+        $user_id = auth()->id();
 
         // Obtener el registro de asistencia del usuario para el usuario actualmente logeado
         $attendance = Attendance::where('user_id', $user_id)->get();
@@ -32,15 +32,16 @@ class AttendanceController extends Controller
         return response()->json(['attendance' => $attendance]);
     }
 
-    public function setDefaultValues(){
-        
+    public function setDefaultValues()
+    {
+
         $users = User::where('status', 1)->get();
 
-         foreach ($users as $user) {
+        foreach ($users as $user) {
 
             if (Attendance::where('user_id', $user->id)->whereDate('date', date('Y-m-d'))->exists()) {
                 continue;
-            } else{
+            } else {
                 $attendance = new Attendance();
                 $attendance->user_id = $user->id;
                 $attendance->date = date('Y-m-d');
@@ -53,7 +54,8 @@ class AttendanceController extends Controller
         return response()->json(['message' => 'Se han actualizado los valores por defecto']);
     }
 
-    public function generateReport(){
+    public function generateReport()
+    {
 
         //Generar reporte general de asistencias, faltas y tardanzas
 
@@ -63,17 +65,17 @@ class AttendanceController extends Controller
         $delays = 0;
         $absence = 0;
         $justifications = 0;
-                
+
         // Recogemos el ID del usuario logeado
         $user_id = auth()->id();
 
-        $admin = Profile::where('user_id', $user_id)->get('shift'); 
+        $admin = Profile::where('user_id', $user_id)->get('shift');
 
         if ($admin[0]->shift == 'Mañana') {
-            $profile = Profile::where('shift', 'Mañana')->get('user_id'); 
+            $profile = Profile::where('shift', 'Mañana')->get('user_id');
             $shift = 'Mañana';
         } else {
-            $profile = Profile::where('shift', 'Tarde')->get('user_id'); 
+            $profile = Profile::where('shift', 'Tarde')->get('user_id');
             $shift = 'Tarde';
         }
 
@@ -84,13 +86,15 @@ class AttendanceController extends Controller
                 $attendances = $attendances + 1;
             } else if (Attendance::where('user_id', $user->user_id)->where('delay', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $delays = $delays + 1;
+
             } else if (Attendance::where('user_id', $user->user_id)->where('absence', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $absence = $absence + 1;
+
             } else if (Attendance::where('user_id', $user->user_id)->where('justification', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $justifications = $justifications + 1;
             }
         }
-        
+
 
 
         $attendanceReport = new AttendanceReport();
@@ -109,41 +113,47 @@ class AttendanceController extends Controller
         //Agregamos una nueva notificacion (Validacion de Faltas)
         $userCounter = User::all()->count();
         $notifications = [];
-    
-        for($id = 1; $id <= $userCounter; $id++) {
-            $absence = Attendance::all()->where('user_id', $id)->where('absence', '1')->count();
-            if ($absence === 3) {
-                $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
+
+
+        for ($id = 1; $id <= $userCounter; $id++) {
+            $abs = Attendance::all()->where('user_id', $id)->where('absence', '1')->count();
+            if ($abs === 3) {
+                $notif = Notification::create(['user_id' => $id, 'data' => 'Este usuario tiene 3 faltas']);
                 array_push($notifications, $notif);
-            } else if ($absence === 2) {
-                $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 2 faltas']);
+            } else if ($abs === 2) {
+                $notif = Notification::create(['user_id' => $id, 'data' => 'Este usuario tiene 2 faltas']);
                 array_push($notifications, $notif);
             }
         }
-    
+
+
         #return response()->json(['notificaciones' => $notifications]);
         $total = 0;
 
         foreach ($profile as $user) {
-             if (Attendance::where('user_id', $user->user_id)->where('date', date('Y-m-d'))->count() >= 1) {
+            if (Attendance::where('user_id', $user->user_id)->where('date', date('Y-m-d'))->count() >= 1) {
                 $total = $total + 1;
-             }
+            }
         }
+
         $attendanceReport->total = $total;
         $attendanceReport->save();
         //Retornamos la respuesta en formato JSON
-        return response()->json(['attendance' => $attendances, 
-        'delays' => $delays, 
-        'absences' => $absence, 
-        'justifications' => $justifications,
-        'date' => date('Y-m-d'),
-        'total' => $total]);
+
+        return response()->json([
+            'attendance' => $attendances,
+            'delays' => $delays,
+            'absences' => $absence,
+            'justifications' => $justifications,
+            'date' => date('Y-m-d'),
+            'total' => $total
+        ]);
 
     }
 
 
     public function insertAttendance(Request $request)
-    {   
+    {
         // Recogemos el ID del usuario logeado
         $user_id = auth()->id();
 
@@ -189,8 +199,7 @@ class AttendanceController extends Controller
                 $uploadSuccess = $file->move($path, $filename);
                 $attendance->admission_image = $path . "/" . $filename;
 
-            } 
-            else {
+            } else {
                 // Retornar error si la imagen no existe
                 return response()->json(['message' => 'Se requiere una imagen']);
             }
@@ -241,11 +250,10 @@ class AttendanceController extends Controller
                     $uploadSuccess = $file->move($path, $filename);
                     $attendance->departure_image = $path . "/" . $filename;
 
-                } 
-                else {
+                } else {
                     // Retornar error si la imagen no existe
                     return response()->json(['message' => 'Se requiere una imagen']);
-                }   
+                }
 
                 // Guardamos los cambios en la base de datos
                 $attendance->save();
