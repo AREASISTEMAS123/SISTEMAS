@@ -15,7 +15,7 @@ export const Asistencia = () => {
   const [fotoCapturada, setFotoCapturada] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
@@ -122,7 +122,7 @@ export const Asistencia = () => {
   }, [horaActual]);
 
   const reiniciarConteo = () => {
-    setTimer(5);
+    setTimer(3);
     setCapturing(false);
   };
 
@@ -199,9 +199,9 @@ export const Asistencia = () => {
           .catch((error) => {
             console.log('Error taking photo:', error);
             setCapturing(false);
-            setTimer(5);
+            setTimer(3);
           });
-      }, 5000);
+      }, 3000);
     }
   };
 
