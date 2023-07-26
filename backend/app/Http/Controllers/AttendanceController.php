@@ -131,7 +131,12 @@ class AttendanceController extends Controller
         return response()->json(['notificaciones' => $notifications]);
 
         //Retornamos la respuesta en formato JSON
-        return response()->json(['attendance' => $attendances, 'delays' => $delays, 'absences' => $absence, 'total' => $total]);
+        return response()->json(['attendance' => $attendances, 
+        'delays' => $delays, 
+        'absences' => $absence, 
+        'justifications' => $justifications,
+        'date' => date('Y-m-d'),
+        'total' => $total]);
     }
 
 
@@ -238,7 +243,7 @@ class AttendanceController extends Controller
                 else {
                     // Retornar error si la imagen no existe
                     return response()->json(['message' => 'Se requiere una imagen']);
-                }
+                }   
 
                 // Guardamos los cambios en la base de datos
                 $attendance->save();
