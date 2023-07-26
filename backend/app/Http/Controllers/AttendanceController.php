@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\AttendanceReport;
 use App\Models\Profile;
 use App\Models\User;
 
@@ -59,11 +60,12 @@ class AttendanceController extends Controller
         $attendances = 0;
         $delays = 0;
         $absence = 0;
+        $justifications = 0;
                 
         // Recogemos el ID del usuario logeado
         $user_id = auth()->id();
 
-        $admin = Profile::where('user_id', $user_id)->get('shift'); //Admin = Mañana
+        $admin = Profile::where('user_id', $user_id)->get('shift'); 
 
         if ($admin[0]->shift == 'Mañana') {
             $profile = Profile::where('shift', 'Mañana')->get('user_id'); 
@@ -73,13 +75,15 @@ class AttendanceController extends Controller
             $shift = 'Tarde';
         }
 
-        foreach ($profile as $user) { //USUARIOS DEL TURNO MAÑANA (1)
+        foreach ($profile as $user) {
             if (Attendance::where('user_id', $user->user_id)->where('attendance', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $attendances = $attendances + 1;
             } else if (Attendance::where('user_id', $user->user_id)->where('delay', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $delays = $delays + 1;
             } else if (Attendance::where('user_id', $user->user_id)->where('absence', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $absence = $absence + 1;
+            } else if (Attendance::where('user_id', $user->user_id)->where('justification', 1)->where('date', date('Y-m-d'))->count() == 1) {
+                $justifications = $justifications + 1;
             }
         }
         
@@ -90,6 +94,18 @@ class AttendanceController extends Controller
                 $total = $total + 1;
              }
         }
+
+        $attendanceReport = new AttendanceReport();
+
+        $attendanceReport->attendances = $attendances;
+        $attendanceReport->delays = $delays;
+        $attendanceReport->absences = $absence;
+        $attendanceReport->total = $total;
+        $attendanceReport->shift = $shift;
+        $attendanceReport->justifications = $justifications;
+        $attendanceReport->date = date('Y-m-d');
+
+        $attendanceReport->save();
 
         return response()->json(['attendance' => $attendances, 'delays' => $delays, 'absences' => $absence, 'total' => $total]);
     }
@@ -143,10 +159,10 @@ class AttendanceController extends Controller
                 $attendance->admission_image = $path . "/" . $filename;
 
             } 
-            else {
+            #else {
                 // Retornar error si la imagen no existe
-                return response()->json(['message' => 'Se requiere una imagen']);
-            }
+            #    return response()->json(['message' => 'Se requiere una imagen']);
+            #}
 
             // Guardamos los cambios en la base de datos
             $attendance->save();
@@ -195,10 +211,10 @@ class AttendanceController extends Controller
                     $attendance->departure_image = $path . "/" . $filename;
 
                 } 
-                else {
+                #else {
                     // Retornar error si la imagen no existe
-                    return response()->json(['message' => 'Se requiere una imagen']);
-                }
+                #    return response()->json(['message' => 'Se requiere una imagen']);
+               #}
 
                 // Guardamos los cambios en la base de datos
                 $attendance->save();
