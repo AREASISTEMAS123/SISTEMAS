@@ -284,8 +284,7 @@ public function updateUnavailableDays(Request $request)
     $user->update([
         'unavailable_days' => $request->input('unavailable_days', []),
     ]);
-
-    // Puedes agregar una notificación o un mensaje de éxito aquí si lo deseas.
+//Se puede agregar una notificación acá
 
     return redirect()->route('unavailable-days.edit');
 }
