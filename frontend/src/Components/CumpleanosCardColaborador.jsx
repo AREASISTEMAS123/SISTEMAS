@@ -20,6 +20,30 @@ export const CumpleanosCardColaborador = ({ data }) => {
 		return `${formattedDate}, ${currentYear}`;
 	};
 
+	// const counterDate = (dateString) => {
+	// 	const birthday = new Date(dateString);
+	// 	const today = new Date();
+	// 	today.setHours(0, 0, 0, 0); // Establecer horas, minutos, segundos y milisegundos a cero
+
+	// 	const currentYear = today.getFullYear();
+	// 	const birthdayThisYear = new Date(currentYear, birthday.getMonth(), birthday.getDate());
+
+	// 	const timeDiff = birthdayThisYear.getTime() - today.getTime();
+	// 	const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+	// 	if (daysDiff === 0) {
+	// 		return "Hoy es el cumpleaños";
+	// 	} else if (daysDiff === 1) {
+	// 		return "Mañana es el cumpleaños";
+	// 	} else if (daysDiff < 0) {
+	// 		return `Ya pasaron ${Math.abs(daysDiff)} día(s)`;
+	// 	} else {
+	// 		return `Faltan ${daysDiff} día(s)`;
+	// 	}
+	// };
+
+
+
 	useEffect(() => {
 		const currentMonth = new Date().getMonth();
 		const filteredData = data.filter(user => {
@@ -40,6 +64,12 @@ export const CumpleanosCardColaborador = ({ data }) => {
 							<p className="text-xl font-medium text-white md:text-2xl ">{item.name}</p>
 						</div>
 						<div className="space-y-2">
+							{/* <div className="flex items-center flex-col md:flex-row">
+								<p className="text-lg md:text-xl font-semibold">Cumpleaños:</p>
+								<p className="text-base md:text-lg font-light md:ml-5">{
+									counterDate(item.profile.birthday)
+								}</p>
+							</div> */}
 							<div className="flex items-center flex-col md:flex-row">
 								<p className="text-lg md:text-xl font-semibold">Cumpleaños:</p>
 								<p className="text-base md:text-lg font-light md:ml-5">{

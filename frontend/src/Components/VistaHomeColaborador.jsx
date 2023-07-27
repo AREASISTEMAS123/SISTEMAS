@@ -5,17 +5,48 @@ import { CumpleanosCardColaborador } from "./CumpleanosCardColaborador";
 
 export const VistaHomeColaborador = () => {  
   const Token = localStorage.getItem("token");
-  const nombre = localStorage.getItem('name');
-  const firstName = nombre.split(" ")[0];
+  const userId = localStorage.getItem("iduser");
   const [birthday, setBirthday] = useState([])
+  const [userData, setUserData] = useState([]);
   
 
 
   useEffect(() => {
-    obtenerAsistencia();
+    obtenerDataUser();
+    obtenerCumpleaños();
   }, []);
 
-  const obtenerAsistencia = async () => {
+  //Obtener datos de Usuario
+  const obtenerDataUser = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/users/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Token}`,
+          },
+        });
+      const data = await response.json();
+      if (response.ok) {
+        setUserData(data);
+      } else {
+        console.error('Error al obtener los usuarios:', data.error);
+      }
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+    }
+  };
+
+  // Obtener Nombre
+  let name = '';
+  if (userData.usuario && Array.isArray(userData.usuario) && userData.usuario.length > 0) {
+    name = userData.usuario[0].user[0].name;
+  }
+
+
+
+  //Obtener Cumpleaños
+  const obtenerCumpleaños = async () => {
     try {
       const response = await fetch(import.meta.env.VITE_API_URL + `/birthday/details`,
         {
@@ -36,20 +67,21 @@ export const VistaHomeColaborador = () => {
   };
 
   const cardAsistencia = [
-    { title: "Asistencia", item: "20/100" },
-    { title: "Tardanzas", item: 2 },
-    { title: "Faltas", item: 1 },
+    { title: "Asistencia", item: userData.Asistencia },
+    { title: "Tardanzas", item: userData.Tardanzas },
+    { title: "Faltas", item: userData.Faltas },
+    { title: "Justificaciones", item: userData.Justificaciones },
   ];
 
   
 
   return (
     <>
-      <div className="h-screen bg-cv-secondary">
+      <div className="h-full bg-cv-secondary">
         <section className="w-full bg-cv-secondary space-y-4">
           <div className="text-center my-4">
             <h2 className="text-2xl md:text-5xl text-white font-bold uppercase">
-              Mucho Gusto {firstName}
+              Mucho Gusto {name}
             </h2>
           </div>
           <div className="space-y-4">
@@ -57,7 +89,7 @@ export const VistaHomeColaborador = () => {
               <h3 className="text-xl mr-2">Resumen de Asistencia</h3>
               <DescriptionIcon />
             </div>
-            <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 place-items-center">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 place-items-center">
               {cardAsistencia.map((card, index) => (
                 <div
                   key={index}
@@ -75,7 +107,7 @@ export const VistaHomeColaborador = () => {
           </div>
           <div className="space-y-4">
             <div className="flex items-center text-white">
-              <h3 className="text-xl mr-2">Proximos Cumpleaños</h3>
+              <h3 className="text-xl mr-2">Próximos Cumpleaños</h3>
               <CakeIcon />
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 place-items-center">

@@ -207,7 +207,7 @@ export const VistaAdminColaborador = () => {
 
   return (
     <>
-      <div className="h-screen">
+      <div className="h-full">
         <section className="w-full">
           <div className="text-center my-4">
             <h2 className="text-2xl md:text-5xl text-white font-bold uppercase">

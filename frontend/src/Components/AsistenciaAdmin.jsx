@@ -27,6 +27,7 @@ export const AsistenciaAdmin = () => {
 
   const Token = localStorage.getItem("token");
   const [attendance, setAttendance] = useState([]);
+  const [attendanceReport, setAttendanceReport] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [isInputReady, setIsInputReady] = useState(false);
 
@@ -36,14 +37,24 @@ export const AsistenciaAdmin = () => {
   //Filters
   const [filterDate, setFilterDate] = useState(selectedDate || '')
   const [filterEmployee, setFilterEmployee] = useState('')
-  const [filterDepartment, setfilterDepartment] = useState('')
+  const [filterDepartment, setFilterDepartment] = useState('')
   const [filterArea, setFilterArea] = useState('')
   const [filterShift, setFilterShift] = useState('')
+
+  //Porcentaje de Asistencias
+  const [percentageAttendance, setPercentageAttendance] = useState(0)
+  const [percentageDelay, setPercentageDelay] = useState(0)
+  const [percentageAbsences, setPercentageAbsences] = useState(0)
+  const [percentageJustifications, setPercentageJustifications] = useState(0)
 
 
   useEffect(() => {
     const currentDate = moment().format('YYYY-MM-DD');
     setSelectedDate(currentDate);
+  }, []);
+
+  useEffect(() => {
+    obtenerAsistencia();
   }, []);
 
   useEffect(() => {
@@ -62,7 +73,6 @@ export const AsistenciaAdmin = () => {
     const formattedDate = moment(date).locale('es').format('LL');
     return formattedDate;
   };
-  console.log(selectedDate)
 
   const openImageModal = () => {
     setShowImageModal(true)
@@ -77,7 +87,7 @@ export const AsistenciaAdmin = () => {
   }
 
   const clearFilterDepartment = () => {
-    setfilterDepartment("");
+    setFilterDepartment("");
   }
 
   const clearFilterArea = () => {
@@ -88,10 +98,63 @@ export const AsistenciaAdmin = () => {
     setFilterShift("");
   };
 
+  const reporteAsistencia = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/attendance/report`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Token}`,
+          },
+        });
+      const data = await response.json();
+      if (response.ok) {
+        const newAttendanceReport = data
+        setAttendanceReport(newAttendanceReport);
+        localStorage.setItem('attendanceReport', JSON.stringify(newAttendanceReport));
+      } else {
+        console.error('Error al obtener los usuarios:', data.error);
+      }
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+    }
+  };
+
+  
+  const handleClick = () => {
+    reporteAsistencia();
+  };
+
+  useEffect(() => {
+    const savedAttendanceReport = localStorage.getItem('attendanceReport');
+    if (savedAttendanceReport) {
+      setAttendanceReport(JSON.parse(savedAttendanceReport));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (attendanceReport.attendance && attendanceReport.total) {
+      setPercentageAttendance((attendanceReport.attendance / attendanceReport.total) * 100);
+    }
+
+    if (attendanceReport.delays && attendanceReport.total) {
+      setPercentageDelay((attendanceReport.delays / attendanceReport.total) * 100);
+    }
+
+    if (attendanceReport.absences && attendanceReport.total) {
+      setPercentageAbsences((attendanceReport.absences / attendanceReport.total) * 100);
+    }
+
+    if (attendanceReport.justifications && attendanceReport.total) {
+      setPercentageJustifications((attendanceReport.justifications / attendanceReport.total) * 100);
+    }
+  }, [attendanceReport]);
+
   const items = [
-    { title: 'Ingresos', progress: 75, color: '#24FF00' },
-    { title: 'Tardanzas', progress: 20, color: '#FAFF00' },
-    { title: 'Faltas', progress: 5, color: '#FF0000' },
+    { title: 'Asistencias', progress: percentageAttendance, color: '#24FF00' },
+    { title: 'Tardanzas', progress: percentageDelay, color: '#FAFF00' },
+    { title: 'Faltas', progress: percentageAbsences, color: '#FF0000' },
+    { title: 'Justificaciones', progress: percentageJustifications, color: '#57F3FF' },
   ];
 
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
@@ -103,9 +166,6 @@ export const AsistenciaAdmin = () => {
 
 
   //Listar Usuarios
-  useEffect(() => {
-    obtenerAsistencia();
-  }, []);
 
   const obtenerAsistencia = async () => {
     try {
@@ -127,12 +187,9 @@ export const AsistenciaAdmin = () => {
     }
   };
 
-  const handleFilter = (value) => {
-    setFilterEmployee(value);
-  };
 
   return (
-    <div className='h-screen bg-cv-secondary'>
+    <div className='h-full bg-cv-secondary'>
       <div className="max-w-screen-lg mx-auto space-y-3">
         <div className="flex flex-col items-center justify-center space-y-2">
           <div className="w-full mb-3">
@@ -216,7 +273,7 @@ export const AsistenciaAdmin = () => {
                 <CloseIcon />
               </button>
             </div>
-            <button onClick={() => handleFilter(filterEmployee)} className='w-full sm:w-40 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold'>Buscar</button>
+            <button onClick={handleClick} className='w-full sm:w-64 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap'>Generar Reporte</button>
           </div>
 
           {isInputReady && (
@@ -231,7 +288,7 @@ export const AsistenciaAdmin = () => {
                 <div className="flex items-center justify-between w-full rounded-md bg-slate-300">
                   <select
                     id="filterDepartment"
-                    value={filterDepartment} onChange={(e) => setfilterDepartment(e.target.value)}
+                    value={filterDepartment} onChange={(e) => setFilterDepartment(e.target.value)}
                     className="w-full p-2 text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-md placeholder-cv-primary font-semibold"
                   >
                     <option>Selecciona</option>
@@ -309,20 +366,64 @@ export const AsistenciaAdmin = () => {
                       Fotografías de asistencia
                     </h3>
                   </div>
-                  <div className="relative p-3 md:p-6 flex-auto">
-                    {imageUrl && (
-                      <div className='flex flex-col md:flex-row items-center justify-between space-y-2 md:space-x-2 md:space-y-0'>
-                        <div className='w-full flex flex-col items-center justify-center space-y-2 text-center'>
-                          <h4 className='font-semibold text-lg'>Fotografía de Entrada</h4>
-                          <img className='rounded-lg w-4/5 md:w-full border' src={imageUrl.admission_image ? import.meta.env.VITE_BACKEND_SERVER_URL + '/' + imageUrl.admission_image : defaultImage} alt="Fotografía de entrada" />
-                        </div>
-                        <div className='w-full flex flex-col items-center justify-center space-y-2 text-center'>
-                          <h4 className='font-semibold text-lg'>Fotografía de Salida</h4>
-                          <img className='rounded-lg w-4/5 md:w-full border' src={imageUrl.departure_image ? import.meta.env.VITE_BACKEND_SERVER_URL + '/' + imageUrl.departure_image : defaultImage} alt="Fotografía de salida" />
+                  {imageUrl && (
+                    <div>
+                      <div className='text-center text-cv-primary uppercase'>
+                        {imageUrl.attendance === 1 && (
+                          <p className='space-x-2 text-lg font-bold bg-[#24FF00] p-2'>
+                            <span>{imageUrl.user.name}</span>
+                            <span>Asistió</span>
+                          </p>
+                        )}
+                        {imageUrl.delay === 1 && imageUrl.justification === 1 ? (
+                          <p className='space-x-2 text-lg font-bold bg-[#57F3FF] p-2'>
+                            <span>{imageUrl.user.name}</span>
+                            <span>Justifico por Tardanza</span>
+                          </p>
+                        ) : imageUrl.delay === 1 && (
+                            <p className='space-x-2 text-lg font-bold bg-[#FAFF00] p-2'>
+                            <span>{imageUrl.user.name}</span>
+                            <span>Ingreso Tarde</span>
+                          </p>
+                        )}
+                        {imageUrl.absence === 1 && imageUrl.justification === 1 ? (
+                          <p className='space-x-2 text-lg font-bold bg-[#57F3FF] p-2'>
+                            <span>{imageUrl.user.name}</span>
+                            <span>Justifico por Falta</span>
+                          </p>
+                        ) : imageUrl.absence === 1 && (
+                            <p className='space-x-2 text-lg font-bold text-white bg-[#FF0000] p-2'>
+                            <span>{imageUrl.user.name}</span>
+                            <span>Falto</span>
+                          </p>
+                        )}
+                      </div>
+                      <div className="relative p-3 md:p-6 flex-auto">
+                        <div className='flex flex-col md:flex-row items-center justify-between space-y-2 md:space-x-2 md:space-y-0'>
+                          <div className='w-full flex flex-col items-center justify-center space-y-2 text-center'>
+                            <h4 className='font-semibold text-lg'>Fotografía de Entrada</h4>
+                            <img className='rounded-lg w-4/5 md:w-full border' src={imageUrl.admission_image ? import.meta.env.VITE_BACKEND_SERVER_URL + '/' + imageUrl.admission_image : defaultImage} alt="Fotografía de entrada" />
+                            {imageUrl.attendance === 1 || imageUrl.delay === 1 && (
+                              <p className='text-lg font-semibold text-cv-primary space-x-3'>
+                                <span>Hora de Entrada:</span>
+                                <span>{imageUrl.admission_time ? imageUrl.admission_time : 'No registrada'}</span>
+                              </p>
+                            )}
+                          </div>
+                          <div className='w-full flex flex-col items-center justify-center space-y-2 text-center'>
+                            <h4 className='font-semibold text-lg'>Fotografía de Salida</h4>
+                            <img className='rounded-lg w-4/5 md:w-full border' src={imageUrl.departure_image ? import.meta.env.VITE_BACKEND_SERVER_URL + '/' + imageUrl.departure_image : defaultImage} alt="Fotografía de salida" />
+                            {imageUrl.attendance === 1 || imageUrl.delay === 1 && (
+                              <p className='text-lg font-semibold text-cv-primary space-x-3'>
+                                <span>Hora de Salida:</span>
+                                <span>{imageUrl.departure_time ? imageUrl.departure_time : 'No registrada'}</span>
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
                     <button
                       className="py-2 px-4 rounded-md text-white bg-cv-primary flex items-center justify-center text-xl uppercase active:scale-95 ease-in-out duration-300"
@@ -336,7 +437,7 @@ export const AsistenciaAdmin = () => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </div>
         )}
-        
+
       </div>
     </div>
   );
