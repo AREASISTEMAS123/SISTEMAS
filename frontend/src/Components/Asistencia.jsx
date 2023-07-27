@@ -232,12 +232,9 @@ export const Asistencia = () => {
   }, [videoEnabled]);
 
   return (
-    <div
-      className={`registro-Entrada  h-screen flex  ${isMobile ? "flex-col" : "flex  justify-center"
-        }`}
-    >
-      <div className={`seccion-izquierda w-full ${isMobile ? "mb-4" : "mr-4"}`}>
-        <div className="w-full h-4/6 rounded-xl bg-slate-950 relative ">
+    <div className={`registro-Entrada min-h-screen flex ${isMobile ? 'flex-col' : 'justify-center'}`}>
+      <div className={`seccion-izquierda w-full ${isMobile ? 'mb-4' : ''}`}>
+        <div className={`w-full rounded-xl bg-slate-950 relative ${isMobile ? 'h-96' : 'h-4/6'}`}>
           <div className="absolute top-0 left-0 w-full h-full">
             {fotoUsuario && (
               <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" />
