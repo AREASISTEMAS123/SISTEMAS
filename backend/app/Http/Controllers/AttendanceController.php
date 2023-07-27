@@ -63,8 +63,18 @@ class AttendanceController extends Controller
 
     public function setNonWorkingDays()
     {
-        $users = User::all('id');   
-
+        // Obten el ID del usuario actualmente autenticado
+        $user_id = auth()->id();
+    
+        // Obten el turno del administrador actual
+        $adminShift = Profile::where('user_id', $user_id)->value('shift');
+    
+        // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
+        $users = User::where('status', 1)
+                    ->whereHas('profile', function ($query) use ($adminShift) {
+                        $query->where('shift', $adminShift);
+                    })->get();
+    
         // Obtén la fecha de mañana
         $tomorrow = date('Y-m-d', strtotime('tomorrow'));
     
@@ -72,9 +82,6 @@ class AttendanceController extends Controller
         $isNonWorkingDay = Holiday::where('date', $tomorrow)->exists();
     
         foreach ($users as $user) {
-            if ($user->status === 0) {
-                continue;
-            }
             if (Attendance::where('user_id', $user->id)->whereDate('date', $tomorrow)->exists()) {
                 continue;
             }
@@ -83,8 +90,8 @@ class AttendanceController extends Controller
             $attendance->date = $tomorrow;
     
             if ($isNonWorkingDay) {
-                $attendance->absences = 0;
-                $attendance->non_working_day = 1;
+                $attendance->absence = 0;
+                $attendance->non_working_days = 1;
             } else {
                 continue;
             }
@@ -92,6 +99,7 @@ class AttendanceController extends Controller
             $attendance->save();
         }
     }
+    
 
     public function generateReport()
     {
@@ -173,12 +181,11 @@ class AttendanceController extends Controller
 
         $attendanceReport->total = $total;
         $attendanceReport->save();
-<<<<<<< Updated upstream
-=======
 
-        // $this->setNonWorkingDays();
+
+        $this->setNonWorkingDays();
         //Retornamos la respuesta en formato JSON
->>>>>>> Stashed changes
+
 
         //Retornamos la respuesta en formato JSON
         return response()->json([
