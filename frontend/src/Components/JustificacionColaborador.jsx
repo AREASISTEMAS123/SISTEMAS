@@ -168,8 +168,9 @@ export const JustificacionColaborador = () => {
             setReason(textArea);
         }
     }
+
     return (
-        <div className="p-3 h-screen">
+        <div className="min-h-screen">
             <h1 className="my-2 uppercase font-semibold text-4xl text-white">Justificaciones</h1>
             <div className="flex flex-wrap justify-center my-8">
                 <button
@@ -302,17 +303,17 @@ export const JustificacionColaborador = () => {
                                                 <span className="uppercase"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
                                             </p>
                                         </li>
-                                        <li className="text-sm font-medium ">
+                                        <li className="text-sm font-medium">
                                             <label className="mr-2">Motivo:</label>
                                             <div className="whitespace-normal">
                                                 <textarea
-                                                    className="bg-transparent text-sm align-top w-full h-full "
+                                                    className="bg-transparent text-sm align-top w-full h-auto resize-none"
                                                     disabled
                                                     value={card.reason}
-                                                    rows={Math.max(2, Math.ceil(card.reason.length / 50))}
                                                 ></textarea>
                                             </div>
                                         </li>
+
                                     </ul>
                                 </div>
 

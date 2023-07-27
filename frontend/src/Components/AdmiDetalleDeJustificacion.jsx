@@ -92,6 +92,7 @@ export const AdmiDetalleDeJustificacion = () => {
             });
 
         setShowModalAceptado(false);
+        navigate(`/justificaciones`);
     };
 
 
@@ -133,6 +134,7 @@ export const AdmiDetalleDeJustificacion = () => {
                 setMessage(error.message);
             });
         setShowModalRechazado(false);
+        navigate(`/justificaciones`);
     };
 
     const definiendo_rol = (role_id) => {
@@ -156,71 +158,68 @@ export const AdmiDetalleDeJustificacion = () => {
 
                 {faltasList.map((item) => (
                     <div key={item.user[0].id}>
-                        <form className=" md:w-full lg:w-2/3 xl:w-1/2 mx-auto" >
+                        <div className=" md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto" >
+                            
                             <h1 className=' text-white mb-10 text-xl md:w-full lg:w-2/3 xl:w-1/2 mx-auto font-semibold'> DATOS DEL {definiendo_rol(item.user[0].role[0].role_id).toUpperCase()}</h1>
-                            <div className="flex  flex-wrap w-full">
-                                <div className='  flex flex-col'>
-                                    <label className="font-semibold	 mr-2 text-gray-300">Nombres </label>
-                                    <input
-                                        type="text"
-                                        className=" text-black rounded-lg text-center bg-input my-2 "
-                                        value={item.user[0].name.toUpperCase()}
-                                        disabled
-                                    />
-                                </div>
-                                <div className='ml-auto   flex flex-col'>
-                                    <label className="font-semibold	 mr-2 text-gray-300">Apellidos </label>
-                                    <input
-                                        type="text"
-                                        className=" text-black rounded-lg text-center bg-input my-2 "
-                                        value={item.user[0].surname.toUpperCase()}
-                                        disabled
-                                    />
+
+                            <div className="flex flex-col ">
+                                <label className="font-semibold text-white">
+                                    NOMBRE COMPLETO
+                                </label>
+                                <div className="text-black font-semibold bg-input rounded-lg text-center my-2">
+                                    <div>
+                                        <div>{item.user[0].name} {item.user[0].surname}</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="flex  flex-wrap w-full">
+
+
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-10'>
                                 <div className=' flex flex-col'>
-                                    <label className='font-semibold text-gray-300'>DNI </label>
+                                    <label className='font-semibold text-white'>DNI </label>
                                     <input
                                         disabled
-                                        className=' text-black bg-input rounded-lg text-center my-2'
+                                        className=' text-black font-semibold bg-input rounded-lg text-center my-2'
                                         value={item.user[0].username}
                                     />
                                 </div>
-                                <div className='ml-auto   flex flex-col'>
-                                    <label className="font-semibold	 mr-2 text-gray-300">Perfil </label>
+
+                                <div className=' flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-white">Perfil </label>
                                     <input
-                                        className='text-black bg-input rounded-lg text-center my-2'
+                                        className='text-black font-semibold bg-input rounded-lg text-center my-2'
                                         value={item.user[0].profile.profile_name}
                                         disabled
                                     />
                                 </div>
-
                             </div>
 
-
-                            <div className="flex  flex-wrap w-full">
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-10'>
                                 <div className=' flex flex-col'>
-                                    <label className='font-semibold mr-2 text-gray-300'>Razón de justificación </label>
+                                    <label className='font-semibold mr-2 text-white'>Razón de justificación </label>
                                     <input
                                         disabled
-                                        className='text-black bg-input rounded-lg text-center my-2'
+                                        className=' bg-input font-semibold rounded-lg text-center my-2'
                                         value={`${item.justification_type === 0 ? "Falta".toUpperCase() : "Tardanza".toUpperCase()}`}
                                     />
                                 </div>
-                                <div className='ml-auto   flex flex-col'>
-                                    <label className="font-semibold	 mr-2 text-gray-300">Fecha </label>
+
+                                <div className=' flex flex-col'>
+                                    <label className="font-semibold	 mr-2 text-white">Fecha </label>
                                     <input
-                                        className='text-black bg-input rounded-lg text-center my-2'
+                                        className=' bg-input  font-semibold rounded-lg text-center my-2'
                                         value={moment(item.justification_date).format("DD/MM/YYYY")}
                                         disabled
                                     />
                                 </div>
-
                             </div>
+
+
+
+                            
                             <div className=' ml-auto flex flex-col'>
-                                <label className='font-semibold  text-gray-300' >Motivo </label>
-                                <textarea className='text-black w-full  bg-input rounded-lg overflow-hidden text-center my-2 p-2 '
+                                <label className='font-semibold  text-white' >Motivo </label>
+                                <textarea className=' w-full font-semibold  bg-input rounded-lg overflow-hidden text-center my-2 p-2 '
                                     disabled
                                     value={item.reason}
                                     rows={Math.max(2, Math.ceil(item.reason.length / 50))}
@@ -231,7 +230,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
 
                             <div>
-                                <label className='font-semibold text-gray-300'>Evidencia:</label>
+                                <label className='font-semibold text-white'>Evidencia:</label>
                             </div>
 
                             <div className='flex items-center justify-center'>
@@ -265,7 +264,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
 
                             </div>
-                        </form>
+                        </div>
                     </div>
                 ))}
 

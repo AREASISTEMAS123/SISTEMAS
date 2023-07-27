@@ -1,22 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CakeIcon from "@mui/icons-material/Cake";
 import { CumpleanosCardColaborador } from "./CumpleanosCardColaborador";
 
-export const VistaHomeColaborador = () => {
-  const [cardCounter, setCardCounter] = useState(3);
-  //const incrementCounter = () => {
-  //	setCardCounter(cardCounter + 1);
-  //};
+export const VistaHomeColaborador = () => {  
+  const Token = localStorage.getItem("token");
+  const nombre = localStorage.getItem('name');
+  const firstName = nombre.split(" ")[0];
+  const [birthday, setBirthday] = useState([])
+  
 
-  const renderCards = () => {
-    const cards = [];
 
-    for (let i = 0; i < cardCounter; i++) {
-      cards.push(<CumpleanosCardColaborador key={i} />);
+  useEffect(() => {
+    obtenerAsistencia();
+  }, []);
+
+  const obtenerAsistencia = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/birthday/details`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Token}`,
+          },
+        });
+      const data = await response.json();
+      if (response.ok) {
+        setBirthday(data.users);
+      } else {
+        console.error('Error al obtener los usuarios:', data.error);
+      }
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
     }
-
-    return cards;
   };
 
   const cardAsistencia = [
@@ -25,12 +41,11 @@ export const VistaHomeColaborador = () => {
     { title: "Faltas", item: 1 },
   ];
 
-  const nombre = localStorage.getItem('name');
-  const firstName = nombre.split(" ")[0];
+  
 
   return (
     <>
-      <div className="h-full">
+      <div className="h-screen bg-cv-secondary">
         <section className="w-full bg-cv-secondary space-y-4">
           <div className="text-center my-4">
             <h2 className="text-2xl md:text-5xl text-white font-bold uppercase">
@@ -64,7 +79,7 @@ export const VistaHomeColaborador = () => {
               <CakeIcon />
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 place-items-center">
-              {renderCards()}
+              <CumpleanosCardColaborador data={birthday}/>
             </div>
           </div>
         </section>
