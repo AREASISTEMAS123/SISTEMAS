@@ -79,23 +79,19 @@ class AttendanceController extends Controller
             $shift = 'Tarde';
         }
 
-
-
         foreach ($profile as $user) {
             if (Attendance::where('user_id', $user->user_id)->where('attendance', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $attendances = $attendances + 1;
-            } else if (Attendance::where('user_id', $user->user_id)->where('delay', 1)->where('date', date('Y-m-d'))->count() == 1) {
+            } else if (Attendance::where('user_id', $user->user_id)->where('justification', 0)->where('delay', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $delays = $delays + 1;
 
-            } else if (Attendance::where('user_id', $user->user_id)->where('absence', 1)->where('date', date('Y-m-d'))->count() == 1) {
+            } else if (Attendance::where('user_id', $user->user_id)->where('justification', 0)->where('absence', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $absence = $absence + 1;
 
             } else if (Attendance::where('user_id', $user->user_id)->where('justification', 1)->where('date', date('Y-m-d'))->count() == 1) {
                 $justifications = $justifications + 1;
             }
         }
-
-
 
         $attendanceReport = new AttendanceReport();
 
@@ -138,8 +134,8 @@ class AttendanceController extends Controller
 
         $attendanceReport->total = $total;
         $attendanceReport->save();
-        //Retornamos la respuesta en formato JSON
 
+        //Retornamos la respuesta en formato JSON
         return response()->json([
             'attendance' => $attendances,
             'delays' => $delays,
@@ -270,22 +266,22 @@ class AttendanceController extends Controller
 
     
 
-    public function editUnavailableDays()
-{
-    $user = Auth::user();
-    $unavailableDays = $user->unavailable_days ?? [];
+    // public function editUnavailableDays()
+    // {
+    //     $user = Auth::user();
+    //     $unavailableDays = $user->unavailable_days ?? [];
 
-    return view('unavailable-days.edit', compact('unavailableDays'));
-}
+    //     return view('unavailable-days.edit', compact('unavailableDays'));
+    // }
 
-public function updateUnavailableDays(Request $request)
-{
-    $user = Auth::user();
-    $user->update([
-        'unavailable_days' => $request->input('unavailable_days', []),
-    ]);
-//Se puede agregar una notificación acá
+    // public function updateUnavailableDays(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $user->update([
+    //         'unavailable_days' => $request->input('unavailable_days', []),
+    //     ]);
+    //     //Se puede agregar una notificación acá
 
-    return redirect()->route('unavailable-days.edit');
-}
+    //     return redirect()->route('unavailable-days.edit');
+    // }
 }
