@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceReport;
+use App\Models\Holiday;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\Notification;
@@ -34,14 +35,23 @@ class AttendanceController extends Controller
 
     public function setDefaultValues()
     {
-
-        $users = User::where('status', 1)->get();
-
+        // Obten el ID del usuario actualmente autenticado
+        $user_id = auth()->id();
+    
+        // Obten el turno del administrador actual
+        $adminShift = Profile::where('user_id', $user_id)->value('shift');
+    
+        // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
+        $users = User::where('status', 1)
+                    ->whereHas('profile', function ($query) use ($adminShift) {
+                        $query->where('shift', $adminShift);
+                    })->get();
+    
+        // Recorre cada usuario
         foreach ($users as $user) {
-
-            if (Attendance::where('user_id', $user->id)->whereDate('date', date('Y-m-d'))->exists()) {
-                continue;
-            } else {
+            // Verifica si ya existe una entrada de asistencia para este usuario para la fecha actual
+            if (!Attendance::where('user_id', $user->id)->whereDate('date', date('Y-m-d'))->exists()) {
+                // Si no existe una entrada de asistencia, crea una nueva marcada como ausencia
                 $attendance = new Attendance();
                 $attendance->user_id = $user->id;
                 $attendance->date = date('Y-m-d');
@@ -49,9 +59,38 @@ class AttendanceController extends Controller
                 $attendance->save();
             }
         }
+    }
 
+    public function setNonWorkingDays()
+    {
+        $users = User::all('id');   
 
-        return response()->json(['message' => 'Se han actualizado los valores por defecto']);
+        // Obtén la fecha de mañana
+        $tomorrow = date('Y-m-d', strtotime('tomorrow'));
+    
+        // Verificar si mañana es un día no laborable
+        $isNonWorkingDay = Holiday::where('date', $tomorrow)->exists();
+    
+        foreach ($users as $user) {
+            if ($user->status === 0) {
+                continue;
+            }
+            if (Attendance::where('user_id', $user->id)->whereDate('date', $tomorrow)->exists()) {
+                continue;
+            }
+            $attendance = new Attendance();
+            $attendance->user_id = $user->id;
+            $attendance->date = $tomorrow;
+    
+            if ($isNonWorkingDay) {
+                $attendance->absences = 0;
+                $attendance->non_working_day = 1;
+            } else {
+                continue;
+            }
+    
+            $attendance->save();
+        }
     }
 
     public function generateReport()
@@ -134,6 +173,12 @@ class AttendanceController extends Controller
 
         $attendanceReport->total = $total;
         $attendanceReport->save();
+<<<<<<< Updated upstream
+=======
+
+        // $this->setNonWorkingDays();
+        //Retornamos la respuesta en formato JSON
+>>>>>>> Stashed changes
 
         //Retornamos la respuesta en formato JSON
         return response()->json([
