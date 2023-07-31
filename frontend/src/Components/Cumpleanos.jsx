@@ -9,7 +9,7 @@ export const Cumpleanos = () => {
 
     useEffect(() => {
         // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
-        fetch('http://127.0.0.1:8000/api/birthday', {
+        fetch(import.meta.env.VITE_API_URL + '/birthday', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
                 // Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`

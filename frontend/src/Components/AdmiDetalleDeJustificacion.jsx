@@ -111,7 +111,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
         console.log(reason_decline); // Agregar esta línea para imprimir el motivo en la consola
 
-        fetch(`http://127.0.0.1:8000/api/users/justifications/${id}/decline/${userid}`, {
+        fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/decline/${userid}`, {
             method: 'POST',
             headers: {
                 Authorization: token,

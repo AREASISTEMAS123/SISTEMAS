@@ -34,7 +34,7 @@ export const RestablecerContraseña = () => {
             setIsLoading(true);
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/password/reset', {
+                const response = await fetch(import.meta.env.VITE_API_URL + '/password/reset', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export const RestablecerContraseña = () => {
                     return;
                 }
 
-                const response = await fetch(`http://127.0.0.1:8000/api/password/find/${token}`);
+                const response = await fetch(import.meta.env.VITE_API_URL +`/password/find/${token}`);
                 const data = await response.json();
 
                 if (response.ok) {

@@ -15,7 +15,7 @@ export const CumpleanosDetalle = () => {
     useEffect(() => {
         const fetchBirthdayUser = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/birthday/details', {
+                const response = await fetch(import.meta.env.VITE_API_URL + '/birthday/details', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }

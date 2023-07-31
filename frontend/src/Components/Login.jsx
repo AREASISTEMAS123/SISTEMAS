@@ -51,7 +51,7 @@ export const Login = () => {
     const loginSubmit = async () => {
         if (username !== "" && password !== "") {
             if (captchaCompleted) {
-                var url = 'http://127.0.0.1:8000/api/login';
+                var url = import.meta.env.VITE_API_URL + '/login';
                 var headers = {
                     "Accept": "application/json",
                     "Content-type": "application/json"

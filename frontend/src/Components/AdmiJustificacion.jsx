@@ -33,7 +33,7 @@ export const AdmiJustificacion = () => {
         try {
             // Realiza la llamada a tu API para obtener los datos de la base de datos
             const token = `Bearer ${localStorage.getItem('token')}`;
-            const response = await fetch('http://127.0.0.1:8000/api/users/justifications', {
+            const response = await fetch(import.meta.env.VITE_API_URL + '/users/justifications', {
                 headers: {
                     Authorization: token
                 }
@@ -41,7 +41,7 @@ export const AdmiJustificacion = () => {
             const data = await response.json();
 
             if (Array.isArray(data.Justifications)) {
-                const userApiUrl = 'http://127.0.0.1:8000/api/profile';
+                const userApiUrl = import.meta.env.VITE_API_URL + '/profile';
                 const userResponse = await fetch(userApiUrl, {
                     headers: {
                         Authorization: token

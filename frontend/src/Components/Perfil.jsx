@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 
 export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
@@ -7,7 +7,7 @@ export const Perfil = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/profile", {
+        const response = await fetch(import.meta.env.VITE_API_URL + "/profile", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }
@@ -28,6 +28,7 @@ export const Perfil = () => {
     fetchData();
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const handleChange = () => {
     setIsChecked(!isChecked);
   };

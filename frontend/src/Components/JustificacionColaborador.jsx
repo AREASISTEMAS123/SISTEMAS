@@ -25,7 +25,7 @@ export const JustificacionColaborador = () => {
         try {
             // Realiza la llamada a tu API para obtener los datos de la base de datos
             const token = `Bearer ${localStorage.getItem('token')}`;
-            const response = await fetch('http://127.0.0.1:8000/api/justifications', {
+            const response = await fetch(import.meta.env.VITE_API_URL + '/justifications', {
                 headers: {
                     Authorization: token
                 }
@@ -79,7 +79,7 @@ export const JustificacionColaborador = () => {
             setMessage("Por favor, complete todos los campos.");
             return;
         }
-        fetch('http://127.0.0.1:8000/api/justifications/insert', {
+        fetch(import.meta.env.VITE_API_URL + '/justifications/insert', {
             method: 'POST',
             body: formData,
             headers: {
@@ -324,7 +324,7 @@ export const JustificacionColaborador = () => {
                                     <a
                                         onClick={() => mostrarDetalles(card.id)}
                                     >
-                                        Ver mas
+                                        Ver más
                                     </a>
                                 </button>
 

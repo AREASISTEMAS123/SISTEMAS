@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { DynamicSelect } from "./commons";
 import { Button } from "@mui/material";
 import DocuPDF from "./commons/DocuPDF";
@@ -11,6 +11,7 @@ export const VistaReportes = () => {
   const faltas = ["falta1", "falta2"];
 
   const [poema, setPoema] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [verWeb, setVerWeb] = useState(false);
   const [verPDF, setVerPDF] = useState(false);
 

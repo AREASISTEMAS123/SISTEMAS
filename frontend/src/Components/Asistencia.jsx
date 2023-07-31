@@ -39,7 +39,7 @@ export const Asistencia = () => {
     const existeEntradaMarcada = entradaMarcadaLocal == 'true';
     setSegundaFotoTomada(existeEntradaMarcada)
 
-    fetch('http://127.0.0.1:8000/api/attendance/id', {
+    fetch(import.meta.env.VITE_API_URL +'/attendance/id', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -74,7 +74,7 @@ export const Asistencia = () => {
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === 'admission' ? 'e' : 's'}-${fecha}.jpg`;
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
 
-    fetch('http://127.0.0.1:8000/api/attendance/insert', {
+    fetch(import.meta.env.VITE_API_URL + '/attendance/insert', {
       method: 'POST',
       body: formData,
       headers: {

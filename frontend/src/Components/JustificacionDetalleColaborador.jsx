@@ -12,7 +12,7 @@ export const JustificacionDetalleColaborador = () => {
         const fetchData = async () => {
             try {
                 const token = `Bearer ${localStorage.getItem('token')}`;
-                const response = await fetch(`http://127.0.0.1:8000/api/justifications/details/${id}`, {
+                const response = await fetch(import.meta.env.VITE_API_URL + `/justifications/details/${id}`, {
                     headers: {
                         Authorization: token
                     }
