@@ -28,6 +28,7 @@ export const AsistenciaAdmin = () => {
   const Token = localStorage.getItem("token");
   const [attendance, setAttendance] = useState([]);
   const [attendanceReport, setAttendanceReport] = useState([]);
+  //const [ShowReport, setShowReport] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [isInputReady, setIsInputReady] = useState(false);
 
@@ -65,6 +66,15 @@ export const AsistenciaAdmin = () => {
     setFilterDate(event.target.value);
     setSelectedDate(event.target.value);
   };
+
+
+  //ASIGNAR FECHA ACTUAL
+  // useEffect(() => {
+  //   ShowReport.filter((item) => {
+  //     let date = item.date.toLowerCase().includes(filterDate.toLowerCase())
+  //     console.log(date)
+  //   })
+  // })
 
   const formatSelectedDate = (dateValue) => {
     if (!dateValue) return '';
@@ -109,9 +119,7 @@ export const AsistenciaAdmin = () => {
         });
       const data = await response.json();
       if (response.ok) {
-        const newAttendanceReport = data
-        setAttendanceReport(newAttendanceReport);
-        localStorage.setItem('attendanceReport', JSON.stringify(newAttendanceReport));
+        setAttendanceReport(data);
       } else {
         console.error('Error al obtener los usuarios:', data.error);
       }
@@ -120,17 +128,10 @@ export const AsistenciaAdmin = () => {
     }
   };
 
-  
+
   const handleClick = () => {
     reporteAsistencia();
   };
-
-  useEffect(() => {
-    const savedAttendanceReport = localStorage.getItem('attendanceReport');
-    if (savedAttendanceReport) {
-      setAttendanceReport(JSON.parse(savedAttendanceReport));
-    }
-  }, []);
 
   useEffect(() => {
     if (attendanceReport.attendance && attendanceReport.total) {
@@ -178,6 +179,8 @@ export const AsistenciaAdmin = () => {
         });
       const data = await response.json();
       if (response.ok) {
+        console.log(data.reports)
+        //setShowReport(data.reports);
         setAttendance(data.attendance);
       } else {
         console.error('Error al obtener los usuarios:', data.error);
@@ -381,7 +384,7 @@ export const AsistenciaAdmin = () => {
                             <span>Justifico por Tardanza</span>
                           </p>
                         ) : imageUrl.delay === 1 && (
-                            <p className='space-x-2 text-lg font-bold bg-[#FAFF00] p-2'>
+                          <p className='space-x-2 text-lg font-bold bg-[#FAFF00] p-2'>
                             <span>{imageUrl.user.name}</span>
                             <span>Ingreso Tarde</span>
                           </p>
@@ -392,7 +395,7 @@ export const AsistenciaAdmin = () => {
                             <span>Justifico por Falta</span>
                           </p>
                         ) : imageUrl.absence === 1 && (
-                            <p className='space-x-2 text-lg font-bold text-white bg-[#FF0000] p-2'>
+                          <p className='space-x-2 text-lg font-bold text-white bg-[#FF0000] p-2'>
                             <span>{imageUrl.user.name}</span>
                             <span>Falto</span>
                           </p>

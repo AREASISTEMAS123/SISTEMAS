@@ -143,6 +143,7 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 						<TableHead className='bg-cv-primary'>
 							<TableRow >
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Nombre</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Teléfono</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Email</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>DNI</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Departamento</TableCell>
@@ -191,6 +192,7 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 									>
 										<TableCell align="left" width="auto" className='whitespace-nowrap'>{users.user && users.user[0]?.name + " " + users.user[0]?.surname}</TableCell>
+										<TableCell align="left">{users.cellphone}</TableCell>
 										<TableCell align="left">{users.user && users.user[0]?.email}</TableCell>
 										<TableCell align="right">{users.dni}</TableCell>
 										<TableCell align="right">{users.department}</TableCell>

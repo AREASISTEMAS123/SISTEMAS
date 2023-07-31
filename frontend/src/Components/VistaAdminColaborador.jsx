@@ -63,7 +63,8 @@ export const VistaAdminColaborador = () => {
     formData.append('shift', nuevoUsuario.shift);
     formData.append('birthday', nuevoUsuario.birthday);
     formData.append('date_start', nuevoUsuario.dateStart);
-    formData.append('date_end', nuevoUsuario.dateEnd)
+    formData.append('date_end', nuevoUsuario.dateEnd);
+    formData.append('cellphone', nuevoUsuario.cellphone);
     formData.append('responsible', nuevoUsuario.responsible);
     formData.append('avatar', nuevoUsuario.avatar);
 
@@ -103,7 +104,8 @@ export const VistaAdminColaborador = () => {
     formData.append('birthday', usuarioEditado.Birthday);
     formData.append('date_start', usuarioEditado.DateStart);
     formData.append('date_end', usuarioEditado.DateEnd);
-    formData.append('responsible', usuarioEditado.Responsible);
+    formData.append('cellphone', usuarioEditado.Cellphone)
+    //formData.append('responsible', usuarioEditado.Responsible);
     formData.append('role_id', usuarioEditado.Role);
     formData.append('avatar', usuarioEditado.Avatar);
     formData.append('_method', 'PUT');

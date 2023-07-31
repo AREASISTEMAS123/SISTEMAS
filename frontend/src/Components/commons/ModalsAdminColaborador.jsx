@@ -24,6 +24,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 	const [birthday, setBirthday] = useState('');
 	const [dateStart, setDateStart] = useState('');
 	const [dateEnd, setDateEnd] = useState('');
+	const [cellphone, setCellphone] = useState('')
 	//const [responsible, setResponsible] = useState('');
 	const [avatar, setAvatar] = useState(null);
 	const [avatarLocal, setAvatarLocal] = useState(null);
@@ -86,6 +87,10 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 		setDateEnd(event.target.value);
 	}
 
+	const handleCellphoneChange = (event) =>{
+		setCellphone(event.target.value)
+	}
+
 	//const handleResponsibleChange = (event) => {
 	//	setResponsible(event.target.value);
 	//};
@@ -140,6 +145,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 			birthday,
 			dateStart,
 			dateEnd,
+			cellphone,
 			//responsible,
 			avatar,
 		};
@@ -350,20 +356,18 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 									</div>
 									<div className="w-full">
 										<label
-											htmlFor="rol"
+											htmlFor="tel"
 											className="block mb-1 font-medium text-gray-900"
 										>
-											Turno
+											Teléfono
 										</label>
-										<select
-											id="rol"
-											value={shift} onChange={handleShiftChange}
+										<input
+											type="text"
+											id="tel"
+											value={cellphone} onChange={handleCellphoneChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-										>
-											<option>Selecciona</option>
-											<option value="Mañana">Mañana</option>
-											<option value="Tarde">Tarde</option>
-										</select>
+											placeholder="Ingresa el número de teléfono"
+										/>
 									</div>
 
 								</div>
@@ -440,6 +444,24 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											)}
 										</select>
 
+									</div>
+
+									<div className="w-full">
+										<label
+											htmlFor="rol"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Turno
+										</label>
+										<select
+											id="rol"
+											value={shift} onChange={handleShiftChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option>Selecciona</option>
+											<option value="Mañana">Mañana</option>
+											<option value="Tarde">Tarde</option>
+										</select>
 									</div>
 
 									{/*<div className="w-full">
@@ -588,6 +610,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Birthday, setBirthday] = useState('');
 	const [DateStart, setDateStart] = useState('');
 	const [DateEnd, setDateEnd] = useState('');
+	const [Cellphone, setCellphone] = useState('')
 	//const [Responsible, setResponsible] = useState('');
 	const [Role, setRole] = useState('')
 	const [Avatar, setAvatar] = useState(null);
@@ -682,6 +705,10 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setDateEnd(event.target.value);
 	}
 
+	const handleCellphoneChange = (event) =>{
+		setCellphone(event.target.value);
+	}
+
 	//const handleResponsibleChange = (event) => {
 	//	setResponsible(event.target.value);
 	//};
@@ -713,6 +740,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			Birthday,
 			DateStart,
 			DateEnd,
+			Cellphone,
 			//Responsible,
 			Role,
 			Avatar,
@@ -935,22 +963,21 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 									</div>
 									<div className="w-full">
 										<label
-											htmlFor="shift"
+											htmlFor="tel"
 											className="block mb-1 font-medium text-gray-900"
 										>
-											Turno
+											Teléfono
 										</label>
-										<select
-											id="shift"
-											value={Shift}
-											onChange={handleShiftChange}
+										<input
+											type="text"
+											id="tel"
+											value={Cellphone}
+											onChange={handleCellphoneChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-										>
-											<option>Selecciona</option>
-											<option value="Mañana">Mañana</option>
-											<option value="Tarde">Tarde</option>
-										</select>
+											placeholder="Ingresa el e-mail"
+										/>
 									</div>
+									
 									<div className="w-full">
 										<span
 											className="block mb-1 font-medium text-gray-900"
@@ -1050,6 +1077,24 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											<option value="1">Gerencia</option>
 											<option value="2">Líder Núcleo</option>
 											<option value="3">Colaborador</option>
+										</select>
+									</div>
+									<div className="w-full">
+										<label
+											htmlFor="shift"
+											className="block mb-1 font-medium text-gray-900"
+										>
+											Turno
+										</label>
+										<select
+											id="shift"
+											value={Shift}
+											onChange={handleShiftChange}
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+										>
+											<option>Selecciona</option>
+											<option value="Mañana">Mañana</option>
+											<option value="Tarde">Tarde</option>
 										</select>
 									</div>
 									{/*<div className="w-full">
