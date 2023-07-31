@@ -17,10 +17,9 @@ class AttendanceController extends Controller
     public function getAttendance()
     {
         $attendance_user = Attendance::with('user', 'profile')->get();
-
-        return response()->json(['attendance' => $attendance_user]);
+        $report = AttendanceReport::all();
+        return response()->json(['attendance' => $attendance_user , "reports" => $report]);
     }
-
     public function getAttendanceByID()
     {
         //Recogemos el ID del usuario logeado
@@ -32,21 +31,20 @@ class AttendanceController extends Controller
         //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendance]);
     }
-
     public function setDefaultValues()
     {
         // Obten el ID del usuario actualmente autenticado
         $user_id = auth()->id();
-    
+
         // Obten el turno del administrador actual
         $adminShift = Profile::where('user_id', $user_id)->value('shift');
-    
+
         // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
         $users = User::where('status', 1)
                     ->whereHas('profile', function ($query) use ($adminShift) {
                         $query->where('shift', $adminShift);
                     })->get();
-    
+
         // Recorre cada usuario
         foreach ($users as $user) {
             // Verifica si ya existe una entrada de asistencia para este usuario para la fecha actual
@@ -65,22 +63,22 @@ class AttendanceController extends Controller
     {
         // Obten el ID del usuario actualmente autenticado
         $user_id = auth()->id();
-    
+
         // Obten el turno del administrador actual
         $adminShift = Profile::where('user_id', $user_id)->value('shift');
-    
+
         // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
         $users = User::where('status', 1)
                     ->whereHas('profile', function ($query) use ($adminShift) {
                         $query->where('shift', $adminShift);
                     })->get();
-    
+
         // Obtén la fecha de mañana
         $tomorrow = date('Y-m-d', strtotime('tomorrow'));
-    
+
         // Verificar si mañana es un día no laborable
         $isNonWorkingDay = Holiday::where('date', $tomorrow)->exists();
-    
+
         foreach ($users as $user) {
             if (Attendance::where('user_id', $user->id)->whereDate('date', $tomorrow)->exists()) {
                 continue;
@@ -88,18 +86,18 @@ class AttendanceController extends Controller
             $attendance = new Attendance();
             $attendance->user_id = $user->id;
             $attendance->date = $tomorrow;
-    
+
             if ($isNonWorkingDay) {
                 $attendance->absence = 0;
                 $attendance->non_working_days = 1;
             } else {
                 continue;
             }
-    
+
             $attendance->save();
         }
     }
-    
+
 
     public function generateReport()
     {
@@ -142,7 +140,7 @@ class AttendanceController extends Controller
 
         $attendanceReport = new AttendanceReport();
 
-        //Setear los valores en la tabla AttendanceReport 
+        //Setear los valores en la tabla AttendanceReport
         $attendanceReport->attendances = $attendances;
         $attendanceReport->delays = $delays;
         $attendanceReport->absences = $absence;
@@ -150,7 +148,7 @@ class AttendanceController extends Controller
         $attendanceReport->justifications = $justifications;
         $attendanceReport->date = date('Y-m-d');
 
-        //Guardar la informacion en la tabla AttendanceReport 
+        //Guardar la informacion en la tabla AttendanceReport
 
 
         //Agregamos una nueva notificacion (Validacion de Faltas)
@@ -316,7 +314,7 @@ class AttendanceController extends Controller
         }
     }
 
-    
+
 
     // public function editUnavailableDays()
     // {
