@@ -350,13 +350,18 @@ export const JustificacionColaborador = () => {
                                 </h3>
                             </div>
                             <div className="p-6 space-y-6">
-                                <p>Estos son los términos de servicio</p>
+                                <h1 className="text-center uppercase">Estos son los términos de servicio</h1>
+                                <ol>
+                                    <li>1. Solo podrá justificar hasta 3 días despues de la falta o tardanza.</li>
+                                    <li>2. Toda justificación debera contar con las pruebas necesarias.</li>
+                                    <li>3. Deberá esperar hasta 72 horas para visualizar la respuesta de su justificación. </li>
+                                </ol>
                             </div>
-                            <div className="flex items-center p-6 border-t border-gray-200 rounded-b ">
+                            <div className="flex  justify-center items-center p-2 border-t border-gray-200  ">
                                 <button
-                                    className="text-white bg-cv-secondary hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                                    className="text-white mx-2 bg-cv-secondary hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                                     onClick={onAceptTerminos}>ACEPTO</button>
-                                <button onClick={onCloseTerminos} className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10">
+                                <button onClick={onCloseTerminos} className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2">
                                     CERRAR
                                 </button>
                             </div>
