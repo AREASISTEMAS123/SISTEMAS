@@ -1,6 +1,9 @@
 .bg-input{
-    background-color: #52c3c6;
-
+    background-color: #feffff;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: rgb(87, 85, 85);
+    border-radius: 4px;
 }
 .bt-aceptar{
     background-color: #57F3FF;

@@ -216,23 +216,23 @@ export const Topbar = ({ toggleSidebar }) => {
         <>
           {isCategoryMenuVisible ? (
             <button onClick={toggleCategoryMenu} className="absolute top-4 right-4 text-white">
-              <CloseIcon />
+              <CloseIcon sx={{ fontSize: 18 }} />
             </button>
           ) : (
             <button onClick={toggleCategoryMenu} className="bg-white text-cv-primary rounded-lg p-2 outline-none">
-              <MenuIcon />
+              <MenuIcon sx={{ fontSize: 18 }} />
             </button>
           )}
         </>
       ) : (
         <button onClick={() => toggleSidebar()} className="bg-white text-cv-primary rounded-lg p-2 outline-none">
-          {isVisible ? <MenuIcon /> : <MenuIcon />}
+          {isVisible ? <MenuIcon sx={{ fontSize: 20 }} /> : <MenuIcon sx={{ fontSize: 20 }} />}
         </button>
       )}
       <div className="relative">
         <div className="flex justify-between items-center space-x-2 md:space-x-5">
           <button onClick={showTodoList} className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
-            <ListAltIcon fontSize="large" />
+            <ListAltIcon sx={{ fontSize: 22 }} />
             <span className="sr-only">Tareas</span>
             {tasks.length > 0 && (
 
@@ -240,13 +240,13 @@ export const Topbar = ({ toggleSidebar }) => {
             )}
           </button>
           <div>
-            <p className="text-2xl font-medium text-white whitespace-nowrap">
-              {isMobile ? (
-                `${firstName} ${firstSurnameInitial}.`
-              ) : (
-                `${firstName} ${firstSurname}`
-              )}</p>
-            <p className="text-lg font-normal text-teal-300">{rol}</p>
+            <p className={`text-${isMobile ? 'sm' : 'lg'} font-medium text-white whitespace-nowrap`}>
+              {isMobile ? `${firstName} ${firstSurnameInitial}.` : `${firstName} ${firstSurname}`}
+            </p>
+            <p className={`text-${isMobile ? 'sm' : 'lg'} font-normal text-teal-300`}>
+              {isMobile ? `${ rol } `: `${ rol } `}
+            </p>
+            
           </div>
           <button onClick={showMenuUser} className="outline-none">
             <img
@@ -259,27 +259,27 @@ export const Topbar = ({ toggleSidebar }) => {
         <div className={`${isVisible ? 'block' : 'hidden'} absolute right-2 w-52 mt-3 bg-cv-primary p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">
             <Link to="/perfil" className="cursor-pointer">
-              <div className="p-2 font-semibold hover:bg-cv-secondary rounded-md">
+              <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
                 <span className="mr-4">
-                  <AccountCircleIcon />
+                  <AccountCircleIcon sx={{ fontSize: 18 }} />
                 </span>
-                <span>Perfil</span>
+                <span className='text-sm'>Perfil</span>
               </div>
             </Link>
             <Link to="/configuracion" className="cursor-pointer">
-              <div className="p-2 font-semibold hover:bg-cv-secondary rounded-md">
+              <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
                 <span className="mr-4">
-                  <SettingsIcon />
+                  <SettingsIcon sx={{ fontSize: 18 }} />
                 </span>
-                <span>Configuración</span>
+                <span className='text-sm'>Configuración</span>
               </div>
             </Link>
             <Link to="/login" className="cursor-pointer">
-              <div className="p-2 font-semibold hover:bg-cv-secondary rounded-md">
+              <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
                 <span className="mr-4">
-                  <LogoutIcon />
+                  <LogoutIcon sx={{ fontSize: 18 }} />
                 </span>
-                <span onClick={logoutSubmit}>Cerrar Sesión</span>
+                <span onClick={logoutSubmit} className='text-sm'>Cerrar Sesión</span>
               </div>
             </Link>
           </div>
@@ -287,12 +287,12 @@ export const Topbar = ({ toggleSidebar }) => {
 
         <div className={`${showTask ? 'block' : 'hidden'} absolute flex items-center justify-center right-0 md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">
-            <button onClick={() => { setShowModal(true); setShowTask(false); }} className="p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-xl font-bold uppercase  hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300">
-              <AddTaskIcon fontSize="large" />
+          <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-${isMobile ? 'xs' : 'sm'} font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300`}>
+              <AddTaskIcon sx={{ fontSize: 18 }} />
               <span className='ml-4'>Agregar Tarea</span>
             </button>
             <div className='max-h-72 overflow-y-auto'>
-              <TareaItem data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea} />
+              <TareaItem sx={{ fontSize: 18 }} data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea} />
             </div>
           </div>
         </div>

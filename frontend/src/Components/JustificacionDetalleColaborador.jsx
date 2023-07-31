@@ -58,15 +58,14 @@ export const JustificacionDetalleColaborador = () => {
                                     <label className='font-semibold	 mr-2 text-gray-300' >Estado :</label>
                                     <input
                                         disabled
-                                        className='text-black rounded-lg text-center bg-input my-2'
+                                        className=' text-center bg-input my-2'
                                         value={isRechazadoOrAceptado(item)}
                                     ></input>
-
                                 </div>
                             </div>
                             <div className="w-full md:w-1/2 ">
                                 <label className='text-gray-300' >{isRechazadoOrAceptado(item) === 'Rechazado' ? 'MOTIVO' : null}</label>
-                                <p className='text-black rounded-lg text-center bg-input my-2'>{item.reason_decline}</p>
+                                <p className=' text-center bg-input my-2'>{item.reason_decline}</p>
                             </div>
                             <h1 className='text-center text-white text-lg my-5' >DATOS DE JUSTIFICACIÓN</h1>
                             <div className='flex  flex-wrap w-full"'>
@@ -74,7 +73,7 @@ export const JustificacionDetalleColaborador = () => {
                                     <label className="font-semibold	 mr-2 text-gray-300"> JUSTIFICACIÓN DE: </label>
                                     <input
                                         type="text"
-                                        className="text-black rounded-lg text-center bg-input my-2"
+                                        className="  text-center bg-input my-2"
                                         value={`${item.justification_type === 0 ? "Falta" : "Tardanza"}`.toUpperCase()}
                                         disabled
                                     />
@@ -83,7 +82,7 @@ export const JustificacionDetalleColaborador = () => {
                                     <label className="font-semibold	 mr-2 text-gray-300">FECHA </label>
                                     <input
                                         type="text"
-                                        className=" text-black rounded-lg text-center bg-input my-2 "
+                                        className="  text-center bg-input my-2 "
                                         value={moment(item.justification_date).format("DD/MM/YYYY")}
                                         disabled
                                     />
@@ -92,7 +91,7 @@ export const JustificacionDetalleColaborador = () => {
 
                             <div className=' ml-auto flex flex-col'>
                                 <label className='font-semibold  text-gray-300' >Motivo </label>
-                                <textarea className='text-black w-full  bg-input rounded-lg overflow-hidden text-center my-2 p-2 '
+                                <textarea className=' w-full  bg-input Overflow-hidden text-center my-2 p-2 '
                                     disabled
                                     value={item.reason}
                                     rows={Math.max(2, Math.ceil(item.reason.length / 50))}
