@@ -32,6 +32,7 @@ class AuthController extends Controller
             'birthday' => 'date',
             'date_start' => 'required|date',
             'date_end' => 'required|date',
+            'cellphone' => 'string',
             'responsible' => 'string|max:255',
             'avatar' => 'required|mimes:jpg,jpeg,png'
             ]);
@@ -54,6 +55,7 @@ class AuthController extends Controller
             'department'=> $request->department,
             'area'=> $request->area,
             'shift'=> $request->shift,
+            'cellphone' =>$request->cellphone,
             'birthday' => $request->birthday,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
