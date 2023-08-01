@@ -631,6 +631,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setBirthday(usuario.birthday);
 		setDateStart(usuario.date_start);
 		setDateEnd(usuario.date_end);
+		setCellphone(usuario.cellphone);
 		//setResponsible(usuario.responsible);
 		setRole(usuario.role[0].role_id);
 		setAvatar(usuario.user[0].media[0].original_url);
