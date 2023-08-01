@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -13,7 +13,6 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { TareaItem } from './TareaItem';
 
 export const Topbar = ({ toggleSidebar }) => {
-
   Topbar.propTypes = {
     toggleSidebar: PropTypes.func.isRequired,
   };
@@ -164,13 +163,11 @@ export const Topbar = ({ toggleSidebar }) => {
       });
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const naviget = useNavigate();
   function logoutSubmit() {
-    localStorage.setItem("login", "");
-    localStorage.setItem("loginStatus", "Cierre de sesión exitoso!")
+    localStorage.setItem('login', 'false');
+    localStorage.setItem('loginStatus', 'Cierre de sesión exitoso!');
     window.location.reload();
-  }
+}
 
   const toggleCategoryMenu = () => {
     setIsCategoryMenuVisible(!isCategoryMenuVisible);

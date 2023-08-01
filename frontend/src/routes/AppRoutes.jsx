@@ -18,11 +18,12 @@ import {
 import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
 import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
+import { AdmiHabilidadesBlandas } from "../Components/HabilidadesBlandas/AdmiHabilidadesBlandas";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
     const isLoggedIn = localStorage.getItem('login') === 'true';
-
+    console.log('AppRoutes - isLoggedIn:', isLoggedIn);
     // Función para verificar si el usuario tiene un rol específico
     const hasRole = (targetRole) => {
         return rol === targetRole;
@@ -39,13 +40,13 @@ const AppRoutes = () => {
                     <Route path="/asistencia" element={<Asistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
-                    <Route path="/details/:id" element={<JustificacionDetalleColaborador/>}/>
+                    <Route path="/details/:id" element={<JustificacionDetalleColaborador />} />
                     <Route path="/logout" />
                     {hasRole('Lider Nucleo') && (
                         <>
                             <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                             <Route path="/justificaciones" element={<AdmiJustificacion />} />
-                            <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion/>}/>
+                            <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
@@ -58,7 +59,9 @@ const AppRoutes = () => {
                             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
-                            <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion/>}/>
+                            <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
+                            <Route path="/evaluacion/habilidades-blandas" element={<AdmiHabilidadesBlandas />}
+                            />
                         </>
                     )}
                     <Route path="/*" element={<Navigate to="/home" />} />
