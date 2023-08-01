@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('task_processes', function (Blueprint $table) {
+        //
+        Schema::create('autoevaluations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('evaluation_id');
             $table->foreign('evaluation_id')->references('id')->on('evaluations');
@@ -34,6 +35,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_processes');
+        //
+        Schema::dropIfExists('autoevaluations');
     }
 };

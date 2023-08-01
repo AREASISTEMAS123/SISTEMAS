@@ -9,12 +9,10 @@ class Evaluation extends Model
 {
    
     public $timestamps = false;
-    protected $fillable = ['id', 'user_id', 'model_type'];
+    protected $fillable = ['id', 'user_id', 'date'];
 
-    
-public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user','id');
+    public function profile() {
+        return $this->hasMany(Profile::class,'id', 'user_id');
     }
 
 }

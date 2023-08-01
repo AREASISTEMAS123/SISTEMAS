@@ -78,19 +78,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
 
-    Route::middleware('auth:sanctum')->get('/evaluations', function (Request $request) {
-        return $request->user();
-    });
-
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
-    Route::get('evaluations/details', [App\Http\Controllers\EvaluationController::class, 'detailsevaluations']);
-
-    Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationbyid']);
-
-    Route::post('addEvaluation', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
-
-    Route::put('updateEvaluation/{id}', [App\Http\Controllers\EvaluationController::class, 'updateEvaluation']);
-
-    Route::delete('deleteCategoria/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteEvaluation']);
-
+    Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationById']);
+    Route::post('evaluations/insert', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
 });

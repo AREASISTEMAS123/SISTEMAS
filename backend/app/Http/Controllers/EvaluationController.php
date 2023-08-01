@@ -3,132 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evaluation;
+use App\Models\Profile;
 use App\Models\User;
 use App\Models\evaluations;
+use App\Models\SoftSkills;
+
+use Illuminate\Database\Eloquent\Builder;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EvaluationController extends Controller
+class EvaluationController extends Controller 
 {
+    public function getEvaluation() {
+        $attendance_user = Evaluation::with('profile.user')->get();
 
-    public function getEvaluation()
-{
-    $evaluations = Evaluation::join('users', 'evaluations.user_id', '=', 'users.id')
-        ->select('evaluations.id', 'evaluations.user_id', 'users.id as user_id', 'users.name', 'users.email', 'evaluations.model_type', 'evaluations.created_at', 'evaluations.updated_at')
-        ->get()
-        ->map(function ($evaluation) {
-            return [
-                'id' => $evaluation->id,
-                'user_id' => [
-                    'id' => $evaluation->user_id,
-                    'name' => $evaluation->name,
-                    'email' => $evaluation->email,
-                ],
-                'model_type' => $evaluation->model_type,
-                'created_at' => $evaluation->created_at,
-                'updated_at' => $evaluation->updated_at,
-            ];
-        });
-
-    return response()->json($evaluations, 200);
-}
-
-
-
-public function getEvaluationbyid($evaluationId)
-{
-    $evaluation = Evaluation::join('users', 'evaluations.user_id', '=', 'users.id')
-        ->select('evaluations.id', 'evaluations.user_id', 'users.id as user_id', 'users.name', 'users.email', 'evaluations.model_type', 'evaluations.created_at', 'evaluations.updated_at')
-        ->where('evaluations.id', $evaluationId)
-        ->first();
-
-    if ($evaluation) {
-        $result = [
-            'id' => $evaluation->id,
-            'user_id' => [
-                'id' => $evaluation->user_id,
-                'name' => $evaluation->name,
-                'email' => $evaluation->email,
-            ],
-            'model_type' => $evaluation->model_type,
-            'created_at' => $evaluation->created_at,
-            'updated_at' => $evaluation->updated_at,
-        ];
-        return response()->json($result, 200);
-    } else {
-        return response()->json(['message' => 'No se encontró la evaluación'], 404);
-    }
-}
-
-
-
-public function insertEvaluation(Request $request)
-{
-    $evaluation = Evaluations::create($request->all());
-
-    $evaluationId = $evaluation->id;
-
-    SoftSkill::create([
-       
-        'evaluation_id' => $evaluationId,
-        'note1' => null,
-        'note2' => null,
-        'note3' => null,
-        'note4' => null,
-        'prom1' => null,
-        'note5' => null,
-        'note6' => null,
-        'prom2' => null,
-        'prom_end' => null,
-    ]);
-
-    TaskProcesses::create([
-    
-        'evaluation_id' => $evaluationId,
-        'note1' => null,
-        'note2' => null,
-        'note3' => null,
-        'note4' => null,
-        'prom1' => null,
-        'note5' => null,
-        'note6' => null,
-        'prom2' => null,
-        'prom_end' => null,
-    ]);
-
-    Observation::create([
-     
-        'evaluation_id' => $evaluationId,
-        'note1' => null,
-        'note2' => null,
-        'note3' => null,
-        'note4' => null,
-        'prom1' => null,
-        'note5' => null,
-        'note6' => null,
-        'prom2' => null,
-        'prom_end' => null,
-    ]);
-
-    return response($evaluation, 201);
-}
-    public function updateEvaluation(Request $request,$id){
-        $Evaluation = Evaluation::find($id);
-        if(is_null($Evaluation)){
-            return response()->json(['Mensaje'=>'No encontrado'],404);
-        }
-        $Evaluation -> update($request->all());
-        return response($Evaluation,200);
+        return response()->json(['evaluations' => $attendance_user]);
     }
 
+    public function getEvaluationById($id) {
+        $attendance_user = Evaluation::with('profile.user')->find($id);
 
-    public function deleteEvaluation(Request $request,$id){
-        $Evaluation = Evaluations::find($id);
-        if(is_null($Evaluation)){
-            return response()->json(['Mensaje'=>'No encontrado'],404);
+        return response()->json(['evaluations' => $attendance_user]);
+    }
+
+    public function insertEvaluation(Evaluation $evaluation) {
+        //$evaluation_data = Evaluation::with('profile.user')->get();
+
+        $filteredEvaluations = Profile::whereHas('user', function ($query) {
+            $query->where('status', 1);
+        })->get();
+
+        foreach ($filteredEvaluations as $evaluation_data) {
+            $new_evaluation = new Evaluation();
+            $new_evaluation->user_id = $evaluation_data->user_id;
+            $new_evaluation->date = date('Y-m-d');
+
+            $new_evaluation->save();
         }
-        $Evaluation -> delete();
-        return response()->json(['Mensaje'=>'Eliminado Correctamente'],200);
+
+        return response()->json(['evaluations' => $filteredEvaluations]);
     }
 }
