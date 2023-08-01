@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('evaluation_id');
             $table->foreign('evaluation_id')->references('id')->on('evaluations');
-            $table->integer('evaluator_id');
+            $table->integer('evaluator_id')->nullable();
             $table->integer('note1')->nullable();
             $table->integer('note2')->nullable();
             $table->integer('note3')->nullable();

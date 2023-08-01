@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     {
         $attendance_user = Attendance::with('user', 'profile')->get();
         $report = AttendanceReport::all();
-        return response()->json(['attendance' => $attendance_user , "reports" => $report]);
+        return response()->json(['attendance' => $attendance_user, "reports" => $report]);
     }
     public function getAttendanceByID()
     {
@@ -41,9 +41,9 @@ class AttendanceController extends Controller
 
         // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
         $users = User::where('status', 1)
-                    ->whereHas('profile', function ($query) use ($adminShift) {
-                        $query->where('shift', $adminShift);
-                    })->get();
+            ->whereHas('profile', function ($query) use ($adminShift) {
+                $query->where('shift', $adminShift);
+            })->get();
 
         // Recorre cada usuario
         foreach ($users as $user) {
@@ -69,9 +69,9 @@ class AttendanceController extends Controller
 
         // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
         $users = User::where('status', 1)
-                    ->whereHas('profile', function ($query) use ($adminShift) {
-                        $query->where('shift', $adminShift);
-                    })->get();
+            ->whereHas('profile', function ($query) use ($adminShift) {
+                $query->where('shift', $adminShift);
+            })->get();
 
         // Obtén la fecha de mañana
         $tomorrow = date('Y-m-d', strtotime('tomorrow'));

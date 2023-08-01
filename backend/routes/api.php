@@ -78,7 +78,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
 
+
+
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
+
+    Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
+    Route::get('evaluations/softskills/{id}', [App\Http\Controllers\EvaluationController::class, 'getSoftSkillsById']);
+
     Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationById']);
+
     Route::post('evaluations/insert', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
+
+
 });

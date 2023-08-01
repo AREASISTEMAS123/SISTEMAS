@@ -9,17 +9,20 @@ class SoftSkills extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'evaluation_id',
         'evaluator_id',
         'note1',
-        'note2' ,
+        'note2',
         'note3',
         'note4',
         'prom_end',
     ];
 
-    public function Evaluation(){
+    public function Evaluation()
+    {
         return $this->hasMany(Evaluation::class, 'id', 'evaluation_id');
     }
+
+
 }
