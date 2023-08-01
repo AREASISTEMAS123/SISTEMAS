@@ -21,18 +21,27 @@ class NotificationController extends Controller
         return response()->json($notif::find($id),200);
     }
 
-    public function insertNotification(Request $request){
+    public function insertNotification(){
 
         $userCounter = User::all()->count();
         $notifications = [];
+
     
         for($id = 1; $id <= $userCounter; $id++) {
             $absence = Attendance::all()->where('user_id', $id)->where('absence', '1')->count();
+            
             if ($absence === 3) {
-                $notif = Notification::create(['id', 'notifiable_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
-                array_push($notifications, $notif);
+                // Verificamos si ya existe una notificación para este usuario con 3 faltas
+                if (!Notification::where('user_id', $id)->where('data', 'Este usuario tiene 3 faltas')->exists()) {
+                    $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
+                    array_push($notifications, $notif);
+                }
             } else if ($absence === 2) {
-                array_push($notifications, "El usuario con ID " . $id . " tiene 2 faltas");
+                // Verificamos si ya existe una notificación para este usuario con 2 faltas
+                if (!Notification::where('user_id', $id)->where('data', 'Este usuario tiene 2 faltas')->exists()) {
+                    $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 2 faltas']);
+                    array_push($notifications, $notif);
+                }
             }
         }
         
