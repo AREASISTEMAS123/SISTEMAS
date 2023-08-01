@@ -104,7 +104,7 @@ export const VistaAdminColaborador = () => {
     formData.append('birthday', usuarioEditado.Birthday);
     formData.append('date_start', usuarioEditado.DateStart);
     formData.append('date_end', usuarioEditado.DateEnd);
-    formData.append('cellphone', usuarioEditado.Cellphone)
+    formData.append('cellphone', usuarioEditado.Cellphone);
     //formData.append('responsible', usuarioEditado.Responsible);
     formData.append('role_id', usuarioEditado.Role);
     formData.append('avatar', usuarioEditado.Avatar);
