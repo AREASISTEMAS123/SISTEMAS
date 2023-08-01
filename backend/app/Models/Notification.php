@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['id', 'notifiable_id', 'data'];
+    protected $fillable = ['id', 'user_id', 'data'];
 }
