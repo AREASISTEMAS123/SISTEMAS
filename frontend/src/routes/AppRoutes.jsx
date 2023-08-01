@@ -23,7 +23,6 @@ import { AdmiHabilidadesBlandas } from "../Components/HabilidadesBlandas/AdmiHab
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
     const isLoggedIn = localStorage.getItem('login') === 'true';
-    console.log('AppRoutes - isLoggedIn:', isLoggedIn);
     // Función para verificar si el usuario tiene un rol específico
     const hasRole = (targetRole) => {
         return rol === targetRole;
