@@ -39,7 +39,6 @@ export const AdmiJustificacion = () => {
                 }
             });
             const data = await response.json();
-
             if (Array.isArray(data.Justifications)) {
                 const userApiUrl = import.meta.env.VITE_API_URL + '/profile';
                 const userResponse = await fetch(userApiUrl, {
@@ -48,13 +47,11 @@ export const AdmiJustificacion = () => {
                     }
                 });
                 const userData = await userResponse.json();
-
                 const userShift = userData.Usuario[0].shift;
                 const userId = userData.Usuario[0].user_id;
                 const filteredData = data.Justifications.filter(
                     (justification) => justification.profile[0].shift === userShift && justification.profile[0].user_id !== userId
                 );
-
                 setFaltasList(filteredData);
             } else {
                 console.error('Error: No valid justifications data found.');

@@ -18,6 +18,7 @@ export const Topbar = ({ toggleSidebar }) => {
     toggleSidebar: PropTypes.func.isRequired,
   };
   const [isJustificacionesOpen, setIsJustificacionesOpen] = useState(false);
+  const [isEvaluacionesOpen, setIsEvaluacionesOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isCategoryMenuVisible, setIsCategoryMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -213,6 +214,9 @@ export const Topbar = ({ toggleSidebar }) => {
 
   const openDesplegableJustificacion = () => {
     setIsJustificacionesOpen(!isJustificacionesOpen);
+  }
+  const openDesplegableEvaluaciones = () => {
+    setIsEvaluacionesOpen(!isEvaluacionesOpen);
   }
   return (
     <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center z-50">
@@ -515,21 +519,35 @@ export const Topbar = ({ toggleSidebar }) => {
                   {isJustificacionesOpen && (
                     <div className="relative">
                       <div className="absolute left-0 mt-2 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
-                        <Link  to="/justificacion" className="block px-4 py-2 text-white hover:bg-cv-secondary">
+                        <Link to="/justificacion" className="block px-4 py-2 text-white hover:bg-cv-secondary">
                           Justificacion
                         </Link>
-                        <Link  to="/justificaciones" className="block px-4 py-2 text-white hover:bg-cv-secondary">
+                        <Link to="/justificaciones" className="block px-4 py-2 text-white hover:bg-cv-secondary">
                           Justificaciones
                         </Link>
                       </div>
                     </div>
                   )}
-
                   <li>
-                    <Link to="/evaluaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                    <Link onClick={(e) => {
+                      openDesplegableEvaluaciones();
+                      e.stopPropagation();
+                    }} className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
                       Evaluaciones
                     </Link>
                   </li>
+                  {isEvaluacionesOpen && (
+                    <div className="relative">
+                      <div className="absolute left-0 mt-2 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
+                        <Link to="/evaluacion" className="block px-4 py-2 text-white hover:bg-cv-secondary">
+                          Evaluación
+                        </Link>
+                        <Link to="/evaluaciones" className="block px-4 py-2 text-white hover:bg-cv-secondary">
+                          Evaluaciones
+                        </Link>
+                      </div>
+                    </div>
+                  )}
 
 
                 </>
