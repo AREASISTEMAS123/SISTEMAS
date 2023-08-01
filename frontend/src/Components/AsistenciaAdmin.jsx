@@ -8,6 +8,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import defaultImage from '/defaultImage.svg'
 
 import CloseIcon from '@mui/icons-material/Close';
+import { Link } from 'react-router-dom';
 const ProgressBar = ({ title, progress, color }) => {
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -28,7 +29,7 @@ export const AsistenciaAdmin = () => {
   const Token = localStorage.getItem("token");
   const [attendance, setAttendance] = useState([]);
   const [attendanceReport, setAttendanceReport] = useState([]);
-  //const [ShowReport, setShowReport] = useState([]);
+  const [ShowReport, setShowReport] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [isInputReady, setIsInputReady] = useState(false);
 
@@ -68,14 +69,6 @@ export const AsistenciaAdmin = () => {
   };
 
 
-  //ASIGNAR FECHA ACTUAL
-  // useEffect(() => {
-  //   ShowReport.filter((item) => {
-  //     let date = item.date.toLowerCase().includes(filterDate.toLowerCase())
-  //     console.log(date)
-  //   })
-  // })
-
   const formatSelectedDate = (dateValue) => {
     if (!dateValue) return '';
 
@@ -93,7 +86,6 @@ export const AsistenciaAdmin = () => {
 
   const clearFilterEmployee = () => {
     setFilterEmployee("");
-
   }
 
   const clearFilterDepartment = () => {
@@ -121,17 +113,34 @@ export const AsistenciaAdmin = () => {
       if (response.ok) {
         setAttendanceReport(data);
       } else {
-        console.error('Error al obtener los usuarios:', data.error);
+        console.error('Error al obtener el reporte:', data.error);
       }
     } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
+      console.error('Error al obtener el reporte:', error);
     }
   };
 
-
+  //Reporte asistencia
   const handleClick = () => {
     reporteAsistencia();
   };
+
+
+  // Función crear reporte a la 1:00 pm automáticamente
+  // useEffect(() => {
+  //   const targetTime = new Date();
+  //   targetTime.setHours(13, 1, 0, 0);
+
+  //   const currentTime = new Date();
+  //   const timeDifference = targetTime.getTime() - currentTime.getTime();
+
+  //   if (timeDifference > 0) {
+  //     setTimeout(() => {
+  //       reporteAsistencia();
+  //     }, timeDifference);
+  //   }
+  // }, []);
+
 
   useEffect(() => {
     if (attendanceReport.attendance && attendanceReport.total) {
@@ -151,6 +160,57 @@ export const AsistenciaAdmin = () => {
     }
   }, [attendanceReport]);
 
+  // Mostrar estadísticas de los progressbar
+  // ASISTENCIAS
+  const filtered = ShowReport.filter(report => report.date === selectedDate);
+  useEffect(() => {
+    if (filtered.length > 0) {
+      const attendanceSum = filtered.reduce((sum, report) => sum + report.attendances, 0);
+      const totalSum = filtered.reduce((sum, report) => sum + report.total, 0);
+      const percentage = totalSum !== 0 ? (attendanceSum / totalSum) * 100 : 0;
+      setPercentageAttendance(isNaN(percentage) ? 0 : percentage);
+    } else {
+      setPercentageAttendance(0);
+    }
+  }, [filtered]);
+
+  // TARDANZAS
+  useEffect(() => {
+    if (filtered.length > 0) {
+      const delaysSum = filtered.reduce((sum, report) => sum + report.delays, 0);
+      const totalSum = filtered.reduce((sum, report) => sum + report.total, 0);
+      const percentage = totalSum !== 0 ? (delaysSum / totalSum) * 100 : 0;
+      setPercentageDelay(isNaN(percentage) ? 0 : percentage);
+    } else {
+      setPercentageDelay(0);
+    }
+  }, [filtered]);
+
+  // FALTAS
+  useEffect(() => {
+    if (filtered.length > 0) {
+      const absencesSum = filtered.reduce((sum, report) => sum + report.absences, 0);
+      const totalSum = filtered.reduce((sum, report) => sum + report.total, 0);
+      const percentage = totalSum !== 0 ? (absencesSum / totalSum) * 100 : 0;
+      setPercentageAbsences(isNaN(percentage) ? 0 : percentage);
+    } else {
+      setPercentageAbsences(0);
+    }
+  }, [filtered]);
+
+  // JUSTIFICACIONES
+  useEffect(() => {
+    if (filtered.length > 0) {
+      const justificationsSum = filtered.reduce((sum, report) => sum + report.justifications, 0);
+      const totalSum = filtered.reduce((sum, report) => sum + report.total, 0);
+      const percentage = totalSum !== 0 ? (justificationsSum / totalSum) * 100 : 0;
+      setPercentageJustifications(isNaN(percentage) ? 0 : percentage);
+    } else {
+      setPercentageJustifications(0);
+    }
+  }, [filtered]);
+
+  // Circular Progressbar
   const items = [
     { title: 'Asistencias', progress: percentageAttendance, color: '#24FF00' },
     { title: 'Tardanzas', progress: percentageDelay, color: '#FAFF00' },
@@ -158,6 +218,7 @@ export const AsistenciaAdmin = () => {
     { title: 'Justificaciones', progress: percentageJustifications, color: '#57F3FF' },
   ];
 
+  // Slide Circular Progressbar
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
   const handleNextItem = () => {
@@ -179,24 +240,42 @@ export const AsistenciaAdmin = () => {
         });
       const data = await response.json();
       if (response.ok) {
-        console.log(data.reports)
-        //setShowReport(data.reports);
+        setShowReport(data.reports);
         setAttendance(data.attendance);
       } else {
-        console.error('Error al obtener los usuarios:', data.error);
+        console.error('Error al obtener las asistencias:', data.error);
       }
     } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
+      console.error('Error al obtener las asistencias:', error);
     }
   };
 
+  // Mostrar botón de marcar asistencia
+  const [showButton, setShowButton] = useState(false);
+
+  useEffect(() => {
+    const currentTime = new Date();
+    const targetTimeStart = new Date();
+    targetTimeStart.setHours(13, 1, 0, 0);
+    const targetTimeEnd = new Date();
+    targetTimeEnd.setHours(13, 30, 0, 0);
+
+    if (currentTime >= targetTimeStart && currentTime <= targetTimeEnd) {
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  }, []);
 
   return (
     <div className='h-full bg-cv-secondary'>
       <div className="max-w-screen-lg mx-auto space-y-3">
         <div className="flex flex-col items-center justify-center space-y-2">
-          <div className="w-full mb-3">
-            <h2 className="text-2xl text-white">Asistencia</h2>
+          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-3">
+            <Link to="/asistencia" className='w-full sm:w-64 text-center bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
+            <div className='w-full'>
+              <h2 className="text-2xl text-center text-white">Administrar asistencias</h2>
+            </div>
           </div>
 
           <div className="w-full flex flex-col md:flex-row justify-between space-y-3 md:space-x-5 md:space-y-0">
@@ -276,7 +355,9 @@ export const AsistenciaAdmin = () => {
                 <CloseIcon />
               </button>
             </div>
+            {showButton && (
             <button onClick={handleClick} className='w-full sm:w-64 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap'>Generar Reporte</button>
+            )}
           </div>
 
           {isInputReady && (
@@ -406,7 +487,7 @@ export const AsistenciaAdmin = () => {
                           <div className='w-full flex flex-col items-center justify-center space-y-2 text-center'>
                             <h4 className='font-semibold text-lg'>Fotografía de Entrada</h4>
                             <img className='rounded-lg w-4/5 md:w-full border' src={imageUrl.admission_image ? import.meta.env.VITE_BACKEND_SERVER_URL + '/' + imageUrl.admission_image : defaultImage} alt="Fotografía de entrada" />
-                            {imageUrl.attendance === 1 || imageUrl.delay === 1 && (
+                            {(imageUrl.attendance === 1 || imageUrl.delay === 1) && (
                               <p className='text-lg font-semibold text-cv-primary space-x-3'>
                                 <span>Hora de Entrada:</span>
                                 <span>{imageUrl.admission_time ? imageUrl.admission_time : 'No registrada'}</span>
@@ -416,7 +497,7 @@ export const AsistenciaAdmin = () => {
                           <div className='w-full flex flex-col items-center justify-center space-y-2 text-center'>
                             <h4 className='font-semibold text-lg'>Fotografía de Salida</h4>
                             <img className='rounded-lg w-4/5 md:w-full border' src={imageUrl.departure_image ? import.meta.env.VITE_BACKEND_SERVER_URL + '/' + imageUrl.departure_image : defaultImage} alt="Fotografía de salida" />
-                            {imageUrl.attendance === 1 || imageUrl.delay === 1 && (
+                            {(imageUrl.attendance === 1 || imageUrl.delay === 1) && (
                               <p className='text-lg font-semibold text-cv-primary space-x-3'>
                                 <span>Hora de Salida:</span>
                                 <span>{imageUrl.departure_time ? imageUrl.departure_time : 'No registrada'}</span>

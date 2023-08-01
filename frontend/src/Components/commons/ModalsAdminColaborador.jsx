@@ -974,7 +974,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											value={Cellphone}
 											onChange={handleCellphoneChange}
 											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
-											placeholder="Ingresa el e-mail"
+											placeholder="Ingresa el número de teléfono"
 										/>
 									</div>
 									
