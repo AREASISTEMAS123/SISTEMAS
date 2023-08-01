@@ -45,6 +45,7 @@ const AppRoutes = () => {
                         <>
                             <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                             <Route path="/justificaciones" element={<AdmiJustificacion />} />
+                            <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion/>}/>
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />

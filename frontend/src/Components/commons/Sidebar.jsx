@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import CVLogo from "../../assets/logo.svg";
 import CVIsotipo from "../../assets/isotipo.svg";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
@@ -39,6 +39,7 @@ const sidebarContent = {
   ],
 };
 
+// eslint-disable-next-line react/prop-types
 export const Sidebar = ({ isOpen }) => {
   const rol = getRole();
   const menuItems = sidebarContent[rol] || [];

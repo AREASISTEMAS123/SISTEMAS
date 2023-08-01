@@ -17,7 +17,7 @@ export const Topbar = ({ toggleSidebar }) => {
   Topbar.propTypes = {
     toggleSidebar: PropTypes.func.isRequired,
   };
-
+  const [isJustificacionesOpen, setIsJustificacionesOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isCategoryMenuVisible, setIsCategoryMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -163,6 +163,7 @@ export const Topbar = ({ toggleSidebar }) => {
       });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const naviget = useNavigate();
   function logoutSubmit() {
     localStorage.setItem("login", "");
@@ -210,6 +211,9 @@ export const Topbar = ({ toggleSidebar }) => {
   const firstSurname = apellido.split(" ")[0];
   const firstSurnameInitial = firstSurname.charAt(0);
 
+  const openDesplegableJustificacion = () => {
+    setIsJustificacionesOpen(!isJustificacionesOpen);
+  }
   return (
     <div className="w-full h-20 sticky top-0 p-2 bg-cv-primary flex justify-between items-center z-50">
       {isMobile ? (
@@ -244,9 +248,9 @@ export const Topbar = ({ toggleSidebar }) => {
               {isMobile ? `${firstName} ${firstSurnameInitial}.` : `${firstName} ${firstSurname}`}
             </p>
             <p className={`text-${isMobile ? 'sm' : 'lg'} font-normal text-teal-300`}>
-              {isMobile ? `${ rol } `: `${ rol } `}
+              {isMobile ? `${rol} ` : `${rol} `}
             </p>
-            
+
           </div>
           <button onClick={showMenuUser} className="outline-none">
             <img
@@ -287,7 +291,7 @@ export const Topbar = ({ toggleSidebar }) => {
 
         <div className={`${showTask ? 'block' : 'hidden'} absolute flex items-center justify-center right-0 md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">
-          <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-${isMobile ? 'xs' : 'sm'} font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300`}>
+            <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-${isMobile ? 'xs' : 'sm'} font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300`}>
               <AddTaskIcon sx={{ fontSize: 18 }} />
               <span className='ml-4'>Agregar Tarea</span>
             </button>
@@ -472,36 +476,132 @@ export const Topbar = ({ toggleSidebar }) => {
             <CloseIcon />
           </button>
           <ul className="space-y-2 text-white" onClick={toggleCategoryMenu}>
-            <li>
-              <Link to="/colaboradores" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
-                Colaboradores
-              </Link>
-            </li>
-            <li>
-              <Link to="cumpleanos" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
-                Cumpleaños
-              </Link>
-            </li>
-            <li>
-              <Link to="/evaluaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
-                Evaluaciones
-              </Link>
-            </li>
-            <li>
-              <Link to="/justificaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
-                Justificaciones
-              </Link>
-            </li>
-            <li>
-              <Link to="/asistencia" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
-                Asistencias
-              </Link>
-            </li>
-            <li>
-              <Link to="/reportes" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
-                Reportes
-              </Link>
-            </li>
+            {
+              rol === 'Lider Nucleo' ? (
+                <>
+                  <li>
+                    <Link to="/perfil" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Perfil
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/colaboradores" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Colaboradores
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="cumpleanos" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Cumpleaños
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/reportes" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Reportes
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/asistencia" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Asistencias
+                    </Link>
+                  </li>
+                  <li>
+                    <Link onClick={(e) => {
+                      openDesplegableJustificacion();
+                      e.stopPropagation();
+                    }} className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Justificaciones
+                    </Link>
+                  </li>
+                  {isJustificacionesOpen && (
+                    <div className="relative">
+                      <div className="absolute left-0 mt-2 bg-cv-primary w-44 py-2 rounded-md shadow-md z-10">
+                        <Link  to="/justificacion" className="block px-4 py-2 text-white hover:bg-cv-secondary">
+                          Justificacion
+                        </Link>
+                        <Link  to="/justificaciones" className="block px-4 py-2 text-white hover:bg-cv-secondary">
+                          Justificaciones
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+
+                  <li>
+                    <Link to="/evaluaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Evaluaciones
+                    </Link>
+                  </li>
+
+
+                </>
+              ) : rol === 'Colaborador' ? (
+                <>
+                  <li>
+                    <Link to="/perfil" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Perfil
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/asistencia" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Asistencias
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="cumpleanos" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Cumpleaños
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/evaluacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Evaluaciones
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/justificacion" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Justificacion
+                    </Link>
+                  </li>
+                </>
+              ) : rol === 'Gerencia' ? (
+                <>
+                  <li>
+                    <Link to="/perfil" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Perfil
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/colaboradores" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Colaboradores
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="cumpleanos" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Cumpleaños
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/evaluaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Evaluaciones
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/justificaciones" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Justificaciones
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/asistencia" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Asistencias
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/reportes" className="cursor-pointer block hover:bg-cv-secondary p-2 rounded-md">
+                      Reportes
+                    </Link>
+                  </li>
+                </>
+
+              ) : null
+            }
           </ul>
         </div>
       )}
