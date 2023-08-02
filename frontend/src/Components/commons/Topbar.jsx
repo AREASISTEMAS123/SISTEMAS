@@ -245,10 +245,10 @@ export const Topbar = ({ toggleSidebar }) => {
             )}
           </button>
           <div>
-            <p className={`text-${isMobile ? 'sm' : 'lg'} font-bold text-white whitespace-nowrap`}>
+            <p className={`text-${isMobile ? 'sm' : 'lg'} font-bold leading-none text-white whitespace-nowrap`}>
               {isMobile ? `${firstName} ${firstSurnameInitial}.` : `${firstName} ${firstSurname}`}
             </p>
-            <p className={`text-${isMobile ? 'xs' : 'lg'} font-light text-teal-300`}>
+            <p className={`text-${isMobile ? 'xs' : 'lg'} font-light leading-none text-teal-300`}>
               {isMobile ? `${rol} ` : `${rol} `}
             </p>
 
@@ -257,7 +257,7 @@ export const Topbar = ({ toggleSidebar }) => {
             <img
               src={avatar}
               alt="Foto de Perfil"
-              className={`w-${isMobile ? '10' : '14'} h-${isMobile ? '12' : '14'} border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
+              className={`w-${isMobile ? '10' : '12'} h-${isMobile ? '10' : '12'} border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
             />
           </button>
 

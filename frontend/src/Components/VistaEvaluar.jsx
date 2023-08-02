@@ -17,17 +17,22 @@ export const VistaEvaluar = () => {
 	return (
 		<>
 			<div className="w-full space-y-4">
-				<div className="flex flex-col gap-3 sm:flex-row items-center bg-cv-primary p-4 sm:px-4 sm:py-10 rounded-lg">
-					<Link to="/evaluaciones" className="bg-cv-cyan text-cv-primary px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300">
-						<ArrowBackIosNewIcon sx={{ fontSize: 20 }} />
-						<span>Regresar</span>
-					</Link>
+				<div className=" bg-cv-primary p-4 sm:px-4 sm:py-10 rounded-lg">
+					<div className="flex flex-col gap-3 sm:flex-row items-center md:relative">
+						<Link to="/evaluaciones" className="bg-cv-cyan text-cv-primary px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-cv-cyan/80 md:absolute active:scale-95 ease-in-out duration-300">
+							<ArrowBackIosNewIcon sx={{ fontSize: 20 }} />
+							<span>Regresar</span>
+						</Link>
+						<div className="w-full flex items-center justify-center">
+							<h1 className="text-cv-cyan text-center text-3xl font-bold">Lista de evaluaciones para</h1>
+						</div>
+					</div>
 					<div className="w-full flex items-center justify-center">
-						<h1 className="text-cv-cyan text-3xl font-bold">Lista de evaluaciones</h1>
+						<h1 className="text-cv-cyan text-3xl font-bold">Cristian Vásquez</h1>
 					</div>
 
 				</div>
-					<h1 className="text-cv-cyan text-3xl font-bold">aqui va el nombre</h1>
+					
 				<div className="w-full grid gap-4 md:grid-cols-2 ">
 
 					{/* AUTOEVALUACIÓN */}
