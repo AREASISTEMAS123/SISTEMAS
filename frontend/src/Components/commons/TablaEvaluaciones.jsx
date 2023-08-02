@@ -132,7 +132,7 @@ export default function TablaEvaluaciones({ data }) {
 									</TableCell>
 									<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 										<div className='flex items-center justify-center'>
-											<Link to="" className='p-2 w-full border rounded-md text-center bg-cv-primary text-cv-cyan hover:bg-cv-secondary active:scale-95 ease-in-out duration-300'>
+											<Link to="/evaluacion/detalle" className='p-2 w-full border rounded-md text-center bg-cv-primary text-cv-cyan hover:bg-cv-secondary active:scale-95 ease-in-out duration-300'>
 												<VisibilityIcon className='sm:mr-2' />
 												<span className='hidden sm:inline'>Ver más</span>
 											</Link>

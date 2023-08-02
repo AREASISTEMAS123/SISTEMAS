@@ -38,7 +38,7 @@ export function EvaluacionesColaborador() {
                         </select>
                     </div>
                     <table
-                        className="min-w-full border text-center text-sm font-light dark:border">
+                        className="min-w-full border bg-cv-primary text-center text-sm font-light dark:border">
                         <thead className="border-b font-medium dark:border">
                             <tr>
                                 <th
@@ -66,7 +66,7 @@ export function EvaluacionesColaborador() {
                                     Calificación
                                 </th>
                                 <th
-                                    colspan="2"
+                                    colspan="3"
                                     scope="col"
                                     className="border-r px-6 py-4">
                                     Promedio
@@ -77,6 +77,11 @@ export function EvaluacionesColaborador() {
                                     scope="col"
                                     className="border-r border-t px-6 py-4">
                                     Semanal
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="border-r border-t px-6 py-4">
+                                    Quincenal
                                 </th>
                                 <th
                                     scope="col"
@@ -93,7 +98,7 @@ export function EvaluacionesColaborador() {
                                     {mesSeleccionado}
                                 </td>
                                 <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
                                     1
                                 </td>
@@ -106,8 +111,13 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                                 <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
+                                    10
+                                </td>
+                                <td
+                                    rowSpan="4"
+                                    className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border">
                                     10
                                 </td>
                                 <td
@@ -126,19 +136,10 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                             </tr>
+
                             <tr className="border-b dark:border">
                                 <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    Observaciones
-                                </td>
-                                <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    10
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border">
-                                <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
                                     2
                                 </td>
@@ -151,10 +152,11 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                                 <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
                                     10
                                 </td>
+                                
                             </tr>
                             <tr className="border-b dark:border">
                                 <td
@@ -166,19 +168,10 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                             </tr>
+
                             <tr className="border-b dark:border">
                                 <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    Observaciones
-                                </td>
-                                <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    10
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border">
-                                <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
                                     3
                                 </td>
@@ -191,8 +184,13 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                                 <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
+                                    10
+                                </td>
+                                <td
+                                    rowSpan="4"
+                                    className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border">
                                     10
                                 </td>
                             </tr>
@@ -206,19 +204,10 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                             </tr>
+
                             <tr className="border-b dark:border">
                                 <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    Observaciones
-                                </td>
-                                <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    10
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border">
-                                <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
                                     4
                                 </td>
@@ -231,7 +220,7 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                                 <td
-                                    rowSpan="3"
+                                    rowSpan="2"
                                     className="whitespace-nowrap border-r px-6 py-4 dark:border">
                                     10
                                 </td>
@@ -246,16 +235,7 @@ export function EvaluacionesColaborador() {
                                     10
                                 </td>
                             </tr>
-                            <tr className="border-b dark:border">
-                                <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    Observaciones
-                                </td>
-                                <td
-                                    className="whitespace-nowrap border-r px-6 py-4 dark:border">
-                                    10
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>

@@ -14,7 +14,8 @@ import {
     VistaAdminColaborador,
     OlvideContraseña,
     RestablecerContraseña,
-    VistaEvaluar
+    VistaEvaluar,
+    DetalleEvaluaciones
 } from "../components";
 import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
@@ -50,6 +51,7 @@ const AppRoutes = () => {
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
+                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones/>}/>
                         </>
                     )}
                     {hasRole('Gerencia') && (
@@ -61,6 +63,7 @@ const AppRoutes = () => {
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
+                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones/>}/>
                             
                         </>
                     )}

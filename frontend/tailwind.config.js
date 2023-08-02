@@ -15,7 +15,8 @@ export default {
       colors: {
                 'cv-primary': '#16232B',
                 'cv-secondary': '#283C4C',
-                'cv-cyan': '#57F3FF'
+                'cv-cyan': '#57F3FF',
+                'cv-tbody': '#D9D9D9'
             },
     },
   },
