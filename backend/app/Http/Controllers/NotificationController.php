@@ -33,8 +33,10 @@ class NotificationController extends Controller
             if ($absence === 3) {
                 // Verificamos si ya existe una notificación para este usuario con 3 faltas
                 if (!Notification::where('user_id', $id)->where('data', 'Este usuario tiene 3 faltas')->exists()) {
-                    $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas']);
+                    $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas y ha sido deshabilitado']);
                     array_push($notifications, $notif);
+                    // Cambia el status del usuario a 0 
+                    User::where('id', $id)->update(['status' => 0]);
                 }
             } else if ($absence === 2) {
                 // Verificamos si ya existe una notificación para este usuario con 2 faltas
