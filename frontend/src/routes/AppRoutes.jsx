@@ -19,7 +19,6 @@ import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
 import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
 import { AdmiHabilidadesBlandas } from "../Components/HabilidadesBlandas/AdmiHabilidadesBlandas";
-import { VistaEvaluacionDiagnosticoLiderazgo } from "../Components/DiagnosticoLiderazgo/VistaEvaluacionDiagnosticoLiderazgo";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -62,7 +61,6 @@ const AppRoutes = () => {
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/evaluacion/habilidades-blandas" element={<AdmiHabilidadesBlandas />}
                             />
-                            <Route path="/evaluacion/diagnostico-liderazgo" element={<VistaEvaluacionDiagnosticoLiderazgo />} />
                         </>
                     )}
                     <Route path="/*" element={<Navigate to="/home" />} />

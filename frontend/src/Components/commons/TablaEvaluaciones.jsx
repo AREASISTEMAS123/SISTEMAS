@@ -6,8 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -15,7 +13,9 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 function TablePaginationActions(props) {
@@ -79,14 +79,14 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired,
 };
 TablaEvaluaciones.propTypes = {
-	columns: PropTypes.array.isRequired,
 	data: PropTypes.array.isRequired,
 };
-export default function TablaEvaluaciones({ columns, data }) {
+
+export default function TablaEvaluaciones({ data }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-	// Avoid a layout jump when reaching the last page with empty rows.
+
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
 	const handleChangePage = (event, newPage) => {
@@ -99,56 +99,68 @@ export default function TablaEvaluaciones({ columns, data }) {
 	};
 
 	return (
-		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
-				<TableHead >
-					<TableRow >
-						{columns.map((column, index) => (
-							<TableCell key={index}  align="right">{column}</TableCell>
-						))}
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{(rowsPerPage > 0
-						? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-						: data
-					).map((row, index) => (
-						<TableRow
-							key={index}
-							sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-						>
-							{columns.map((column, colIndex) => (
-							<TableCell key={colIndex} align="right">{row[column]}</TableCell>
-							))}
-						</TableRow>
-					))}
-					{emptyRows > 0 && (
-						<TableRow style={{ height: 53 * emptyRows }}>
-							<TableCell colSpan={6} />
-						</TableRow>
-					)}
-				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-							colSpan={3}
-							count={data.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							SelectProps={{
-								inputProps: {
-									'aria-label': 'Filas por Pagina',
-								},
-								native: true,
-							}}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-							ActionsComponent={TablePaginationActions}
-						/>
-					</TableRow>
-				</TableFooter>
-			</Table>
-		</TableContainer>
+		<>
+			<div className='bg-white rounded-md overflow-hidden'>
+				<TableContainer >
+					<Table sx={{ minWidth: 500 }} aria-label="Tabla Evaluaciones">
+						<TableHead className='bg-cv-primary'>
+							<TableRow >
+								<TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap'>DNI</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Colaborador</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Estado</TableCell>
+								<TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap sticky right-0 bg-cv-primary'>Acciones</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{data.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((item) => (
+									<TableRow
+										key={item.id}
+										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+									>
+										<TableCell align="left" width="auto" className='whitespace-nowrap'>12345678</TableCell>
+										<TableCell align="left">Cristian Vasquez</TableCell>
+										<TableCell align="center">
+											<div className='flex items-center justify-center'>
+												hola
+											</div>
+										</TableCell>
+										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
+											<div className='flex items-center justify-center'>
+												<Link to="" className='p-2 w-full border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
+													<VisibilityIcon className='sm:mr-2' />
+													<span className='hidden sm:inline'>Ver mas</span>
+												</Link>
+											</div>
+										</TableCell>
+									</TableRow>
+								))}
+							{emptyRows > 0 && (
+								<TableRow style={{ height: 53 * emptyRows }}>
+									<TableCell colSpan={12} />
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<div className='flex justify-end'>
+					<TablePagination
+						rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: -1 }]}
+						colSpan={3}
+						count={data.length}
+						rowsPerPage={rowsPerPage}
+						page={page}
+						SelectProps={{
+							inputProps: {
+								'aria-label': 'Filas por Pagina',
+							},
+							native: true,
+						}}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+						ActionsComponent={TablePaginationActions}
+					/>
+				</div>
+			</div>
+		</>
 	);
 }
