@@ -56,31 +56,31 @@ export function DetalleEvaluaciones() {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className='bg-cv-tbody text-black border-2 border border-black'>
+                            <tbody className='bg-cv-tbody text-black  border border'>
                                 <tr className="">
                                     <td
                                         rowSpan="12"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium">
                                         SI
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4">
+                                        className="whitespace-nowrap border border px-6 py-4">
                                         1
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         10
                                     </td>
                                     <td
                                         rowSpan="4"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium ">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium ">
                                         10
                                     </td>
                                     <td
                                         rowSpan="12"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium ">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium ">
                                         10
                                     </td>
                                 </tr>
@@ -90,12 +90,12 @@ export function DetalleEvaluaciones() {
                                 <tr className="">
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         2
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         10
                                     </td>
 
@@ -106,17 +106,17 @@ export function DetalleEvaluaciones() {
                                 <tr className="">
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         3
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         10
                                     </td>
                                     <td
                                         rowSpan="4"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium ">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium ">
                                         10
                                     </td>
                                 </tr>
@@ -126,7 +126,7 @@ export function DetalleEvaluaciones() {
                                 <tr className="">
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         4
                                     </td>
                                     <td
@@ -184,31 +184,31 @@ export function DetalleEvaluaciones() {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className='bg-cv-tbody text-black border-2 border border-black'>
+                            <tbody className='bg-cv-tbody text-black  border border'>
                                 <tr className="">
                                     <td
                                         rowSpan="12"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium">
                                         SI
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4">
+                                        className="whitespace-nowrap border border px-6 py-4">
                                         1
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         10
                                     </td>
                                     <td
                                         rowSpan="4"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium ">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium ">
                                         10
                                     </td>
                                     <td
                                         rowSpan="12"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium ">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium ">
                                         10
                                     </td>
                                 </tr>
@@ -218,12 +218,12 @@ export function DetalleEvaluaciones() {
                                 <tr className="">
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         2
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         10
                                     </td>
 
@@ -234,17 +234,17 @@ export function DetalleEvaluaciones() {
                                 <tr className="">
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         3
                                     </td>
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         10
                                     </td>
                                     <td
                                         rowSpan="4"
-                                        className="whitespace-nowrap border border-black px-6 py-4 font-medium ">
+                                        className="whitespace-nowrap border border px-6 py-4 font-medium ">
                                         10
                                     </td>
                                 </tr>
@@ -254,7 +254,7 @@ export function DetalleEvaluaciones() {
                                 <tr className="">
                                     <td
                                         rowSpan="2"
-                                        className="whitespace-nowrap border border-black px-6 py-4 ">
+                                        className="whitespace-nowrap border border px-6 py-4 ">
                                         4
                                     </td>
                                     <td
