@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -42,6 +41,10 @@ return new class extends Migration
             $table->boolean('decline')->default(false);
             $table->string('reason_decline')->nullable();
             $table->timestamps();
+            
+            $table->unsignedBigInteger('action_by')->nullable();
+            $table->foreign('action_by')->references('id')->on('profiles')->onDelete('set null');
+
         });
     }
 

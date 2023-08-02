@@ -12,6 +12,7 @@ class Justification extends Model
         'user_id',
         'justification_date',
         'reason',
+        'action_by',
         'evidence',
         'justification_status',
         'decline',
