@@ -27,6 +27,7 @@ export const VistaEvaluar = () => {
 					</div>
 
 				</div>
+					<h1 className="text-cv-cyan text-3xl font-bold">aqui va el nombre</h1>
 				<div className="w-full grid gap-4 md:grid-cols-2 ">
 
 					{/* AUTOEVALUACIÓN */}
