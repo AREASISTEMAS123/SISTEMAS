@@ -79,6 +79,7 @@ export const Login = () => {
                             localStorage.setItem('token', responseData.accessToken);
                             localStorage.setItem('iduser', responseData.user.id);
                             localStorage.setItem('rol', responseData.rol);
+                            localStorage.setItem('area', responseData.profile.area);
                             localStorage.setItem('name', responseData.user.name);
                             localStorage.setItem('avatar', responseData.avatar)
                             localStorage.setItem('surname', responseData.user.surname)

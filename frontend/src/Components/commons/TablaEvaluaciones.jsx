@@ -108,6 +108,7 @@ export default function TablaEvaluaciones({ data }) {
 							<TableRow >
 								<TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap'>DNI</TableCell>
 								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Colaborador</TableCell>
+								<TableCell align="center" style={{ color: "white" }} className='whitespace-nowrap'>Rol</TableCell>
 								<TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap'>Estado</TableCell>
 								<TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap sticky right-0 bg-cv-primary'>Acciones</TableCell>
 							</TableRow>
@@ -120,9 +121,10 @@ export default function TablaEvaluaciones({ data }) {
 								>
 									<TableCell align="left" width="auto" className='whitespace-nowrap'>12345678</TableCell>
 									<TableCell align="left">Cristian Vasquez</TableCell>
+									<TableCell align="left">Aquí va el rol</TableCell>
 									<TableCell align="center">
 										<div className='flex items-center justify-center'>
-											<Link to="" className='p-2 w-full border rounded-md font-semibold bg-cv-cyan text-cv-primary hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300'>
+											<Link to="/evaluar" className='p-2 w-full border rounded-md font-semibold bg-cv-cyan text-cv-primary hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300'>
 												<ChecklistIcon className='sm:mr-2' />
 												<span className='hidden sm:inline'>Evaluar</span>
 											</Link>
