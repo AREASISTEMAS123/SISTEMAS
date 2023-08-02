@@ -167,7 +167,7 @@ export const Topbar = ({ toggleSidebar }) => {
     localStorage.setItem('login', 'false');
     localStorage.setItem('loginStatus', 'Cierre de sesión exitoso!');
     window.location.reload();
-}
+  }
 
   const toggleCategoryMenu = () => {
     setIsCategoryMenuVisible(!isCategoryMenuVisible);
@@ -245,10 +245,10 @@ export const Topbar = ({ toggleSidebar }) => {
             )}
           </button>
           <div>
-            <p className={`text-${isMobile ? 'sm' : 'lg'} font-medium text-white whitespace-nowrap`}>
+            <p className={`text-${isMobile ? 'sm' : 'lg'} font-bold text-white whitespace-nowrap`}>
               {isMobile ? `${firstName} ${firstSurnameInitial}.` : `${firstName} ${firstSurname}`}
             </p>
-            <p className={`text-${isMobile ? 'sm' : 'lg'} font-normal text-teal-300`}>
+            <p className={`text-${isMobile ? 'xs' : 'lg'} font-light text-teal-300`}>
               {isMobile ? `${rol} ` : `${rol} `}
             </p>
 
@@ -257,9 +257,10 @@ export const Topbar = ({ toggleSidebar }) => {
             <img
               src={avatar}
               alt="Foto de Perfil"
-              className="w-14 h-14 border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover"
+              className={`w-${isMobile ? '10' : '14'} h-${isMobile ? '12' : '14'} border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
             />
           </button>
+
         </div>
         <div className={`${isVisible ? 'block' : 'hidden'} absolute right-2 w-52 mt-3 bg-cv-primary p-4 rounded-b-lg z-[50]`}>
           <div className="space-y-2 text-white">

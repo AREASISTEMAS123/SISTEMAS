@@ -18,7 +18,6 @@ import {
 import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
 import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
-import { HabilidadesBlandas } from "../Components/Evaluaciones/HabilidadesBlandas";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -39,7 +38,6 @@ const AppRoutes = () => {
                     <Route path="/asistencia" element={<Asistencia />} />
                     <Route path="/justificacion" element={<JustificacionColaborador />} />
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
-                    <Route path="/evaluaciones-blandas" element = {<HabilidadesBlandas/>}/>
                     <Route path="/details/:id" element={<JustificacionDetalleColaborador />} />
                     <Route path="/logout" />
                     {hasRole('Lider Nucleo') && (
@@ -60,7 +58,7 @@ const AppRoutes = () => {
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
-
+                            
                         </>
                     )}
                     <Route path="/*" element={<Navigate to="/home" />} />
