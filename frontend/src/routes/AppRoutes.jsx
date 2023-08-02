@@ -20,6 +20,8 @@ import {
 import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
 import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
+import { HabilidadesBlandas } from "../Components/Evaluaciones/HabilidadesBlandas";
+import { Desempeño } from "../Components/Evaluaciones/Desempeño";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -42,6 +44,8 @@ const AppRoutes = () => {
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
                     <Route path="/details/:id" element={<JustificacionDetalleColaborador />} />
                     <Route path="/logout" />
+                    <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas/>}/>
+                    <Route path="/evaluaciones/desempeño" element={<Desempeño/>}/>
                     {hasRole('Lider Nucleo') && (
                         <>
                             <Route path="/colaboradores" element={<VistaAdminColaborador />} />

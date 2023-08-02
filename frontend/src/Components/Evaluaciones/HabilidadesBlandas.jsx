@@ -1,12 +1,13 @@
-import { useEffect } from "react";
 import { useEvaluation } from "./hooks/useEvaluation";
+import { useEffect } from "react";
 
 export const HabilidadesBlandas = () => {
 
-    const { semana_one, semana_two, semana_three, semana_four, suma, handleChange, calcularSuma } = useEvaluation();
+    const { note1, note2, note3, note4, suma, handleChange, calcularSuma } = useEvaluation();
+
     useEffect(() => {
-        calcularSuma();
-    }, []);
+        calcularSuma;
+    }, [note1, note2, note3, note4]);
 
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
@@ -26,7 +27,7 @@ export const HabilidadesBlandas = () => {
                         <input
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
-                            value={semana_one}
+                            value={note1}
                             type="number"
                             name="semana_one"
                             onChange={handleChange}
@@ -40,7 +41,7 @@ export const HabilidadesBlandas = () => {
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
                             type="number"
-                            value={semana_two}
+                            value={note2}
                             name="semana_two"
                             onChange={handleChange}
                         />
@@ -53,7 +54,7 @@ export const HabilidadesBlandas = () => {
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
                             type="number"
-                            value={semana_three}
+                            value={note3}
                             name="semana_three"
                             onChange={handleChange}
                         />
@@ -66,7 +67,7 @@ export const HabilidadesBlandas = () => {
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
                             type="number"
-                            value={semana_four}
+                            value={note4}
                             name="semana_four"
                             onChange={handleChange}
                         />
@@ -86,10 +87,7 @@ export const HabilidadesBlandas = () => {
                     <button className="bg-cyan-400 border-2 p-2">Guardar</button>
                     <button className="bg-amber-500 border-2 p-2 ml-4">Cancelar</button>
                 </div>
-
             </div>
-
-
         </div>
     )
 }
