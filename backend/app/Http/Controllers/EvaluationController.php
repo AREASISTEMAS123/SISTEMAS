@@ -92,6 +92,13 @@ class EvaluationController extends Controller
 
         return response()->json($leadership);
     }
+
+    public function getAutoevaluation()
+    {
+        $leadership = Autoevaluation::all();
+
+        return response()->json($leadership);
+    }
     
     public function updateSoftSkills($id, Request $request)
     {   

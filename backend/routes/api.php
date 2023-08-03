@@ -82,9 +82,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
     
-    Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
+    Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getPerformance']);
     
-    Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
+    Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getLeadership']);
+
+    Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
 
     Route::post('evaluations/softskills/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateSoftSkills']);
 
