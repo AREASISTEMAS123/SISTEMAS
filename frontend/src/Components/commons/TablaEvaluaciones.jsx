@@ -81,9 +81,10 @@ TablePaginationActions.propTypes = {
 };
 TablaEvaluaciones.propTypes = {
 	data: PropTypes.array.isRequired,
+	filterName: PropTypes.string.isRequired,
 };
 
-export default function TablaEvaluaciones({ data }) {
+export default function TablaEvaluaciones({ data, filterName }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -98,6 +99,18 @@ export default function TablaEvaluaciones({ data }) {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};
+
+
+	const roleNames = {
+		1: 'Gerencia',
+		2: 'Lider Nucleo',
+		3: 'Colaborador',
+	};
+
+	//quita acentos en los filtros
+	function removeAccents(str) {
+		return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+	}
 
 	return (
 		<>
@@ -114,17 +127,37 @@ export default function TablaEvaluaciones({ data }) {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{data.slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((item) => (
+							{data.filter((users) => {
+								const normalizedFilter = removeAccents(filterName.toLowerCase());
+								const normalizedName = users.user && users.user[0] ? removeAccents(users.user[0].name.toLowerCase()) : '';
+								const normalizedSurname = users.user && users.user[0] ? removeAccents(users.user[0].surname.toLowerCase()) : '';
+
+								if (filterName.includes(' ')) {
+									const [firstName, lastName] = filterName.split(' ');
+									const normalizedFirstName = removeAccents(firstName.toLowerCase());
+									const normalizedLastName = removeAccents(lastName.toLowerCase());
+
+									return (
+										(normalizedName.includes(normalizedFirstName) && normalizedSurname.includes(normalizedLastName)) ||
+										(normalizedName.includes(normalizedLastName) && normalizedSurname.includes(normalizedFirstName))
+									);
+								} else {
+									return (
+										normalizedName.includes(normalizedFilter) ||
+										normalizedSurname.includes(normalizedFilter)
+									);
+								}
+							}).slice(rowsPerPage > 0 ? page * rowsPerPage : 0, rowsPerPage > 0 ? page * rowsPerPage + rowsPerPage : data.length).map((item) => (
 								<TableRow
 									key={item.id}
 									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 								>
-									<TableCell align="left" width="auto" className='whitespace-nowrap'>12345678</TableCell>
-									<TableCell align="left">Cristian Vasquez</TableCell>
-									<TableCell align="left">Aquí va el rol</TableCell>
+									<TableCell align="left" width="auto" className='whitespace-nowrap'>{item.dni}</TableCell>
+									<TableCell align="left">{item.user && item.user[0]?.name + " " + item.user[0]?.surname}</TableCell>
+									<TableCell align="left">{item.user && item.role[0]?.role_id ? roleNames[item.role[0].role_id] : ''}</TableCell>
 									<TableCell align="center">
 										<div className='flex items-center justify-center'>
-											<Link to="/evaluar" className='p-2 w-full border rounded-md font-semibold bg-cv-cyan text-cv-primary hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300'>
+											<Link to="/evaluar" onClick="" className='p-2 w-full border rounded-md font-semibold bg-cv-cyan text-cv-primary hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300'>
 												<ChecklistIcon className='sm:mr-2' />
 												<span className='hidden sm:inline'>Evaluar</span>
 											</Link>

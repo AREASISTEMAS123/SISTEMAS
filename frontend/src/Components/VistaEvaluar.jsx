@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRounded';
 
@@ -6,7 +6,7 @@ import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRou
 export const VistaEvaluar = () => {
 	const rol = localStorage.getItem('rol');
 	const area = localStorage.getItem('area');
-	//const isLoggedIn = localStorage.getItem('login') === 'true';
+
 	const hasRole = (targetRole) => {
 		return rol === targetRole;
 	};
@@ -28,7 +28,7 @@ export const VistaEvaluar = () => {
 						</div>
 					</div>
 					<div className="w-full flex items-center justify-center">
-						<h1 className="text-cv-cyan text-3xl font-bold">Cristian Vásquez</h1>
+						<h1 className="text-cv-cyan text-3xl font-bold">aqui va el nombre</h1>
 					</div>
 
 				</div>

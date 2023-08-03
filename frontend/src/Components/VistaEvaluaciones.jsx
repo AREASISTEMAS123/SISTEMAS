@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TablaEvaluaciones from './commons/TablaEvaluaciones';
 
 export const VistaEvaluaciones = () => {
+	const [users, setUsers] = useState([]);
 	const [selectedOption, setSelectedOption] = useState('');
+
+	//UseState Filtar
+	const [filterName, setFilterName] = useState('');
+
+	const Token = localStorage.getItem("token");
 
 	const handleChange = (event) => {
 		const selectedValue = event.target.value;
@@ -23,7 +29,33 @@ export const VistaEvaluaciones = () => {
 		{ value: 'diciembre', label: 'Diciembre' }
 	];
 
-	const data = [1, 2, 3];
+
+	useEffect(() => {
+		obtenerUsuarios();
+	}, []);
+
+	const obtenerUsuarios = async () => {
+		try {
+			const response = await fetch(import.meta.env.VITE_API_URL + "/users", {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${Token}`,
+				},
+			});
+			const data = await response.json();
+			if (response.ok) {
+				setUsers(data.profile);
+			} else {
+				console.error('Error al obtener los usuarios:', data.error);
+			}
+		} catch (error) {
+			console.error('Error al obtener los usuarios:', error);
+		}
+	};
+
+	const clearFilter = () => {
+		setFilterName("");
+	};
 
 	return (
 		<>
@@ -36,8 +68,8 @@ export const VistaEvaluaciones = () => {
 						<input
 							type="text"
 							id="searchName"
-							value=""
-							onChange=""
+							value={filterName}
+							onChange={(e) => setFilterName(e.target.value)}
 							placeholder="Ingresa el DNI o apellidos del colaborador"
 							className="block w-full p-3 pr-10 text-sm border-none text-cv-primary rounded-md bg-slate-300 drop-shadow-md outline-none sm:text-lg placeholder-cv-primary font-semibold"
 						/>
@@ -54,11 +86,11 @@ export const VistaEvaluaciones = () => {
 						</select>
 					</div>
 
-					<button onClick="" className='w-full sm:w-64 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap'>Limpiar Filtros</button>
+					<button onClick={clearFilter} className='w-full sm:w-64 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap'>Limpiar Filtros</button>
 
 				</div>
 				<div>
-					<TablaEvaluaciones data={data} />
+					<TablaEvaluaciones data={users} filterName={filterName} />
 				</div>
 			</div>
 		</>
