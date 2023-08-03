@@ -91,7 +91,7 @@ export const VistaEvaluar = () => {
 								</div>
 
 							</div>
-							<Link to="" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
+							<Link to="/evaluaciones/desempeño" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
 								<span >Evaluar</span>
 							</Link>
 						</div>
@@ -155,7 +155,7 @@ export const VistaEvaluar = () => {
 								</div>
 
 							</div>
-							<Link to="" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
+							<Link to="/evaluaciones/habilidades-blandas" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
 								<span >Evaluar</span>
 							</Link>
 						</div>

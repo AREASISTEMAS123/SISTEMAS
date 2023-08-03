@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useEvaluation } from "./hooks/useEvaluation";
 export const Desempeño = () => {
-    const { note1, note2, note3, note4, suma, handleChange,calcularSuma } = useEvaluation();
+    const { note1, note2, note3, note4, suma, handleChange } = useEvaluation();
 
     useEffect(() => {
-        calcularSuma;
+        
     }, [note1, note2, note3, note4]);
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">

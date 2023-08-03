@@ -44,8 +44,7 @@ const AppRoutes = () => {
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
                     <Route path="/details/:id" element={<JustificacionDetalleColaborador />} />
                     <Route path="/logout" />
-                    <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas/>}/>
-                    <Route path="/evaluaciones/desempeño" element={<Desempeño/>}/>
+
                     {hasRole('Lider Nucleo') && (
                         <>
                             <Route path="/colaboradores" element={<VistaAdminColaborador />} />
@@ -55,7 +54,9 @@ const AppRoutes = () => {
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
-                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones/>}/>
+                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
+                            <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
+                            <Route path="/evaluaciones/desempeño" element={<Desempeño />} />
                         </>
                     )}
                     {hasRole('Gerencia') && (
@@ -67,8 +68,8 @@ const AppRoutes = () => {
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
-                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones/>}/>
-                            
+                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
+
                         </>
                     )}
                     <Route path="/*" element={<Navigate to="/home" />} />
