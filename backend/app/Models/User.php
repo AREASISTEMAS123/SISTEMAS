@@ -40,6 +40,7 @@ class User extends Authenticatable implements HasMedia
         'email',
         'password',
         'status',
+        'status_description'
     ];
 
     public function Profile(){
