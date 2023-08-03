@@ -60,7 +60,7 @@ export const VistaEvaluar = () => {
 								</div>
 
 							</div>
-							<Link to="" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
+							<Link to="/evaluaciones/autoevaluacion" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
 								<span >Evaluar</span>
 							</Link>
 						</div>
@@ -123,7 +123,7 @@ export const VistaEvaluar = () => {
 									</div>
 
 								</div>
-								<Link to="" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
+								<Link to="/evaluacion/diagnosticoLiderazgo" className="p-5 w-full bg-cv-cyan text-cv-primary flex items-center justify-center text-xl font-bold uppercase">
 									<span >Evaluar</span>
 								</Link>
 							</div>

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import {  useNavigate } from "react-router-dom";
 
 export const useEvaluation = () => {
-    const [note1, setNote1] = useState();
-    const [note2, setNote2] = useState();
-    const [note3, setNote3] = useState();
-    const [note4, setNote4] = useState();
+    const [note1, setNote1] = useState('');
+    const [note2, setNote2] = useState('');
+    const [note3, setNote3] = useState('');
+    const [note4, setNote4] = useState('');
     const [suma, setSuma] = useState(0);
 
     const handleChange = ({ target }) => {
@@ -38,10 +39,15 @@ export const useEvaluation = () => {
         setSuma(total);
     };
    
+    const navigate= useNavigate();
+    const onClickRetroceder = () =>{
+        navigate("/evaluar")
+    }
+
     useEffect(() => {
         calcularSuma();
     }, [note1, note2, note3, note4]);
     return{
-        note1, note2,note3,note4,handleChange,suma
+        note1, note2,note3,note4,handleChange,suma,onClickRetroceder
     }
 }

@@ -22,6 +22,8 @@ import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustifica
 import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
 import { HabilidadesBlandas } from "../Components/Evaluaciones/HabilidadesBlandas";
 import { Desempeño } from "../Components/Evaluaciones/Desempeño";
+import { AutoEvaluacion } from "../Components/Evaluaciones/AutoEvaluacion";
+import { DiagnosticoLiderazgo } from "../Components/Evaluaciones/DiagnosticoLiderazgo";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -57,6 +59,7 @@ const AppRoutes = () => {
                             <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
                             <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
                             <Route path="/evaluaciones/desempeño" element={<Desempeño />} />
+                            <Route path="/evaluaciones/autoevaluacion" element={<AutoEvaluacion />} />
                         </>
                     )}
                     {hasRole('Gerencia') && (
@@ -69,6 +72,7 @@ const AppRoutes = () => {
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
                             <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
+                            <Route path="/evaluacion/diagnosticoLiderazgo" element={<DiagnosticoLiderazgo />} />
 
                         </>
                     )}
