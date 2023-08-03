@@ -89,6 +89,7 @@ class usercontroller extends Controller
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'status' => 'required|boolean',
+            'status_description'=>'string',
             'dni' => 'required|string',
             'profile_name' => 'required|string|max:255',
             'department' => 'required|string|max:255',
@@ -114,6 +115,7 @@ class usercontroller extends Controller
             'surname' => $request->surname,
             'email' => $request->email,
             'status' => $request->status,
+            'status_description' =>$request->status_description,
             'password' => Hash::make($request->dni)
         ]);
 
