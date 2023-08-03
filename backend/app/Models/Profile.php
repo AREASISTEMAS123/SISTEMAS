@@ -35,4 +35,7 @@ class Profile extends Model
     public function role(){
         return $this->hasMany(Model_has_role::class, 'model_id','id');
     }
+    public function evaluations() {
+        return $this->hasMany(Evaluation::class, 'user_id', 'id');
+    }
 }

@@ -88,6 +88,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
 
+    Route::get('evaluations/softskills/{id}', [App\Http\Controllers\EvaluationController::class, 'getSoftSkillsById']);
+
     Route::post('evaluations/softskills/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateSoftSkills']);
 
     Route::post('evaluations/performance/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updatePerformance']);
@@ -100,5 +102,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationById']);
 
-    Route::post('evaluations/insert', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
+    Route::post('evaluations/insert/{id}', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
 });

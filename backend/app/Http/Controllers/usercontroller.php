@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\Attendance;
-use App\Models\Media;
+use App\Models\Evaluation;
 use App\Models\Model_has_role;
 use App\Models\Profile;
 use App\Models\User;
-use GuzzleHttp\Pool;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,6 +33,7 @@ class usercontroller extends Controller
         $justification = Attendance::all()->where('user_id', $id)->where("justification", "1")->count();
         $role = Model_has_role::where('model_id', $id)->firstOrFail();
         $img = User::with('media')->where('id', $id)->first()->getMedia('avatars');
+        $evaluation = Evaluation::where('user_id', $id)->with("Performance", "softSkills", "autoEvaluation", "leadershipEvaluations")->first();
 
         if ($role->role_id == '1'){
             $name_role = 'Gerencia';
@@ -45,6 +44,7 @@ class usercontroller extends Controller
                 "Faltas" => $absence,
                 "Tardanzas" => $delay,
                 "Justificaciones" => $justification,
+                'evaluaciones' => $evaluation,
                 'rol' => $name_role,
                 'avatar' => $img], 200);
         }elseif ($role->role_id == '2'){
@@ -56,6 +56,7 @@ class usercontroller extends Controller
             "Faltas" => $absence,
             "Tardanzas" => $delay,
             "Justificaciones" => $justification,
+            'evaluaciones' => $evaluation,
             'rol' => $name_role,
             'avatar' => $img], 200);
          }else{
@@ -67,6 +68,7 @@ class usercontroller extends Controller
             "Faltas" => $absence,
             "Tardanzas" => $delay,
             "Justificaciones" => $justification,
+            'evaluaciones' => $evaluation,
             'rol' => $name_role,
             'avatar' => $img], 200);
     }

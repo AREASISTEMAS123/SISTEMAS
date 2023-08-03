@@ -55,6 +55,10 @@ class User extends Authenticatable implements HasMedia
 
         return $this->belongsTo(Justification::class, 'id', 'user_id');
     }
+
+    // public function evaluations() {
+    //     return $this->belongsTo(Evaluation::class, 'id', 'user_id');
+    // }
     /**
      * The attributes that should be hidden for serialization.
      *

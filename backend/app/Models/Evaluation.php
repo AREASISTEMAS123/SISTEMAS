@@ -32,5 +32,8 @@ class Evaluation extends Model
     {
         return $this->hasMany(Evaluation::class, 'evaluation_id', 'id');
     }
+    public function performance() {
+        return $this->hasMany(Performance::class, 'evaluation_id', 'id');
+    }
 
 }

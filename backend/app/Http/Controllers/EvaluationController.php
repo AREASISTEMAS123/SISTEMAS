@@ -23,14 +23,14 @@ class EvaluationController extends Controller
     public function insertEvaluation()
     {
 
-        $filteredEvaluations = Profile::whereHas('user', function ($query) {
+        $evaluation_data = Profile::whereHas('user', function ($query) {
             $query->where('status', 1);
-        })->get();
+        })->first();
 
         //recogemos id logueado
         $user_id = auth()->id();
 
-        foreach ($filteredEvaluations as $evaluation_data) {
+        if($evaluation_data) {
             $new_evaluation = new Evaluation();
             $new_evaluation->user_id = $evaluation_data->user_id;
             $new_evaluation->date = date('Y-m-d');
@@ -69,7 +69,7 @@ class EvaluationController extends Controller
                 $new_Autoevaluation->save();
             }
         }
-        return response()->json(['evaluations' => $filteredEvaluations]);
+        return response()->json(['evaluations' => $evaluation_data]);
     }
 
     public function getSoftSkills()
@@ -77,6 +77,12 @@ class EvaluationController extends Controller
         $softSkills = SoftSkills::all();
 
         return response()->json($softSkills);
+    }
+
+    public function getSoftSkillsById($id) {
+        $softSkillsById = SoftSkills::where('evaluation_id', $id)->first();
+
+        return response()->json($softSkillsById);
     }
 
     public function getPerformance()
