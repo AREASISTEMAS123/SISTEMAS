@@ -73,6 +73,9 @@ const AppRoutes = () => {
                             <Route path="/evaluar" element={<VistaEvaluar />} />
                             <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
                             <Route path="/evaluacion/diagnosticoLiderazgo" element={<DiagnosticoLiderazgo />} />
+                            <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
+                            <Route path="/evaluaciones/desempeño" element={<Desempeño />} />
+                            <Route path="/evaluaciones/autoevaluacion" element={<AutoEvaluacion />} />
 
                         </>
                     )}
