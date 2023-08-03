@@ -4,18 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Justification;
-use App\Models\Model_has_role;
-use App\Models\Profile;
-use App\Models\User;
 use Carbon\Carbon;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Mockery\Exception;
-use PhpParser\Node\NullableType;
-use function PHPUnit\Framework\isNull;
 
 class JustificationController extends Controller
 {
@@ -81,7 +75,7 @@ class JustificationController extends Controller
 
     public function getAllJustification()
     {
-        $justification = Justification::with('User.media', 'Profile')->get();
+        $justification = Justification::with('User.media', 'Profile', 'actionByUser')->get();
         $declines = Justification::all()->where('decline', '1')->count();
         $process = Justification::all()->where('justification_status', '0')->count();
         $accept = Justification::all()->where('justification_status', '1')->count();

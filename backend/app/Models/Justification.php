@@ -28,4 +28,7 @@ class Justification extends Model
     public function Profile(){
         return $this->hasMany(Profile::class,'id', 'user_id');
     }
+    public function actionByUser(){
+        return $this->belongsTo(User::class, 'action_by');
+    }
 }
