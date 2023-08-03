@@ -41,10 +41,8 @@ return new class extends Migration {
             $table->boolean('decline')->default(false);
             $table->string('reason_decline')->nullable();
             $table->timestamps();
-            
             $table->unsignedBigInteger('action_by')->nullable();
             $table->foreign('action_by')->references('id')->on('profiles')->onDelete('set null');
-
         });
     }
 

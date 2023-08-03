@@ -17,7 +17,7 @@ class EvaluationController extends Controller
     {
         $attendance_user = Evaluation::with('profile.user.roles')->get();
 
-         return response()->json(['evaluations' => $attendance_user]);
+        return response()->json(['evaluations' => $attendance_user]);
     }
 
     public function insertEvaluation()
@@ -41,7 +41,7 @@ class EvaluationController extends Controller
                 ->pluck('role_id')
                 ->first();
             if ($user_role == 3) {
-                
+
                 //Creo softskills
                 $new_softSkills = new SoftSkills();
                 $new_softSkills->evaluation_id = $new_evaluation->id; // Aquí asignamos el id de la nueva evaluación
@@ -92,9 +92,9 @@ class EvaluationController extends Controller
 
         return response()->json($leadership);
     }
-    
+
     public function updateSoftSkills($id, Request $request)
-    {   
+    {
         $softSkills = SoftSkills::find($id);
 
         $user_id = auth()->id();
@@ -114,13 +114,13 @@ class EvaluationController extends Controller
 
         return response()->json([
             'softSkills' => $softSkills,
-            'prom_pr_quincenal' => $prom_quincenal_1, 
+            'prom_pr_quincenal' => $prom_quincenal_1,
             'prom_sg_quincenal' => $prom_quincenal_2
         ]);
     }
 
     public function updatePerformance($id, Request $request)
-    {   
+    {
         $performance = Performance::find($id);
 
         $user_id = auth()->id();
@@ -140,13 +140,13 @@ class EvaluationController extends Controller
 
         return response()->json([
             'performance' => $performance,
-            'prom_pr_quincenal' => $prom_quincenal_1, 
+            'prom_pr_quincenal' => $prom_quincenal_1,
             'prom_sg_quincenal' => $prom_quincenal_2
         ]);
     }
 
     public function updateLeadership($id, Request $request)
-    {   
+    {
         $leadership = Performance::find($id);
 
         $user_id = auth()->id();
@@ -166,13 +166,13 @@ class EvaluationController extends Controller
 
         return response()->json([
             'leadership' => $leadership,
-            'prom_pr_quincenal' => $prom_quincenal_1, 
+            'prom_pr_quincenal' => $prom_quincenal_1,
             'prom_sg_quincenal' => $prom_quincenal_2
         ]);
     }
 
     public function updateAutoevaluation($id, Request $request)
-    {   
+    {
         $autoevaluation = Autoevaluation::find($id);
 
         $user_id = auth()->id();
@@ -192,12 +192,13 @@ class EvaluationController extends Controller
 
         return response()->json([
             'autoevaluation' => $autoevaluation,
-            'prom_pr_quincenal' => $prom_quincenal_1, 
+            'prom_pr_quincenal' => $prom_quincenal_1,
             'prom_sg_quincenal' => $prom_quincenal_2
         ]);
     }
 
-    public function getEvaluationDetails($id){
+    public function getEvaluationDetails($id)
+    {
 
         $evaluation = Evaluation::find($id);
 
@@ -210,7 +211,7 @@ class EvaluationController extends Controller
             $prom_quincenal_soft_1 = 0;
             $prom_quincenal_soft_2 = 0;
         }
-        
+
         $performance = Performance::where('evaluation_id', $id)->first();
 
         if ($performance != null) {
@@ -232,7 +233,7 @@ class EvaluationController extends Controller
         }
 
         $autoevaluation = Autoevaluation::where('evaluation_id', $id)->first();
-        
+
         if ($autoevaluation != null) {
             $prom_quincenal_auto_1 = ($autoevaluation->note1 + $autoevaluation->note2) / 2;
             $prom_quincenal_auto_2 = ($autoevaluation->note3 + $autoevaluation->note4) / 2;
@@ -245,25 +246,48 @@ class EvaluationController extends Controller
             'evaluations' => $evaluation,
             'softSkills' => [
                 'data' => $softSkills,
-                'prom_pr_quincenal' => $prom_quincenal_soft_1, 
+                'prom_pr_quincenal' => $prom_quincenal_soft_1,
                 'prom_sg_quincenal' => $prom_quincenal_soft_2,
             ],
             'performance' => [
                 'data' => $performance,
-                'prom_pr_quincenal' => $prom_quincenal_per_1, 
+                'prom_pr_quincenal' => $prom_quincenal_per_1,
                 'prom_sg_quincenal' => $prom_quincenal_per_2,
             ],
             'leadership' => [
                 'data' => $leadership,
-                'prom_pr_quincenal' => $prom_quincenal_lead_1, 
+                'prom_pr_quincenal' => $prom_quincenal_lead_1,
                 'prom_sg_quincenal' => $prom_quincenal_lead_2,
             ],
             'autoevaluation' => [
                 'data' => $autoevaluation,
-                'prom_pr_quincenal' => $prom_quincenal_auto_1, 
+                'prom_pr_quincenal' => $prom_quincenal_auto_1,
                 'prom_sg_quincenal' => $prom_quincenal_auto_2,
             ],
         ]);
     }
+
+
+
+    public function calcAverage($id)
+    {
+
+        $evaluation = Evaluation::find($id);
+
+        if (!$evaluation) {
+            return response()->json(['mensaje' => 'La evaluación con el ID proporcionado no fue encontrada.'], 404);
+        }
+
+        $softSkillsAverage = SoftSkills::where('evaluation_id', $id)->pluck('prom_end')->first();
+        $performanceAverage = Performance::where('evaluation_id', $id)->pluck('prom_end')->first();
+        $overallAverage = ($softSkillsAverage + $performanceAverage) / 2;
+
+        // Actualizar el campo 'average' en la tabla 'evaluations'
+        $evaluation->average = $overallAverage;
+        $evaluation->save();
+
+        return response()->json(['mensaje' => 'Promedios calculados y actualizados exitosamente.']);
+    }
+
 
 }

@@ -99,4 +99,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationById']);
 
     Route::post('evaluations/insert', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
+    Route::post('evaluations/average/{id}', [App\Http\Controllers\EvaluationController::class, 'calcAverage']);
 });
