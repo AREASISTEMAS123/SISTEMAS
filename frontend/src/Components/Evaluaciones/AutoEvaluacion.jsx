@@ -3,43 +3,39 @@ import { useEvaluation } from "./hooks/useEvaluation";
 import { useParams } from "react-router-dom";
 
 export const AutoEvaluacion = () => {
-    const { note1, note2, note3, note4, suma, handleChange,onClickRetroceder } = useEvaluation();
+    const { note1, note2, note3, note4, suma, handleChange, onClickRetroceder } = useEvaluation();
     const { id } = useParams();
 
-    const saveNotes = () => {
-        const url = `/evaluations/autoevaluation/${id}/update`;
-        const data = {
-            note1: note1,
-            note2: note2,
-            note3: note3,
-            note4: note4,
-            suma: suma,
-        }
-        const token = `Bearer ${localStorage.getItem('token')}`;
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, 
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                
-                console.log("Data updated successfully:", data);
-            })
-            .catch((error) => {
-                console.error("Error updating data:", error);
+    const saveNotes = async () => {
+        try {
+            const token = `Bearer ${localStorage.getItem('token')}`;
+            const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/autoevaluation/2/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    note1,
+                    note2,
+                    note3,
+                    note4
+                })
             });
+
+            if (response.ok) {
+                console.log("Notes saved successfully!");
+
+            } else {
+                console.error("Failed to save notes:", response.status);
+
+            }
+        } catch (error) {
+            console.error('Error al guardar los datos en la API:', error);
+        }
     }
     useEffect(() => {
-        
+
     }, [note1, note2, note3, note4]);
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">

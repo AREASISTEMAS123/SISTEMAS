@@ -4,47 +4,41 @@ import { useEffect } from "react";
 
 export const HabilidadesBlandas = () => {
 
-    const { note1, note2, note3, note4, suma, handleChange, calcularSuma, onClickRetroceder} = useEvaluation();
+    const { note1, note2, note3, note4, suma, handleChange, onClickRetroceder } = useEvaluation();
     const { id } = useParams();
 
-    const saveNotes = () => {
-        const url = `/evaluations/softskills/${id}/update`;
-        const data = {
-            note1: note1,
-            note2: note2,
-            note3: note3,
-            note4: note4,
-            suma: suma,
-        }
-        const token = `Bearer ${localStorage.getItem('token')}`;
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, // Include the token in the headers
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                // Check if the request was successful
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // Handle the response if needed
-                console.log("Data updated successfully:", data);
-            })
-            .catch((error) => {
-                // Handle errors if any
-                console.error("Error updating data:", error);
+    const saveNotes = async () => {
+        try {
+            const token = `Bearer ${localStorage.getItem('token')}`;
+            const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/2/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    note1,
+                    note2,
+                    note3,
+                    note4
+                })
             });
+
+            if (response.ok) {
+                console.log("Notes saved successfully!");
+
+            } else {
+                console.error("Failed to save notes:", response.status);
+
+            }
+        } catch (error) {
+            console.error('Error al guardar los datos en la API:', error);
+        }
     }
 
 
     useEffect(() => {
-        calcularSuma;
+       
     }, [note1, note2, note3, note4]);
 
     return (
