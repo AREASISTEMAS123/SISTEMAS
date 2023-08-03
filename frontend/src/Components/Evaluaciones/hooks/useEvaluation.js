@@ -1,10 +1,12 @@
-import { useEffect } from "react";
 import { useState } from "react";
+import { useEffect } from "react";
+import {  useNavigate } from "react-router-dom";
+
 export const useEvaluation = () => {
-    const [note1, setNote1] = useState();
-    const [note2, setNote2] = useState();
-    const [note3, setNote3] = useState();
-    const [note4, setNote4] = useState();
+    const [note1, setNote1] = useState('');
+    const [note2, setNote2] = useState('');
+    const [note3, setNote3] = useState('');
+    const [note4, setNote4] = useState('');
     const [suma, setSuma] = useState(0);
 
     const handleChange = ({ target }) => {
@@ -26,6 +28,7 @@ export const useEvaluation = () => {
                 break;
         }
     };
+    // eslint-disable-next-line no-unused-vars
     const calcularSuma = () => {
         const num1 = Number(note1) || 0;
         const num2 = Number(note2) || 0;
@@ -35,11 +38,16 @@ export const useEvaluation = () => {
         const total = (num1 + num2 + num3 + num4) / 4;
         setSuma(total);
     };
+   
+    const navigate= useNavigate();
+    const onClickRetroceder = () =>{
+        navigate("/evaluar")
+    }
+
     useEffect(() => {
         calcularSuma();
     }, [note1, note2, note3, note4]);
-
     return{
-        note1, note2,note3,note4,handleChange,suma
+        note1, note2,note3,note4,handleChange,suma,onClickRetroceder
     }
 }

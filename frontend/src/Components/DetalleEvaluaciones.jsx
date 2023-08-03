@@ -1,9 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from "@mui/material";
 
 
 export function DetalleEvaluaciones() {
     const isMobile = useMediaQuery("(max-width:1280px)");
+    const [evaluationData, setEvaluationData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/evaluations/details/5', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+                // Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`
+            }
+        })
+            .then(response => response.json())
+            .then(data => setEvaluationData(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    if (!evaluationData) {
+        return <div>Cargando datos...</div>;
+    }
+
+    const softSkillsData = evaluationData.softSkills;
+    const performanceData = evaluationData.performance;
 
     return (
         <div>
@@ -71,17 +91,17 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap border border px-6 py-4 ">
-                                        10
+                                        {softSkillsData.data.note1}
                                     </td>
                                     <td
                                         rowSpan="4"
                                         className="whitespace-nowrap border border px-6 py-4 font-medium ">
-                                        10
+                                        {softSkillsData.prom_pr_quincenal}
                                     </td>
                                     <td
                                         rowSpan="12"
                                         className="whitespace-nowrap border border px-6 py-4 font-medium ">
-                                        10
+                                        {softSkillsData.data.prom_end}
                                     </td>
                                 </tr>
                                 <tr className="">
@@ -96,7 +116,7 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap border border px-6 py-4 ">
-                                        10
+                                        {softSkillsData.data.note2}
                                     </td>
 
                                 </tr>
@@ -112,12 +132,12 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap border border px-6 py-4 ">
-                                        10
+                                        {softSkillsData.data.note3}
                                     </td>
                                     <td
                                         rowSpan="4"
                                         className="whitespace-nowrap border border px-6 py-4 font-medium ">
-                                        10
+                                        {softSkillsData.prom_sg_quincenal}
                                     </td>
                                 </tr>
                                 <tr className="">
@@ -132,7 +152,7 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap px-6 py-4 ">
-                                        10
+                                        {softSkillsData.data.note4}
                                     </td>
                                 </tr>
                                 <tr className=" ">
@@ -199,17 +219,17 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap border border px-6 py-4 ">
-                                        10
+                                        {performanceData.data.note1}
                                     </td>
                                     <td
                                         rowSpan="4"
                                         className="whitespace-nowrap border border px-6 py-4 font-medium ">
-                                        10
+                                        {performanceData.prom_pr_quincenal}
                                     </td>
                                     <td
                                         rowSpan="12"
                                         className="whitespace-nowrap border border px-6 py-4 font-medium ">
-                                        10
+                                        {performanceData.data.prom_end}
                                     </td>
                                 </tr>
                                 <tr className="">
@@ -224,7 +244,7 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap border border px-6 py-4 ">
-                                        10
+                                        {performanceData.data.note2}
                                     </td>
 
                                 </tr>
@@ -240,12 +260,12 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap border border px-6 py-4 ">
-                                        10
+                                        {performanceData.data.note3}
                                     </td>
                                     <td
                                         rowSpan="4"
                                         className="whitespace-nowrap border border px-6 py-4 font-medium ">
-                                        10
+                                        {performanceData.prom_sg_quincenal}
                                     </td>
                                 </tr>
                                 <tr className="">
@@ -260,7 +280,7 @@ export function DetalleEvaluaciones() {
                                     <td
                                         rowSpan="2"
                                         className="whitespace-nowrap px-6 py-4 ">
-                                        10
+                                        {performanceData.data.note4}
                                     </td>
                                 </tr>
                                 <tr className=" ">

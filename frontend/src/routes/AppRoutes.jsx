@@ -22,6 +22,8 @@ import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustifica
 import { JustificacionDetalleColaborador } from "../Components/JustificacionDetalleColaborador";
 import { HabilidadesBlandas } from "../Components/Evaluaciones/HabilidadesBlandas";
 import { Desempeño } from "../Components/Evaluaciones/Desempeño";
+import { AutoEvaluacion } from "../Components/Evaluaciones/AutoEvaluacion";
+import { DiagnosticoLiderazgo } from "../Components/Evaluaciones/DiagnosticoLiderazgo";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -44,8 +46,7 @@ const AppRoutes = () => {
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
                     <Route path="/details/:id" element={<JustificacionDetalleColaborador />} />
                     <Route path="/logout" />
-                    <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas/>}/>
-                    <Route path="/evaluaciones/desempeño" element={<Desempeño/>}/>
+
                     {hasRole('Lider Nucleo') && (
                         <>
                             <Route path="/colaboradores" element={<VistaAdminColaborador />} />
@@ -55,7 +56,10 @@ const AppRoutes = () => {
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
-                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones/>}/>
+                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
+                            <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
+                            <Route path="/evaluaciones/desempeño" element={<Desempeño />} />
+                            <Route path="/evaluaciones/autoevaluacion" element={<AutoEvaluacion />} />
                         </>
                     )}
                     {hasRole('Gerencia') && (
@@ -67,8 +71,9 @@ const AppRoutes = () => {
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/evaluar" element={<VistaEvaluar />} />
-                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones/>}/>
-                            
+                            <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
+                            <Route path="/evaluacion/diagnosticoLiderazgo" element={<DiagnosticoLiderazgo />} />
+
                         </>
                     )}
                     <Route path="/*" element={<Navigate to="/home" />} />
