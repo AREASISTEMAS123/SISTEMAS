@@ -280,12 +280,12 @@ export const Topbar = ({ toggleSidebar }) => {
                 <span className='text-sm'>Configuración</span>
               </div>
             </Link>
-            <Link to="/login" className="cursor-pointer">
+            <Link to="/login" onClick={logoutSubmit}  className="cursor-pointer">
               <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
                 <span className="mr-4">
                   <LogoutIcon sx={{ fontSize: 18 }} />
                 </span>
-                <span onClick={logoutSubmit} className='text-sm'>Cerrar Sesión</span>
+                <span className='text-sm'>Cerrar Sesión</span>
               </div>
             </Link>
           </div>

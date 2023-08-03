@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useEvaluation } from "./hooks/useEvaluation";
 import { useParams } from "react-router-dom";
 
-export const Desempeño = () => {
+export const DiagnosticoLiderazgo = () => {
     const { note1, note2, note3, note4, suma, handleChange,onClickRetroceder } = useEvaluation();
     const { id } = useParams();
 
     const saveNotes = () => {
-        const url = `/evaluations/performance/${id}/update`;
+        const url = `/evaluations/leadership/${id}/update`;
         const data = {
             note1: note1,
             note2: note2,
@@ -45,7 +45,7 @@ export const Desempeño = () => {
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
             <div className="bg-cv-primary my-2 space-y-1 p-2 sm:p-6 md:p-8 lg:p-10 xl:p-12">
                 <h1 className="text-center text-3xl font-semibold text-white">
-                    DESEMPEÑO
+                    Diagnostico de liderazgo
                 </h1>
                 <h3 className="text-center text-2xl font-medium text-white">
                     Anaiz Rojas

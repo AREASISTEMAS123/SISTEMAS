@@ -1,12 +1,51 @@
-import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useEvaluation } from "./hooks/useEvaluation";
+import { useEffect } from "react";
 
 export const HabilidadesBlandas = () => {
 
-    const { semana_one, semana_two, semana_three, semana_four, suma, handleChange, calcularSuma } = useEvaluation();
+    const { note1, note2, note3, note4, suma, handleChange, calcularSuma, onClickRetroceder} = useEvaluation();
+    const { id } = useParams();
+
+    const saveNotes = () => {
+        const url = `/evaluations/softskills/${id}/update`;
+        const data = {
+            note1: note1,
+            note2: note2,
+            note3: note3,
+            note4: note4,
+            suma: suma,
+        }
+        const token = `Bearer ${localStorage.getItem('token')}`;
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // Include the token in the headers
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                // Check if the request was successful
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Handle the response if needed
+                console.log("Data updated successfully:", data);
+            })
+            .catch((error) => {
+                // Handle errors if any
+                console.error("Error updating data:", error);
+            });
+    }
+
+
     useEffect(() => {
-        calcularSuma();
-    }, []);
+        calcularSuma;
+    }, [note1, note2, note3, note4]);
 
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
@@ -26,7 +65,7 @@ export const HabilidadesBlandas = () => {
                         <input
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
-                            value={semana_one}
+                            value={note1}
                             type="number"
                             name="semana_one"
                             onChange={handleChange}
@@ -40,7 +79,7 @@ export const HabilidadesBlandas = () => {
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
                             type="number"
-                            value={semana_two}
+                            value={note2}
                             name="semana_two"
                             onChange={handleChange}
                         />
@@ -53,7 +92,7 @@ export const HabilidadesBlandas = () => {
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
                             type="number"
-                            value={semana_three}
+                            value={note3}
                             name="semana_three"
                             onChange={handleChange}
                         />
@@ -66,7 +105,7 @@ export const HabilidadesBlandas = () => {
                             className="ml-2 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
                             placeholder="Ingrese valor"
                             type="number"
-                            value={semana_four}
+                            value={note4}
                             name="semana_four"
                             onChange={handleChange}
                         />
@@ -83,13 +122,10 @@ export const HabilidadesBlandas = () => {
                     </div>
                 </div>
                 <div className="flex flex-row mt-2 ">
-                    <button className="bg-cyan-400 border-2 p-2">Guardar</button>
-                    <button className="bg-amber-500 border-2 p-2 ml-4">Cancelar</button>
+                    <button className="bg-cyan-400 border-2 p-2" onClick={saveNotes}>Guardar</button>
+                    <button className="bg-amber-500 border-2 p-2 ml-4" onClick={onClickRetroceder}>Cancelar</button>
                 </div>
-
             </div>
-
-
         </div>
     )
 }
