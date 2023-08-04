@@ -601,7 +601,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Name, setName] = useState('');
 	const [Surname, setSurname] = useState('');
 	const [Email, setEmail] = useState('');
-	const [Status, setStatus] = useState(0)
+	const [Status, setStatus] = useState(0);
+	const [StatusDescription, setStatusDescription] = useState('');
 	const [Profile, setProfile] = useState('');
 	const [Dni, setDni] = useState('');
 	const [Departament, setDepartament] = useState('');
@@ -610,7 +611,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	const [Birthday, setBirthday] = useState('');
 	const [DateStart, setDateStart] = useState('');
 	const [DateEnd, setDateEnd] = useState('');
-	const [Cellphone, setCellphone] = useState('')
+	const [Cellphone, setCellphone] = useState('');
 	//const [Responsible, setResponsible] = useState('');
 	const [Role, setRole] = useState('')
 	const [Avatar, setAvatar] = useState(null);
@@ -623,6 +624,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setSurname(usuario.user[0].surname);
 		setEmail(usuario.user[0].email);
 		setStatus(usuario.user[0].status);
+		setStatusDescription(usuario.user[0].status_description);
 		setProfile(usuario.profile_name);
 		setDni(usuario.dni);
 		setDepartament(usuario.department);
@@ -650,8 +652,15 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	};
 
 	const handleStatusChange = (event) => {
-		setStatus(event.target.checked ? 1 : 0);
+		//setStatus(event.target.checked ? 1 : 0);
+		const newStatus = event.target.checked ? 1 : 0;
+		setStatus(newStatus);
+		setStatusDescription(newStatus === 1 ? 'NULL' : 'Termino su convenio');
 	};
+
+	const handleStatusDescriptionChange = (event) => {
+		setStatusDescription(event.target.value);
+	}
 
 	const handleDniChange = (event) => {
 		setDni(event.target.value);
@@ -733,6 +742,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			Surname,
 			Email,
 			Status,
+			StatusDescription,
 			Profile,
 			Dni,
 			Departament,
@@ -985,12 +995,24 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										>
 											Estado
 										</span>
-										<FormControlLabel
-											control={<CvSwitch defaultChecked={Status} />}
-											checked={Status}
-											onChange={handleStatusChange}
-											label={Status === 1 ? 'Activo' : 'Inactivo'}
-										/>
+										<div className='w-full flex items-center gap-2 justify-between'>
+											<FormControlLabel
+												control={<CvSwitch defaultChecked={Status} />}
+												checked={Status}
+												onChange={handleStatusChange}
+												label={Status === 1 ? 'Activo' : 'Inactivo'}
+											/>
+											{Status === 0 && (
+												<select
+													value={StatusDescription}
+													onChange={handleStatusDescriptionChange}
+													className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300 bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+												>
+													<option value="Termino su convenio">Termino Convenio</option>
+													<option value="Retirado">Retirado</option>
+												</select>
+											) }
+										</div>
 
 									</div>
 								</div>
