@@ -100,18 +100,16 @@ export const AdmiDetalleDeJustificacion = () => {
     
 
     if (!reason_decline) {
-      // El campo del motivo está vacío, puedes mostrar un mensaje de error o tomar otra acción
       setMessage('Por favor, proporciona un motivo de rechazo');
       return;
     }
 
-    console.log(reason_decline); // Agregar esta línea para imprimir el motivo en la consola
 
     fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/decline/${userid}`, {
       method: 'POST',
       headers: {
         Authorization: token,
-        'Content-Type': 'application/json', // Asegurarse de incluir el encabezado Content-Type
+        'Content-Type': 'application/json', 
       },
       body: JSON.stringify({ reason_decline }),
     })
@@ -124,7 +122,7 @@ export const AdmiDetalleDeJustificacion = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+      
       })
       .catch((error) => {
         setMessage(error.message);

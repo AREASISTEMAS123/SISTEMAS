@@ -40,7 +40,6 @@ export const DiagnosticoLiderazgo = () => {
     }, []);
 
     const handleChange = ({ target }) => {
-        console.log("handleChange called"); // Add this line
         const { name, value } = target;
         setNotas(prevNotas => ({
             ...prevNotas,
