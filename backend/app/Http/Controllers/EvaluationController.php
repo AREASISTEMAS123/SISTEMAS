@@ -20,15 +20,12 @@ class EvaluationController extends Controller
         return response()->json(['evaluations' => $attendance_user]);
     }
 
-    public function insertEvaluation()
+    public function insertEvaluation($user_id)
     {
 
-        $evaluation_data = Profile::whereHas('user', function ($query) {
+        $evaluation_data = Profile::where('user_id', $user_id)->whereHas('user', function ($query) {
             $query->where('status', 1);
         })->first();
-
-        //recogemos id logueado
-        $user_id = auth()->id();
 
         if($evaluation_data) {
             $new_evaluation = new Evaluation();
