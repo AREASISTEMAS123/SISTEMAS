@@ -2,16 +2,18 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export const Desempeño = () => {
     const { id } = useParams();
+    const [showModalGuardar, setShowModalGuardar] = useState(false);
 
     const [notas, setNotas] = useState({
         note1: 0,
         note2: 0,
         note3: 0,
         note4: 0,
-        prom: 0
+        prom_end:0
     });
     const navigate = useNavigate();
     const onClickRetroceder = () => {
@@ -19,7 +21,7 @@ export const Desempeño = () => {
     }
     const { note1, note2, note3, note4 } = notas;
     useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1`, {
+        fetch(import.meta.env.VITE_API_URL + `/evaluations/performance/1`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             }
@@ -75,6 +77,11 @@ export const Desempeño = () => {
         } catch (error) {
             console.error('Error al guardar los datos en la API:', error);
         }
+        navigate("/evaluar")
+    }
+
+    const onClickModal = () =>{
+        setShowModalGuardar(true);
     }
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
@@ -153,12 +160,35 @@ export const Desempeño = () => {
                     </div>
                 </div>
                 <div className="flex flex-row mt-2 ">
-                    <button className="bg-cyan-400 border-2 p-2" onClick={saveNotes}>Guardar</button>
+                    <button className="bg-cyan-400 border-2 p-2" onClick={onClickModal}>Guardar</button>
                     <button className="bg-amber-500 border-2 p-2 ml-4" onClick={onClickRetroceder}>Cancelar</button>
                 </div>
             </div>
 
+            {showModalGuardar && (
+                <div className="fixed inset-0 flex items-center justify-center top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div className="relative max-w-2xl max-h-full">
+                        <div className="relative bg-white rounded-lg shadow">
+                            <div className="flex flex-col items-center justify-center p-4 border-b rounded-t">
+                                <h1 className="uppercase text-center mb-4">Guardando la nota</h1>
+                                <h3 className="inline-block">
+                                    <CheckCircleIcon sx={{ color: "#3F8116", fontSize: 40 }} />
+                                </h3>
+                            </div>
 
+                            <div className="flex items-center p-6 border-t border-gray-200 rounded-b">
+                                <button
+                                    onClick={saveNotes}
+                                    className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                >
+                                    Aceptar
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

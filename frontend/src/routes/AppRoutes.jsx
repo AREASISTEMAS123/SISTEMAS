@@ -54,7 +54,7 @@ const AppRoutes = () => {
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
-                            <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
+                           {/*<Route path="/evaluaciones" element={<VistaEvaluaciones />} />*/ } 
                             <Route path="/evaluar" element={<VistaEvaluar />} />
                             <Route path="/evaluacion/detalle" element={<DetalleEvaluaciones />} />
                             <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
@@ -66,7 +66,7 @@ const AppRoutes = () => {
                         <>
                             <Route path="/colaboradores" element={<VistaAdminColaborador />} />
                             <Route path="/justificaciones" element={<AdmiJustificacion />} />
-                            <Route path="/evaluaciones" element={<VistaEvaluaciones />} />
+                           {/*<Route path="/evaluaciones" element={<VistaEvaluaciones />} />*/ } 
                             <Route path="/asistencias" element={<AsistenciaAdmin />} />
                             <Route path="/reportes" element={<VistaReportes />} />
                             <Route path="/detalles/:id" element={<AdmiDetalleDeJustificacion />} />
