@@ -1,41 +1,54 @@
 import { useParams } from "react-router-dom";
-import { useEvaluation } from "./hooks/useEvaluation";
 import { useEffect } from "react";
 import { useState } from "react";
-import { data } from "autoprefixer";
+import {  useNavigate } from "react-router-dom";
 
 export const HabilidadesBlandas = () => {
 
-    const { note1, note2, note3, note4, suma, handleChange, onClickRetroceder } = useEvaluation();
     const { id } = useParams();
-
+    
     const [notas, setNotas] = useState({
         note1: 0,
         note2: 0,
         note3: 0,
         note4: 0,
+        prom:0
     });
+    const navigate= useNavigate();
+    const onClickRetroceder = () =>{
+        navigate("/evaluar")
+    }
+    const {note1,note2,note3,note4} = notas;
     useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/3`, {
+        fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             }
         })
             .then(response => response.json())
             .then(data => {
-                
                 setNotas({
                     note1: data.note1 || 0,
                     note2: data.note2 || 0,
                     note3: data.note3 || 0,
                     note4: data.note4 || 0,
+                    prom_end: data.prom_end ||0,
                 });
+                console.log(data)
             })
             
             .catch(error => console.error('Error al obtener los datos:', error));
     }, []);
 
-
+    const handleChange = ({ target }) => {
+        console.log("handleChange called"); // Add this line
+        const { name, value } = target;
+        setNotas(prevNotas => ({
+            ...prevNotas,
+            [name]: value
+        }));
+    };
+    
 
     const saveNotes = async () => {
         try {
@@ -47,10 +60,10 @@ export const HabilidadesBlandas = () => {
                     "Authorization": token
                 },
                 body: JSON.stringify({
-                    note1,
-                    note2,
-                    note3,
-                    note4
+                    note1: notas.note1,
+                    note2: notas.note2,
+                    note3: notas.note3,
+                    note4: notas.note4,
                 })
             });
 
@@ -67,9 +80,6 @@ export const HabilidadesBlandas = () => {
     }
 
 
-    useEffect(() => {
-
-    }, [note1, note2, note3, note4]);
 
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
@@ -91,7 +101,7 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             value={note1}
                             type="number"
-                            name="semana_one"
+                            name="note1"
                             onChange={handleChange}
                         />
                     </div>
@@ -104,7 +114,7 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             type="number"
                             value={note2}
-                            name="semana_two"
+                            name="note2"
                             onChange={handleChange}
                         />
                     </div>
@@ -117,7 +127,7 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             type="number"
                             value={note3}
-                            name="semana_three"
+                            name="note3"
                             onChange={handleChange}
                         />
                     </div>
@@ -130,7 +140,7 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             type="number"
                             value={note4}
-                            name="semana_four"
+                            name="note4"
                             onChange={handleChange}
                         />
                     </div>
@@ -140,8 +150,10 @@ export const HabilidadesBlandas = () => {
                     <div>
                         <input
                             className="ml-1 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
-                            value={suma}
+                            
                             disabled
+                            value={notas.prom_end}
+                            name="prom_end"
                         />
                     </div>
                 </div>

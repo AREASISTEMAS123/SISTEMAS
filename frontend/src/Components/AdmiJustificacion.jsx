@@ -450,7 +450,11 @@ export const AdmiJustificacion = () => {
                                         <li className="text-sm font-medium flex items-center ">
                                             <p>
                                                 Estado: {isRechazadoOrAceptado(post)}
+                                                {isRechazadoOrAceptado(post) === 'Aceptado' || isRechazadoOrAceptado(post) === 'Rechazado' ? (
+                                                    <span> por {post.action_by_user.name}</span>
+                                                ) : null}
                                             </p>
+
                                         </li>
                                         <li className="text-sm font-medium flex items-center ">
                                             <p>

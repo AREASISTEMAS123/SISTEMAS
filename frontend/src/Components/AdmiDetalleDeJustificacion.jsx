@@ -64,8 +64,6 @@ export const AdmiDetalleDeJustificacion = () => {
 
     const token = `Bearer ${localStorage.getItem('token')}`;
 
-    console.log('id ', id)
-    console.log('userid ', userid)
     fetch(`http://127.0.0.1:8000/api/users/justifications/${id}/accept/${userid}`, {
       method: 'POST',
       headers: {
@@ -83,7 +81,7 @@ export const AdmiDetalleDeJustificacion = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("data", data);
+        
         // Maneja la respuesta exitosa si es necesario
         // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
       })
@@ -99,9 +97,7 @@ export const AdmiDetalleDeJustificacion = () => {
   const onClickRechazar = (e, id, userid) => {
     e.preventDefault();
     const token = `Bearer ${localStorage.getItem('token')}`;
-    console.log('id ', id);
-    console.log('userid ', userid);
-    console.log('Estamos rechazando');
+    
 
     if (!reason_decline) {
       // El campo del motivo está vacío, puedes mostrar un mensaje de error o tomar otra acción
