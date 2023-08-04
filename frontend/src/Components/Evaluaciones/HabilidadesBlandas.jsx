@@ -1,16 +1,46 @@
 import { useParams } from "react-router-dom";
 import { useEvaluation } from "./hooks/useEvaluation";
 import { useEffect } from "react";
+import { useState } from "react";
+import { data } from "autoprefixer";
 
 export const HabilidadesBlandas = () => {
 
     const { note1, note2, note3, note4, suma, handleChange, onClickRetroceder } = useEvaluation();
     const { id } = useParams();
 
+    const [notas, setNotas] = useState({
+        note1: 0,
+        note2: 0,
+        note3: 0,
+        note4: 0,
+    });
+    useEffect(() => {
+        fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/3`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                
+                setNotas({
+                    note1: data.note1 || 0,
+                    note2: data.note2 || 0,
+                    note3: data.note3 || 0,
+                    note4: data.note4 || 0,
+                });
+            })
+            
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }, []);
+
+
+
     const saveNotes = async () => {
         try {
             const token = `Bearer ${localStorage.getItem('token')}`;
-            const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/2/update`, {
+            const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1/update`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +68,7 @@ export const HabilidadesBlandas = () => {
 
 
     useEffect(() => {
-       
+
     }, [note1, note2, note3, note4]);
 
     return (
