@@ -17,4 +17,8 @@ class AttendanceReport extends Model
         'shift',
         'date',
     ];
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }

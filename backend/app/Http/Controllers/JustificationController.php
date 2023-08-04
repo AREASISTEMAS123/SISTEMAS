@@ -96,10 +96,13 @@ class JustificationController extends Controller
 
     public function acceptJustification($id, $userid){
         $actionByUserId = auth()->id();
+
         $justification = Justification::where('id', $id)->firstOrFail();
-        $date = Carbon::now();
-        $date = $date->format('Y-m-d');
+
+        $date = $justification->justification_date;
+
         $att = Attendance::where('user_id',$userid)->where('date',$date)->exists();
+        
         if ( $att == 'true'){
 
             $att = Attendance::where('user_id', $userid)->where('date',$date)->firstOrFail();
