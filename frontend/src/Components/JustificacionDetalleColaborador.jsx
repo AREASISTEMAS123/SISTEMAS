@@ -101,9 +101,9 @@ export const JustificacionDetalleColaborador = () => {
               <h2>Evidencia</h2>
               <div className="flex items-center justify-center p-8">
                 {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
-                  <img src={`http://localhost:8000/archivos/${item.evidence}`} alt="Image" />
+                  <img src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} alt="Image" />
                 ) : item.evidence.endsWith('.pdf') ? (
-                  <embed src={`http://localhost:8000/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
+                    <embed src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
                 ) : (
                   <div>Unsupported file format</div>
                 )}

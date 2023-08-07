@@ -22,7 +22,7 @@ export const AdmiDetalleDeJustificacion = () => {
     const fetchData = async () => {
       try {
         const token = `Bearer ${localStorage.getItem('token')}`;
-        const response = await fetch(`http://127.0.0.1:8000/api/users/justifications/${id}`, {
+        const response = await fetch(import.meta.env.VITE_API_URL +`/users/justifications/${id}`, {
           headers: {
             Authorization: token
           }
@@ -64,7 +64,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
     const token = `Bearer ${localStorage.getItem('token')}`;
 
-    fetch(`http://127.0.0.1:8000/api/users/justifications/${id}/accept/${userid}`, {
+    fetch(import.meta.env.VITE_API_URL +`/users/justifications/${id}/accept/${userid}`, {
       method: 'POST',
       headers: {
         Authorization: token,
@@ -222,9 +222,9 @@ export const AdmiDetalleDeJustificacion = () => {
 
                 <div className="flex items-center justify-center p-8">
                   {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
-                    <img src={`http://localhost:8000/archivos/${item.evidence}`} alt="Image" className="mx-auto" />
+                    <img src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} alt="Image" className="mx-auto" />
                   ) : item.evidence.endsWith('.pdf') ? (
-                    <embed src={`http://localhost:8000/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
+                      <embed src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
                   ) : (
                     <div>Unsupported file format</div>
                   )}

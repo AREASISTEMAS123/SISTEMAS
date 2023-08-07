@@ -49,10 +49,11 @@ export const AdmiJustificacion = () => {
                     }
                 });
                 const userData = await userResponse.json();
-                const userShift = userData.Usuario[0].shift;
+                console.log("User Data")
+                // const userShift = userData.Usuario[0].shift;
                 const userId = userData.Usuario[0].user_id;
                 const filteredData = data.Justifications.filter(
-                    (justification) => justification.profile[0].shift === userShift && justification.profile[0].user_id !== userId
+                    (justification) => justification.profile[0].user_id !== userId
                 );
                 setFaltasList(filteredData);
             } else {
