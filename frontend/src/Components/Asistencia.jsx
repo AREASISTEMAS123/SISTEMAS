@@ -291,8 +291,8 @@ export const Asistencia = () => {
           )}
         </div>
       </div>
-      <div className="seccion-derecha flex flex-col items-center justify-start ml-4 ">
-        <RelojAnalogico hora={horaActual} />
+      <div className="seccion-derecha flex flex-col items-center justify-start ml-4 bg-cv-primary rounded-xl">
+        <RelojAnalogico hora={horaActual}/>
         <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
           {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
         </p>

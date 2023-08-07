@@ -42,7 +42,7 @@ export const Perfil = () => {
         <div className=" ">
           <div className="flex flex-col md:flex-row">
             {/* SECCION PERSONAL */}
-            <div className="w-full md:w-3/5 p-4 bg-cv-primary rounded-lg">
+            <div className="w-full md:w-3/5 p-4 bg-cv-primary rounded-2xl">
               <div className="flex flex-col ">
                 <div className="text-2xl font-bold text-white mx-3 text-center mb-5">
                   DATOS PERSONALES
@@ -56,7 +56,7 @@ export const Perfil = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
                     DNI
@@ -77,8 +77,6 @@ export const Perfil = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
                     CELULAR
@@ -89,6 +87,9 @@ export const Perfil = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-3 mt-10">
+                
 
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
@@ -103,21 +104,21 @@ export const Perfil = () => {
               </div>
             </div>
             {/* SECCION IMAGEN */}
-            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-lg mx-0 md:mx-5">
+            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl mx-0 md:mx-5">
               <div className="w-4/5 m-10 order-first md:order-last">
                 <img
                   className=" rounded-full mx-auto mb-6 md:mb-0 border-4 border-white"
                   src={colaborador.avatar}
                   alt=""
-                  width="384"
-                  height="512"
+                  width="250"
+                  height="250"
                 />
               </div>
             </div>
           </div>
           <div className="flex flex-col md:flex-row">
             {/* SECCION EMPRESA */}
-            <div className="w-full md:w-3/5 p-4 bg-cv-primary rounded-lg my-5">
+            <div className="w-full md:w-3/5 p-4 bg-cv-primary rounded-2xl my-5">
               <div className="text-2xl font-bold text-white mx-3 text-center mb-5">
                 DATOS DE LA EMPRESA
               </div>
@@ -201,7 +202,7 @@ export const Perfil = () => {
               </div>
             </div>
             {/* SECCION ASISTENCIA */}
-            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-lg my-5 md:mx-5">
+            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl my-5 md:mx-5">
               <div className="text-2xl font-bold text-white mx-3 text-center">
                 DATOS ASISTENCIA
               </div>
