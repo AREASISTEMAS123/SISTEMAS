@@ -28,7 +28,8 @@ export const AsistenciaAdmin = () => {
 
   const Token = localStorage.getItem("token");
   const [attendance, setAttendance] = useState([]);
-  const [attendanceReport, setAttendanceReport] = useState([]);
+  // const [attendanceReport, setAttendanceReport] = useState([]);
+  const attendanceReport = useState([])[0];
   const [ShowReport, setShowReport] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [isInputReady, setIsInputReady] = useState(false);
@@ -100,30 +101,30 @@ export const AsistenciaAdmin = () => {
     setFilterShift("");
   };
 
-  const reporteAsistencia = async () => {
-    try {
-      const response = await fetch(import.meta.env.VITE_API_URL + `/attendance/report`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Token}`,
-          },
-        });
-      const data = await response.json();
-      if (response.ok) {
-        setAttendanceReport(data);
-      } else {
-        console.error('Error al obtener el reporte:', data.error);
-      }
-    } catch (error) {
-      console.error('Error al obtener el reporte:', error);
-    }
-  };
+  // const reporteAsistencia = async () => {
+  //   try {
+  //     const response = await fetch(import.meta.env.VITE_API_URL + `/attendance/report`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${Token}`,
+  //         },
+  //       });
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       setAttendanceReport(data);
+  //     } else {
+  //       console.error('Error al obtener el reporte:', data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error al obtener el reporte:', error);
+  //   }
+  // };
 
   //Reporte asistencia
-  const handleClick = () => {
-    reporteAsistencia();
-  };
+  // const handleClick = () => {
+  //   reporteAsistencia();
+  // };
 
 
   // Función crear reporte a la 1:00 pm automáticamente
@@ -251,21 +252,21 @@ export const AsistenciaAdmin = () => {
   };
 
   // Mostrar botón de marcar asistencia
-  const [showButton, setShowButton] = useState(false);
+  // const [showButton, setShowButton] = useState(false);
 
-  useEffect(() => {
-    const currentTime = new Date();
-    const targetTimeStart = new Date();
-    targetTimeStart.setHours(13, 1, 0, 0);
-    const targetTimeEnd = new Date();
-    targetTimeEnd.setHours(13, 30, 0, 0);
+  // useEffect(() => {
+  //   const currentTime = new Date();
+  //   const targetTimeStart = new Date();
+  //   targetTimeStart.setHours(13, 1, 0, 0);
+  //   const targetTimeEnd = new Date();
+  //   targetTimeEnd.setHours(13, 30, 0, 0);
 
-    if (currentTime >= targetTimeStart && currentTime <= targetTimeEnd) {
-      setShowButton(true);
-    } else {
-      setShowButton(false);
-    }
-  }, []);
+  //   if (currentTime >= targetTimeStart && currentTime <= targetTimeEnd) {
+  //     setShowButton(true);
+  //   } else {
+  //     setShowButton(false);
+  //   }
+  // }, []);
 
   return (
     <div className='h-full bg-cv-secondary'>
@@ -355,9 +356,9 @@ export const AsistenciaAdmin = () => {
                 <CloseIcon />
               </button>
             </div>
-            {showButton && (
+            {/* {showButton && (
             <button onClick={handleClick} className='w-full sm:w-64 bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap'>Generar Reporte</button>
-            )}
+            )} */}
           </div>
 
           {isInputReady && (

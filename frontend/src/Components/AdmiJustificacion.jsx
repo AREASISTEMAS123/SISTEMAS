@@ -12,6 +12,8 @@ export const AdmiJustificacion = () => {
     const [buscador_tipoArea, setBuscador_tipoArea] = useState('')
     const [buscadorDpto, setBuscadorDpto] = useState('')
 
+    const pieParams = { height: 200, margin: { right: 5 } };
+
 
     const navigate = useNavigate();
 
@@ -105,20 +107,23 @@ export const AdmiJustificacion = () => {
 
 
     const data = [
-        ["Tipo ", "Cantidad"],
-        ["Falta", calculateBars(faltasList, 'Falta')],
-        ["Tardanza", calculateBars(faltasList, 'Tardanza')],
+        ["Tipo ", "Cantidad", { role: "style" }],
+        ["Falta", calculateBars(faltasList, 'Falta'), "#023e8a"],
+        ["Tardanza", calculateBars(faltasList, 'Tardanza'), "#43E8C5"],
     ];
 
     const options = {
+        backgroundColor: '#16232B',
         legend: { position: "none" },
         bar: { groupWidth: "50%" },
-        chartArea: { width: "50%", height: "50%" },
-        colors: ["#b0120a", "#ffab91"],
-        title: 'Tipos de justificación',
-        hAxis: { title: 'Tipos' },
-        vAxis: { title: 'Cantidad' },
-
+        hAxis: {
+            title: 'Tipos',
+            textStyle: { color: '#ffffff' },
+        },
+        vAxis: {
+            title: 'Cantidad',
+            textStyle: { color: '#ffffff' },
+        },
     };
 
     // Obtén el rango de valores en tus datos
@@ -133,6 +138,8 @@ export const AdmiJustificacion = () => {
 
     // Configura el rango de valores en el vAxis
     options.vAxis = {
+        textStyle: { color: '#ffffff' },
+        gridlines: { color: '#ffffff'},
         viewWindowMode: "pretty",
         viewWindow: {
             min: 0,
@@ -153,83 +160,89 @@ export const AdmiJustificacion = () => {
             return [];
         }
     };
+
     return (
-        <div className="">
-            <div className="flex flex-col items-center justify-center md:flex-row md:justify-between">
-                <div className="bg-cv-primary p-4 mt-4 md:mt-0 md:mr-4 md:mx-4 w-full md:w-auto">
-                    <div className="text-white text-center ">
-                        <ul className="my-4">
-                            <li className="my-4">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-5 h-5 rounded-full bg-[#FF0000]"></div>
-                                    <h3 className="uppercase font-normal">Rechazadas</h3>
-                                </div>
-                            </li>
-                            <li className="my-4">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-5 h-5 rounded-full bg-[#ffee00d7]"></div>
-                                    <h3 className="uppercase font-normal">En proceso</h3>
-                                </div>
-                            </li>
-                            <li className="my-4">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-5 h-5 rounded-full bg-[#24FF00]"></div>
-                                    <h3 className="uppercase font-normal">Aceptadas</h3>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="w-full md:w-1/2">
-                        <PieChart
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: calculateProgress(faltasList, 'Rechazado'), color: '#FF0000' },
-                                        { id: 1, value: calculateProgress(faltasList, 'En proceso'), color: '#ffee00d7' },
-                                        { id: 2, value: calculateProgress(faltasList, 'Aceptado'), color: '#24FF00' },
-                                    ],
-                                    highlightScope: { faded: 'global', highlighted: 'item' },
-                                    faded: { innerRadius: 30, additionalRadius: -30 },
-                                },
-                            ]}
-                            width={300}
-                            height={200}
-                        />
-                        {calculateProgress(faltasList, 'Rechazado') === 0 && calculateProgress(faltasList, 'En proceso') === 0 && calculateProgress(faltasList, 'Aceptado') === 0 && (
-                            <p className="text-white">No hay datos para mostrar.</p>
-                        )}
-                    </div>
-                </div>
-                <div className=" w-full md:w-1/2 mt-4 md:mt-0 ">
-
-                    <Chart chartType="ColumnChart" data={data} options={options} />
-
-                </div>
+        <div className="w-full text-white space-y-5">
+            <div className="w-full">
+                <h1 className="text-xl font-semibold">Justificaciones</h1>
             </div>
+            <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4">
+                <div className="w-full bg-cv-primary rounded-2xl p-5 ">
+                    <h2 className="mb-5 text-white text-center font-bold text-lg uppercase">Estado de Justificaciones</h2>
+                    <div className="flex items-center justify-between gap-4 w-full">
+                        <div className="w-full h-auto space-y-2 md:space-y-5">
+                            <div className="w-full flex items-center justify-center ">
+                                <h2 className="text-lg font-semibold mb-5">Leyenda</h2>
+                            </div>
+                            <div className="w-full flex items-center justify-between space-x-3">
+                                <h3 className="uppercase font-normal">Rechazadas</h3>
+                                <div className="w-5 h-5 rounded-full bg-[#FF0000]"></div>
+                            </div>
+                            <div className="w-full flex items-center justify-between space-x-3">
+                                <h3 className="uppercase font-normal">En proceso</h3>
+                                <div className="w-5 h-5 rounded-full bg-[#ffee00d7]"></div>
+                            </div>
+                            <div className="w-full flex items-center justify-between space-x-3">
+                                <h3 className="uppercase font-normal">Aceptadas</h3>
+                                <div className="w-5 h-5 rounded-full bg-[#24FF00]"></div>
+                            </div>
+                        </div>
+                        <div className="w-full flex items-center justify-center">
+                            <PieChart
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: calculateProgress(faltasList, 'Rechazado'), color: '#FF0000' },
+                                            { id: 1, value: calculateProgress(faltasList, 'En proceso'), color: '#ffee00d7' },
+                                            { id: 2, value: calculateProgress(faltasList, 'Aceptado'), color: '#24FF00' },
+                                        ],
+                                        highlightScope: { faded: 'global', highlighted: 'item' },
+                                        faded: { innerRadius: 30, additionalRadius: -30 },
+                                    },
+                                ]}
+                                {...pieParams}
+                            />
+                            {calculateProgress(faltasList, 'Rechazado') === 0 && calculateProgress(faltasList, 'En proceso') === 0 && calculateProgress(faltasList, 'Aceptado') === 0 && (
+                                <p className="text-white">No hay datos para mostrar.</p>
+                            )}
+                        </div>
+                    </div>
 
-
-
-
-
-
-            <div className="text-center font-semibold text-4xl md:text-5xl lg:text-6xl text-white mb-5">
-                <h1>Justificaciones</h1>
+                </div>
+                <div className="w-full bg-cv-primary p-5 rounded-2xl">
+                    <h2 className="mb-5 text-white text-center font-bold text-lg uppercase">Tipos de Justificaciones</h2>
+                    <div>
+                        <Chart chartType="ColumnChart" data={data} options={options} />
+                    </div>
+                </div>
             </div>
 
 
             <div className="mb-3">
-                <div className="mb-4 flex flex-wrap items-stretch">
-                    <input
-                        type="search"
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
-                        placeholder="NOMBRE APELLIDO"
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                    />
-                    <div className="ml-auto">
+                <div className="w-full mb-4 flex flex-col md:flex-row items-center justify-between gap-5">
+                    <div className="w-full">
+                        <input
+                            type="search"
+                            className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                            placeholder="NOMBRE APELLIDO"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
+                    </div>
+                    {/* Buscador por fecha */}
+                    <div className="w-full md:w-64">
+                        <input
+                            className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                            type="date"
+                            id="fecha"
+                            value={buscadorFecha}
+                            onChange={(e) => setBuscadorFecha(e.target.value)}
+                        />
+                    </div>
+                    <div className="">
                         <button
                             type="button"
-                            className="px-3 py-2 text-xs md:text-sm font-medium text-center bg-cyan-400 border-2 rounded-md mx-0 md:mx-5 border-black"
+                            className="w-full px-5 py-2 text-xs md:text-sm font-medium text-center bg-cv-cyan text-cv-primary rounded-md"
                             onClick={onCleanFilter}
                         >
                             Limpiar
@@ -239,11 +252,11 @@ export const AdmiJustificacion = () => {
             </div>
 
 
-            <div className="col-end-6 col-span-1 flex flex-wrap md:flex-row md:items-center mb-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-5">
                 {/* Buscador por tipo de justificacion: falta o tardanza */}
-                <div className="mb-2 md:mb-0 md:mr-2">
+                <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
+                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscador_tipoJustificacion}
                         onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
                     >
@@ -253,9 +266,9 @@ export const AdmiJustificacion = () => {
                     </select>
                 </div>
                 {/* Buscador por tipo de status: en proceso o aceptado */}
-                <div className="mb-2 md:mb-0 md:mr-2">
+                <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
+                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscadorStatus}
                         onChange={(e) => setBuscadorStatus(e.target.value)}
                     >
@@ -266,9 +279,9 @@ export const AdmiJustificacion = () => {
                     </select>
                 </div>
                 {/* Buscador por departamento */}
-                <div className="mb-2 md:mb-0 md:mr-2">
+                <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
+                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscadorDpto}
                         onChange={(e) => setBuscadorDpto(e.target.value)}
                     >
@@ -279,9 +292,9 @@ export const AdmiJustificacion = () => {
                     </select>
                 </div>
                 {/* Buscador por tipo de área */}
-                <div className="mb-2 md:mb-0 md:mr-2">
+                <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
+                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscador_tipoArea}
                         onChange={(e) => setBuscador_tipoArea(e.target.value)}
                     >
@@ -293,16 +306,7 @@ export const AdmiJustificacion = () => {
                         ))}
                     </select>
                 </div>
-                {/* Buscador por fecha */}
-                <div className="mb-2 md:mb-0 md:mr-2">
-                    <input
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
-                        type="date"
-                        id="fecha"
-                        value={buscadorFecha}
-                        onChange={(e) => setBuscadorFecha(e.target.value)}
-                    />
-                </div>
+                
             </div>
 
 

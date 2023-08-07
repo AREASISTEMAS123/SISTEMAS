@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ClickAwayListener from '@mui/base/ClickAwayListener';
+import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AddTaskIcon from '@mui/icons-material/AddTask';
@@ -19,6 +20,7 @@ export const Topbar = ({ toggleSidebar }) => {
   const [isJustificacionesOpen, setIsJustificacionesOpen] = useState(false);
   const [isEvaluacionesOpen, setIsEvaluacionesOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [showMenu, setShowMenu] = useState(false)
   const [isCategoryMenuVisible, setIsCategoryMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showTask, setShowTask] = useState(false);
@@ -31,12 +33,21 @@ export const Topbar = ({ toggleSidebar }) => {
 
 
   const showMenuUser = () => {
+    setShowMenu(!showMenu)
     setIsVisible(!isVisible);
     setIsCategoryMenuVisible(false);
   };
 
+  const handleClickAway = () => {
+    setShowMenu(false);
+  };
+
   const showTodoList = () => {
     setShowTask(!showTask);
+  };
+
+  const handleClickAwayTask = () => {
+    setShowTask(false);
   };
 
 
@@ -236,14 +247,37 @@ export const Topbar = ({ toggleSidebar }) => {
       )}
       <div className="relative">
         <div className="flex justify-between items-center space-x-2 md:space-x-5">
-          <button onClick={showTodoList} className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
-            <ListAltIcon sx={{ fontSize: 22 }} />
-            <span className="sr-only">Tareas</span>
-            {tasks.length > 0 && (
+          <ClickAwayListener onClickAway={handleClickAwayTask}>
+            <div>
+              <Tooltip title="Tareas personales">
+                <button onClick={showTodoList} className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
+                  <ListAltIcon sx={{ fontSize: 22 }} />
+                  <span className="sr-only">Tareas</span>
+                  {tasks.length > 0 && (
 
-              <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-600 border-2 border-cv-primary rounded-full -top-2 -right-2 ">{tasks.length}</div>
-            )}
-          </button>
+                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-600 border-2 border-cv-primary rounded-full -top-2 -right-2 ">{tasks.length}</div>
+                  )}
+                </button>
+              </Tooltip>
+              {
+                showTask && (
+                  <div className='absolute right-0'>
+                    <div className="flex items-center justify-center md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50] shadow-2xl">
+                      <div className="space-y-2 text-white">
+                        <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-${isMobile ? 'xs' : 'sm'} font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300 whitespace-nowrap`}>
+                          <AddTaskIcon sx={{ fontSize: 18 }} />
+                          <span className='ml-4'>Agregar Tarea</span>
+                        </button>
+                        <div className='max-h-72 overflow-y-auto'>
+                          <TareaItem sx={{ fontSize: 18 }} data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+          </ClickAwayListener>
           <div>
             <p className={`text-${isMobile ? 'sm' : 'lg'} font-bold leading-none text-white whitespace-nowrap`}>
               {isMobile ? `${firstName} ${firstSurnameInitial}.` : `${firstName} ${firstSurname}`}
@@ -253,54 +287,44 @@ export const Topbar = ({ toggleSidebar }) => {
             </p>
 
           </div>
-          <button onClick={showMenuUser} className="outline-none">
-            <img
-              src={avatar}
-              alt="Foto de Perfil"
-              className={`w-${isMobile ? '10' : '12'} h-${isMobile ? '10' : '12'} border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
-            />
-          </button>
-
-        </div>
-        <div className={`${isVisible ? 'block' : 'hidden'} absolute right-2 w-52 mt-3 bg-cv-primary p-4 rounded-b-lg z-[50]`}>
-          <div className="space-y-2 text-white">
-            <Link to="/perfil" className="cursor-pointer">
-              <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
-                <span className="mr-4">
-                  <AccountCircleIcon sx={{ fontSize: 18 }} />
-                </span>
-                <span className='text-sm'>Perfil</span>
-              </div>
-            </Link>
-            <Link to="/configuracion" className="cursor-pointer">
-              <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
-                <span className="mr-4">
-                  <SettingsIcon sx={{ fontSize: 18 }} />
-                </span>
-                <span className='text-sm'>Configuración</span>
-              </div>
-            </Link>
-            <Link to="/login" onClick={logoutSubmit}  className="cursor-pointer">
-              <div className="p-1 font-semibold hover:bg-cv-secondary rounded-md">
-                <span className="mr-4">
-                  <LogoutIcon sx={{ fontSize: 18 }} />
-                </span>
-                <span className='text-sm'>Cerrar Sesión</span>
-              </div>
-            </Link>
-          </div>
-        </div>
-
-        <div className={`${showTask ? 'block' : 'hidden'} absolute flex items-center justify-center right-0 md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50]`}>
-          <div className="space-y-2 text-white">
-            <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-${isMobile ? 'xs' : 'sm'} font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300`}>
-              <AddTaskIcon sx={{ fontSize: 18 }} />
-              <span className='ml-4'>Agregar Tarea</span>
-            </button>
-            <div className='max-h-72 overflow-y-auto'>
-              <TareaItem sx={{ fontSize: 18 }} data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea} />
+          <ClickAwayListener onClickAway={handleClickAway}>
+            <div>
+              <Tooltip title="Mas opciones">
+                <button onClick={showMenuUser} className="outline-none">
+                  <img
+                    src={avatar}
+                    alt="Foto de Perfil"
+                    className={`w-${isMobile ? '10' : '12'} h-${isMobile ? '10' : '12'} border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
+                  />
+                </button>
+              </Tooltip>
+              {
+                showMenu && (
+                  <div className='block absolute  right-2 w-52 mt-3 bg-cv-primary p-4 rounded-b-lg z-[100] shadow-2xl'>
+                    <div className="space-y-4 text-white">
+                      <Link to="/perfil" onClick={handleClickAway} className="cursor-pointer">
+                        <div className="p-1.5 font-semibold hover:bg-cv-secondary rounded-md">
+                          <span className="mr-4">
+                            <AccountCircleIcon sx={{ fontSize: 18 }} />
+                          </span>
+                          <span className='text-sm'>Perfil</span>
+                        </div>
+                      </Link>
+                      <Link to="/login" onClick={logoutSubmit} className="cursor-pointer">
+                        <div className="p-1.5 font-semibold hover:bg-cv-secondary rounded-md">
+                          <span className="mr-4">
+                            <LogoutIcon sx={{ fontSize: 18 }} />
+                          </span>
+                          <span className='text-sm'>Cerrar Sesión</span>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                )
+              }
             </div>
-          </div>
+          </ClickAwayListener>
+
         </div>
 
         {showModal ? (
