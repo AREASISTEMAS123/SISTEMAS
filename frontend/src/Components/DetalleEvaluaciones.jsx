@@ -7,7 +7,7 @@ export function DetalleEvaluaciones() {
     const [evaluationData, setEvaluationData] = useState(null);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/evaluations/details/5', {
+        fetch('http://127.0.0.1:8000/api/evaluations/details/3', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
                 // Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`

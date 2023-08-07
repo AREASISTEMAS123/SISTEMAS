@@ -64,8 +64,6 @@ export const AdmiDetalleDeJustificacion = () => {
 
     const token = `Bearer ${localStorage.getItem('token')}`;
 
-    console.log('id ', id)
-    console.log('userid ', userid)
     fetch(`http://127.0.0.1:8000/api/users/justifications/${id}/accept/${userid}`, {
       method: 'POST',
       headers: {
@@ -83,7 +81,7 @@ export const AdmiDetalleDeJustificacion = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("data", data);
+
         // Maneja la respuesta exitosa si es necesario
         // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
       })
@@ -99,23 +97,19 @@ export const AdmiDetalleDeJustificacion = () => {
   const onClickRechazar = (e, id, userid) => {
     e.preventDefault();
     const token = `Bearer ${localStorage.getItem('token')}`;
-    console.log('id ', id);
-    console.log('userid ', userid);
-    console.log('Estamos rechazando');
+
 
     if (!reason_decline) {
-      // El campo del motivo está vacío, puedes mostrar un mensaje de error o tomar otra acción
       setMessage('Por favor, proporciona un motivo de rechazo');
       return;
     }
 
-    console.log(reason_decline); // Agregar esta línea para imprimir el motivo en la consola
 
     fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/decline/${userid}`, {
       method: 'POST',
       headers: {
         Authorization: token,
-        'Content-Type': 'application/json', // Asegurarse de incluir el encabezado Content-Type
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ reason_decline }),
     })
@@ -128,7 +122,7 @@ export const AdmiDetalleDeJustificacion = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+
       })
       .catch((error) => {
         setMessage(error.message);
@@ -148,123 +142,118 @@ export const AdmiDetalleDeJustificacion = () => {
       return;
     }
   }
+  const isRechazadoOrAceptado = (prop) => {
+    if (prop.decline === 1) {
+      return 'Rechazado';
+    } else if (prop.justification_status === 0 && prop.decline === 0) {
+      return 'En proceso';
+    } else {
+      return 'Aceptado';
+    }
+  }
   return (
     <div>
       <div className="flex items-center mb-4">
         <h3 className="mr-2 text-gray-300 text-2xl">JUSTIFICACIONES </h3>
         <button className='text-gray-300' style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder} ><KeyboardBackspaceIcon></KeyboardBackspaceIcon></button>
       </div>
-      <div className='border border-gray-300 rounded-lg p-3 mt-5'>
+      <div className=' rounded-lg p-3 mt-5'>
 
         {faltasList.map((item) => (
           <div key={item.user[0].id}>
-            <div className=" md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto" >
-
-              <h1 className=' text-white mb-10 text-xl md:w-full lg:w-2/3 xl:w-1/2 mx-auto font-semibold'> DATOS DEL {definiendo_rol(item.user[0].role[0].role_id).toUpperCase()}</h1>
-
-              <div className="flex flex-col ">
-                <label className="font-semibold text-white">
-                  NOMBRE COMPLETO
-                </label>
-                <div className="font-semibold bg-input text-center my-2">
-                  <div>
-                    <div>{item.user[0].name} {item.user[0].surname}</div>
+            <div className='flex flex-col md:flex-row  space-x-0 md:space-x-8'>
+              <div className='bg-cv-primary text-white  flex flex-col p-4 rounded md:w-1/2'>
+                <h2 className='text-xl font-semibold text-center'>Justificación Nº {item.id}</h2>
+                <div className='mt-6 p-4 bg-cv-primary text-white rounded'>
+                  <div className='flex flex-col md:flex-row md:space-x-12 items-start'>
+                    <div className='w-full md:w-auto'>
+                      <div className='text-sm font-medium'>
+                        <label>Tipo</label>
+                        <p className='capitalize'>{`${item.justification_type === 0 ? "Falta" : "Tardanza"}`}</p>
+                      </div>
+                    </div>
+                    <div className='w-full md:w-auto '>
+                      <div className='text-sm font-medium'>
+                        <label>Fecha</label>
+                        <p>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
+                      </div>
+                    </div>
+                    <div className='w-full md:w-auto '>
+                      <div className='text-sm font-medium'>
+                        <label>Estado</label>
+                        <p className='capitalize'>{isRechazadoOrAceptado(item)}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='mt-4'>
+                    <label className='text-sm font-medium'>Motivo</label>
+                    <p>{item.reason}</p>
                   </div>
                 </div>
               </div>
 
+              <div className='bg-cv-primary text-white text-center flex flex-col p-6 rounded-md md:w-1/2 '>
+                <h2 className='text-xl font-semibold'>Datos Usuario</h2>
+                <div className='mt-4'>
+                  <label className='text-sm font-medium'>Nombre</label>
+                  <p className='text-lg'>{item.user[0].name} {item.user[0].surname}</p>
 
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-10'>
-                <div className=' flex flex-col'>
-                  <label className='font-semibold text-white'>DNI </label>
-                  <input
-                    disabled
-                    className='  font-semibold bg-input  text-center my-2'
-                    value={item.user[0].username}
-                  />
+                  <div className='flex flex-col md:flex-row justify-between border-black mt-2 space-y-2 md:space-y-0 md:space-x-4'>
+                    <div>
+                      <label className='text-sm font-medium'>DNI</label>
+                      <p className='text-lg'>{item.user[0].username}</p>
+                    </div>
+                    <div>
+                      <label className='text-sm font-medium'>Teléfono</label>
+                      <p className='text-lg'>99999999</p>
+                    </div>
+                  </div>
                 </div>
-
-                <div className=' flex flex-col'>
-                  <label className="font-semibold	 mr-2 text-white">Perfil </label>
-                  <input
-                    className=' font-semibold bg-input  text-center my-2'
-                    value={item.user[0].profile.profile_name}
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-10'>
-                <div className=' flex flex-col'>
-                  <label className='font-semibold mr-2 text-white'>Razón de justificación </label>
-                  <input
-                    disabled
-                    className=' bg-input font-semibold  text-center my-2'
-                    value={`${item.justification_type === 0 ? "Falta".toUpperCase() : "Tardanza".toUpperCase()}`}
-                  />
-                </div>
-
-                <div className=' flex flex-col'>
-                  <label className="font-semibold	 mr-2 text-white">Fecha </label>
-                  <input
-                    className=' bg-input  font-semibold  text-center my-2'
-                    value={moment(item.justification_date).format("DD/MM/YYYY")}
-                    disabled
-                  />
-                </div>
-              </div>
-
-
-
-
-              <div className=' ml-auto flex flex-col'>
-                <label className='font-semibold  text-white' >Motivo </label>
-                <textarea className=' w-full font-semibold  bg-input  overflow-hidden text-center my-2 p-2 '
-                  disabled
-                  value={item.reason}
-                  rows={Math.max(2, Math.ceil(item.reason.length / 50))}
-
-                ></textarea>
-
-              </div>
-
-
-              <div>
-                <label className='font-semibold text-white'>Evidencia:</label>
-              </div>
-
-              <div className='flex items-center justify-center'>
-                {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
-                  <img src={`http://localhost:8000/archivos/${item.evidence}`} alt="Image" />
-                ) : item.evidence.endsWith('.pdf') ? (
-                  <embed src={`http://localhost:8000/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
-                ) : (
-                  <div>Unsupported file format</div>
-                )}
-              </div>
-              <div className="flex items-center justify-center p-6 border-t border-gray-200 rounded-b ">
-
-                {item.decline === 0 && item.justification_status === 0 && (
-                  <>
-                    <button
-                      className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10 bt-rechazar"
-                      onClick={(e) => onOpenModalRechazo(e, item)}
-                    >
-                      RECHAZAR
-                    </button>
-
-                    <button
-                      className="bt-aceptar hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                      onClick={(e) => onOpenModalAceptado(e, item)}
-                    >
-                      ACEPTAR
-                    </button>
-                  </>
-                )}
-
-
               </div>
             </div>
+
+
+
+            <div className="bg-cv-primary mt-3 rounded-md">
+              <div className="mx-auto ">
+                <div className="font-semibold text-white p-4">
+                  <label>Evidencia:</label>
+                </div>
+
+                <div className="flex items-center justify-center p-8">
+                  {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
+                    <img src={`http://localhost:8000/archivos/${item.evidence}`} alt="Image" className="mx-auto" />
+                  ) : item.evidence.endsWith('.pdf') ? (
+                    <embed src={`http://localhost:8000/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
+                  ) : (
+                    <div>Unsupported file format</div>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-center p-6 rounded-b">
+                  {item.decline === 0 && item.justification_status === 0 && (
+                    <>
+                      <button
+                        className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 md:mx-10 bt-rechazar"
+                        onClick={(e) => onOpenModalRechazo(e, item)}
+                      >
+                        RECHAZAR
+                      </button>
+
+                      <button
+                        className="bt-aceptar hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        onClick={(e) => onOpenModalAceptado(e, item)}
+                      >
+                        ACEPTAR
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+
+
           </div>
         ))}
 

@@ -1,51 +1,88 @@
 import { useParams } from "react-router-dom";
-import { useEvaluation } from "./hooks/useEvaluation";
 import { useEffect } from "react";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 export const HabilidadesBlandas = () => {
+    const [showModalGuardar, setShowModalGuardar] = useState(false);
 
-    const { note1, note2, note3, note4, suma, handleChange, calcularSuma, onClickRetroceder} = useEvaluation();
     const { id } = useParams();
 
-    const saveNotes = () => {
-        const url = `/evaluations/softskills/${id}/update`;
-        const data = {
-            note1: note1,
-            note2: note2,
-            note3: note3,
-            note4: note4,
-            suma: suma,
-        }
-        const token = `Bearer ${localStorage.getItem('token')}`;
-        fetch(url, {
-            method: "POST",
+    const [notas, setNotas] = useState({
+        note1: 0,
+        note2: 0,
+        note3: 0,
+        note4: 0,
+        prom_end: 0
+    });
+    const navigate = useNavigate();
+    const onClickRetroceder = () => {
+        navigate("/evaluar")
+    }
+    const { note1, note2, note3, note4 } = notas;
+    useEffect(() => {
+        fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1`, {
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, // Include the token in the headers
-            },
-            body: JSON.stringify(data),
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
         })
-            .then((response) => {
-                // Check if the request was successful
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
+            .then(response => response.json())
+            .then(data => {
+                setNotas({
+                    note1: data.note1,
+                    note2: data.note2,
+                    note3: data.note3,
+                    note4: data.note4,
+                    prom_end: data.prom_end,
+                });
+                console.log(data)
             })
-            .then((data) => {
-                // Handle the response if needed
-                console.log("Data updated successfully:", data);
-            })
-            .catch((error) => {
-                // Handle errors if any
-                console.error("Error updating data:", error);
+
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }, []);
+
+    const handleChange = ({ target }) => {
+        const { name, value } = target;
+        setNotas(prevNotas => ({
+            ...prevNotas,
+            [name]: value
+        }));
+    };
+
+
+    const saveNotes = async () => {
+        try {
+            const token = `Bearer ${localStorage.getItem('token')}`;
+            const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    note1: notas.note1,
+                    note2: notas.note2,
+                    note3: notas.note3,
+                    note4: notas.note4,
+                })
             });
+
+            if (response.ok) {
+                console.log("Notes saved successfully!");
+
+            } else {
+                console.error("Failed to save notes:", response.status);
+
+            }
+        } catch (error) {
+            console.error('Error al guardar los datos en la API:', error);
+        }
+        navigate("/evaluar")
     }
 
-
-    useEffect(() => {
-        calcularSuma;
-    }, [note1, note2, note3, note4]);
+    const onClickModal = () =>{
+        setShowModalGuardar(true);
+    }
 
     return (
         <div className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
@@ -67,8 +104,9 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             value={note1}
                             type="number"
-                            name="semana_one"
+                            name="note1"
                             onChange={handleChange}
+
                         />
                     </div>
                 </div>
@@ -80,8 +118,9 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             type="number"
                             value={note2}
-                            name="semana_two"
+                            name="note2"
                             onChange={handleChange}
+
                         />
                     </div>
                 </div>
@@ -93,8 +132,9 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             type="number"
                             value={note3}
-                            name="semana_three"
+                            name="note3"
                             onChange={handleChange}
+
                         />
                     </div>
                 </div>
@@ -106,8 +146,9 @@ export const HabilidadesBlandas = () => {
                             placeholder="Ingrese valor"
                             type="number"
                             value={note4}
-                            name="semana_four"
+                            name="note4"
                             onChange={handleChange}
+
                         />
                     </div>
                 </div>
@@ -116,16 +157,42 @@ export const HabilidadesBlandas = () => {
                     <div>
                         <input
                             className="ml-1 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
-                            value={suma}
+
                             disabled
+                            value={notas.prom_end}
+                            name="prom_end"
                         />
                     </div>
                 </div>
                 <div className="flex flex-row mt-2 ">
-                    <button className="bg-cyan-400 border-2 p-2" onClick={saveNotes}>Guardar</button>
+                    <button className="bg-cyan-400 border-2 p-2" onClick={onClickModal}>Guardar</button>
                     <button className="bg-amber-500 border-2 p-2 ml-4" onClick={onClickRetroceder}>Cancelar</button>
                 </div>
             </div>
+            {showModalGuardar && (
+                <div className="fixed inset-0 flex items-center justify-center top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div className="relative max-w-2xl max-h-full">
+                        <div className="relative bg-white rounded-lg shadow">
+                            <div className="flex flex-col items-center justify-center p-4 border-b rounded-t">
+                                <h1 className="uppercase text-center mb-4">Guardando la nota</h1>
+                                <h3 className="inline-block">
+                                    <CheckCircleIcon sx={{ color: "#3F8116", fontSize: 40 }} />
+                                </h3>
+                            </div>
+
+                            <div className="flex items-center p-6 border-t border-gray-200 rounded-b">
+                                <button
+                                    onClick={saveNotes}
+                                    className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                >
+                                    Aceptar
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

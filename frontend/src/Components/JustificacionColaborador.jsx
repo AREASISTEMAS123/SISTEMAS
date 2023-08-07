@@ -183,9 +183,9 @@ export const JustificacionColaborador = () => {
 
             </div>
 
-            <div className="flex justify-center">
-                {/* Buscador por tipo de justificacion: falta o tardanza */}
-                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2 ">
+            <div className="flex flex-wrap justify-center items-center mb-6">
+                {/* Buscador por tipo de justificación: falta o tardanza */}
+                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
                     <select
                         className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscador_tipoJustificacion}
@@ -196,7 +196,7 @@ export const JustificacionColaborador = () => {
                         <option value="1">Tardanza</option>
                     </select>
                 </div>
-                {/* Buscador por tipo de status: en proceso o aceptado */}
+                {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
                 <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
                     <select
                         className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
@@ -220,13 +220,14 @@ export const JustificacionColaborador = () => {
                 </div>
                 <div className="">
                     <button
-                        className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
+                        className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-2 md:mx-5 border-black"
                         onClick={onClearFilter}
                     >
                         Limpiar
                     </button>
                 </div>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
                 {cards
                     .filter((post) => {

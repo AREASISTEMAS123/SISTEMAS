@@ -96,6 +96,7 @@ export const VistaAdminColaborador = () => {
     formData.append('surname', usuarioEditado.Surname);
     formData.append('email', usuarioEditado.Email);
     formData.append('status', usuarioEditado.Status);
+    formData.append('status_description', usuarioEditado.StatusDescription);
     formData.append('profile_name', usuarioEditado.Profile);
     formData.append('dni', usuarioEditado.Dni);
     formData.append('department', usuarioEditado.Departament);

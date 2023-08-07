@@ -1,18 +1,29 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRounded';
+// import { useEffect } from 'react';
+// import { useState } from 'react';
 
 
 export const VistaEvaluar = () => {
 	const rol = localStorage.getItem('rol');
 	const area = localStorage.getItem('area');
-	//const isLoggedIn = localStorage.getItem('login') === 'true';
+
 	const hasRole = (targetRole) => {
 		return rol === targetRole;
 	};
 	const hasArea = (targetArea) => {
 		return area === targetArea;
 	};
+
+	// const [selectedUserData, setSelectedUserData] = useState(null);
+	// useEffect(() => {
+	// 	const storedUserData = localStorage.getItem('selectedUserData');
+	// 	if (storedUserData) {
+	// 		setSelectedUserData(JSON.parse(storedUserData));
+	// 	}
+	// }, []);
+
 
 	return (
 		<>
@@ -27,10 +38,12 @@ export const VistaEvaluar = () => {
 							<h1 className="text-cv-cyan text-center text-3xl font-bold">Lista de evaluaciones para</h1>
 						</div>
 					</div>
+					{/* {selectedUserData && (
 					<div className="w-full flex items-center justify-center">
-						<h1 className="text-cv-cyan text-3xl font-bold">Cristian Vásquez</h1>
+						<h1 className="text-cv-cyan text-3xl font-bold">{selectedUserData.user[0]?.name + ' ' + selectedUserData.user[0]?.surname}</h1>
+						estees el id : {selectedUserData.user[0]?.id}
 					</div>
-
+					)} */}
 				</div>
 					
 				<div className="w-full grid gap-4 md:grid-cols-2 ">

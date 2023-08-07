@@ -160,27 +160,27 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 						</TableHead>
 						<TableBody>
 							{data
-							.filter((users) => {
-								const normalizedFilter = removeAccents(filterName.toLowerCase());
-								const normalizedName = users.user && users.user[0] ? removeAccents(users.user[0].name.toLowerCase()) : '';
-								const normalizedSurname = users.user && users.user[0] ? removeAccents(users.user[0].surname.toLowerCase()) : '';
+								.filter((users) => {
+									const normalizedFilter = removeAccents(filterName.toLowerCase());
+									const normalizedName = users.user && users.user[0] ? removeAccents(users.user[0].name.toLowerCase()) : '';
+									const normalizedSurname = users.user && users.user[0] ? removeAccents(users.user[0].surname.toLowerCase()) : '';
 
-								if (filterName.includes(' ')) {
-									const [firstName, lastName] = filterName.split(' ');
-									const normalizedFirstName = removeAccents(firstName.toLowerCase());
-									const normalizedLastName = removeAccents(lastName.toLowerCase());
+									if (filterName.includes(' ')) {
+										const [firstName, lastName] = filterName.split(' ');
+										const normalizedFirstName = removeAccents(firstName.toLowerCase());
+										const normalizedLastName = removeAccents(lastName.toLowerCase());
 
-									return (
-										(normalizedName.includes(normalizedFirstName) && normalizedSurname.includes(normalizedLastName)) ||
-										(normalizedName.includes(normalizedLastName) && normalizedSurname.includes(normalizedFirstName))
-									);
-								} else {
-									return (
-										normalizedName.includes(normalizedFilter) ||
-										normalizedSurname.includes(normalizedFilter)
-									);
-								}
-							})
+										return (
+											(normalizedName.includes(normalizedFirstName) && normalizedSurname.includes(normalizedLastName)) ||
+											(normalizedName.includes(normalizedLastName) && normalizedSurname.includes(normalizedFirstName))
+										);
+									} else {
+										return (
+											normalizedName.includes(normalizedFilter) ||
+											normalizedSurname.includes(normalizedFilter)
+										);
+									}
+								})
 								.filter((users) =>
 									(users.department && users.department.toLowerCase().includes(filterDepartment.toLowerCase())) &&
 									users.date_start.toLowerCase().includes(filterDate.toLowerCase()) &&
@@ -203,7 +203,15 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 										<TableCell align="left" className='whitespace-nowrap'>{users.date_end}</TableCell>
 										<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
-										<TableCell align="right">{users.user && users.user[0].status === 1 ? 'Activo' : 'Inactivo'}</TableCell> 
+										<TableCell align="center" className='whitespace-nowrap'>
+											{users.user && users.user[0].status === 1 ?
+												<p>Activo</p> :
+												<div className='text-center'>
+													<p>Inactivo</p>
+													<p className=''>{users.user[0].status_description}</p>
+												</div>
+											}
+										</TableCell>
 										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
 												<button onClick={() => abrirEditarModal(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
@@ -226,7 +234,9 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 				</TableContainer>
 				<div className='flex justify-end'>
 					<TablePagination
-						rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: -1 }]}
+						rowsPerPageOptions={[5, 10, 25,
+						//{ label: 'Todos', value: -1 }
+					]}
 						colSpan={3}
 						count={data.length}
 						rowsPerPage={rowsPerPage}
