@@ -33,6 +33,15 @@ class AttendanceController extends Controller
     }
     public function setDefaultValues()
     {
+        // Verifica si el dia de hoy es feriado
+        $isHoliday = Holiday::where('date', date('Y-m-d'))->exists();
+
+        // Si un dia es feriado termina la ejecucion
+
+        if($isHoliday) {
+            return;
+        }
+
         // Obten el ID del usuario actualmente autenticado
         $user_id = auth()->id();
 
