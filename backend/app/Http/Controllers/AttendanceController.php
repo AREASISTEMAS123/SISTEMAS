@@ -39,7 +39,7 @@ class AttendanceController extends Controller
         // Si un dia es feriado termina la ejecucion
 
         if($isHoliday) {
-            return;
+            exit();
         }
 
         // Obten el ID del usuario actualmente autenticado
