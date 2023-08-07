@@ -99,9 +99,8 @@ class AttendanceController extends Controller
     }
 
 
-    public function generateReport()
+    public function generateReport($booleano)
     {
-
         //Generar reporte general de asistencias, faltas y tardanzas
 
         $this->setDefaultValues();
@@ -112,11 +111,11 @@ class AttendanceController extends Controller
         $justifications = 0;
 
         // Recogemos el ID del usuario logeado
-        $user_id = auth()->id();
+        //$user_id = auth()->id();
 
-        $admin = Profile::where('user_id', $user_id)->get('shift');
+        //$admin = Profile::where('user_id', $user_id)->get('shift');
 
-        if ($admin[0]->shift == 'Mañana') {
+        if ($booleano == 1) {
             $profile = Profile::where('shift', 'Mañana')->get('user_id');
             $shift = 'Mañana';
         } else {
