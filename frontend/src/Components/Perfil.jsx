@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import moment from "moment";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
 export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -36,18 +38,19 @@ export const Perfil = () => {
   return (
     <div className="min-h-screen">
       {colaborador && colaborador.Usuario && colaborador.Usuario[0] && (
-        <div className=" ">
-          <div className="text-2xl font-bold text-white mx-3 text-center">
-            DATOS PERSONALES
-          </div>
 
-          <div className="flex flex-col md:flex-row mt-6">
-            <div className="md:w-3/4">
+        <div className=" ">
+          <div className="flex flex-col md:flex-row">
+            {/* SECCION PERSONAL */}
+            <div className="w-full md:w-3/5 p-4 bg-cv-primary rounded-lg">
               <div className="flex flex-col ">
-                <label className="font-semibold text-white mx-3 ">
+                <div className="text-2xl font-bold text-white mx-3 text-center mb-5">
+                  DATOS PERSONALES
+                </div>
+                <label className="font-semibold text-xs text-gray-500 mx-3 ">
                   NOMBRE COMPLETO
                 </label>
-                <div className="mx-3  font-semibold bg-input  text-center my-2">
+                <div className="mx-3 text-white text-xl font-semibold my-2">
                   <div>
                     <div>{colaborador.Usuario[0].user[0].name} {colaborador.Usuario[0].user[0].surname}</div>
                   </div>
@@ -55,187 +58,176 @@ export const Perfil = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
                 <div className="flex flex-col ">
-                  <label className="font-bold mx-3 text-sm text-white">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
                     DNI
                   </label>
-                  <input
-                    disabled
-                    className='mx-3  font-semibold bg-input text-center my-2'
-                    value={colaborador.Usuario && colaborador.Usuario[0].dni}
-
-                  />
-
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && colaborador.Usuario[0].dni}</div>
+                    </div>
+                  </div>
                 </div>
                 <div className="flex flex-col ">
-                  <label className="font-bold mx-3 text-sm text-white">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
                     FECHA DE NACIMIENTO
                   </label>
-                  <input
-                    disabled
-                    className='mx-3  font-semibold bg-input  text-center my-2'
-                    value={colaborador.Usuario && moment(colaborador.Usuario[0].birthday).format("DD/MM/YYYY")}
-
-                  />
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && moment(colaborador.Usuario[0].birthday).format("DD/MM/YYYY")}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
                 <div className="flex flex-col ">
-                  <label className="font-bold mx-3 text-sm text-white">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
                     CELULAR
                   </label>
-                  <input
-                    disabled
-                    className='mx-3 bg-input font-semibold  text-center my-2'
-                    value={colaborador.Usuario[0].cellphone}
-                  />
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario[0].cellphone}</div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex flex-col ">
-                  <label className="font-bold mx-3 text-sm text-white">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
                     CORREO ELECTRONICO
                   </label>
-                  <input
-                    disabled
-                    className='mx-3 bg-input font-semibold  text-center my-2'
-                    value={colaborador.Usuario[0].user[0].email}
-                  />
-
-                </div>
-              </div>
-            </div>
-            <div className="md:w-1/6 md:ml-4 md:mt-6 lg:mt-5 lg:mr-auto order-first md:order-last">
-              <img
-                className="w-40 h-40 rounded-full mx-auto mb-6 md:mb-0 border-4 border-white"
-                src={colaborador.avatar}
-                alt=""
-                width="384"
-                height="512"
-              />
-            </div>
-          </div>
-          <div className="text-2xl font-bold text-white mx-3 mt-10 text-center">
-            DATOS DE LA EMPRESA
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                DEPARTAMENTO
-              </label>
-              <input
-                className='mx-3 bg-input  font-semibold  text-center my-2'
-                disabled
-                value={colaborador.Usuario && colaborador.Usuario[0].department}
-              />
-
-            </div>
-
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                AREA
-              </label>
-              <input
-                className='mx-3 bg-input  font-semibold  text-center my-2'
-                disabled
-                value={colaborador.Usuario && colaborador.Usuario[0].area}
-              />
-
-            </div>
-
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                PERFIL
-              </label>
-              <input
-                className='mx-3 bg-input  font-semibold  text-center my-2'
-                disabled
-                value={colaborador.Usuario && colaborador.Usuario[0].profile_name}
-              />
-
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                TURNO
-              </label>
-              <input
-                className='mx-3 bg-input  font-semibold  text-center my-2'
-                disabled
-                value={colaborador.Usuario && colaborador.Usuario[0].shift}
-              />
-            </div>
-
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                ROL
-              </label>
-              <input
-                className='mx-3 bg-input  font-semibold  text-center my-2'
-                disabled
-                value={colaborador.rol}
-              />
-            </div>
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                INGRESO
-              </label>
-              <input
-                className='mx-3 bg-input  font-semibold  text-center my-2'
-                disabled
-                value={colaborador.Usuario && colaborador.Usuario[0].date_start}
-              />
-
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
-
-            <div className="flex flex-col ">
-              <label className="font-bold mx-3 text-sm text-white">
-                ESTADO
-              </label>
-              <input
-                className="mx-3 bg-input  font-semibold  text-center my-2"
-                value={isChecked ? 'Habilitado' : 'Deshabilitado'}
-                disabled
-              />
-            </div>
-          </div>
-          <div className="text-2xl font-bold text-white mx-3 mt-10 text-center">
-            DATOS DE ASISTENCIA
-          </div>
-          <div className="grid grid-cols-1 gap-3 mb-20">
-            <div className="flex flex-col  items-center">
-              <div className="md:w-1/2  mt-6  items-center">
-                <div className="bg-cv-primary text-white p-4 mt-4 rounded-xl mx-3 ">
-                  <h3 className="border-b pb-5 pt-1 font-bold mb-4 text-center">
-                    Información
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className=" p-2 flex flex-col items-center">
-                      <div className="font-bold">Faltas</div>
-                      <div>{colaborador.Faltas}</div>
-                    </div>
-                    <div className=" p-2 flex flex-col items-center">
-                      <div className="font-bold">Asistencias</div>
-                      <div>{colaborador.Asistencia}</div>
-                    </div>
-                    <div className=" p-2 flex flex-col items-center">
-                      <div className="font-bold">Tardanzas</div>
-                      <div>{colaborador.Tardanzas}</div>
-                    </div>
-                    <div className=" p-2 flex flex-col items-center">
-                      <div className="font-bold">Justificaciones</div>
-                      <div>{colaborador.Justificaciones}</div>
+                  <div className="mx-3 text-white text-xl font-semibold my-2 truncate">
+                    <div>
+                      <div>{colaborador.Usuario[0].user[0].email}</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            {/* SECCION IMAGEN */}
+            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-lg mx-0 md:mx-5">
+              <div className="w-4/5 m-10 order-first md:order-last">
+                <img
+                  className=" rounded-full mx-auto mb-6 md:mb-0 border-4 border-white"
+                  src={colaborador.avatar}
+                  alt=""
+                  width="384"
+                  height="512"
+                />
+              </div>
+            </div>
           </div>
-          <div className="text-2xl font-bold text-white mx-3 mt-10 text-center">
-            DATOS DE EVALUACIONES
+          <div className="flex flex-col md:flex-row">
+            {/* SECCION EMPRESA */}
+            <div className="w-full md:w-3/5 p-4 bg-cv-primary rounded-lg my-5">
+              <div className="text-2xl font-bold text-white mx-3 text-center mb-5">
+                DATOS DE LA EMPRESA
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    DEPARTAMENTO
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && colaborador.Usuario[0].department}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    NUCLEO
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && colaborador.Usuario[0].area}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    PERFIL
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && colaborador.Usuario[0].profile_name}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    TURNO
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && colaborador.Usuario[0].shift}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    ROL
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.rol}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    INGRESO
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.Usuario && colaborador.Usuario[0].date_start}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    ESTADO
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{isChecked ? 'Habilitado' : 'Deshabilitado'}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* SECCION ASISTENCIA */}
+            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-lg my-5 md:mx-5">
+              <div className="text-2xl font-bold text-white mx-3 text-center">
+                DATOS ASISTENCIA
+              </div>
+              <div className="mt-6">
+                <ResponsiveContainer width="100%" height={300} className="mx-auto">
+                  <BarChart
+                    data={[
+                      { name: 'A', Asistencias: colaborador.Asistencia },
+                      { name: 'T', Tardanzas: colaborador.Tardanzas },
+                      { name: 'J', Justificaciones: colaborador.Justificaciones },
+                      { name: 'F', Faltas: colaborador.Faltas },
+                    ]}
+                  >
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="Asistencias" fill="#4CAF50" />
+                    <Bar dataKey="Tardanzas" fill="#FFC300" />
+                    <Bar dataKey="Justificaciones" fill="#36A2EB" />
+                    <Bar dataKey="Faltas" fill="#FF5733" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </div>
         </div>
       )
