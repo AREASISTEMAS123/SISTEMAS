@@ -234,7 +234,9 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 				</TableContainer>
 				<div className='flex justify-end'>
 					<TablePagination
-						rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: -1 }]}
+						rowsPerPageOptions={[5, 10, 25,
+						//{ label: 'Todos', value: -1 }
+					]}
 						colSpan={3}
 						count={data.length}
 						rowsPerPage={rowsPerPage}

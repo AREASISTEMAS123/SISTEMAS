@@ -13,7 +13,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ChecklistIcon from '@mui/icons-material/Checklist';
@@ -87,7 +87,16 @@ TablaEvaluaciones.propTypes = {
 export default function TablaEvaluaciones({ data, filterName }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const Token = localStorage.getItem("token");
 
+	// const [selectedUserData, setSelectedUserData] = React.useState(null);
+	// const navigate = useNavigate();
+
+	// const handleEvaluarClick = (userData) => {
+	// 	setSelectedUserData(userData);
+	// 	localStorage.setItem('selectedUserData', JSON.stringify(userData));
+	// 	navigate("/evaluar");
+	// };
 
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
@@ -112,6 +121,29 @@ export default function TablaEvaluaciones({ data, filterName }) {
 		return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 	}
 
+	//const [userId, setUserId] = React.useState(null);
+	const handleButtonClick = (id) => {
+		fetch(import.meta.env.VITE_API_URL+`/evaluations/insert/${id}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${Token}`
+				// Agrega cualquier otra cabecera requerida por la API, como tokens de autenticación
+			},
+			body: JSON.stringify({
+				// Agrega los datos que deseas enviar en el cuerpo de la solicitud
+			}),
+		})
+			.then(response => response.json())
+			.then(data => {
+				// Maneja la respuesta de la API
+				console.log(data);
+			})
+			.catch(error => {
+				console.log('No se pudo obtener los datos' + error)
+			});
+	};
+
 	return (
 		<>
 			<div className='bg-white rounded-md overflow-hidden'>
@@ -126,7 +158,7 @@ export default function TablaEvaluaciones({ data, filterName }) {
 								<TableCell align="center" style={{ color: "white", width: '150px' }} className='whitespace-nowrap sticky right-0 bg-cv-primary'>Acciones</TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>
+						<TableBody >
 							{data.filter((users) => {
 								const normalizedFilter = removeAccents(filterName.toLowerCase());
 								const normalizedName = users.user && users.user[0] ? removeAccents(users.user[0].name.toLowerCase()) : '';
@@ -157,7 +189,11 @@ export default function TablaEvaluaciones({ data, filterName }) {
 									<TableCell align="left">{item.user && item.role[0]?.role_id ? roleNames[item.role[0].role_id] : ''}</TableCell>
 									<TableCell align="center">
 										<div className='flex items-center justify-center'>
-											<Link to="/evaluar" onClick="" className='p-2 w-full border rounded-md font-semibold bg-cv-cyan text-cv-primary hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300'>
+											<Link
+											to="/evaluar"
+											// onClick={() => handleEvaluarClick(item)}
+												onClick={() => handleButtonClick(item.user_id)}
+											className='p-2 w-full border rounded-md font-semibold bg-cv-cyan text-cv-primary hover:bg-cv-cyan/80 active:scale-95 ease-in-out duration-300'>
 												<ChecklistIcon className='sm:mr-2' />
 												<span className='hidden sm:inline'>Evaluar</span>
 											</Link>
@@ -183,7 +219,9 @@ export default function TablaEvaluaciones({ data, filterName }) {
 				</TableContainer>
 				<div className='flex justify-end'>
 					<TablePagination
-						rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: -1 }]}
+						rowsPerPageOptions={[5, 10, 25,
+							//{ label: 'Todos', value: -1 }
+					]}
 						colSpan={3}
 						count={data.length}
 						rowsPerPage={rowsPerPage}
