@@ -96,7 +96,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('evaluations/leadership/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateLeadership']);
 
-    Route::post('evaluations/autoevaluation/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateLeadership']);
+    Route::post('evaluations/autoevaluation/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateAutoevaluation']);
 
     Route::get('evaluations/details/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationDetails']);
 
