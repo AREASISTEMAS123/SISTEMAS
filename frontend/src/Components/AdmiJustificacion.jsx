@@ -239,7 +239,7 @@ export const AdmiJustificacion = () => {
             </div>
 
 
-            <div className="col-end-6 col-span-1 flex flex-col md:flex-row md:items-center">
+            <div className="col-end-6 col-span-1 flex flex-wrap md:flex-row md:items-center mb-6">
                 {/* Buscador por tipo de justificacion: falta o tardanza */}
                 <div className="mb-2 md:mb-0 md:mr-2">
                     <select
@@ -265,13 +265,12 @@ export const AdmiJustificacion = () => {
                         <option value="2">Rechazado</option>
                     </select>
                 </div>
+                {/* Buscador por departamento */}
                 <div className="mb-2 md:mb-0 md:mr-2">
                     <select
                         className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscadorDpto}
-                        onChange={(e) => {
-                            setBuscadorDpto(e.target.value);
-                        }}
+                        onChange={(e) => setBuscadorDpto(e.target.value)}
                     >
                         <option value="">Departamento</option>
                         <option value="Administrativo">Administrativo</option>
@@ -279,13 +278,12 @@ export const AdmiJustificacion = () => {
                         <option value="Comercial">Comercial</option>
                     </select>
                 </div>
+                {/* Buscador por tipo de área */}
                 <div className="mb-2 md:mb-0 md:mr-2">
                     <select
                         className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
                         value={buscador_tipoArea}
-                        onChange={(e) => {
-                            setBuscador_tipoArea(e.target.value);
-                        }}
+                        onChange={(e) => setBuscador_tipoArea(e.target.value)}
                     >
                         <option value="">Núcleo</option>
                         {getFilteredAreas().map((area) => (
@@ -295,6 +293,7 @@ export const AdmiJustificacion = () => {
                         ))}
                     </select>
                 </div>
+                {/* Buscador por fecha */}
                 <div className="mb-2 md:mb-0 md:mr-2">
                     <input
                         className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
@@ -305,6 +304,7 @@ export const AdmiJustificacion = () => {
                     />
                 </div>
             </div>
+
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-5">
                 {faltasList
