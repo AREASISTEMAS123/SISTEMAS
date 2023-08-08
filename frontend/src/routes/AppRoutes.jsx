@@ -24,6 +24,7 @@ import { HabilidadesBlandas } from "../Components/Evaluaciones/HabilidadesBlanda
 import { Desempeño } from "../Components/Evaluaciones/Desempeño";
 import { AutoEvaluacion } from "../Components/Evaluaciones/AutoEvaluacion";
 import { DiagnosticoLiderazgo } from "../Components/Evaluaciones/DiagnosticoLiderazgo";
+import { ChangePassword } from "../Components/ChangePassword";
 
 const AppRoutes = () => {
     const rol = localStorage.getItem('rol');
@@ -46,6 +47,7 @@ const AppRoutes = () => {
                     <Route path="/evaluacion" element={<EvaluacionesColaborador />} />
                     <Route path="/details/:id" element={<JustificacionDetalleColaborador />} />
                     <Route path="/logout" />
+                    <Route path="/changePassword" element={<ChangePassword/>}/>
 
                     {hasRole('Lider Nucleo') && (
                         <>
