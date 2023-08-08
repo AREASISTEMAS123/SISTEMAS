@@ -81,9 +81,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
 
     Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
-    
+
     Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getPerformance']);
-    
+
     Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getLeadership']);
 
     Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
@@ -104,4 +104,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('evaluations/insert/{id}', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
     Route::post('evaluations/average/{id}', [App\Http\Controllers\EvaluationController::class, 'calcAverage']);
+
+
+    Route::get('holidays', [App\Http\Controllers\HolidayController::class, 'showAllHoliday']);
+    Route::get('holidays/{id}', [App\Http\Controllers\HolidayController::class, 'showHoliday']);
+    Route::post('holidays/insert', [App\Http\Controllers\HolidayController::class, 'createHoliday']);
+    Route::post('holidays/{id}/update', [App\Http\Controllers\HolidayController::class, 'updateHoliday']);
+    Route::delete('holidays/{id}/delete', [App\Http\Controllers\HolidayController::class, 'destroyHoliday']);
+
 });
