@@ -12,6 +12,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { TareaItem } from './TareaItem';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 export const Topbar = ({ toggleSidebar }) => {
   Topbar.propTypes = {
@@ -50,6 +51,9 @@ export const Topbar = ({ toggleSidebar }) => {
     setShowTask(false);
   };
 
+  const handleChange = () =>{
+    setShowMenu(false);
+  }
 
 
   //Local Storage
@@ -308,6 +312,14 @@ export const Topbar = ({ toggleSidebar }) => {
                             <AccountCircleIcon sx={{ fontSize: 18 }} />
                           </span>
                           <span className='text-sm'>Perfil</span>
+                        </div>
+                      </Link>
+                      <Link to="/changePassword" onClick={handleChange} className="cursor-pointer">
+                        <div className="p-1.5 font-semibold hover:bg-cv-secondary rounded-md">
+                          <span className="mr-4">
+                            <ManageAccountsIcon sx={{ fontSize: 18 }} />
+                          </span>
+                          <span className='text-sm'>Cambiar contraseña</span>
                         </div>
                       </Link>
                       <Link to="/login" onClick={logoutSubmit} className="cursor-pointer">

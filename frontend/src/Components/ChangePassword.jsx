@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ChangePassword = () => {
     const [old_password, setOld_password] = useState("");
@@ -17,6 +18,10 @@ export const ChangePassword = () => {
         }
     }, [password, confirm_password]);
 
+    const navigate = useNavigate();
+    const cancelarChange = () =>{
+        navigate('/home')
+    }
     const onsubmit = async (e) => {
         e.preventDefault();
 
@@ -55,10 +60,10 @@ export const ChangePassword = () => {
         }
     }
     return (
-        <div className="min-h-screen bg-gray-100 py-6 sm:py-12 flex flex-col justify-center">
+        <div className="min-h-screen  py-6 sm:py-12 flex flex-col justify-center">
             <form onSubmit={onsubmit} className="max-w-md mx-auto">
                 <div className="mb-6">
-                    <label className="block text-gray-500 font-bold mb-1 md:mb-0">
+                    <label className="block text-white font-bold mb-1 md:mb-0">
                         Contraseña antigua:
                     </label>
                     <div className="relative">
@@ -73,7 +78,7 @@ export const ChangePassword = () => {
                     </div>
                 </div>
                 <div className="mb-6">
-                    <label className="block text-gray-500 font-bold mb-1 md:mb-0">
+                    <label className="block text-white font-bold mb-1 md:mb-0">
                         Contraseña nueva:
                     </label>
                     <div className="relative">
@@ -88,7 +93,7 @@ export const ChangePassword = () => {
                     </div>
                 </div>
                 <div className="mb-6">
-                    <label className="block text-gray-500 font-bold mb-1 md:mb-0">
+                    <label className="block text-white font-bold mb-1 md:mb-0">
                         Confirma contraseña:
                     </label>
                     <div className="relative">
@@ -107,13 +112,18 @@ export const ChangePassword = () => {
                 )}
                 {errorMessage && <div className="text-red-500">{errorMessage}</div>}
                 {successMessage && <div className="text-green-500">{successMessage}</div>}
-                <div className="flex justify-center">
+                <div className="flex justify-center space-x-2">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-cyan-400 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                         disabled={isLoading}
                     >
                         {isLoading ? "Cargando..." : "Cambiar contraseña"}
+                    </button>
+                    <button className="bg-amber-400 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        onClick={cancelarChange}
+                    >
+                        Cancelar
                     </button>
                 </div>
             </form>
