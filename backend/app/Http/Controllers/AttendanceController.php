@@ -10,6 +10,8 @@ use App\Models\Profile;
 use App\Models\User;
 use App\Models\Notification;
 
+use Carbon\Carbon;
+
 class AttendanceController extends Controller
 {
     public $user_id;
@@ -31,18 +33,49 @@ class AttendanceController extends Controller
         //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendance]);
     }
-    public function setDefaultValues()
+    public function setDefaultValues($booleano)
     {
+        // Verifica si el dia de hoy es feriado
+        $isHoliday = Holiday::where('date', date('Y-m-d'))->exists();
+        $today = date('w');
+        // Si un dia es feriado termina la ejecucion
+
+        if($isHoliday || $today === '0' || $today === '6') {
+
+            if ($isHoliday || $today ==='0'){
+                $date = new Carbon('tomorrow');
+                $isHoliday2 = Holiday::where('date', $date)->exists();
+                if ($isHoliday2){
+                    $this->setNonWorkingDays($booleano);
+                    exit();
+                }else{
+                    exit();
+                }
+
+            }else{
+                exit();
+            }
+
+        }
+
         // Obten el ID del usuario actualmente autenticado
-        $user_id = auth()->id();
+       /* $user_id = auth()->id();
 
         // Obten el turno del administrador actual
-        $adminShift = Profile::where('user_id', $user_id)->value('shift');
+        $adminShift = Profile::where('user_id', $user_id)->value('shift');*/
+
+        if ($booleano == 1) {
+            $profile = Profile::where('shift', 'Mañana')->get('user_id');
+            $shift = 'Mañana';
+        } else {
+            $profile = Profile::where('shift', 'Tarde')->get('user_id');
+            $shift = 'Tarde';
+        }
 
         // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
         $users = User::where('status', 1)
-            ->whereHas('profile', function ($query) use ($adminShift) {
-                $query->where('shift', $adminShift);
+            ->whereHas('profile', function ($query) use ($shift) {
+                $query->where('shift', $shift);
             })->get();
 
         // Recorre cada usuario
@@ -59,18 +92,26 @@ class AttendanceController extends Controller
         }
     }
 
-    public function setNonWorkingDays()
+    public function setNonWorkingDays($booleano)
     {
         // Obten el ID del usuario actualmente autenticado
-        $user_id = auth()->id();
+       /* $user_id = auth()->id();
 
         // Obten el turno del administrador actual
-        $adminShift = Profile::where('user_id', $user_id)->value('shift');
+        $adminShift = Profile::where('user_id', $user_id)->value('shift');*/
+
+        if ($booleano == 1) {
+            $profile = Profile::where('shift', 'Mañana')->get('user_id');
+            $shift = 'Mañana';
+        } else {
+            $profile = Profile::where('shift', 'Tarde')->get('user_id');
+            $shift = 'Tarde';
+        }
 
         // Busca usuarios que estén habilitados y pertenezcan al turno del administrador
         $users = User::where('status', 1)
-            ->whereHas('profile', function ($query) use ($adminShift) {
-                $query->where('shift', $adminShift);
+            ->whereHas('profile', function ($query) use ($shift) {
+                $query->where('shift', $shift);
             })->get();
 
         // Obtén la fecha de mañana
@@ -103,7 +144,7 @@ class AttendanceController extends Controller
     {
         //Generar reporte general de asistencias, faltas y tardanzas
 
-        $this->setDefaultValues();
+        $this->setDefaultValues($booleano);
 
         $attendances = 0;
         $delays = 0;
@@ -180,9 +221,7 @@ class AttendanceController extends Controller
         $attendanceReport->save();
 
 
-        $this->setNonWorkingDays();
-        //Retornamos la respuesta en formato JSON
-
+        $this->setNonWorkingDays($booleano);
 
         //Retornamos la respuesta en formato JSON
         return response()->json([

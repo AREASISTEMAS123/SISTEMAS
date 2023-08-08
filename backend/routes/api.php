@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
-
+Route::get('/attendance/report/{booleano}', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 Route::post('password/create', [\App\Http\Controllers\Auth\PasswordResetController::class, 'create']);
 Route::get('password/find/{token}', [\App\Http\Controllers\Auth\PasswordResetController::class, 'find']);
 Route::post('password/reset', [\App\Http\Controllers\Auth\PasswordResetController::class, 'reset']);
@@ -81,9 +81,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
 
     Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
-
+    
     Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getPerformance']);
-
+    
     Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getLeadership']);
 
     Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
