@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\Evaluation;
 use App\Models\Model_has_role;
+use App\Models\Notification;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -137,7 +138,20 @@ class usercontroller extends Controller
             $user->addMedia($avatarFile)->toMediaCollection('avatars');
         }
 
-        return response()->json(['messages' => "Usuario actualizado con éxito"], 200);
+        $loggedUser = auth()->user();
+
+        // Obtiene el usuario que está siendo actualizado
+        $userUpdated = User::where('id', $id)->first(['name', 'surname']);
+    
+        $notif = Notification::create([
+            'user_id' => $id, 
+            'data' => $loggedUser->name . " " . $loggedUser->surname . " editó a " . $userUpdated->name . " " . $userUpdated->surname
+        ]);
+    
+        return response()->json([
+            'messages' => "Usuario actualizado con éxito",
+            'notification' => $notif,
+        ], 200);
     }
 }
 
