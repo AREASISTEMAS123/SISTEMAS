@@ -104,14 +104,14 @@ export const Perfil = () => {
               </div>
             </div>
             {/* SECCION IMAGEN */}
-            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl mx-0 md:mx-5">
-              <div className="w-4/5 m-10 order-first md:order-last">
+            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl mx-0 md:mx-5 mt-5 md:mt-0">
+              <div className="w-4/5 m-10 ">
                 <img
                   className=" rounded-full mx-auto mb-6 md:mb-0 border-4 border-white"
                   src={colaborador.avatar}
                   alt=""
-                  width="250"
-                  height="250"
+                  width="225"
+                  height="225"
                 />
               </div>
             </div>
@@ -188,7 +188,7 @@ export const Perfil = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10 justify-items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10 md:justify-items-center">
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
                     ESTADO
