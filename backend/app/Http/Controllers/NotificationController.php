@@ -47,6 +47,7 @@ class NotificationController extends Controller
             }
         }
         
+        
         return response()->json(['notificaciones' => $notifications]);
     }
 
