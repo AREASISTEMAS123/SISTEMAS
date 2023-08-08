@@ -231,6 +231,23 @@ export const Asistencia = () => {
     };
   }, [videoEnabled]);
 
+  //Loginca Click Una vez
+  const [buttonClickedAdmission, setButtonClickedAdmission] = useState(false);
+
+  const handleButtonClickAdmission = () => {
+    setButtonClickedAdmission(true);
+    handleRegistroAsistencia('admission');
+  };
+
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setButtonClicked(true);
+    handleRegistroAsistencia('departure');
+  };
+  
+
+
   return (
     <div className={`registro-Entrada min-h-screen flex ${isMobile ? 'flex-col' : 'justify-center'}`}>
       <div className={`seccion-izquierda w-full ${isMobile ? 'mb-4' : ''}`}>
@@ -299,7 +316,8 @@ export const Asistencia = () => {
         {mostrarBotonEntrada && (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={() => handleRegistroAsistencia('admission')}
+            // onClick={() => handleRegistroAsistencia('admission')}
+            onClick={handleButtonClickAdmission} disabled={buttonClickedAdmission}
           >
             Marcar entrada
           </button>
@@ -308,11 +326,13 @@ export const Asistencia = () => {
         {mostrarBotonSalida && (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={() => handleRegistroAsistencia('departure')}
+            // onClick={() => handleRegistroAsistencia('departure')}
+            onClick={handleButtonClick} disabled={buttonClicked}
           >
             Marcar salida
           </button>
         )}
+        {buttonClicked && <p className='text-blue-500 font-semibold mt-4'>¡Ya has marcado asistencia!</p>}
         {salidaMarcada && <p className="text-green-500 font-bold mt-4">Salida marcada</p>}
         {tardanza && (
           <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 8:10)</p>

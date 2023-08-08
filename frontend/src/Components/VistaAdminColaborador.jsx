@@ -212,7 +212,7 @@ export const VistaAdminColaborador = () => {
     <>
       <div className="h-full">
         <section className="w-full">
-          <div className="w-full">
+          <div className="w-full mb-2">
             <h1 className="text-xl font-semibold uppercase text-white">Colaboradores</h1>
           </div>
           <div className="space-y-4">

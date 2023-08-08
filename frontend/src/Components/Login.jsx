@@ -47,7 +47,8 @@ export const Login = () => {
         }
     }
 
-    const loginSubmit = async () => {
+    const loginSubmit = async (e) => {
+        e.preventDefault();
         if (username !== "" && password !== "") {
             if (captchaCompleted) {
                 var url = import.meta.env.VITE_API_URL + '/login';
@@ -147,7 +148,7 @@ export const Login = () => {
                                 </div>
                             </div>
                             <div className="w-full">
-                                <div>
+                                <div className="space-y-4">
                                     {error !== "" ? (
                                         <span className="text-red-500">{error.toString()}</span>
                                     ) : (
@@ -174,7 +175,7 @@ export const Login = () => {
                                         <div className="w-full">
                                             <label htmlFor="password" className="block mb-1 font-medium text-gray-900 w-full">Contraseña</label>
                                             <input
-                                                placeholder="••••••••"
+                                                placeholder="********"
                                                 className="bg-gray-50 border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-cv-primary block w-full p-2.5   "
                                                 required=""
                                                 type="password"
@@ -203,23 +204,22 @@ export const Login = () => {
                                             >
                                                 Iniciar sesión
                                             </button>
-                                            <div className="flex items-center justify-center relative">
-                                                <button
-                                                    type="button"
-                                                    onClick={onRecuperar}
-                                                    className="text-sm font-medium text-cv-primary  hover:underline focus:outline-none text-center"
-                                                >
-                                                    ¿Olvidaste tu contraseña?
-                                                </button>
-                                                <div className="absolute right-2 flex justify-end">
-                                                    <button className="text-cv-primary">
-                                                        <HelpIcon />
-                                                    </button>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </form>
+                                    <div className="flex items-center justify-center relative">
+                                        <button
+                                            type="button"
+                                            onClick={onRecuperar}
+                                            className="text-sm font-medium text-cv-primary  hover:underline focus:outline-none text-center"
+                                        >
+                                            ¿Olvidaste tu contraseña?
+                                        </button>
+                                        <div className="absolute right-2 flex justify-end">
+                                            <button className="text-cv-primary">
+                                                <HelpIcon />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -233,7 +233,7 @@ export const Login = () => {
 };
 
 
-export const Frases = [
+const Frases = [
     "Céntrate hacia dónde quieres ir, no en lo que temes.",
     "El éxito no es la clave de la felicidad. La felicidad es la clave del éxito. Si amas lo que haces, tendrás éxito.",
     "La vida es 10% lo que te sucede y 90% cómo reaccionas ante ello.",
