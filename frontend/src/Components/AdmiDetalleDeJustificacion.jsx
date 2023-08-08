@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import moment from "moment";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
@@ -22,7 +22,7 @@ export const AdmiDetalleDeJustificacion = () => {
     const fetchData = async () => {
       try {
         const token = `Bearer ${localStorage.getItem('token')}`;
-        const response = await fetch(import.meta.env.VITE_API_URL +`/users/justifications/${id}`, {
+        const response = await fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}`, {
           headers: {
             Authorization: token
           }
@@ -64,7 +64,7 @@ export const AdmiDetalleDeJustificacion = () => {
 
     const token = `Bearer ${localStorage.getItem('token')}`;
 
-    fetch(import.meta.env.VITE_API_URL +`/users/justifications/${id}/accept/${userid}`, {
+    fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/accept/${userid}`, {
       method: 'POST',
       headers: {
         Authorization: token,
@@ -153,58 +153,65 @@ export const AdmiDetalleDeJustificacion = () => {
   }
   return (
     <div>
-      <div className="flex items-center mb-4">
-        <h3 className="mr-2 text-gray-300 text-2xl">JUSTIFICACIONES </h3>
-        <button className='text-gray-300' style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder} ><KeyboardBackspaceIcon></KeyboardBackspaceIcon></button>
+      <div className="w-full flex flex-col md:flex-row items-center text-white relative">
+        <button onClick={OnClickRetroceder} className="bg-cv-cyan text-cv-primary px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-cv-cyan/80 md:absolute active:scale-95 ease-in-out duration-300">
+          <ArrowBackIosNewIcon sx={{ fontSize: 20 }} />
+          <span>Regresar</span>
+        </button>
+        <div className="w-full flex items-center justify-center py-2">
+          <h1 className="text-xl font-semibold uppercase">Justificaciones</h1>
+        </div>
       </div>
       <div className=' rounded-lg p-3 mt-5'>
 
         {faltasList.map((item) => (
           <div key={item.user[0].id}>
             <div className='flex flex-col md:flex-row  space-x-0 md:space-x-8'>
-              <div className='bg-cv-primary text-white  flex flex-col p-4 rounded md:w-1/2'>
+              <div className='bg-cv-primary text-white  flex flex-col p-6 rounded-2xl md:w-1/2'>
                 <h2 className='text-xl font-semibold text-center'>Justificación Nº {item.id}</h2>
-                <div className='mt-6 p-4 bg-cv-primary text-white rounded'>
-                  <div className='flex flex-col md:flex-row md:space-x-12 items-start'>
+                <div className='mt-6 bg-cv-primary text-white rounded'>
+                  <div className='w-full flex flex-col md:flex-row md:space-x-12 items-center justify-between'>
                     <div className='w-full md:w-auto'>
                       <div className='text-sm font-medium'>
-                        <label>Tipo</label>
-                        <p className='capitalize'>{`${item.justification_type === 0 ? "Falta" : "Tardanza"}`}</p>
+                        <label className='text-slate-400 text-base'>Tipo:</label>
+                        <p className='capitalize text-lg'>{`${item.justification_type === 0 ? "Falta" : "Tardanza"}`}</p>
                       </div>
                     </div>
                     <div className='w-full md:w-auto '>
                       <div className='text-sm font-medium'>
-                        <label>Fecha</label>
-                        <p>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
+                        <label className='text-slate-400 text-base'>Fecha:</label>
+                        <p className='text-lg'>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
                       </div>
                     </div>
                     <div className='w-full md:w-auto '>
                       <div className='text-sm font-medium'>
-                        <label>Estado</label>
-                        <p className='capitalize'>{isRechazadoOrAceptado(item)}</p>
+                        <label className='text-slate-400 text-base'>Estado:</label>
+                        <p className='capitalize text-lg'>{isRechazadoOrAceptado(item)}</p>
                       </div>
                     </div>
                   </div>
-                  <div className='mt-4'>
-                    <label className='text-sm font-medium'>Motivo</label>
+                  <div className='mt-4 text-sm font-medium'>
+                    <label className='text-slate-400 text-base'>Motivo:</label>
                     <p>{item.reason}</p>
                   </div>
                 </div>
               </div>
 
-              <div className='bg-cv-primary text-white text-center flex flex-col p-6 rounded-md md:w-1/2 '>
+              <div className='bg-cv-primary text-white text-center flex flex-col p-6 rounded-2xl md:w-1/2 '>
                 <h2 className='text-xl font-semibold'>Datos Usuario</h2>
-                <div className='mt-4'>
-                  <label className='text-sm font-medium'>Nombre</label>
-                  <p className='text-lg'>{item.user[0].name} {item.user[0].surname}</p>
+                <div className='w-full mt-4'>
+                  <div className='w-full text-start'>
+                    <label className='font-medium text-slate-400 text-base'>Nombre:</label>
+                    <p className='text-lg'>{item.user[0].name} {item.user[0].surname}</p>
+                  </div>
 
-                  <div className='flex flex-col md:flex-row justify-between border-black mt-2 space-y-2 md:space-y-0 md:space-x-4'>
+                  <div className='flex flex-col md:flex-row justify-between border-black mt-4 space-y-2 md:space-y-0 md:space-x-4'>
                     <div>
-                      <label className='text-sm font-medium'>DNI</label>
+                      <label className='font-medium text-slate-400 text-base'>DNI:</label>
                       <p className='text-lg'>{item.user[0].username}</p>
                     </div>
                     <div>
-                      <label className='text-sm font-medium'>Teléfono</label>
+                      <label className='font-medium text-slate-400 text-base'>Teléfono:</label>
                       <p className='text-lg'>99999999</p>
                     </div>
                   </div>
@@ -214,46 +221,41 @@ export const AdmiDetalleDeJustificacion = () => {
 
 
 
-            <div className="bg-cv-primary mt-3 rounded-md">
+            <div className="bg-cv-primary mt-3 rounded-2xl p-8">
               <div className="mx-auto ">
-                <div className="font-semibold text-white p-4">
-                  <label>Evidencia:</label>
+                <div className="font-semibold text-center text-white mb-8">
+                  <p className='uppercase text-xl'>Evidencia</p>
                 </div>
 
-                <div className="flex items-center justify-center p-8">
+                <div className="flex items-center justify-center">
                   {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
-                    <img src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} alt="Image" className="mx-auto" />
+                    <img src={import.meta.env.VITE_BACKEND_SERVER_URL + `/archivos/${item.evidence}`} alt="Image" className="mx-auto" />
                   ) : item.evidence.endsWith('.pdf') ? (
-                      <embed src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
+                    <embed src={import.meta.env.VITE_BACKEND_SERVER_URL + `/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
                   ) : (
                     <div>Unsupported file format</div>
                   )}
                 </div>
 
-                <div className="flex items-center justify-center p-6 rounded-b">
-                  {item.decline === 0 && item.justification_status === 0 && (
-                    <>
+                {item.decline === 0 && item.justification_status === 0 && (
+                  <div className="flex items-center justify-center mt-8 rounded-b">
                       <button
-                        className="border-2 hover:bg-slate-500 hover:text-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 md:mx-10 bt-rechazar"
+                        className="border-2 hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-8 py-2.5 text-center mx-2 md:mx-10 bt-rechazar"
                         onClick={(e) => onOpenModalRechazo(e, item)}
                       >
                         RECHAZAR
                       </button>
 
                       <button
-                        className="bt-aceptar hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        className="bg-cv-cyan text-cv-primary hover:bg-cv-cyan/75 font-medium rounded-lg text-sm px-8 py-2.5 text-center"
                         onClick={(e) => onOpenModalAceptado(e, item)}
                       >
                         ACEPTAR
                       </button>
-                    </>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
-
-
-
           </div>
         ))}
 

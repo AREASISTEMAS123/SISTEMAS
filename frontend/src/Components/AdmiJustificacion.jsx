@@ -165,7 +165,7 @@ export const AdmiJustificacion = () => {
     return (
         <div className="w-full text-white space-y-5">
             <div className="w-full">
-                <h1 className="text-xl font-semibold">Justificaciones</h1>
+                <h1 className="text-xl font-semibold uppercase">Justificaciones</h1>
             </div>
             <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4">
                 <div className="w-full bg-cv-primary rounded-2xl p-5 ">
@@ -409,41 +409,52 @@ export const AdmiJustificacion = () => {
                     })
 
                     .map((post) => (
-                        <div className="bg-cv-primary  text-white  rounded-lg shadow" key={post.id}>
-                            <div className="flex flex-col items-center pb-10  overflow-hidden">
-                                <div className="mt-4 flex items-center">
-                                    <div className=" mx-3 w-14 h-14 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="bg-cv-primary text-white rounded-2xl shadow-2xl" key={post.id}>
+                            <div className="w-full flex flex-col items-center justify-between p-4 overflow-hidden">
+                                <div className="w-full flex items-center justify-between">
+                                    <div className="border-2 border-cv-cyan w-14 h-14 bg-gray-100 rounded-full overflow-hidden">
                                         <img
                                             src={post.user[0].media[0].original_url}
                                             alt="Foto de Perfil"
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
-                                    <div className="text-white ml-4">
-                                        <h1>{post.user[0].name} {post.user[0].surname}</h1>
+                                    <div className="text-white font-semibold ml-4">
+                                        <h2>{post.user[0].name}</h2>
+                                        <h2>{post.user[0].surname}</h2>
                                     </div>
                                 </div>
-                                <div className="flex mt-4 space-x-3 md:mt-6 text-white">
-                                    <ul>
-                                        <li className="text-sm font-medium ">
-                                            <label className="mr-2">Motivo:</label>
-                                            <div className="whitespace-normal">
+                                <div className="w-full flex mt-4 space-x-3 md:mt-6 text-white">
+                                    <ul className="w-full space-y-0.5">
+                                        <li className="w-full text-sm font-normal">
+                                            {/* <label className="mr-2 uppercase font-semibold mb-1">Motivo:</label>
+                                            <div className="w-full whitespace-normal border rounded-lg overflow-hidden">
                                                 <textarea
-                                                    className="bg-transparent text-sm align-top w-full h-full resize-none"
+                                                    className="w-full bg-transparent text-sm align-top resize-none"
                                                     disabled
+                                                    rows="3"
                                                     value={post.reason}
                                                 ></textarea>
-                                            </div>
+                                            </div> */}
+                                            <p className="leading-none">
+                                                <span className="mr-2 uppercase font-semibold mb-1">Motivo:</span>
+                                                <span>
+                                                    {/* { post.reason } */}
+                                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa doloribus sint, voluptatum accusamus eligendi delectus facere omnis voluptate. Illo eum magnam necessitatibus quasi sint porro provident officia voluptates quod accusantium.
+                                                </span>
+                                            </p>
 
                                         </li>
-                                        <li className="text-sm font-medium flex items-center ">
+                                        <li className="text-sm font-normal flex items-center ">
                                             <p>
-                                                Area: {post.profile && post.profile[0] && post.profile[0].area}
-
+                                                <span className="mr-2 uppercase font-semibold mb-1">Area:</span>
+                                                <span>
+                                                    {post.profile && post.profile[0] && post.profile[0].area}
+                                                </span>
                                             </p>
                                         </li>
-                                        <li className="text-sm font-medium flex items-center ">
-                                            <label>Fecha: </label>
+                                        <li className="text-sm font-normal flex items-center ">
+                                            <label className="mr-2 uppercase font-semibold">Fecha:</label>
                                             <div className="w-1/4">
                                                 <input
                                                     className="mx-1 bg-transparent"
@@ -452,18 +463,26 @@ export const AdmiJustificacion = () => {
                                                 ></input>
                                             </div>
                                         </li>
-                                        <li className="text-sm font-medium flex items-center ">
+                                        <li className="text-sm font-normal flex items-center ">
                                             <p>
-                                                Estado: {isRechazadoOrAceptado(post)}
-                                                {isRechazadoOrAceptado(post) === 'Aceptado' || isRechazadoOrAceptado(post) === 'Rechazado' ? (
-                                                    <span> por {post.action_by_user.name}</span>
-                                                ) : null}
+                                                <span className="mr-2 uppercase font-semibold mb-1">
+                                                    Estado: 
+                                                </span>
+                                                <span>
+                                                    {isRechazadoOrAceptado(post)}
+                                                    {isRechazadoOrAceptado(post) === 'Aceptado' || isRechazadoOrAceptado(post) === 'Rechazado' ? (
+                                                        <span> por {post.action_by_user.name}</span>
+                                                    ) : null}
+                                                </span>
                                             </p>
 
                                         </li>
-                                        <li className="text-sm font-medium flex items-center ">
+                                        <li className="text-sm font-normal flex items-center ">
                                             <p>
-                                                Tipo: {isFaltaOrTardanza(post)}
+                                                <span className="mr-2 uppercase font-semibold mb-1">
+                                                    Tipo: 
+                                                </span>
+                                                <span>{isFaltaOrTardanza(post)}</span>
                                             </p>
 
                                         </li>
@@ -473,7 +492,7 @@ export const AdmiJustificacion = () => {
                             </div>
                             <div className="text-sm font-medium text-black">
                                 <button
-                                    className={`block w-full px-3 py-2 text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cyan-400'
+                                    className={`block w-full p-4 text-xl text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cyan-400'
                                         }`}
                                     onClick={() => {
                                         handleClick(post.id);
