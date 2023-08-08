@@ -104,4 +104,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('evaluations/insert/{id}', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
     Route::post('evaluations/average/{id}', [App\Http\Controllers\EvaluationController::class, 'calcAverage']);
+
+    //Rutas de Reportes:
+    Route::post('/attendances', [App\Http\Controllers\AttendanceController::class, 'store']);
+    Route::get('/attendance-reports', [App\Http\Controllers\AttendanceController::class, 'index']);
+    Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);
+
 });
