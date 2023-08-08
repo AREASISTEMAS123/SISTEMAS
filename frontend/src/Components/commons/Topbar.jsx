@@ -283,10 +283,10 @@ export const Topbar = ({ toggleSidebar }) => {
             </div>
           </ClickAwayListener>
           <div>
-            <p className={`text-${isMobile ? 'sm' : 'lg'} font-bold leading-none text-white whitespace-nowrap`}>
+            <p className={`text-${isMobile ? 'sm' : 'lg'} font-bold leading-tight text-white whitespace-nowrap`}>
               {isMobile ? `${firstName} ${firstSurnameInitial}.` : `${firstName} ${firstSurname}`}
             </p>
-            <p className={`text-${isMobile ? 'xs' : 'normal'} font-light leading-none text-teal-300`}>
+            <p className={`text-${isMobile ? 'xs' : 'normal'} font-light leading-tight text-teal-300`}>
               {isMobile ? `${rol} ` : `${rol} `}
             </p>
 
