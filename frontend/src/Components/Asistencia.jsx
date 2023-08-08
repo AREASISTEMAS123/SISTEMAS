@@ -19,7 +19,7 @@ export const Asistencia = () => {
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -291,14 +291,16 @@ export const Asistencia = () => {
           )}
         </div>
       </div>
-      <div className="seccion-derecha flex flex-col items-center justify-start ml-4 rounded-xl">
-        <RelojAnalogico hora={horaActual}/>
-        <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
+      <div className="seccion-derecha flex flex-col items-center justify-start m-4 rounded-xl">
+        <div className='-mb-96'>
+          <RelojAnalogico/>
+        </div>
+        {/* <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
           {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-        </p>
+        </p> */}
         {mostrarBotonEntrada && (
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
             onClick={() => handleRegistroAsistencia('admission')}
           >
             Marcar entrada
@@ -307,7 +309,7 @@ export const Asistencia = () => {
         {entradaMarcada && <p className="text-green-500 font-bold mt-4">Entrada marcada</p>}
         {mostrarBotonSalida && (
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
             onClick={() => handleRegistroAsistencia('departure')}
           >
             Marcar salida
