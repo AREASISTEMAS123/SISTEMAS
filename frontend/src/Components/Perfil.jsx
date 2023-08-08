@@ -89,7 +89,7 @@ export const Perfil = () => {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-1 gap-3 mt-10">
-                
+
 
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
@@ -104,14 +104,14 @@ export const Perfil = () => {
               </div>
             </div>
             {/* SECCION IMAGEN */}
-            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl mx-0 md:mx-5">
-              <div className="w-4/5 m-10 order-first md:order-last">
+            <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl mx-0 md:mx-5 mt-5 md:mt-0">
+              <div className="w-4/5 m-10 ">
                 <img
                   className=" rounded-full mx-auto mb-6 md:mb-0 border-4 border-white"
                   src={colaborador.avatar}
                   alt=""
-                  width="250"
-                  height="250"
+                  width="225"
+                  height="225"
                 />
               </div>
             </div>
@@ -169,11 +169,11 @@ export const Perfil = () => {
                 </div>
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
-                    ROL
+                    SALIDA
                   </label>
                   <div className="mx-3 text-white text-xl font-semibold my-2">
                     <div>
-                      <div>{colaborador.rol}</div>
+                      <div>{colaborador.Usuario[0].date_end}</div>
                     </div>
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export const Perfil = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10 md:justify-items-center">
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
                     ESTADO
@@ -196,6 +196,16 @@ export const Perfil = () => {
                   <div className="mx-3 text-white text-xl font-semibold my-2">
                     <div>
                       <div>{isChecked ? 'Habilitado' : 'Deshabilitado'}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col ">
+                  <label className="font-semibold text-xs text-gray-500 mx-3">
+                    ROL
+                  </label>
+                  <div className="mx-3 text-white text-xl font-semibold my-2">
+                    <div>
+                      <div>{colaborador.rol}</div>
                     </div>
                   </div>
                 </div>
@@ -215,10 +225,11 @@ export const Perfil = () => {
                       { name: 'J', Justificaciones: colaborador.Justificaciones },
                       { name: 'F', Faltas: colaborador.Faltas },
                     ]}
+                    barSize={40}
                   >
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="0 1" />
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="Asistencias" fill="#4CAF50" />
