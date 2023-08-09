@@ -193,7 +193,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 			case 'Administración':
 				return (
 					<>
-						<option value="Líder de Perfil Asistente Administrativo">Líder de Perfil Asistente Administrativo</option>
+						<option value="Líder de Perfil Administrativo">Líder de Perfil Administrativo</option>
 						<option value="Asistente Administrativo">Asistente Administrativo</option>
 					</>
 				);
@@ -804,7 +804,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			case 'Administración':
 				return (
 					<>
-						<option value="Líder de Perfil Asistente Administrativo">Líder de Perfil Asistente Administrativo</option>
+						<option value="Líder de Perfil Administrativo">Líder de Perfil Administrativo</option>
 						<option value="Asistente Administrativo">Asistente Administrativo</option>
 					</>
 				);
