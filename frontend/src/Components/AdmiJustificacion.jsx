@@ -49,7 +49,6 @@ export const AdmiJustificacion = () => {
                     }
                 });
                 const userData = await userResponse.json();
-                console.log("User Data")
                 // const userShift = userData.Usuario[0].shift;
                 const userId = userData.Usuario[0].user_id;
                 const filteredData = data.Justifications.filter(
@@ -140,7 +139,7 @@ export const AdmiJustificacion = () => {
     // Configura el rango de valores en el vAxis
     options.vAxis = {
         textStyle: { color: '#ffffff' },
-        gridlines: { color: '#ffffff'},
+        gridlines: { color: '#ffffff' },
         viewWindowMode: "pretty",
         viewWindow: {
             min: 0,
@@ -224,7 +223,7 @@ export const AdmiJustificacion = () => {
                     <div className="w-full">
                         <input
                             type="search"
-                            className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                            className="px-3 py-2 rounded-md outline-none bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                             placeholder="NOMBRE APELLIDO"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
@@ -233,17 +232,17 @@ export const AdmiJustificacion = () => {
                     {/* Buscador por fecha */}
                     <div className="w-full md:w-64">
                         <input
-                            className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                            className="px-3 py-2 rounded-md outline-none bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                             type="date"
                             id="fecha"
                             value={buscadorFecha}
                             onChange={(e) => setBuscadorFecha(e.target.value)}
                         />
                     </div>
-                    <div className="">
+                    <div className="w-full md:w-64">
                         <button
                             type="button"
-                            className="w-full px-5 py-2 text-xs md:text-sm font-medium text-center bg-cv-cyan text-cv-primary rounded-md"
+                            className="w-full px-5 py-3 text-xs md:text-sm font-medium text-center bg-cv-cyan text-cv-primary rounded-md outline-none active:scale-95 ease-in-out duration-300"
                             onClick={onCleanFilter}
                         >
                             Limpiar
@@ -257,7 +256,7 @@ export const AdmiJustificacion = () => {
                 {/* Buscador por tipo de justificacion: falta o tardanza */}
                 <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                        className="px-3 py-2 rounded-md outline-none bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscador_tipoJustificacion}
                         onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
                     >
@@ -269,7 +268,7 @@ export const AdmiJustificacion = () => {
                 {/* Buscador por tipo de status: en proceso o aceptado */}
                 <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                        className="px-3 py-2 rounded-md outline-none bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscadorStatus}
                         onChange={(e) => setBuscadorStatus(e.target.value)}
                     >
@@ -282,7 +281,7 @@ export const AdmiJustificacion = () => {
                 {/* Buscador por departamento */}
                 <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                        className="px-3 py-2 rounded-md outline-none bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscadorDpto}
                         onChange={(e) => setBuscadorDpto(e.target.value)}
                     >
@@ -295,7 +294,7 @@ export const AdmiJustificacion = () => {
                 {/* Buscador por tipo de área */}
                 <div className="w-full">
                     <select
-                        className="px-3 py-2 rounded-md bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
+                        className="px-3 py-2 rounded-md outline-none bg-gray-200 placeholder-slate-800 text-cv-primary w-full"
                         value={buscador_tipoArea}
                         onChange={(e) => setBuscador_tipoArea(e.target.value)}
                     >
@@ -307,7 +306,7 @@ export const AdmiJustificacion = () => {
                         ))}
                     </select>
                 </div>
-                
+
             </div>
 
 
@@ -419,14 +418,14 @@ export const AdmiJustificacion = () => {
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
-                                    <div className="text-white font-semibold ml-4">
+                                    <div className="text-white font-semibold">
                                         <h2>{post.user[0].name}</h2>
                                         <h2>{post.user[0].surname}</h2>
                                     </div>
                                 </div>
                                 <div className="w-full flex mt-4 space-x-3 md:mt-6 text-white">
                                     <ul className="w-full space-y-0.5">
-                                        
+
                                         <li className="text-sm font-normal flex items-center ">
                                             <p>
                                                 <span className="mr-2 uppercase font-semibold mb-1">Area:</span>
@@ -448,7 +447,7 @@ export const AdmiJustificacion = () => {
                                         <li className="text-sm font-normal flex items-center ">
                                             <p>
                                                 <span className="mr-2 uppercase font-semibold mb-1">
-                                                    Estado: 
+                                                    Estado:
                                                 </span>
                                                 <span>
                                                     {isRechazadoOrAceptado(post)}
@@ -462,37 +461,29 @@ export const AdmiJustificacion = () => {
                                         <li className="text-sm font-normal flex items-center ">
                                             <p>
                                                 <span className="mr-2 uppercase font-semibold mb-1">
-                                                    Tipo: 
+                                                    Tipo:
                                                 </span>
                                                 <span>{isFaltaOrTardanza(post)}</span>
                                             </p>
 
                                         </li>
                                         <li className="w-full text-sm font-normal">
-                                            {/* <label className="mr-2 uppercase font-semibold mb-1">Motivo:</label>
-                                            <div className="w-full whitespace-normal border rounded-lg overflow-hidden">
+                                            <label className="mr-2 uppercase font-semibold mb-1">Motivo:</label>
+                                            <div className="whitespace-normal">
                                                 <textarea
-                                                    className="w-full bg-transparent text-sm align-top resize-none"
+                                                    className="bg-transparent text-sm align-top w-full h-auto resize-none"
                                                     disabled
-                                                    rows="3"
                                                     value={post.reason}
                                                 ></textarea>
-                                            </div> */}
-                                            <p className="leading-none">
-                                                <span className="mr-2 uppercase font-semibold mb-1">Motivo:</span>
-                                                <p className="text-justify">
-                                                    { post.reason }
-                                                </p>
-                                            </p>
-
+                                            </div>
                                         </li>
 
                                     </ul>
                                 </div>
                             </div>
-                            <div className="text-sm font-medium text-black">
+                            <div className="text-sm font-medium text-cv-primary">
                                 <button
-                                    className={`block w-full p-4 text-xl text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cyan-400'
+                                    className={`block w-full p-4 text-xl text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cv-cyan'
                                         }`}
                                     onClick={() => {
                                         handleClick(post.id);

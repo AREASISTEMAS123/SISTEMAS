@@ -10,23 +10,45 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs121" />
+     id="defs121">
+    <linearGradient
+       id="linearGradient3133">
+      <stop
+         style="stop-color:#16232b;stop-opacity:1;"
+         offset="0"
+         id="stop3131" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient2920">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop2918" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient905">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop903" />
+    </linearGradient>
+  </defs>
   <g
      id="layer1">
     <path
-       id="rect180"
-       style="fill:#16232b;stroke-width:0.264583"
-       d="M -2.4999999e-6,-2.5000002e-6 H 285.75 V 285.75 H -2.4999999e-6 Z" />
+       id="path901"
+       style="fill:#16232b;stroke-width:0.42112"
+       d="M 285.75,142.875 A 142.875,142.875 0 0 1 142.875,285.75 142.875,142.875 0 0 1 -2.5e-6,142.875 142.875,142.875 0 0 1 142.875,-2.5000001e-6 142.875,142.875 0 0 1 285.75,142.875 Z" />
     <g
        id="g229"
-       transform="matrix(0.9259293,0,0,0.9259293,66.574532,-44.542649)">
+       transform="matrix(0.74074344,0,0,0.74074344,81.834625,-7.05912)">
       <polygon
-         points="1080,0 920.97,159.25 920.97,634.57 446.32,633.68 304.56,775.44 1080,775.44 "
+         points="1080,775.44 1080,0 920.97,159.25 920.97,634.57 446.32,633.68 304.56,775.44 "
          style="fill:#ffffff"
          id="polygon2"
          transform="matrix(0.26458333,0,0,0.26458333,-60.471316,79.110522)" />
       <polygon
-         points="1077.79,776.32 645.22,682.85 444.1,634.57 302.35,776.54 "
+         points="645.22,682.85 444.1,634.57 302.35,776.54 1077.79,776.32 "
          style="fill:#cccccc"
          id="polygon4"
          transform="matrix(0.26458333,0,0,0.26458333,-60.471316,79.110522)" />

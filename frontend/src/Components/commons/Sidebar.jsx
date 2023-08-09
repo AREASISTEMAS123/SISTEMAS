@@ -5,7 +5,7 @@ import CakeIcon from "@mui/icons-material/Cake";
 // import DescriptionIcon from "@mui/icons-material/Description";
 import BalanceIcon from "@mui/icons-material/Balance";
 import ChecklistIcon from "@mui/icons-material/Checklist";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+// import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ const getRole = () => {
 const sidebarContent = {
   Colaborador: [
     { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
-    { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon /> },
+    { route: "asistencia", title: "Asistencia", icon: <ChecklistIcon /> },
     { route: "justificacion", title: "Justificacion", icon: <BalanceIcon /> },
     { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
     // { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon /> },

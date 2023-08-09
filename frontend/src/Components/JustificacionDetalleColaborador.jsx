@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import moment from "moment";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export const JustificacionDetalleColaborador = () => {
   const { id, userid } = useParams();
@@ -41,65 +41,68 @@ export const JustificacionDetalleColaborador = () => {
     }
   }
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="flex items-center mb-4">
-        <h3 className="mr-2 text-gray-300">Justificaciones </h3>
-        <button className="text-gray-300 ml-auto" style={{ marginLeft: 'auto' }} onClick={OnClickRetroceder}>
-          <KeyboardBackspaceIcon />
+    <div>
+      <div className="w-full flex flex-col md:flex-row items-center text-white relative">
+        <button onClick={OnClickRetroceder} className="bg-cv-cyan text-cv-primary px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-cv-cyan/80 md:absolute active:scale-95 ease-in-out duration-300">
+          <ArrowBackIosNewIcon sx={{ fontSize: 20 }} />
+          <span>Regresar</span>
         </button>
+        <div className="w-full flex items-center justify-center py-2">
+          <h1 className="text-xl font-semibold uppercase">Justificaciones</h1>
+        </div>
       </div>
-      <div className="rounded-lg p-3 mt-5">
+      <div className="rounded-lg mt-5">
         {faltasList.map((item) => (
           <div key={item.user[0].id} className="mb-6">
-            <div className="flex flex-col md:flex-row space-x-0 md:space-x-8">
-              <div className="bg-cv-primary text-white flex flex-col p-4 rounded md:w-1/2">
-                <h2 className="text-center text-white text-lg mb-5">JUSTIFICACIÓN Nº {item.id}</h2>
-                <div className="mt-6 p-4 bg-cv-primary text-white rounded">
-                  <div className="flex flex-col md:flex-row md:space-x-12 items-start">
+            <div className="flex flex-col md:flex-row gap-6">
+
+              <div className="bg-cv-primary text-white flex flex-col p-6 rounded-2xl md:w-1/2 ">
+                <h2 className="text-xl font-semibold text-center">JUSTIFICACIÓN Nº {item.id}</h2>
+                <div className="mt-6 bg-cv-primary text-white rounded">
+                  <div className="w-full flex flex-col md:flex-row md:space-x-12 items-center justify-between">
                     <div className="w-full md:w-auto">
                       <div className="text-sm font-medium">
-                        <label>Tipo</label>
-                        <p className="capitalize">{`${item.justification_type === 0 ? "Falta" : "Tardanza"}`}</p>
+                        <label className='text-slate-400 text-base'>Tipo:</label>
+                        <p className='capitalize text-lg'>{`${item.justification_type === 0 ? "Falta" : "Tardanza"}`}</p>
                       </div>
                     </div>
                     <div className="w-full md:w-auto">
                       <div className="text-sm font-medium">
-                        <label>Fecha</label>
-                        <p>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
+                        <label className='text-slate-400 text-base'>Fecha:</label>
+                        <p className='text-lg'>{moment(item.justification_date).format("DD/MM/YYYY")}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4">
-                    <label>Motivo</label>
+                  <div className='mt-4 text-sm font-medium'>
+                    <label className='text-slate-400 text-base'>Motivo:</label>
                     <p>{item.reason}</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-cv-primary text-white text-center flex flex-col p-6 rounded-md md:w-1/2">
-                <h2 className="text-xl font-semibold">Información</h2>
-                <div className="mt-6 p-4 bg-cv-primary text-white rounded">
-                  <div className="flex flex-col md:flex-row md:space-x-12 items-start">
-                    <div className="w-full md:w-auto">
-                      <div className="text-sm font-medium">
-                        <label>Estado</label>
-                        <p className="capitalize">{isRechazadoOrAceptado(item)}</p>
-                      </div>
+
+              <div className="bg-cv-primary text-white flex flex-col p-6 rounded-2xl md:w-1/2">
+                <h2 className="text-xl font-semibold text-center">Información</h2>
+                <div className="mt-6 space-y-4 bg-cv-primary text-white rounded">
+                  <div className="w-full md:w-auto">
+                    <div className="text-sm font-medium">
+                      <label className='font-medium text-slate-400 text-base'>Estado:</label>
+                      <p className="capitalize text-lg">{isRechazadoOrAceptado(item)}</p>
                     </div>
                   </div>
                   {isRechazadoOrAceptado(item) === 'Rechazado' && (
-                    <div className="flex flex-col md:flex-row justify-start  mt-4 pt-4 md:space-x-4">
-                      <div className="w-full md:w-auto">
-                        <label className="text-gray-300">MOTIVO</label>
-                        <p className="text-left mt-2">{item.reason_decline}</p>
-                      </div>
+                    <div className="w-full md:w-auto">
+                      <label className='font-medium text-slate-400 text-base'>Motivo:</label>
+                      <p className="text-left mt-2">{item.reason_decline}</p>
                     </div>
                   )}
                 </div>
               </div>
             </div>
-            <div className="bg-cv-primary text-white text-center mt-6">
-              <h2>Evidencia</h2>
-              <div className="flex items-center justify-center p-8">
+            <div className="bg-cv-primary mt-3 rounded-2xl p-8">
+              <div className="font-semibold text-center text-white mb-8">
+                <p className='uppercase text-xl'>Evidencia</p>
+              </div>
+              <div className="flex items-center justify-center">
                 {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
                   <img src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} alt="Image" />
                 ) : item.evidence.endsWith('.pdf') ? (

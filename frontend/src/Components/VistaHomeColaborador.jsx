@@ -93,7 +93,7 @@ export const VistaHomeColaborador = () => {
               {cardAsistencia.map((card, index) => (
                 <div
                   key={index}
-                  className="w-64 bg-cv-primary text-white rounded-md p-5 space-y-2"
+                  className="w-full max-w-xs bg-cv-primary text-white rounded-md p-5 space-y-2"
                 >
                   <div className="w-full text-left">
                     <h3 className="text-lg">{card.title}</h3>

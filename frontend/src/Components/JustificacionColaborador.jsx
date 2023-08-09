@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import { useNavigate } from 'react-router-dom';
 import CircleIcon from '@mui/icons-material/Circle';
+
 export const JustificacionColaborador = () => {
     const [cards, setCards] = useState([]);
     const [showTerminos, setShowTerminos] = useState(false);
@@ -171,169 +172,168 @@ export const JustificacionColaborador = () => {
 
     return (
         <div className="min-h-screen">
-            <h1 className="my-2 uppercase font-semibold text-4xl text-white">Justificaciones</h1>
-            <div className="flex flex-wrap justify-center my-8">
-                <button
-                    type="button"
-                    className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
-                    onClick={onShowTerminos}
-                >
-                    AGREGAR JUSTIFICACIÓN
-                </button>
-
+            <div className="w-full mb-5">
+                <h1 className="text-xl font-semibold uppercase text-white">Justificaciones</h1>
             </div>
-
-            <div className="flex flex-wrap justify-center items-center mb-6">
-                {/* Buscador por tipo de justificación: falta o tardanza */}
-                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
-                    <select
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
-                        value={buscador_tipoJustificacion}
-                        onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
-                    >
-                        <option value="">Tipo de justificación</option>
-                        <option value="0">Falta</option>
-                        <option value="1">Tardanza</option>
-                    </select>
-                </div>
-                {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
-                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
-                    <select
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
-                        value={buscadorStatus}
-                        onChange={(e) => setBuscadorStatus(e.target.value)}
-                    >
-                        <option value="">Estado</option>
-                        <option value="0">En proceso</option>
-                        <option value="1">Aceptado</option>
-                        <option value="2">Rechazado</option>
-                    </select>
-                </div>
-                <div className="w-full md:w-auto mr-2 mb-2 md:mb-0 md:mr-2">
-                    <input
-                        className="px-3 py-2 rounded-md bg-gray-200 w-full md:w-auto"
-                        type="date"
-                        id="fecha"
-                        value={buscadorFecha}
-                        onChange={(e) => setBuscadorFecha(e.target.value)}
-                    />
-                </div>
-                <div className="">
+            <div className="space-y-5">
+                <div className="flex flex-wrap justify-center">
                     <button
-                        className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-2 md:mx-5 border-black"
-                        onClick={onClearFilter}
+                        type="button"
+                        className="w-full md:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-bold uppercase whitespace-nowrap active:scale-95 ease-in-out duration-300"
+                        onClick={onShowTerminos}
                     >
-                        Limpiar
+                        AGREGAR JUSTIFICACIÓN
                     </button>
+
                 </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
-                {cards
-                    .filter((post) => {
-                        if (buscadorFecha === "") {
-                            // Si no se ha seleccionado ninguna fecha, se muestran todos los posts
-                            return true;
-                        } else {
-                            const fechaPost = post.justification_date;
-                            const fechaBuscador = buscadorFecha;
-                            return fechaPost === fechaBuscador;
-                        }
-                    })
-                    .filter((post) => {
-                        const justificationTypeArray = Array.isArray(post.justification_type) ? post.justification_type : [post.justification_type];
-                        if (buscador_tipoJustificacion === "") {
-                            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
-                            return true;
-                        } else {
-                            // Filtrar por el tipo de justificación seleccionado
-                            return justificationTypeArray.includes(Number(buscador_tipoJustificacion));
-                        }
-                    })
-                    .filter((post) => {
-                        const justificationTypeArray = Array.isArray(post.justification_status) ? post.justification_status : [post.justification_status];
+                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-5">
+                    {/* Buscador por tipo de justificación: falta o tardanza */}
+                    <div className="w-full">
+                        <select
+                            className="px-3 py-2 rounded-md outline-none bg-gray-200 w-full"
+                            value={buscador_tipoJustificacion}
+                            onChange={(e) => setbuscador_tipoJustificacion(e.target.value)}
+                        >
+                            <option value="">Tipo de justificación</option>
+                            <option value="0">Falta</option>
+                            <option value="1">Tardanza</option>
+                        </select>
+                    </div>
+                    {/* Buscador por tipo de status: en proceso, aceptado o rechazado */}
+                    <div className="w-full">
+                        <select
+                            className="px-3 py-2 rounded-md outline-none bg-gray-200 w-full"
+                            value={buscadorStatus}
+                            onChange={(e) => setBuscadorStatus(e.target.value)}
+                        >
+                            <option value="">Estado</option>
+                            <option value="0">En proceso</option>
+                            <option value="1">Aceptado</option>
+                            <option value="2">Rechazado</option>
+                        </select>
+                    </div>
+                    <div className="w-full">
+                        <input
+                            className="px-3 py-2 rounded-md outline-none bg-gray-200 w-full"
+                            type="date"
+                            id="fecha"
+                            value={buscadorFecha}
+                            onChange={(e) => setBuscadorFecha(e.target.value)}
+                        />
+                    </div>
+                    <div className="w-full">
+                        <button
+                            className="w-full outline-none px-4 py-3 text-xs font-medium text-center bg-cv-cyan rounded-md active:scale-95 ease-in-out duration-300"
+                            onClick={onClearFilter}
+                        >
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
 
-                        if (buscadorStatus === "") {
-                            // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
-                            return true;
-                        } else if (buscadorStatus === "0") {
-                            // Filtrar por "En proceso"
-                            return justificationTypeArray.includes(0) && post.decline === 0;
-                        } else if (buscadorStatus === "1") {
-                            // Filtrar por "Aceptado"
-                            return justificationTypeArray.includes(1) && post.decline === 0;
-                        } else if (buscadorStatus === "2") {
-                            // Filtrar por "Rechazado"
-                            return post.decline === 1;
-                        } else {
-                            return false; // Valor de búsqueda inválido, no se muestra ningún card
-                        }
-                    })
-                    .map((card, index) => (
-                        <div className="bg-cv-primary  text-white  rounded-lg shadow" key={index}>
-                            <div className="flex flex-col items-center pb-10  overflow-hidden">
-                                {/* Contenido de la tarjeta */}
-                                <div className="mt-4 flex items-center">
-                                    <div className="text-white ml-4">
-                                        <h1>JUSTIFICACIÓN Nº{card.id}</h1>
-                                    </div>
-                                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-cv-secondary min-w-sm mt-5">
+                    {cards
+                        .filter((post) => {
+                            if (buscadorFecha === "") {
+                                // Si no se ha seleccionado ninguna fecha, se muestran todos los posts
+                                return true;
+                            } else {
+                                const fechaPost = post.justification_date;
+                                const fechaBuscador = buscadorFecha;
+                                return fechaPost === fechaBuscador;
+                            }
+                        })
+                        .filter((post) => {
+                            const justificationTypeArray = Array.isArray(post.justification_type) ? post.justification_type : [post.justification_type];
+                            if (buscador_tipoJustificacion === "") {
+                                // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
+                                return true;
+                            } else {
+                                // Filtrar por el tipo de justificación seleccionado
+                                return justificationTypeArray.includes(Number(buscador_tipoJustificacion));
+                            }
+                        })
+                        .filter((post) => {
+                            const justificationTypeArray = Array.isArray(post.justification_status) ? post.justification_status : [post.justification_status];
 
-                                <div className="flex mt-4 space-x-3 md:mt-6 text-white">
-                                    <ul>
-                                        <div className="text-sm font-medium flex  ">
-                                            <p >
-                                                <span className="uppercase">Estado: </span>  {isRechazadoOrAceptado(card)}
-                                            </p>
-                                            <div className="" style={{ marginLeft: 'auto' }}>
-                                                <CircleIcon sx={{ color: colorIcon(card) }}></CircleIcon>
-                                            </div>
+                            if (buscadorStatus === "") {
+                                // Si no se ha seleccionado ningún tipo de justificación, se muestran todos los cards
+                                return true;
+                            } else if (buscadorStatus === "0") {
+                                // Filtrar por "En proceso"
+                                return justificationTypeArray.includes(0) && post.decline === 0;
+                            } else if (buscadorStatus === "1") {
+                                // Filtrar por "Aceptado"
+                                return justificationTypeArray.includes(1) && post.decline === 0;
+                            } else if (buscadorStatus === "2") {
+                                // Filtrar por "Rechazado"
+                                return post.decline === 1;
+                            } else {
+                                return false; // Valor de búsqueda inválido, no se muestra ningún card
+                            }
+                        })
+                        .map((card, index) => (
+                            <div className="bg-cv-primary text-white rounded-2xl shadow-2xl" key={index}>
+                                <div className="w-full flex flex-col items-center justify-between p-4 overflow-hidden">
+                                    {/* Contenido de la tarjeta */}
+                                    <div className="flex items-center">
+                                        <div className="text-white font-semibold">
+                                            <h1>JUSTIFICACIÓN Nº{card.id}</h1>
                                         </div>
-                                        <li className="text-sm font-medium flex  ">
-                                            <label className="uppercase">Fecha: </label>
-                                            <div className="w-1/4">
-                                                <input
-                                                    className="mx-1 bg-transparent"
-                                                    disabled
-                                                    value={moment(card.justification_date).format("DD/MM/YYYY")}
-                                                ></input>
-                                            </div>
-                                        </li>
-                                        <li className="text-sm font-medium flex  ">
-                                            <p>
-                                                <span className="uppercase"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
-                                            </p>
-                                        </li>
-                                        <li className="text-sm font-medium">
-                                            <label className="mr-2">Motivo:</label>
-                                            <div className="whitespace-normal">
-                                                <textarea
-                                                    className="bg-transparent text-sm align-top w-full h-auto resize-none"
-                                                    disabled
-                                                    value={card.reason}
-                                                ></textarea>
-                                            </div>
-                                        </li>
+                                    </div>
 
-                                    </ul>
+                                    <div className="w-full flex mt-4 space-x-3 md:mt-6 text-white">
+                                        <ul className="w-full space-y-0.5">
+                                            <li className="text-sm font-normal flex items-center">
+                                                <p >
+                                                    <span className="mr-2 uppercase font-semibold mb-1">Estado: </span>  {isRechazadoOrAceptado(card)}
+                                                </p>
+                                                <div className="" style={{ marginLeft: 'auto' }}>
+                                                    <CircleIcon sx={{ color: colorIcon(card) }}></CircleIcon>
+                                                </div>
+                                            </li>
+                                            <li className="text-sm font-normal flex items-center">
+                                                <label className="mr-2 uppercase font-semibold mb-1">Fecha: </label>
+                                                <div className="w-1/4">
+                                                    <input
+                                                        className="bg-transparent"
+                                                        disabled
+                                                        value={moment(card.justification_date).format("DD/MM/YYYY")}
+                                                    ></input>
+                                                </div>
+                                            </li>
+                                            <li className="text-sm font-normal flex items-center">
+                                                <p>
+                                                    <span className="mr-2 uppercase font-semibold mb-1"> Tipo: </span> {card.justification_type === 0 ? "Falta" : "Tardanza"}
+                                                </p>
+                                            </li>
+                                            <li className="w-full text-sm font-normal">
+                                                <span className="mr-2 uppercase font-semibold mb-1">Motivo:</span>
+                                                <div className="whitespace-normal">
+                                                    <textarea
+                                                        className="bg-transparent text-sm align-top w-full h-auto resize-none"
+                                                        disabled
+                                                        value={card.reason}
+                                                    ></textarea>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+
                                 </div>
-
-
-                            </div>
-                            <div className=" text-sm font-medium  text-black">
-                                <button className="block w-full px-3 py-2 text-center bg-cyan-400 rounded-b-lg">
-                                    <a
-                                        onClick={() => mostrarDetalles(card.id)}
-                                    >
+                                <div className=" text-sm font-medium text-cv-primary">
+                                    <button onClick={() => mostrarDetalles(card.id)} className="block w-full p-4 text-xl text-center rounded-b-lg bg-cv-cyan">
                                         Ver más
-                                    </a>
-                                </button>
-
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    )
-                    )
-                }
+                        )
+                        )
+                    }
+                </div>
             </div>
 
 
@@ -346,25 +346,26 @@ export const JustificacionColaborador = () => {
                             <div className="flex items-center justify-center p-4 border-b rounded-t ">
                                 <h3 className="items-center">
                                     <ReportProblemIcon
-                                        sx={{ color: "#F3AE37", fontSize: 40 }}
+                                        sx={{ color: "#F3AE37", fontSize: 60 }}
                                     />
                                 </h3>
                             </div>
                             <div className="p-6 space-y-6">
-                                <h1 className="text-center uppercase">Estos son los términos de servicio</h1>
+                                <h1 className="text-center text-xl font-semibold uppercase">Estos son los términos de servicio</h1>
                                 <ol>
-                                    <li>1. Solo podrá justificar hasta 3 días despues de la falta o tardanza.</li>
-                                    <li>2. Toda justificación debera contar con las pruebas necesarias.</li>
+                                    <li>1. Solo podrá justificar hasta 3 días después de la falta o tardanza.</li>
+                                    <li>2. Toda justificación deberá contar con las pruebas necesarias.</li>
                                     <li>3. Deberá esperar hasta 72 horas para visualizar la respuesta de su justificación. </li>
                                 </ol>
                             </div>
-                            <div className="flex  justify-center items-center p-2 border-t border-gray-200  ">
-                                <button
-                                    className="text-white mx-2 bg-cv-secondary hover:bg-slate-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                                    onClick={onAceptTerminos}>ACEPTO</button>
-                                <button onClick={onCloseTerminos} className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2">
+                            <div className="flex  justify-evenly items-center p-2 border-t border-gray-200  ">
+                                <button onClick={onCloseTerminos} className="uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300">
                                     CERRAR
                                 </button>
+                                <button
+                                    className="text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
+                                    onClick={onAceptTerminos}>ACEPTO</button>
+
                             </div>
                         </div>
                     </div>
@@ -373,27 +374,21 @@ export const JustificacionColaborador = () => {
             {showJusti && (
                 <div className="justify-center w-full max-h-full items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                     {/* Formulario */}
-                    <div className="relative w-full md:max-w-2xl my-6 mx-auto border-2 border-white p-1 rounded-lg rotate-[5deg]">
+                    <div className="relative w-full md:max-w-lg my-6 mx-auto border-2 border-white p-1 rounded-lg rotate-[5deg]">
                         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg]">
-                            <button
-                                type="button"
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 md:p-2.5 inline-flex items-center"
-                                onClick={onCancelJusti}>
-                                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" ></path></svg>
-                                <span className="sr-only">Close modal</span>
-                            </button>
                             <div className="px-6 py-6 lg:px-8">
-                                <h2 className="mb-4 text-xl font-medium text-gray-900 text-center ">
+                                <h2 className="mb-4 text-xl font-semibold text-gray-900 text-center ">
                                     Agregar Justificacion
                                 </h2>
 
-                                <form className="justify-center items-center text-center " onSubmit={handleSubmit} >
+                                <form className="flex flex-col items-center gap-2" onSubmit={handleSubmit} >
                                     {messages && <p className="text-red-500">{messages}</p>}
-                                    <div className="flex flex-col md:flex-row w-full">
-                                        <div className="m-2 flex flex-col text-sm ">
-                                            <label >Tipo de justificación</label>
+                                    <div className="w-full flex items-center justify-between gap-4">
+                                        <div className="w-full flex flex-col text-sm outline-none">
+                                            <label htmlFor="justification" className="mb-2">Tipo de justificación</label>
                                             <select
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-1"
+                                                id="justification"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
                                                 defaultValue="Seleccione"
                                                 onChange={(event) => {
                                                     const selectedValue = event.target.value;
@@ -417,10 +412,11 @@ export const JustificacionColaborador = () => {
                                             </select>
                                         </div>
 
-                                        <div className="m-2 flex flex-col text-sm">
-                                            <label>Fecha</label>
+                                        <div className="w-full flex flex-col text-sm">
+                                            <label htmlFor="date" className="mb-2">Fecha</label>
                                             <input
-                                                className="border-gray-300 bg-gray-50 border p-1 rounded-lg"
+                                                id="date"
+                                                className="border-gray-300 bg-gray-50 border p-2 rounded-md outline-none"
                                                 type="date"
                                                 name="justification_date"
                                                 value={justification_date}
@@ -430,9 +426,10 @@ export const JustificacionColaborador = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col md:flex-row my-2">
+                                    <div className="w-full flex flex-col">
+                                        <label htmlFor="reason" className="mb-2 text-sm">Motivo</label>
                                         <textarea
-
+                                            id="reason"
                                             type="text"
                                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300   "
                                             placeholder="Describe el motivo de su tardanza o falta"
@@ -441,9 +438,10 @@ export const JustificacionColaborador = () => {
                                             onChange={handleTextChange}
                                             minLength={255}
                                         ></textarea>
-                                        <p>Caracteres restantes: {255 - reason.length}</p>
+                                        <p className="mt-1 text-xs">Caracteres restantes: {255 - reason.length}</p>
                                     </div>
-                                    <div className="flex flex-col md:flex-row my-2">
+                                    <div className="w-full flex flex-col">
+                                        <p className="mb-2">Evidencias</p>
                                         <div className="flex flex-col items-center text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300">
                                             <div className="flex items-center justify-center w-8 h-8 text-gray-500">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -463,12 +461,12 @@ export const JustificacionColaborador = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-center md:justify-end border-gray-200 mt-4">
-                                        <button onClick={onCancelJusti} className="border border-black hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2 md:my-0 md:mx-2">
+                                    <div className="w-full flex justify-evenly items-center mt-2">
+                                        <button onClick={onCancelJusti} className="uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300">
                                             CANCELAR
                                         </button>
                                         <button
-                                            className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-2 md:my-0 md:mx-2 "
+                                            className="text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
                                             onClick={handleSubmit}
                                             type="submit"
                                         >
