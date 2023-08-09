@@ -309,17 +309,17 @@ export const Asistencia = () => {
         </div>
       </div>
       <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 mb-56 -mt-1 rounded-xl">
-        <div className='-mb-96 mr-6 mt-5 ml-6'>
-          <RelojAnalogico />
+        <div className='mr-6 mt-5 ml-6'>
+          <RelojAnalogico hora={horaActual}/>
         </div>
-        {/* <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
+        <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-white">
           {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-        </p> */}
-        <div className='-mt-48'>
+        </p>
+        <div className='text-center'>
           {mostrarBotonEntrada && (
             <button
               className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
-              onClick={() => handleRegistroAsistencia('admission')}
+              onClick={handleButtonClickAdmission} disabled={buttonClickedAdmission}
             >
               Marcar entrada
             </button>
@@ -328,7 +328,7 @@ export const Asistencia = () => {
           {mostrarBotonSalida && (
             <button
               className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
-              onClick={() => handleRegistroAsistencia('departure')}
+              onClick={handleButtonClick} disabled={buttonClicked}
             >
               Marcar salida
             </button>
