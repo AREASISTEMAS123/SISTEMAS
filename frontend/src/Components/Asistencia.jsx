@@ -326,7 +326,7 @@ export const Asistencia = () => {
         <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-white">
           {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
         </p>
-        <div className='text-center'>
+        <div className='text-center mb-10'>
           {mostrarBotonEntrada && (
             <button
               className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
