@@ -26,7 +26,7 @@ export const RelojAnalogico = () => {
           r="${i % 15 === 0 ? 4 : i % 5 === 0 ? 2 : 1}" 
           stroke="transparent" 
           fill="black" 
-          stroke-width="1"
+          strokeWidth="1"
         />
       `;
     }
@@ -115,8 +115,8 @@ export const RelojAnalogico = () => {
                 x2="150"
                 y2="150"
                 stroke="black"
-                stroke-width="6"
-                stroke-linecap="round"
+                strokeWidth="6"
+                strokeLinecap="round"
               />
             </svg>
           </div>
@@ -128,8 +128,8 @@ export const RelojAnalogico = () => {
                 x2="150"
                 y2="150"
                 stroke="black"
-                stroke-width="4"
-                stroke-linecap="round"
+                strokeWidth="4"
+                strokeLinecap="round"
               />
             </svg>
           </div>
@@ -141,8 +141,8 @@ export const RelojAnalogico = () => {
                 x2="150"
                 y2="150"
                 stroke="red"
-                stroke-width="2"
-                stroke-linecap="round"
+                strokeWidth="2"
+                strokeLinecap="round"
               />
             </svg>
           </div>
