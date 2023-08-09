@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/notifications', [\App\Http\Controllers\NotificationController::class, 'insertNotification']);
 
-    //justificaciones vista administrador
+
     Route::get('/users/justifications', [\App\Http\Controllers\JustificationController::class, 'getAllJustification']);
     Route::get('/users/justifications/{id}', [\App\Http\Controllers\JustificationController::class, 'detailsJustification']);
     Route::post('/users/justifications/{id}/accept/{userid}', [\App\Http\Controllers\JustificationController::class, 'acceptJustification']);
@@ -64,7 +64,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class, 'insertAttendance']);
     //Route::get('/attendance/order', [\App\Http\Controllers\AttendanceController::class, 'orderAttendance']);
     Route::get('/attendance/id', [\App\Http\Controllers\AttendanceController::class, 'getAttendanceByID']);
-
+    Route::get('/attendance/report/{booleano}', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 
 
     Route::get('notifications', [App\Http\Controllers\EvaluationController::class, 'getNotification']);
@@ -81,9 +81,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
 
     Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
-
+    
     Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getPerformance']);
-
+    
     Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getLeadership']);
 
     Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
@@ -109,5 +109,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/attendances-generate', [App\Http\Controllers\AttendanceReportController::class, 'generateReport']);
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index']);
     Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);
+
+
+
+
+    Route::get('holidays', [App\Http\Controllers\HolidayController::class, 'showAllHoliday']);
+    Route::get('holidays/{id}', [App\Http\Controllers\HolidayController::class, 'showHoliday']);
+    Route::post('holidays/insert', [App\Http\Controllers\HolidayController::class, 'createHoliday']);
+    Route::post('holidays/{id}/update', [App\Http\Controllers\HolidayController::class, 'updateHoliday']);
+    Route::delete('holidays/{id}/delete', [App\Http\Controllers\HolidayController::class, 'destroyHoliday']);
+
+
+    Route::get('reports', [App\Http\Controllers\ReporteController::class, 'getAllReports']);
 
 });
