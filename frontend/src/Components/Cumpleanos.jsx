@@ -92,27 +92,31 @@ export const Cumpleanos = () => {
     };
 
     return (
-        <div className="container mx-auto text-white -mt-8 min-h-screen">
-            <div className="flex justify-between items-center mt-4 mb-2">
-                <button className="text-white-500 font-bold bg-indigo-500 px-10 py-3 rounded-lg hover:bg-indigo-700" onClick={() => setCurrentMonth(new Date())}>
-                    Hoy
-                </button>
-                <h3 className="text-5xl font-bold">{currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toLocaleUpperCase('es-ES')}</h3>
-                <div className='font-bold'>
-                    <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1))}>
-                        &lt;
+        <div className='bg-cv-primary pt-10'>
+        <div className='mx-20'>
+            <div className="container text-white min-h-screen">
+                <div className="flex justify-between items-center mb-5">
+                    <button className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan px-10 py-3 rounded-lg" onClick={() => setCurrentMonth(new Date())}>
+                        Hoy
                     </button>
-                    <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1))}>
-                        &gt;
-                    </button>
+                    <h3 className="text-5xl font-bold">{currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toLocaleUpperCase('es-ES')}</h3>
+                    <div className='font-bold'>
+                        <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1))}>
+                            &lt;
+                        </button>
+                        <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1))}>
+                            &gt;
+                        </button>
+                    </div>
+                </div>
+                <div className="grid grid-cols-7 gap-2 mb-4">
+                    {renderDaysOfWeek()}
+                </div>
+                <div className="grid grid-cols-7 gap-2">
+                    {renderCalendarDays()}
                 </div>
             </div>
-            <div className="grid grid-cols-7 gap-2 mb-4">
-                {renderDaysOfWeek()}
-            </div>
-            <div className="grid grid-cols-7 gap-2">
-                {renderCalendarDays()}
-            </div>
+        </div>
         </div>
     );
 };

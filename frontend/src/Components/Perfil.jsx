@@ -188,6 +188,7 @@ export const Perfil = () => {
                   </div>
                 </div>
               </div>
+              {colaborador?.Usuario[0]?.user[0]?.status === 1 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-10 md:justify-items-center">
                 <div className="flex flex-col ">
                   <label className="font-semibold text-xs text-gray-500 mx-3">
@@ -209,7 +210,40 @@ export const Perfil = () => {
                     </div>
                   </div>
                 </div>
+              </div>)
+              :
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10">
+              <div className="flex flex-col ">
+                <label className="font-semibold text-xs text-gray-500 mx-3">
+                  ESTADO
+                </label>
+                <div className="mx-3 text-white text-xl font-semibold my-2">
+                  <div>
+                    <div>{isChecked ? 'Habilitado' : 'Deshabilitado'}</div>
+                  </div>
+                </div>
               </div>
+              <div className="flex flex-col ">
+                <label className="font-semibold text-xs text-gray-500 mx-3">
+                  DESCRIPCION DE ESTADO
+                </label>
+                <div className="mx-3 text-white text-xl font-semibold my-2">
+                  <div>
+                    <div>{colaborador.Usuario[0].user[0].status_description}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col ">
+                <label className="font-semibold text-xs text-gray-500 mx-3">
+                  ROL
+                </label>
+                <div className="mx-3 text-white text-xl font-semibold my-2">
+                  <div>
+                    <div>{colaborador.rol}</div>
+                  </div>
+                </div>
+              </div>
+            </div>}
             </div>
             {/* SECCION ASISTENCIA */}
             <div className="w-full md:w-2/5 p-4 bg-cv-primary rounded-2xl my-5 md:mx-5">
