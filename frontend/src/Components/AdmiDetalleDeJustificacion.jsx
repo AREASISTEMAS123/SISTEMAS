@@ -162,11 +162,12 @@ export const AdmiDetalleDeJustificacion = () => {
           <h1 className="text-xl font-semibold uppercase">Justificaciones</h1>
         </div>
       </div>
-      <div className=' rounded-lg p-3 mt-5'>
+      <div className=' rounded-lg mt-5'>
 
         {faltasList.map((item) => (
           <div key={item.user[0].id}>
-            <div className='flex flex-col md:flex-row  space-x-0 md:space-x-8'>
+            <div className='flex flex-col md:flex-row gap-6'>
+
               <div className='bg-cv-primary text-white  flex flex-col p-6 rounded-2xl md:w-1/2'>
                 <h2 className='text-xl font-semibold text-center'>Justificación Nº {item.id}</h2>
                 <div className='mt-6 bg-cv-primary text-white rounded'>
@@ -197,8 +198,8 @@ export const AdmiDetalleDeJustificacion = () => {
                 </div>
               </div>
 
-              <div className='bg-cv-primary text-white text-center flex flex-col p-6 rounded-2xl md:w-1/2 '>
-                <h2 className='text-xl font-semibold'>Datos Usuario</h2>
+              <div className='bg-cv-primary text-white flex flex-col p-6 rounded-2xl md:w-1/2 '>
+                <h2 className='text-xl font-semibold text-center'>Datos Usuario</h2>
                 <div className='w-full mt-4'>
                   <div className='w-full text-start'>
                     <label className='font-medium text-slate-400 text-base'>Nombre:</label>
@@ -221,9 +222,9 @@ export const AdmiDetalleDeJustificacion = () => {
 
 
 
-            <div className="bg-cv-primary mt-3 rounded-2xl p-8">
+            <div className="bg-cv-primary mt-6 rounded-2xl p-6">
               <div className="mx-auto ">
-                <div className="font-semibold text-center text-white mb-8">
+                <div className="font-semibold text-center text-white mb-6">
                   <p className='uppercase text-xl'>Evidencia</p>
                 </div>
 
@@ -239,27 +240,25 @@ export const AdmiDetalleDeJustificacion = () => {
 
                 {item.decline === 0 && item.justification_status === 0 && (
                   <div className="flex items-center justify-center mt-8 rounded-b">
-                      <button
-                        className="border-2 hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-8 py-2.5 text-center mx-2 md:mx-10 bt-rechazar"
-                        onClick={(e) => onOpenModalRechazo(e, item)}
-                      >
-                        RECHAZAR
-                      </button>
+                    <button
+                      className="border-2 hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-8 py-2.5 text-center mx-2 md:mx-10 bt-rechazar"
+                      onClick={(e) => onOpenModalRechazo(e, item)}
+                    >
+                      RECHAZAR
+                    </button>
 
-                      <button
-                        className="bg-cv-cyan text-cv-primary hover:bg-cv-cyan/75 font-medium rounded-lg text-sm px-8 py-2.5 text-center"
-                        onClick={(e) => onOpenModalAceptado(e, item)}
-                      >
-                        ACEPTAR
-                      </button>
+                    <button
+                      className="bg-cv-cyan text-cv-primary hover:bg-cv-cyan/75 font-medium rounded-lg text-sm px-8 py-2.5 text-center"
+                      onClick={(e) => onOpenModalAceptado(e, item)}
+                    >
+                      ACEPTAR
+                    </button>
                   </div>
                 )}
               </div>
             </div>
           </div>
         ))}
-
-
       </div>
 
       {showModalAceptado && selectedItem && (
@@ -267,63 +266,67 @@ export const AdmiDetalleDeJustificacion = () => {
           <div className="relative max-w-2xl max-h-full">
             <div className="relative bg-white rounded-lg shadow">
               <div className="flex flex-col items-center justify-center p-4 border-b rounded-t">
-                <h1 className="uppercase text-center mb-4">Aceptando la justificacion</h1>
+                <h1 className="uppercase text-center font-bold text-xl mb-4">Aceptando la justificación</h1>
                 <h3 className="inline-block">
-                  <CheckCircleIcon sx={{ color: "#3F8116", fontSize: 40 }} />
+                  <CheckCircleIcon sx={{ color: "#3F8116", fontSize: 90 }} />
                 </h3>
               </div>
 
-              <div className="flex items-center p-6 border-t border-gray-200 rounded-b">
-                <button
-                  onClick={(e) => onClickAceptar(e, selectedItem.id, selectedItem.user_id)}
-                  className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                >
-                  Aceptar
-                </button>
+              <div className="flex items-center justify-evenly p-4 border-t border-gray-200 rounded-b">
+
                 <button
                   onClick={onCloseModalAceptado}
-                  className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10"
+                  className=" uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
                 >
                   CERRAR
+                </button>
+                <button
+                  onClick={(e) => onClickAceptar(e, selectedItem.id, selectedItem.user_id)}
+                  className="text-white uppercase  border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
+                >
+                  Aceptar
                 </button>
               </div>
             </div>
           </div>
         </div>
       )}
+
       {showModalRechazado && selectedItem && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
           <div className="relative max-w-2xl max-h-full">
             <div className="relative bg-white rounded-lg shadow">
               <div className="flex flex-col items-center justify-center p-4 border-b rounded-t">
-                <h1 className="uppercase text-center mb-4">Rechazando la justificacion</h1>
-                <h3 className="inline-block">
-                  <ReportProblemIcon sx={{ color: "#F3AE37", fontSize: 40 }} />
-                </h3>
+                <h1 className="uppercase text-center font-bold text-xl mb-4">Rechazando la justificación</h1>
               </div>
-              <div className="p-6 space-y-6">
+              <div className="w-full p-6 space-y-4">
+                <div className='flex items-center justify-center'>
+                  <ReportProblemIcon sx={{ color: "#F3AE37", fontSize: 90 }} />
+                </div>
                 {messages && <p className='text-red-500'>{messages}</p>}
-                <p>Motivo</p>
+                <p className='text-cv-primary text-base font-semibold'>Motivo</p>
                 <textarea
                   value={reason_decline}
                   onChange={(e) => setReason_decline(e.target.value)}
-                  className="bg-gray-300 p-2 rounded-md w-full placeholder:text-gray-400 placeholder:text-sm"
+                  className="bg-gray-300 outline-none border-2 border-cv-primary text-cv-primary p-2 rounded-md w-full placeholder:text-gray-400 placeholder:text-sm"
                   placeholder="Describa el motivo del RECHAZO de la justificación"
                 ></textarea>
               </div>
-              <div className="flex items-center p-6 border-t border-gray-200 rounded-b">
-                <button
-                  onClick={(e) => onClickRechazar(e, selectedItem.id, selectedItem.user_id)}
-                  className="text-white bg-cv-secondary hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                >
-                  RECHAZAR
-                </button>
+              <div className="flex items-center justify-evenly p-4 border-t border-gray-200 rounded-b">
+
                 <button
                   onClick={onCloseModalRechazo}
-                  className="bg-amber-300 hover:bg-amber-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-10"
+                  className="uppercase border-2 border-cv-primary hover:bg-cv-primary hover:text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
                 >
                   CERRAR
                 </button>
+                <button
+                  onClick={(e) => onClickRechazar(e, selectedItem.id, selectedItem.user_id)}
+                  className="text-white uppercase border-2 border-cv-primary bg-cv-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center active:scale-95 ease-in-out duration-300"
+                >
+                  Rechazar
+                </button>
+
               </div>
             </div>
           </div>
