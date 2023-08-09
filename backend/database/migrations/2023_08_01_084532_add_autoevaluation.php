@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('note2')->nullable();
             $table->integer('note3')->nullable();
             $table->integer('note4')->nullable();
-            $table->integer('prom_end')->nullable();
+            $table->float('prom_end')->nullable();
             $table->timestamps();
         });
     }
