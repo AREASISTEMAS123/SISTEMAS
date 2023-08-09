@@ -10,7 +10,8 @@ export const Asistencia = () => {
   const [mostrarBotonSalida, setMostrarBotonSalida] = useState(false);
   const [entradaMarcada, setEntradaMarcada] = useState(false);
   const [salidaMarcada, setSalidaMarcada] = useState(false);
-  const [tardanza, setTardanza] = useState(false);
+  const [tardanzaMañana, setTardanzaMañana] = useState(false);
+  const [tardanzaTarde, setTardanzaTarde] = useState(false);
   const [fotoUsuario, setFotoUsuario] = useState(null);
   const [fotoCapturada, setFotoCapturada] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);
@@ -20,6 +21,7 @@ export const Asistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const isMobile = useMediaQuery("(max-width:768px)");
+  const [turno, setTurno] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,11 +88,29 @@ export const Asistencia = () => {
         // Manejar la respuesta del servidor si es necesario
         console.log(data);
         if (tipo === 'admission') {
+          const hora = horaActual.getHours();
+          const minutos = horaActual.getMinutes();
+          const turno = localStorage.getItem('shift');
           setMostrarBotonEntrada(false)
           setFotoUsuario(null);
           setFotoCapturada(null);
           setMostrarBotonCamara(true);
           setVideoEnabled(false)
+          if (
+            (turno === 'Mañana' && (hora >= 8 && minutos >= 10) && (hora <= 13))
+          ) {
+            setTardanzaMañana(true);
+          } else {
+            setTardanzaMañana(false);
+          }
+
+          if (
+            (turno === 'Tarde' && (hora >= 14 && minutos >= 10) && (hora <= 19))
+          ) {
+            setTardanzaTarde(true);
+          } else {
+            setTardanzaTarde(false);
+          }
 
           // Marcar entrada en Local Storage para este día
           localStorage.setItem(`entrada_${fecha}`, 'true');
@@ -120,15 +140,6 @@ export const Asistencia = () => {
     const hora = horaActual.getHours();
     const minutos = horaActual.getMinutes();
     const turno = localStorage.getItem('shift');
-
-    if (
-      (turno === 'Mañana' && (hora < 8 || (hora === 8 && minutos < 10)) || hora >= 13) ||
-      (turno === 'Tarde' && (hora < 14 || (hora === 14 && minutos < 10)) || hora >= 19)
-    ) {
-      setTardanza(true);
-    } else {
-      setTardanza(false);
-    }
   };
 
   useEffect(() => {
@@ -310,7 +321,7 @@ export const Asistencia = () => {
       </div>
       <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 mb-56 -mt-1 rounded-xl">
         <div className='mr-6 mt-5 ml-6'>
-          <RelojAnalogico hora={horaActual}/>
+          <RelojAnalogico hora={horaActual} />
         </div>
         <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-white">
           {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
@@ -319,7 +330,16 @@ export const Asistencia = () => {
           {mostrarBotonEntrada && (
             <button
               className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
-              onClick={handleButtonClickAdmission} disabled={buttonClickedAdmission}
+              onClick={handleButtonClickAdmission}
+              disabled={
+                (localStorage.getItem('shift') === 'Mañana' && (
+                  (horaActual.getHours() < 8) || (horaActual.getHours() >= 13)
+                )) ||
+                (localStorage.getItem('shift') === 'Tarde' && (
+                  (horaActual.getHours() < 14) ||(horaActual.getHours() >= 19 && horaActual.getMinutes() > 0)
+                )) ||
+                buttonClickedAdmission
+              }
             >
               Marcar entrada
             </button>
@@ -327,16 +347,28 @@ export const Asistencia = () => {
           {entradaMarcada && <p className="text-green-500 font-bold mt-4">Entrada marcada</p>}
           {mostrarBotonSalida && (
             <button
-              className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
-              onClick={handleButtonClick} disabled={buttonClicked}
-            >
-              Marcar salida
-            </button>
+            className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
+            onClick={handleButtonClick}
+            disabled={
+              (localStorage.getItem('shift') === 'Mañana' && (
+                (horaActual.getHours() < 8) || (horaActual.getHours() >= 13)
+              )) ||
+              (localStorage.getItem('shift') === 'Tarde' && (
+                (horaActual.getHours() < 14) ||(horaActual.getHours() >= 19 && horaActual.getMinutes() > 0)
+              )) ||
+              buttonClicked
+            }
+          >
+            Marcar salida
+          </button>
           )}
           {buttonClicked && <p className='text-blue-500 font-semibold mt-4'>¡Ya has marcado asistencia!</p>}
           {salidaMarcada && <p className="text-green-500 font-bold mt-4">Salida marcada</p>}
-          {tardanza && (
+          {tardanzaMañana && (
             <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 8:10)</p>
+          )}
+          {tardanzaTarde && (
+            <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 14:10)</p>
           )}
         </div>
       </div>
