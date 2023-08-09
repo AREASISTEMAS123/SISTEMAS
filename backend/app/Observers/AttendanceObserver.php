@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Attendance;
+use App\Models\AttendanceReport;
 
 class AttendanceObserver
 {
