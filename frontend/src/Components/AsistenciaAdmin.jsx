@@ -273,7 +273,7 @@ export const AsistenciaAdmin = () => {
       <div className="max-w-screen-lg mx-auto space-y-3">
         <div className="flex flex-col items-center justify-center space-y-2">
           <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-3">
-            <Link to="/asistencia" className='w-full sm:w-64 text-center bg-cv-cyan rounded-lg py-3 px-8 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
+            <Link to="/asistencia" className='w-full sm:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
             <div className='w-full'>
               <h2 className="text-2xl text-center text-white">Administrar asistencias</h2>
             </div>

@@ -1,10 +1,8 @@
 import { useState } from 'react';
-// import CVLogo from "../../assets/logo.svg";
-// import CVIsotipo from "../../assets/isotipo.svg";
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import CakeIcon from "@mui/icons-material/Cake";
-import DescriptionIcon from "@mui/icons-material/Description";
+// import DescriptionIcon from "@mui/icons-material/Description";
 import BalanceIcon from "@mui/icons-material/Balance";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -22,7 +20,7 @@ const sidebarContent = {
     { route: "asistencia", title: "Asistencia", icon: <TrendingUpIcon /> },
     { route: "justificacion", title: "Justificacion", icon: <BalanceIcon /> },
     { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
-    { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon /> },
+    // { route: "evaluacion", title: "Evaluacion", icon: <DescriptionIcon /> },
   ],
   // "Lider Nucleo": [
   //   { route: "perfil", title: "Perfil", icon: <AccountCircleIcon /> },
@@ -36,8 +34,8 @@ const sidebarContent = {
     { route: "justificaciones", title: "Justificaciones", icon: <BalanceIcon /> },
     { route: "colaboradores", title: "Colaboradores", icon: <Diversity3Icon /> },
     { route: "cumpleanos", title: "Cumpleaños", icon: <CakeIcon /> },
-    { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon /> },
-    { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
+    // { route: "evaluaciones", title: "Evaluaciones", icon: <DescriptionIcon /> },
+    // { route: "reportes", title: "Reportes", icon: <TrendingUpIcon /> },
   ],
 };
 
@@ -48,12 +46,12 @@ export const Sidebar = ({ isOpen }) => {
 
   const [isAsistenciaOpen, setIsAsistenciaOpen] = useState(false);
   const [isJustificacionesOpen, setIsJustificacionesOpen] = useState(false);
-  const [isEvaluacionesOpen, setIsEvaluacionesOpen] = useState(false);
+  // const [isEvaluacionesOpen, setIsEvaluacionesOpen] = useState(false);
 
   const toggleAsistenciaDropdown = () => {
     setIsAsistenciaOpen(!isAsistenciaOpen);
     setIsJustificacionesOpen(false);
-    setIsEvaluacionesOpen(false);
+    // setIsEvaluacionesOpen(false);
   };
 
   const handleClickAwayAsistencia = () => {
@@ -63,39 +61,28 @@ export const Sidebar = ({ isOpen }) => {
   const toggleJustificacionesDropdown = () => {
     setIsJustificacionesOpen(!isJustificacionesOpen);
     setIsAsistenciaOpen(false);
-    setIsEvaluacionesOpen(false);
+    // setIsEvaluacionesOpen(false);
   };
 
   const handleClickAwayJustificaciones = () => {
     setIsJustificacionesOpen(false)
   }
 
-  const toggleEvaluacionesDropdown = () => {
-    setIsEvaluacionesOpen(!isEvaluacionesOpen);
-    setIsAsistenciaOpen(false);
-    setIsJustificacionesOpen(false);
-  };
+  // const toggleEvaluacionesDropdown = () => {
+  //   setIsEvaluacionesOpen(!isEvaluacionesOpen);
+  //   setIsAsistenciaOpen(false);
+  //   setIsJustificacionesOpen(false);
+  // };
 
-  const handleClickAwayEvaluaciones = () => {
-    setIsEvaluacionesOpen(false)
-  }
+  // const handleClickAwayEvaluaciones = () => {
+  //   setIsEvaluacionesOpen(false)
+  // }
 
   return (
     <nav className={`${isOpen ? "w-60" : "w-20"} min-h-screen duration-300`}>
       <div className="w-full h-full p-5 bg-cv-primary text-white relative">
         <div className="w-full">
           <Link to="/home">
-
-            {/* <img
-            src={CVLogo}
-            alt="Logo"
-            className={`${isOpen ? "" : "hidden"} duration-500`}
-          />
-          <img
-            src={CVIsotipo}
-            alt="Logo"
-            className={`${!isOpen ? "block pb-5" : "hidden"} duration-300`}
-          /> */}
             {isOpen ? (
               <div className='origin-left  duration-200'>
                 <Logo />
@@ -238,7 +225,19 @@ export const Sidebar = ({ isOpen }) => {
                 </div>
               </Link>
 
-              <ClickAwayListener onClickAway={handleClickAwayEvaluaciones}>
+              <Link
+                to={`/cumpleanos`}
+                className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+              >
+                <div className="font-semibold flex items-center gap-x-4">
+                  <span><CakeIcon /></span>
+                  <span
+                    className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
+                  >Cumpleanos</span>
+                </div>
+              </Link>
+
+              {/* <ClickAwayListener onClickAway={handleClickAwayEvaluaciones}>
                 <div className="relative">
                   <div
                     className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
@@ -283,18 +282,6 @@ export const Sidebar = ({ isOpen }) => {
               </ClickAwayListener>
 
               <Link
-                to={`/cumpleanos`}
-                className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
-              >
-                <div className="font-semibold flex items-center gap-x-4">
-                  <span><CakeIcon /></span>
-                  <span
-                    className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
-                  >Cumpleanos</span>
-                </div>
-              </Link>
-
-              <Link
                 to={`/reportes`}
                 className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
               >
@@ -304,9 +291,8 @@ export const Sidebar = ({ isOpen }) => {
                     className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
                   >Reportes</span>
                 </div>
-              </Link>
+              </Link> */}
 
-              
             </>
           )}
         </div>

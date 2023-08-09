@@ -206,11 +206,11 @@ export const AdmiDetalleDeJustificacion = () => {
                   </div>
 
                   <div className='flex flex-col md:flex-row justify-between border-black mt-4 space-y-2 md:space-y-0 md:space-x-4'>
-                    <div>
+                    <div className='text-start'>
                       <label className='font-medium text-slate-400 text-base'>DNI:</label>
                       <p className='text-lg'>{item.user[0].username}</p>
                     </div>
-                    <div>
+                    <div className='text-start'>
                       <label className='font-medium text-slate-400 text-base'>Teléfono:</label>
                       <p className='text-lg'>99999999</p>
                     </div>

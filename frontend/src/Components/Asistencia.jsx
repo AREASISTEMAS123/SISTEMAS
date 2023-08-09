@@ -39,7 +39,7 @@ export const Asistencia = () => {
     const existeEntradaMarcada = entradaMarcadaLocal == 'true';
     setSegundaFotoTomada(existeEntradaMarcada)
 
-    fetch(import.meta.env.VITE_API_URL +'/attendance/id', {
+    fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -231,6 +231,23 @@ export const Asistencia = () => {
     };
   }, [videoEnabled]);
 
+  //Loginca Click Una vez
+  const [buttonClickedAdmission, setButtonClickedAdmission] = useState(false);
+
+  const handleButtonClickAdmission = () => {
+    setButtonClickedAdmission(true);
+    handleRegistroAsistencia('admission');
+  };
+
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setButtonClicked(true);
+    handleRegistroAsistencia('departure');
+  };
+
+
+
   return (
     <div className={`registro-Entrada min-h-screen flex ${isMobile ? 'flex-col' : 'justify-center'}`}>
       <div className={`seccion-izquierda w-full ${isMobile ? 'mb-4' : ''}`}>
@@ -282,7 +299,7 @@ export const Asistencia = () => {
         <div className='grid justify-items-center'>
           {videoEnabled && (
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
               onClick={handleCapture}
               disabled={capturing}
             >
@@ -291,36 +308,39 @@ export const Asistencia = () => {
           )}
         </div>
       </div>
-      <div className="seccion-derecha flex flex-col items-center justify-start m-4 rounded-xl">
-        <div className='-mb-96'>
-          <RelojAnalogico/>
+      <div className="seccion-derecha bg-cv-primary flex flex-col items-center justify-start m-4 mb-56 -mt-1 rounded-xl">
+        <div className='-mb-96 mr-6 mt-5 ml-6'>
+          <RelojAnalogico />
         </div>
         {/* <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-white">
           {horaActual.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
         </p> */}
-        {mostrarBotonEntrada && (
-          <button
-            className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
-            onClick={() => handleRegistroAsistencia('admission')}
-          >
-            Marcar entrada
-          </button>
-        )}
-        {entradaMarcada && <p className="text-green-500 font-bold mt-4">Entrada marcada</p>}
-        {mostrarBotonSalida && (
-          <button
-            className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
-            onClick={() => handleRegistroAsistencia('departure')}
-          >
-            Marcar salida
-          </button>
-        )}
-        {salidaMarcada && <p className="text-green-500 font-bold mt-4">Salida marcada</p>}
-        {tardanza && (
-          <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 8:10)</p>
-        )}
+        <div className='-mt-48'>
+          {mostrarBotonEntrada && (
+            <button
+              className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
+              onClick={() => handleRegistroAsistencia('admission')}
+            >
+              Marcar entrada
+            </button>
+          )}
+          {entradaMarcada && <p className="text-green-500 font-bold mt-4">Entrada marcada</p>}
+          {mostrarBotonSalida && (
+            <button
+              className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold py-2 px-4 rounded mt-4"
+              onClick={() => handleRegistroAsistencia('departure')}
+            >
+              Marcar salida
+            </button>
+          )}
+          {buttonClicked && <p className='text-blue-500 font-semibold mt-4'>¡Ya has marcado asistencia!</p>}
+          {salidaMarcada && <p className="text-green-500 font-bold mt-4">Salida marcada</p>}
+          {tardanza && (
+            <p className="text-red-500 font-bold mt-4">Tardanza (marcado después de las 8:10)</p>
+          )}
+        </div>
       </div>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };

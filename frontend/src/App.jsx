@@ -47,7 +47,7 @@ const App = () => {
           {!isLoginPage && !isRecuperar && isInicioPage && isLoggedIn && (
             <Topbar toggleSidebar={toggleSidebar} />
           )}
-          <div className="bg-cv-secondary p-3 sm:p-5">
+          <div className={`bg-cv-secondary ${location.pathname === "/login" ? "" : "p-3 sm:p-5"}`}>
             <AppRoutes />
           </div>
         </div>

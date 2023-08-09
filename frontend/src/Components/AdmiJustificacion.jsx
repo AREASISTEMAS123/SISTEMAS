@@ -426,25 +426,7 @@ export const AdmiJustificacion = () => {
                                 </div>
                                 <div className="w-full flex mt-4 space-x-3 md:mt-6 text-white">
                                     <ul className="w-full space-y-0.5">
-                                        <li className="w-full text-sm font-normal">
-                                            {/* <label className="mr-2 uppercase font-semibold mb-1">Motivo:</label>
-                                            <div className="w-full whitespace-normal border rounded-lg overflow-hidden">
-                                                <textarea
-                                                    className="w-full bg-transparent text-sm align-top resize-none"
-                                                    disabled
-                                                    rows="3"
-                                                    value={post.reason}
-                                                ></textarea>
-                                            </div> */}
-                                            <p className="leading-none">
-                                                <span className="mr-2 uppercase font-semibold mb-1">Motivo:</span>
-                                                <span>
-                                                    {/* { post.reason } */}
-                                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa doloribus sint, voluptatum accusamus eligendi delectus facere omnis voluptate. Illo eum magnam necessitatibus quasi sint porro provident officia voluptates quod accusantium.
-                                                </span>
-                                            </p>
-
-                                        </li>
+                                        
                                         <li className="text-sm font-normal flex items-center ">
                                             <p>
                                                 <span className="mr-2 uppercase font-semibold mb-1">Area:</span>
@@ -483,6 +465,24 @@ export const AdmiJustificacion = () => {
                                                     Tipo: 
                                                 </span>
                                                 <span>{isFaltaOrTardanza(post)}</span>
+                                            </p>
+
+                                        </li>
+                                        <li className="w-full text-sm font-normal">
+                                            {/* <label className="mr-2 uppercase font-semibold mb-1">Motivo:</label>
+                                            <div className="w-full whitespace-normal border rounded-lg overflow-hidden">
+                                                <textarea
+                                                    className="w-full bg-transparent text-sm align-top resize-none"
+                                                    disabled
+                                                    rows="3"
+                                                    value={post.reason}
+                                                ></textarea>
+                                            </div> */}
+                                            <p className="leading-none">
+                                                <span className="mr-2 uppercase font-semibold mb-1">Motivo:</span>
+                                                <p className="text-justify">
+                                                    { post.reason }
+                                                </p>
                                             </p>
 
                                         </li>
