@@ -110,16 +110,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index']);
     Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);
 
-
-
-
     Route::get('holidays', [App\Http\Controllers\HolidayController::class, 'showAllHoliday']);
     Route::get('holidays/{id}', [App\Http\Controllers\HolidayController::class, 'showHoliday']);
     Route::post('holidays/insert', [App\Http\Controllers\HolidayController::class, 'createHoliday']);
     Route::post('holidays/{id}/update', [App\Http\Controllers\HolidayController::class, 'updateHoliday']);
     Route::delete('holidays/{id}/delete', [App\Http\Controllers\HolidayController::class, 'destroyHoliday']);
 
-
     Route::get('reports', [App\Http\Controllers\ReporteController::class, 'getAllReports']);
-
+    Route::get('/reports-user', [App\Http\Controllers\ReporteController::class, 'getUsersData']);
 });

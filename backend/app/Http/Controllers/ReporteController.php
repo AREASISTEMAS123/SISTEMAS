@@ -8,6 +8,8 @@ use App\Models\AttendanceReport;
 use App\Models\Performance;
 use App\Models\Profile;
 use App\Models\SoftSkills;
+use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class ReporteController extends Controller
 {
@@ -82,52 +84,6 @@ class ReporteController extends Controller
             print("\n el contador es : " . $contador . "el area es: " . $arrArea[$contador] . "\n" . $averageArea[$contador]);
         }
 
-
-
-
-        //areas
-        // foreach ($profiles as $profile) {
-        //     if ($profile->department == $departmentsArray["Departament"]["Administrativo"][0]) {
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Administrativo"][1]) {
-        //         print("estrategico");
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Comercial"][0]) {
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Operativo"][1]) {
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Operativo"][2]) {
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Operativo"][3]) {
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Operativo"][4]) {
-        //         $averageDeparArea["Operativo"] = $averageDeparArea["Operativo"] + 1;
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Operativo"][5]) {
-
-        //     } else if ($profile->department == $departmentsArray["Departament"]["Operativo"][6]) {
-
-        //     }
-
-        // }
-
-
-        // Convertir el array en formato JSON y imprimirlo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //colaboradores en general
-        //softskills
         $arSoftSkills = SoftSkills::get();
         $promedioSoft = 0.0;
         foreach ($arSoftSkills as $softskills) {
@@ -135,7 +91,6 @@ class ReporteController extends Controller
 
         }
         $promedioSoft = $promedioSoft / (count($arSoftSkills));
-
 
         //performance
         $arperformance = Performance::get();
@@ -148,4 +103,54 @@ class ReporteController extends Controller
 
         return response()->json(['average_prom_soft' => $promedioSoft, 'average_prom_performance' => $promedioPerformance]);
     }
+
+    public function getUsersData(Request $request) {
+
+        $query = Profile::query();
+
+        $userData = $query->get('date_start');    
+
+        $userPerMonth = 0;
+        $mes_v = $request->input('mes');
+
+        if (is_null($mes_v)) {
+            foreach ($userData as $user) {
+                echo 'foreach';
+                $fecha = $user->date_start; //2023-05-22
+                $fechaSegundos = strtotime($fecha);
+        
+                $dia = date( "j", $fechaSegundos); //22
+                $mes = date("n", $fechaSegundos); //05
+                $año =  date("Y", $fechaSegundos); //23
+                
+                echo 'MES--> '.$mes.'REQUEST--> '.$mes_v;
+
+                if ($mes == $request->input('mes')) {
+                    echo 'IF';
+                    $userPerMonth = $userPerMonth + 1;
+                }
+            }
+        } else {
+            echo 'ELSE';
+        }
+    
+        $userCountYear = $query->count();
+        $userActive = User::where('status', 1)->count();
+        $userInactive = User::where('status', 0)->count();
+    
+        $userCountsByDepartment = $query->selectRaw('department, COUNT(*) as count')->groupBy('department')->pluck('count', 'department');
+        $userCountsByArea = $query->selectRaw('area, COUNT(*) as count')->groupBy('area')->pluck('count', 'area');
+        $userCountsByShift = $query->selectRaw('shift, COUNT(*) as count')->groupBy('shift')->pluck('count', 'shift');
+    
+        return response()->json([
+            'userCountYear' => $userCountYear,
+            'userActive' => $userActive,
+            'userInactive' => $userInactive,
+            'userCountsByDepartment' => $userCountsByDepartment,
+            'userCountsByArea' => $userCountsByArea,
+            'userCountsByShift' => $userCountsByShift,
+            'userPerMonth' => $userPerMonth,
+        ]);
+    }
+    
 }
