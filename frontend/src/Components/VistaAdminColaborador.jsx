@@ -220,10 +220,10 @@ export const VistaAdminColaborador = () => {
               <div className="w-full">
                 <button
                   onClick={abrirAgregarModal}
-                  className="p-2 rounded-md text-cv-primary bg-cv-cyan font-semibold flex items-center justify-center text-lg uppercase active:scale-95 ease-in-out duration-300"
+                  className="w-full p-2 rounded-md text-cv-primary bg-cv-cyan font-semibold flex items-center justify-center text-lg uppercase active:scale-95 ease-in-out duration-300"
                 >
                   <PersonAddIcon />
-                  <p className="ml-2 whitespace-nowrap">Agregar Colaborador</p>
+                  <p className="ml-2 whitespace-nowrap">Agregar</p>
                 </button>
               </div>
               <div className="w-full">

@@ -319,7 +319,7 @@ export const Topbar = ({ toggleSidebar }) => {
                           <span className="mr-4">
                             <ManageAccountsIcon sx={{ fontSize: 18 }} />
                           </span>
-                          <span className='text-sm'>Cambiar contraseña</span>
+                          <span className='text-sm whitespace-nowrap'>Cambiar contraseña</span>
                         </div>
                       </Link>
                       <Link to="/login" onClick={logoutSubmit} className="cursor-pointer">
@@ -327,7 +327,7 @@ export const Topbar = ({ toggleSidebar }) => {
                           <span className="mr-4">
                             <LogoutIcon sx={{ fontSize: 18 }} />
                           </span>
-                          <span className='text-sm'>Cerrar Sesión</span>
+                          <span className='text-sm whitespace-nowrap'>Cerrar Sesión</span>
                         </div>
                       </Link>
                     </div>

@@ -5,6 +5,8 @@ import moment from 'moment';
 import TablaAsistencias from './commons/TablaAsistencias'
 import CircularProgressBar from './commons/CircularProgressBar';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // import defaultImage from '/defaultImage.svg'
 
 import CloseIcon from '@mui/icons-material/Close';
@@ -272,11 +274,28 @@ export const AsistenciaAdmin = () => {
     <div className='h-full bg-cv-secondary'>
       <div className="space-y-3">
         <div className="flex flex-col items-center justify-center space-y-2">
-          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-3">
-            <Link to="/asistencia" className='w-full sm:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
+          <div className="w-full flex flex-col md:flex-row justify-between items-center mb-3">
+            {/* <Link to="/asistencia" className='w-full sm:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
             <div className='w-full'>
               <h2 className="text-2xl text-center text-white">Administrar asistencias</h2>
-            </div>
+            </div> */}
+            <nav className="flex" >
+              <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+                
+                <li >
+                  <div className="flex items-center text-gray-500 ">
+                    <ChecklistIcon />
+                    <span className="ml-1 text-base font-medium md:ml-2">Asistencias</span>
+                  </div>
+                </li>
+                <li className="inline-flex items-center">
+                  <Link to="/asistencia" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
+                    <ChevronRightIcon />
+                    <span className='ml-1 text-base font-medium md:ml-2'>Marcar Asistencia</span>
+                  </Link>
+                </li>
+              </ol>
+            </nav>
           </div>
 
           <div className="w-full flex flex-col md:flex-row justify-between space-y-3 md:space-x-5 md:space-y-0">

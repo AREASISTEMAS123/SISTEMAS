@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,11 +15,10 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { useTheme } from '@mui/material/styles';
-
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ErrorIcon from '@mui/icons-material/Error';
-import { useState } from 'react';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import ErrorIcon from '@mui/icons-material/Error';
 
 
 function TablePaginationActions(props) {
@@ -90,12 +90,15 @@ TablaListaColaboradores.propTypes = {
 	filterDate: PropTypes.string.isRequired,
 	filterShift: PropTypes.string.isRequired,
 };
-export default function TablaListaColaboradores({ data, abrirEditarModal, deleteUser, filterName, filterDepartment, filterDate, filterShift }) {
+export default function TablaListaColaboradores({ data,
+	abrirEditarModal,
+	// deleteUser,
+	filterName, filterDepartment, filterDate, filterShift }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-	const [showWarning, setShowWarning] = useState(false);
-	const [rowDelete, setRowDelete] = useState(null)
+	// const [showWarning, setShowWarning] = useState(false);
+	//const [rowDelete, setRowDelete] = useState(null)
 
 
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -115,19 +118,20 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 		3: 'Colaborador',
 	};
 
-	const showModalWarning = (row) => {
-		setRowDelete(row);
-		setShowWarning(true);
-	};
+	// const showModalWarning = (row) => {
+	// 	setRowDelete(row);
+	// 	setShowWarning(true);
+	// };
 
-	const confirmDelete = () => {
-		deleteUser(rowDelete)
-		setShowWarning(false);
-	};
+	// const confirmDelete = () => {
+	// 	deleteUser(rowDelete)
+	// 	setShowWarning(false);
+	// };
 
-	const cancelDelete = () => {
-		setShowWarning(false);
-	};
+	// const cancelDelete = () => {
+	// 	setShowWarning(false);
+	// };
+
 
 	//quita acentos en los filtros
 	function removeAccents(str) {
@@ -214,12 +218,15 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 										</TableCell>
 										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
-												<button onClick={() => abrirEditarModal(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white transition duration-300 ease-in-out'>
-													<EditIcon className="mr-1" />
+												<button onClick={() => abrirEditarModal(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
+													<EditIcon />
 												</button>
-												<button onClick={() => showModalWarning(users.id)} className='p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white transition duration-300 ease-in-out'>
-													<DeleteIcon className="ml-1" />
-												</button>
+												{/* <button onClick={() => showModalWarning(users.id)} className='p-2 border rounded-md text-red-500 hover:bg-red-500 hover:text-white active:scale-95 ease-in-out duration-300'>
+													<DeleteIcon />
+												</button> */}
+												<Link to={`/colaborador/perfil/${users.id}`} className='p-2 border rounded-md text-cv-primary hover:bg-cv-primary hover:text-white active:scale-95 ease-in-out duration-300'>
+													<VisibilityIcon />
+												</Link>
 											</div>
 										</TableCell>
 									</TableRow>
@@ -253,6 +260,7 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 					/>
 				</div>
 
+				{/*
 				{showWarning ? (
 					<div>
 						<div
@@ -299,6 +307,7 @@ export default function TablaListaColaboradores({ data, abrirEditarModal, delete
 						<div className="opacity-50 fixed inset-0 z-40 bg-black"></div>
 					</div>
 				) : null}
+				 */}
 
 			</div>
 		</>

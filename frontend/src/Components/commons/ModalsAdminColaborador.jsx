@@ -5,11 +5,6 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 
 export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
-	ModalAddUser.propTypes = {
-		agregarUsuario: PropTypes.func,
-		cerrarAgregarModal: PropTypes.func,
-	}
-
 	const [mensajeError, setMensajeError] = useState('');
 
 	// Usesate de campos a insertar
@@ -87,7 +82,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 		setDateEnd(event.target.value);
 	}
 
-	const handleCellphoneChange = (event) =>{
+	const handleCellphoneChange = (event) => {
 		setCellphone(event.target.value)
 	}
 
@@ -571,11 +566,14 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 	)
 }
 
+ModalAddUser.propTypes = {
+	agregarUsuario: PropTypes.func,
+	cerrarAgregarModal: PropTypes.func,
+}
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { alpha, styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-//import { SelectBoxModalAdd } from './SelectBoxModalColaborador';
 
 const CvSwitch = styled(Switch)(({ theme }) => ({
 	'& .MuiSwitch-switchBase.Mui-checked': {
@@ -590,13 +588,6 @@ const CvSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) => {
-
-	ModalUpdateUser.propTypes = {
-		usuario: PropTypes.object,
-		editarUsuario: PropTypes.func,
-		cerrarEditarModal: PropTypes.func,
-	}
-
 	// Usesate de campos a editar
 	const [Name, setName] = useState('');
 	const [Surname, setSurname] = useState('');
@@ -715,7 +706,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setDateEnd(event.target.value);
 	}
 
-	const handleCellphoneChange = (event) =>{
+	const handleCellphoneChange = (event) => {
 		setCellphone(event.target.value);
 	}
 
@@ -988,7 +979,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											placeholder="Ingresa el número de teléfono"
 										/>
 									</div>
-									
+
 									<div className="w-full">
 										<span
 											className="block mb-1 font-medium text-gray-900"
@@ -1011,7 +1002,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 													<option value="Termino su convenio">Termino Convenio</option>
 													<option value="Retirado">Retirado</option>
 												</select>
-											) }
+											)}
 										</div>
 
 									</div>
@@ -1219,4 +1210,9 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			<div className="opacity-25 fixed inset-0 z-20 bg-black"></div>
 		</div >
 	)
+}
+ModalUpdateUser.propTypes = {
+	usuario: PropTypes.object,
+	editarUsuario: PropTypes.func,
+	cerrarEditarModal: PropTypes.func,
 }
