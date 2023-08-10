@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { RelojAnalogico } from './commons/RelojAnalogico';
 import { useMediaQuery } from "@mui/material";
 import { toast, Toaster } from "react-hot-toast";
@@ -21,7 +21,6 @@ export const Asistencia = () => {
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
   const isMobile = useMediaQuery("(max-width:768px)");
-  const [turno, setTurno] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -137,9 +136,6 @@ export const Asistencia = () => {
 
   // Función para verificar si el usuario está dentro del horario permitido
   const verificarHorario = () => {
-    const hora = horaActual.getHours();
-    const minutos = horaActual.getMinutes();
-    const turno = localStorage.getItem('shift');
   };
 
   useEffect(() => {
@@ -158,6 +154,7 @@ export const Asistencia = () => {
       .then((stream) => {
         setCameraStream(stream);
         videoRef.current.srcObject = stream;
+        videoRef.current.style.transform = "scaleX(-1)";
       })
       .catch((error) => {
         console.log('Error accessing camera:', error);

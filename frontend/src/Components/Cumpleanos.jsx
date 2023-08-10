@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Cumpleanos = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(null);
     const [birthdayList, setBirthdayList] = useState([]);
     const navigate = useNavigate();
+    const isMobile = useMediaQuery("(max-width:1024px)");
 
     useEffect(() => {
         // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
@@ -92,19 +93,21 @@ export const Cumpleanos = () => {
     };
 
     return (
-        <div className='bg-cv-primary pt-10'>
+        <div className=''>
+            <h1 className="text-xl font-semibold uppercase text-white">Cumpleaños</h1>
+        <div className='bg-cv-primary pt-5 rounded-2xl'>
         <div className='mx-20'>
-            <div className="container text-white min-h-screen">
+            <div className="container text-white pb-10">
                 <div className="flex justify-between items-center mb-5">
-                    <button className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan px-10 py-3 rounded-lg" onClick={() => setCurrentMonth(new Date())}>
+                    <button className={`bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan px-10 py-3 rounded-lg ${isMobile ? 'mr-10' : ''}`} onClick={() => setCurrentMonth(new Date())}>
                         Hoy
                     </button>
-                    <h3 className="text-5xl font-bold">{currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toLocaleUpperCase('es-ES')}</h3>
-                    <div className='font-bold'>
-                        <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1))}>
+                    <h3 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold">{currentMonth.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toLocaleUpperCase('es-ES')}</h3>
+                    <div className={`font-bold ${isMobile ? 'ml-10' : ''}`}>
+                        <button className="bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan px-10 py-2" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1))}>
                             &lt;
                         </button>
-                        <button className="text-white-500 px-10 py-4 rounded-lg hover:bg-gray-700" onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1))}>
+                        <button className={`bg-cv-cyan hover:bg-cv-secondary text-cv-primary hover:text-cv-cyan px-10 py-2 ${isMobile ? 'mt-2' : 'mx-2'}`} onClick={() => setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1))}>
                             &gt;
                         </button>
                     </div>
@@ -116,6 +119,7 @@ export const Cumpleanos = () => {
                     {renderCalendarDays()}
                 </div>
             </div>
+        </div>
         </div>
         </div>
     );

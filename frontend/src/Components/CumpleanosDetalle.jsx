@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import KeyboardBackspaceTwoToneIcon from '@mui/icons-material/KeyboardBackspaceTwoTone';
 
@@ -42,7 +42,7 @@ export const CumpleanosDetalle = () => {
 
     return (
         <div className="container mx-auto mt-4 min-h-screen">
-            <button className="text-white font-bold w-12 h-12 md:w-32 md:h-10 hover:bg-gray-700" onClick={handleGoBack}>
+            <button className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold w-12 h-12 md:w-32 md:h-10" onClick={handleGoBack}>
                 <KeyboardBackspaceTwoToneIcon />
             </button>
             <h2 className="text-2xl md:text-4xl font-bold mt-4 text-white">Personas que cumplen años el {day}/{month}</h2>
@@ -50,11 +50,13 @@ export const CumpleanosDetalle = () => {
                 {birthdayUser && birthdayUser.length > 0 ? (
                     birthdayUser.map((user) => (
                         <div className="flex flex-col bg-cv-primary rounded-lg shadow-lg" key={user.id}>
+                            <div className='grid justify-items-center'>
                             <img
-                                className="h-48 md:h-64 object-contain bg-no-repeat rounded-t-lg"
+                                className="h-48 md:h-64 w-48 md:w-64 rounded-full"
                                 src={user.media[0].original_url}
                                 alt="Imagen del usuario"
                             />
+                            </div>
                             <div className="p-4 flex flex-col justify-between text-white flex-1">
                                 <div>
                                     <p className="text-sm flex items-center">
@@ -64,17 +66,72 @@ export const CumpleanosDetalle = () => {
                                         &nbsp; &nbsp;
                                         {user.profile.birthday}
                                     </p>
-                                    <div className="font-bold text-xl mb-2">
+                                    <div className="font-bold text-center text-xl mb-2">
                                         {user.name} {user.surname}
                                     </div>
-                                    <p className="text-base ">{user.email}</p>
-                                    <p className="text-base">{user.profile.area}</p>
-                                    <p className="text-base">{user.profile.department}</p>
-                                </div>
-                                <div className="flex items-center">
-                                    <div className="text-sm">
-                                        <p className="leading-none">{user.profile.profile_name}</p>
-                                        <p className="">{user.profile.shift}</p>
+                                    <div className="grid grid-cols-2 gap-3 ">
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>Departamento:</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>{user.profile.department}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3 ">
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>Area:</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>{user.profile.area}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3 ">
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>Perfil:</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>{user.profile.profile_name}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3 ">
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>Turno:</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="mx-3 text-white text-base font-semibold my-2">
+                                                <div>
+                                                    <div>{user.profile.shift}</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
