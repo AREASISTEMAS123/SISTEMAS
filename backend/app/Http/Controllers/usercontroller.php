@@ -31,7 +31,7 @@ class usercontroller extends Controller
         $attendance = Attendance::all()->where('user_id', $id)->where("attendance", "1")->count();
         $absence = Attendance::all()->where('user_id', $id)->where("absence", "1")->count();
         $delay = Attendance::all()->where('user_id', $id)->where("delay", "1")->count();
-        $justification = Attendance::all()->where('user_id', $id)->where("justification", "1")->count();
+        $justification = Attendance::all()->where('user_id', $id)->where("justification","0")->where("absence", "1")->count();
         $role = Model_has_role::where('model_id', $id)->firstOrFail();
         $img = User::with('media')->where('id', $id)->first()->getMedia('avatars');
         $evaluation = Evaluation::where('user_id', $id)->with("Performance", "softSkills", "autoEvaluation", "leadershipEvaluations")->first();
@@ -142,12 +142,12 @@ class usercontroller extends Controller
 
         // Obtiene el usuario que está siendo actualizado
         $userUpdated = User::where('id', $id)->first(['name', 'surname']);
-    
+
         $notif = Notification::create([
-            'user_id' => $id, 
+            'user_id' => $id,
             'data' => $loggedUser->name . " " . $loggedUser->surname . " editó a " . $userUpdated->name . " " . $userUpdated->surname
         ]);
-    
+
         return response()->json([
             'messages' => "Usuario actualizado con éxito",
             'notification' => $notif,
