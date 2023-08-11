@@ -42,7 +42,7 @@ export const CumpleanosDetalle = () => {
 
     return (
         <div className="container mx-auto mt-4 min-h-screen">
-            <button className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold w-12 h-12 md:w-32 md:h-10" onClick={handleGoBack}>
+            <button className="bg-cv-cyan hover:bg-cv-primary text-cv-primary hover:text-cv-cyan font-bold w-12 h-12 md:w-32 md:h-10 rounded-lg" onClick={handleGoBack}>
                 <KeyboardBackspaceTwoToneIcon />
             </button>
             <h2 className="text-2xl md:text-4xl font-bold mt-4 text-white">Personas que cumplen años el {day}/{month}</h2>

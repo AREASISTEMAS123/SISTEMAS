@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { Topbar } from './components/commons/Topbar';
@@ -9,8 +9,20 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [isActive, setIsActive] = useState(true);
+  let inactivityTimer;
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const resetTimer = () => {
+    setIsActive(true);
+  };
+
+  const handleInactivity = () => {
+    setIsActive(false);
+    logoutSubmit();
   };
 
   useEffect(() => {
@@ -19,7 +31,6 @@ const App = () => {
     };
 
     handleResize();
-
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -32,8 +43,34 @@ const App = () => {
     setIsLoggedIn(loginStatus === 'true');
   }, []);
 
-  const isInicioPage = !(location.pathname === '/*' && isLoggedIn);
+  useEffect(() => {
+    resetInactivityTimer();
 
+    const activityEvents = ['mousedown', 'mousemove', 'keydown', 'wheel'];
+
+    const handleActivity = () => {
+      resetTimer();
+      resetInactivityTimer();
+    };
+
+    activityEvents.forEach(event => {
+      window.addEventListener(event, handleActivity);
+    });
+
+    return () => {
+      activityEvents.forEach(event => {
+        window.removeEventListener(event, handleActivity);
+      });
+      clearTimeout(inactivityTimer);
+    };
+  }, []);
+
+  const resetInactivityTimer = () => {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(handleInactivity, 5 * 60 * 1000);
+  };
+
+  const isInicioPage = !(location.pathname === '/*' && isLoggedIn);
   const isLoginPage = location.pathname === '/login';
   const isRecuperar = location.pathname === '/recuperarContraseña';
 
@@ -57,3 +94,12 @@ const App = () => {
 };
 
 export default App;
+
+function logoutSubmit() {
+  if(localStorage.getItem('login') === 'true'){
+
+    window.location.reload();
+  }
+  localStorage.setItem('login', 'false');
+  localStorage.setItem('loginStatus', 'Cierre de sesión exitoso!');
+}
