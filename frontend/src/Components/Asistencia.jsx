@@ -6,6 +6,7 @@ import { BsFillCameraVideoFill, BsFillCameraVideoOffFill } from "react-icons/bs"
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import { AES, enc } from 'crypto-js';
 
 export const Asistencia = () => {
   const [horaActual, setHoraActual] = useState(new Date());
@@ -43,9 +44,11 @@ export const Asistencia = () => {
     const existeEntradaMarcada = entradaMarcadaLocal == 'true';
     setSegundaFotoTomada(existeEntradaMarcada)
 
+    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
     fetch(import.meta.env.VITE_API_URL + '/attendance/id', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -78,11 +81,13 @@ export const Asistencia = () => {
     const photoName = `${shift.charAt(0)}-${iduser}-${tipo === 'admission' ? 'e' : 's'}-${fecha}.jpg`;
     formData.append(`${tipo}_image`, fotoCapturada, photoName);
 
+    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
     fetch(import.meta.env.VITE_API_URL + '/attendance/insert', {
       method: 'POST',
       body: formData,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())

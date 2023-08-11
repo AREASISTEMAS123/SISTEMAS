@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import HelpIcon from '@mui/icons-material/Help';
 import ReCAPTCHA from "react-google-recaptcha";
+import { AES } from 'crypto-js';
 
 const SITE_KEY = "6LeGN9AmAAAAAPLyo5sGMV5XnB0AhqjMpAVCPBoa";
 
@@ -76,7 +77,9 @@ export const Login = () => {
                             setError(responseData.message);
                         } else {
                             setMsg(responseData.message);
-                            localStorage.setItem('token', responseData.accessToken);
+                            const tokenD = responseData.accessToken
+                            const token = AES.encrypt(tokenD, import.meta.env.VITE_KEY).toString()
+                            localStorage.setItem('token', token);
                             localStorage.setItem('iduser', responseData.user.id);
                             localStorage.setItem('rol', responseData.rol);
                             localStorage.setItem('area', responseData.profile.area);

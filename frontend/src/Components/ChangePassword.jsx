@@ -1,3 +1,4 @@
+import { AES, enc } from "crypto-js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -30,9 +31,11 @@ export const ChangePassword = () => {
             setSuccessMessage("");
             return;
         }
-        const token = `Bearer ${localStorage.getItem('token')}`;
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         setIsLoading(true);
         try {
+
             const response = await fetch(import.meta.env.VITE_API_URL + "/profile/changePassword", {
                 method: "POST",
                 headers: {

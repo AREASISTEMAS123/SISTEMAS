@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import '../css/detalleJustificacionAdmi.css'
+import { AES, enc } from 'crypto-js';
 export const AdmiDetalleDeJustificacion = () => {
   const { id, userid } = useParams();
   const [faltasList, setFaltasList] = useState([]);
@@ -22,7 +23,8 @@ export const AdmiDetalleDeJustificacion = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = `Bearer ${localStorage.getItem('token')}`;
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         const response = await fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}`, {
           headers: {
             Authorization: token
@@ -60,7 +62,8 @@ export const AdmiDetalleDeJustificacion = () => {
   const onClickAceptar = (e, id, userid) => {
     e.preventDefault();
 
-    const token = `Bearer ${localStorage.getItem('token')}`;
+    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 
     fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/accept/${userid}`, {
       method: 'POST',
@@ -94,7 +97,8 @@ export const AdmiDetalleDeJustificacion = () => {
 
   const onClickRechazar = (e, id, userid) => {
     e.preventDefault();
-    const token = `Bearer ${localStorage.getItem('token')}`;
+    const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 
 
     if (!reason_decline) {

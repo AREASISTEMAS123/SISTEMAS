@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { AES, enc } from "crypto-js";
 
 export const Desempeño = () => {
     const { id } = useParams();
@@ -13,7 +14,7 @@ export const Desempeño = () => {
         note2: 0,
         note3: 0,
         note4: 0,
-        prom_end:0
+        prom_end: 0
     });
     const navigate = useNavigate();
     const onClickRetroceder = () => {
@@ -21,9 +22,11 @@ export const Desempeño = () => {
     }
     const { note1, note2, note3, note4 } = notas;
     useEffect(() => {
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         fetch(import.meta.env.VITE_API_URL + `/evaluations/performance/1`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${token}`,
             }
         })
             .then(response => response.json())
@@ -52,7 +55,8 @@ export const Desempeño = () => {
 
     const saveNotes = async () => {
         try {
-            const token = `Bearer ${localStorage.getItem('token')}`;
+            const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+            const token = tokenD.toString(enc.Utf8)
             const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1/update`, {
                 method: "POST",
                 headers: {
@@ -80,7 +84,7 @@ export const Desempeño = () => {
         navigate("/evaluar")
     }
 
-    const onClickModal = () =>{
+    const onClickModal = () => {
         setShowModalGuardar(true);
     }
     return (
@@ -152,7 +156,7 @@ export const Desempeño = () => {
                     <div>
                         <input
                             className="ml-1 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
-                            
+
                             disabled
                             value={notas.prom_end}
                             name="prom_end"
@@ -183,7 +187,7 @@ export const Desempeño = () => {
                                 >
                                     Aceptar
                                 </button>
-                                
+
                             </div>
                         </div>
                     </div>

@@ -17,6 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import { AES, enc } from 'crypto-js';
 
 
 function TablePaginationActions(props) {
@@ -87,7 +88,8 @@ TablaEvaluaciones.propTypes = {
 export default function TablaEvaluaciones({ data, filterName }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-	const Token = localStorage.getItem("token");
+	const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 
 	// const [selectedUserData, setSelectedUserData] = React.useState(null);
 	// const navigate = useNavigate();
@@ -127,7 +129,7 @@ export default function TablaEvaluaciones({ data, filterName }) {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${Token}`
+				Authorization: `Bearer ${token}`
 				// Agrega cualquier otra cabecera requerida por la API, como tokens de autenticación
 			},
 			body: JSON.stringify({

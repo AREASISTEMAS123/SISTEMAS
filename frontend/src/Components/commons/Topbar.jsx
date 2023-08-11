@@ -13,6 +13,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { TareaItem } from './TareaItem';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { AES, enc } from 'crypto-js';
 
 export const Topbar = ({ toggleSidebar }) => {
   Topbar.propTypes = {
@@ -58,7 +59,8 @@ export const Topbar = ({ toggleSidebar }) => {
 
   //Local Storage
   const userId = localStorage.getItem("iduser");
-  const Token = localStorage.getItem("token");
+  const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 
   //Agregar Tarea
   const agregarTarea = () => {
@@ -73,7 +75,7 @@ export const Topbar = ({ toggleSidebar }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${Token}`
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         tittle: titulo,
@@ -105,7 +107,7 @@ export const Topbar = ({ toggleSidebar }) => {
     fetch(import.meta.env.VITE_API_URL + '/task/' + userId, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${Token}`
+        Authorization: `Bearer ${token}`
       }
     })
       .then(response => response.json())
@@ -127,7 +129,7 @@ export const Topbar = ({ toggleSidebar }) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${Token}`
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(taskUpdate),
     })
@@ -160,7 +162,7 @@ export const Topbar = ({ toggleSidebar }) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${Token}`
+        Authorization: `Bearer ${token}`
       },
     })
       .then(response => {

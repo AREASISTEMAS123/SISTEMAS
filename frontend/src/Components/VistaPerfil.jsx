@@ -4,10 +4,12 @@ import moment from "moment";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { AES, enc } from 'crypto-js';
 
 export const VistaPerfil = () => {
 	const { id } = useParams();
-	const Token = localStorage.getItem("token");
+	const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
@@ -18,7 +20,7 @@ export const VistaPerfil = () => {
 		fetch(import.meta.env.VITE_API_URL + '/users/' + id, {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${Token}`
+				Authorization: `Bearer ${token}`
 			}
 		})
 			.then(response => response.json())

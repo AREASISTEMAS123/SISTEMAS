@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import KeyboardBackspaceTwoToneIcon from '@mui/icons-material/KeyboardBackspaceTwoTone';
+import { AES, enc } from 'crypto-js';
 
 export const CumpleanosDetalle = () => {
     const navigate = useNavigate();
@@ -15,9 +16,11 @@ export const CumpleanosDetalle = () => {
     useEffect(() => {
         const fetchBirthdayUser = async () => {
             try {
+                const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+                const token = tokenD.toString(enc.Utf8)
                 const response = await fetch(import.meta.env.VITE_API_URL + '/birthday/details', {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                        Authorization: `Bearer ${token}`
                     }
                 });
 
@@ -51,11 +54,11 @@ export const CumpleanosDetalle = () => {
                     birthdayUser.map((user) => (
                         <div className="flex flex-col bg-cv-primary rounded-lg shadow-lg" key={user.id}>
                             <div className='grid justify-items-center'>
-                            <img
-                                className="h-48 md:h-64 w-48 md:w-64 rounded-full"
-                                src={user.media[0].original_url}
-                                alt="Imagen del usuario"
-                            />
+                                <img
+                                    className="h-48 md:h-64 w-48 md:w-64 rounded-full"
+                                    src={user.media[0].original_url}
+                                    alt="Imagen del usuario"
+                                />
                             </div>
                             <div className="p-4 flex flex-col justify-between text-white flex-1">
                                 <div>

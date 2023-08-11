@@ -8,6 +8,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
+import { AES, enc } from 'crypto-js';
 const ProgressBar = ({ title, progress, color }) => {
   return (
     <div className="w-full flex flex-col items-center justify-center">
@@ -231,11 +232,13 @@ export const AsistenciaAdmin = () => {
 
   const obtenerAsistencia = async () => {
     try {
+      const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
       const response = await fetch(import.meta.env.VITE_API_URL + `/attendance`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
       const data = await response.json();

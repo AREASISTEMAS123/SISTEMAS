@@ -1,4 +1,5 @@
 import { useMediaQuery } from '@mui/material';
+import { AES, enc } from 'crypto-js';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +10,11 @@ export const Cumpleanos = () => {
     const isMobile = useMediaQuery("(max-width:768px)");
 
     useEffect(() => {
-        // Llamar a la API para obtener la lista de personas con sus fechas de cumpleaños
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         fetch(import.meta.env.VITE_API_URL + '/birthday', {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+                Authorization: `Bearer ${token}`
                 // Authorization: `Bearer 6|J2Lph2hLdcCYPWYVBVVznEaW2peo1HBGrhQr4CZC`
             }
         })

@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import moment from "moment";
 import BalanceIcon from '@mui/icons-material/Balance';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { AES, enc } from 'crypto-js';
 
 export const JustificacionDetalleColaborador = () => {
   const { id, userid } = useParams();
@@ -12,7 +13,8 @@ export const JustificacionDetalleColaborador = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = `Bearer ${localStorage.getItem('token')}`;
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         const response = await fetch(import.meta.env.VITE_API_URL + `/justifications/details/${id}`, {
           headers: {
             Authorization: token
@@ -110,9 +112,9 @@ export const JustificacionDetalleColaborador = () => {
               </div>
               <div className="flex items-center justify-center">
                 {item.evidence.endsWith('.jpg') || item.evidence.endsWith('.png') || item.evidence.endsWith('.jpeg') ? (
-                  <img src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} alt="Image" />
+                  <img src={import.meta.env.VITE_BACKEND_SERVER_URL + `/archivos/${item.evidence}`} alt="Image" />
                 ) : item.evidence.endsWith('.pdf') ? (
-                    <embed src={import.meta.env.VITE_BACKEND_SERVER_URL +`/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
+                  <embed src={import.meta.env.VITE_BACKEND_SERVER_URL + `/archivos/${item.evidence}`} type="application/pdf" width="100%" height="600px" />
                 ) : (
                   <div>Unsupported file format</div>
                 )}

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { AES, enc } from "crypto-js";
 export const HabilidadesBlandas = () => {
     const [showModalGuardar, setShowModalGuardar] = useState(false);
 
@@ -21,9 +22,11 @@ export const HabilidadesBlandas = () => {
     }
     const { note1, note2, note3, note4 } = notas;
     useEffect(() => {
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${token}`,
             }
         })
             .then(response => response.json())
@@ -52,7 +55,8 @@ export const HabilidadesBlandas = () => {
 
     const saveNotes = async () => {
         try {
-            const token = `Bearer ${localStorage.getItem('token')}`;
+            const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+            const token = tokenD.toString(enc.Utf8)
             const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1/update`, {
                 method: "POST",
                 headers: {
@@ -80,7 +84,7 @@ export const HabilidadesBlandas = () => {
         navigate("/evaluar")
     }
 
-    const onClickModal = () =>{
+    const onClickModal = () => {
         setShowModalGuardar(true);
     }
 
@@ -187,7 +191,7 @@ export const HabilidadesBlandas = () => {
                                 >
                                     Aceptar
                                 </button>
-                                
+
                             </div>
                         </div>
                     </div>

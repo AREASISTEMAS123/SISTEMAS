@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CakeIcon from "@mui/icons-material/Cake";
 import { CumpleanosCardColaborador } from "./CumpleanosCardColaborador";
+import { AES, enc } from "crypto-js";
 
 export const VistaHomeColaborador = () => {  
-  const Token = localStorage.getItem("token");
+  const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+  const token = tokenD.toString(enc.Utf8)
   const userId = localStorage.getItem("iduser");
   const [birthday, setBirthday] = useState([])
   const [userData, setUserData] = useState([]);
@@ -23,7 +25,7 @@ export const VistaHomeColaborador = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
       const data = await response.json();
@@ -56,7 +58,7 @@ export const VistaHomeColaborador = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
       const data = await response.json();

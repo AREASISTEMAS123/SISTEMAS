@@ -5,6 +5,7 @@ import moment from "moment";
 import { useNavigate } from 'react-router-dom';
 import CircleIcon from '@mui/icons-material/Circle';
 import BalanceIcon from '@mui/icons-material/Balance';
+import { AES, enc } from "crypto-js";
 
 export const JustificacionColaborador = () => {
     const [cards, setCards] = useState([]);
@@ -26,7 +27,8 @@ export const JustificacionColaborador = () => {
     const fetchData = async () => {
         try {
             // Realiza la llamada a tu API para obtener los datos de la base de datos
-            const token = `Bearer ${localStorage.getItem('token')}`;
+            const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+            const token = tokenD.toString(enc.Utf8)
             const response = await fetch(import.meta.env.VITE_API_URL + '/justifications', {
                 headers: {
                     Authorization: token
@@ -69,7 +71,8 @@ export const JustificacionColaborador = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const token = `Bearer ${localStorage.getItem('token')}`;
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         const formData = new FormData();
         formData.append('justification_date', justification_date);
         formData.append('reason', reason);

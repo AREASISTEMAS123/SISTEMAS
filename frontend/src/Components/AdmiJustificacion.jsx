@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts';
 import { Chart } from "react-google-charts";
 import BalanceIcon from '@mui/icons-material/Balance';
+import { AES, enc } from "crypto-js";
 
 export const AdmiJustificacion = () => {
     const [faltasList, setFaltasList] = useState([]);
@@ -36,7 +37,8 @@ export const AdmiJustificacion = () => {
     const fetchData = async () => {
         try {
             // Realiza la llamada a tu API para obtener los datos de la base de datos
-            const token = `Bearer ${localStorage.getItem('token')}`;
+            const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+            const token = tokenD.toString(enc.Utf8)
             const response = await fetch(import.meta.env.VITE_API_URL + '/users/justifications', {
                 headers: {
                     Authorization: token

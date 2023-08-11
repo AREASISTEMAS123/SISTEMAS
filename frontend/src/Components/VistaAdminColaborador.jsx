@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import { AES, enc } from "crypto-js";
 
 
 export const VistaAdminColaborador = () => {
@@ -23,7 +24,8 @@ export const VistaAdminColaborador = () => {
   const [filterDate, setFilterDate] = useState('')
   const [filterShift, setFilterShift] = useState('')
 
-  const Token = localStorage.getItem("token");
+  const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 
 
   //Listar Usuarios
@@ -36,7 +38,7 @@ export const VistaAdminColaborador = () => {
       const response = await fetch(import.meta.env.VITE_API_URL + "/users", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();
@@ -116,7 +118,7 @@ export const VistaAdminColaborador = () => {
       const response = await fetch(import.meta.env.VITE_API_URL +  `/users/update/${usuarioEditado.id}`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${Token}`
+          Authorization: `Bearer ${token}`
         },
         //body: JSON.stringify(usuarioEditado),
         body: formData,
@@ -158,7 +160,7 @@ export const VistaAdminColaborador = () => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${Token}`
+        Authorization: `Bearer ${token}`
       },
     })
       .then(response => {

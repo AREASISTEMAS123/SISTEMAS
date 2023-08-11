@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import moment from "moment";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { AES, enc } from "crypto-js";
 
 export const Perfil = () => {
   const [colaborador, setColaborador] = useState(null);
@@ -9,9 +10,11 @@ export const Perfil = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         const response = await fetch(import.meta.env.VITE_API_URL + "/profile", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${token}`
           }
         });
 

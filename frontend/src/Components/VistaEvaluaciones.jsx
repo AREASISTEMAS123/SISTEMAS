@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import TablaEvaluaciones from './commons/TablaEvaluaciones';
+import { AES, enc } from 'crypto-js';
 
 export const VistaEvaluaciones = () => {
 	const [users, setUsers] = useState([]);
@@ -8,7 +9,8 @@ export const VistaEvaluaciones = () => {
 	//UseState Filtar
 	const [filterName, setFilterName] = useState('');
 
-	const Token = localStorage.getItem("token");
+	const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+    const token = tokenD.toString(enc.Utf8)
 
 	const handleChange = (event) => {
 		const selectedValue = event.target.value;
@@ -39,7 +41,7 @@ export const VistaEvaluaciones = () => {
 			const response = await fetch(import.meta.env.VITE_API_URL + "/users", {
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${Token}`,
+					Authorization: `Bearer ${token}`,
 				},
 			});
 			const data = await response.json();

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { AES, enc } from "crypto-js";
 
 export const AutoEvaluacion = () => {
     const { id } = useParams();
@@ -13,17 +14,19 @@ export const AutoEvaluacion = () => {
         note2: 0,
         note3: 0,
         note4: 0,
-        prom_end:0
+        prom_end: 0
     });
-    const navigate= useNavigate();
-    const onClickRetroceder = () =>{
+    const navigate = useNavigate();
+    const onClickRetroceder = () => {
         navigate("/evaluar")
     }
-    const {note1,note2,note3,note4} = notas;
+    const { note1, note2, note3, note4 } = notas;
     useEffect(() => {
+        const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+        const token = tokenD.toString(enc.Utf8)
         fetch(import.meta.env.VITE_API_URL + `/evaluations/autoevaluation/1`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${token}`,
             }
         })
             .then(response => response.json())
@@ -33,11 +36,11 @@ export const AutoEvaluacion = () => {
                     note2: data.note2 || 0,
                     note3: data.note3 || 0,
                     note4: data.note4 || 0,
-                    prom_end: data.prom_end ||0,
+                    prom_end: data.prom_end || 0,
                 });
                 console.log(data)
             })
-            
+
             .catch(error => console.error('Error al obtener los datos:', error));
     }, []);
 
@@ -48,11 +51,12 @@ export const AutoEvaluacion = () => {
             [name]: value
         }));
     };
-    
+
 
     const saveNotes = async () => {
         try {
-            const token = `Bearer ${localStorage.getItem('token')}`;
+            const tokenD = AES.decrypt(localStorage.getItem("token"), import.meta.env.VITE_KEY)
+            const token = tokenD.toString(enc.Utf8)
             const response = await fetch(import.meta.env.VITE_API_URL + `/evaluations/softskills/1/update`, {
                 method: "POST",
                 headers: {
@@ -80,7 +84,7 @@ export const AutoEvaluacion = () => {
         navigate("/evaluar")
     }
 
-    const onClickModal = () =>{
+    const onClickModal = () => {
         setShowModalGuardar(true);
     }
     return (
@@ -152,7 +156,7 @@ export const AutoEvaluacion = () => {
                     <div>
                         <input
                             className="ml-1 bg-gray-100 rounded px-2 py-1 w-24 sm:w-32 md:w-40"
-                            
+
                             disabled
                             value={notas.prom_end}
                             name="prom_end"
@@ -182,7 +186,7 @@ export const AutoEvaluacion = () => {
                                 >
                                     Aceptar
                                 </button>
-                                
+
                             </div>
                         </div>
                     </div>
