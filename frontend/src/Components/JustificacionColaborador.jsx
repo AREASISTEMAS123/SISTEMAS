@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import { useNavigate } from 'react-router-dom';
 import CircleIcon from '@mui/icons-material/Circle';
+import BalanceIcon from '@mui/icons-material/Balance';
 
 export const JustificacionColaborador = () => {
     const [cards, setCards] = useState([]);
@@ -173,7 +174,10 @@ export const JustificacionColaborador = () => {
     return (
         <div className="min-h-screen">
             <div className="w-full mb-5">
-                <h1 className="text-xl font-semibold uppercase text-white">Justificaciones</h1>
+                <h1 className="inline-flex items-center text-base font-medium uppercase text-white">
+                    <BalanceIcon />
+                    <span className='ml-1 text-base font-medium md:ml-2'>Justificaciones</span>
+                </h1>
             </div>
             <div className="space-y-5">
                 <div className="flex flex-wrap justify-center">
@@ -325,7 +329,7 @@ export const JustificacionColaborador = () => {
 
                                 </div>
                                 <div className=" text-sm font-medium text-cv-primary">
-                                    <button onClick={() => mostrarDetalles(card.id)} className="block w-full p-4 text-xl text-center rounded-b-lg bg-cv-cyan">
+                                    <button onClick={() => mostrarDetalles(card.id)} className="block w-full p-4 text-xl text-center uppercase rounded-b-lg bg-cv-cyan">
                                         Ver más
                                     </button>
                                 </div>

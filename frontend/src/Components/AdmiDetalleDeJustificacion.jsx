@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import moment from "moment";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import BalanceIcon from '@mui/icons-material/Balance';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
@@ -37,9 +38,6 @@ export const AdmiDetalleDeJustificacion = () => {
   }, [id, userid]);
   const navigate = useNavigate();
 
-  const OnClickRetroceder = () => {
-    navigate(`/justificaciones`);
-  }
   const onCloseModalRechazo = () => {
     setShowModalRechazado(false);
   }
@@ -80,11 +78,11 @@ export const AdmiDetalleDeJustificacion = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      // .then((data) => {
 
-        // Maneja la respuesta exitosa si es necesario
-        // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
-      })
+      //   // Maneja la respuesta exitosa si es necesario
+      //   // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
+      // })
       .catch((error) => {
         setMessage(error.message);
       });
@@ -121,9 +119,9 @@ export const AdmiDetalleDeJustificacion = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      // .then((data) => {
 
-      })
+      // })
       .catch((error) => {
         setMessage(error.message);
       });
@@ -131,17 +129,17 @@ export const AdmiDetalleDeJustificacion = () => {
     navigate(`/justificaciones`);
   };
 
-  const definiendo_rol = (role_id) => {
-    if (role_id === 1) {
-      return "Gerencia";
-    } else if (role_id === 2) {
-      return "Lider de nucleo";
-    } else if (role_id === 3) {
-      return "Colaborador";
-    } else {
-      return;
-    }
-  }
+  // const definiendo_rol = (role_id) => {
+  //   if (role_id === 1) {
+  //     return "Gerencia";
+  //   } else if (role_id === 2) {
+  //     return "Lider de nucleo";
+  //   } else if (role_id === 3) {
+  //     return "Colaborador";
+  //   } else {
+  //     return;
+  //   }
+  // }
   const isRechazadoOrAceptado = (prop) => {
     if (prop.decline === 1) {
       return 'Rechazado';
@@ -154,13 +152,22 @@ export const AdmiDetalleDeJustificacion = () => {
   return (
     <div>
       <div className="w-full flex flex-col md:flex-row items-center text-white relative">
-        <button onClick={OnClickRetroceder} className="bg-cv-cyan text-cv-primary px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-cv-cyan/80 md:absolute active:scale-95 ease-in-out duration-300">
-          <ArrowBackIosNewIcon sx={{ fontSize: 20 }} />
-          <span>Regresar</span>
-        </button>
-        <div className="w-full flex items-center justify-center py-2">
-          <h1 className="text-xl font-semibold uppercase">Justificaciones</h1>
-        </div>
+        <nav className="flex" >
+          <ol className="inline-flex items-center space-x-1 md:space-x-3 uppercase">
+            <li className="inline-flex items-center">
+              <Link to="/justificaciones" className="inline-flex items-center text-base font-medium text-gray-400 hover:text-white">
+                <BalanceIcon />
+                <span className='ml-1 text-base font-medium md:ml-2'>Justificaciones</span>
+              </Link>
+            </li>
+            <li >
+              <div className="flex items-center text-gray-500 ">
+                <ChevronRightIcon />
+                <span className="ml-1 text-base font-medium md:ml-2">Detalle justificacion</span>
+              </div>
+            </li>
+          </ol>
+        </nav>
       </div>
       <div className=' rounded-lg mt-5'>
 

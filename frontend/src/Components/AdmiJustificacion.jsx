@@ -3,6 +3,8 @@ import moment from "moment";
 import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts';
 import { Chart } from "react-google-charts";
+import BalanceIcon from '@mui/icons-material/Balance';
+
 export const AdmiJustificacion = () => {
     const [faltasList, setFaltasList] = useState([]);
     const [searchInput, setSearchInput] = useState("");
@@ -164,7 +166,10 @@ export const AdmiJustificacion = () => {
     return (
         <div className="w-full text-white space-y-5">
             <div className="w-full">
-                <h1 className="text-xl font-semibold uppercase">Justificaciones</h1>
+                <h1 className="inline-flex items-center text-base font-medium uppercase text-white">
+                    <BalanceIcon />
+                    <span className='ml-1 text-base font-medium md:ml-2'>Justificaciones</span>
+                </h1>
             </div>
             <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4">
                 <div className="w-full bg-cv-primary rounded-2xl p-5 ">
@@ -483,7 +488,7 @@ export const AdmiJustificacion = () => {
                             </div>
                             <div className="text-sm font-medium text-cv-primary">
                                 <button
-                                    className={`block w-full p-4 text-xl text-center rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cv-cyan'
+                                    className={`block w-full p-4 text-xl text-center uppercase rounded-b-lg ${isRechazadoOrAceptado(post) === 'En proceso' ? 'bg-yellow-500' : 'bg-cv-cyan'
                                         }`}
                                     onClick={() => {
                                         handleClick(post.id);

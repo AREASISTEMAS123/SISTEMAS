@@ -15,7 +15,8 @@ import {
     OlvideContraseña,
     RestablecerContraseña,
     VistaEvaluar,
-    DetalleEvaluaciones
+    DetalleEvaluaciones,
+    VistaPerfil
 } from "../components";
 import { VistaReportes } from "../components/VistaReportes";
 import { AdmiDetalleDeJustificacion } from "../Components/AdmiDetalleDeJustificacion";
@@ -62,6 +63,7 @@ const AppRoutes = () => {
                             <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
                             <Route path="/evaluaciones/desempeño" element={<Desempeño />} />
                             <Route path="/evaluaciones/autoevaluacion" element={<AutoEvaluacion />} />
+                            <Route path="/colaborador/perfil/:id" element={<VistaPerfil />} />
                         </>
                     )}
                     {hasRole('Gerencia') && (
@@ -78,6 +80,7 @@ const AppRoutes = () => {
                             <Route path="/evaluaciones/habilidades-blandas" element={<HabilidadesBlandas />} />
                             <Route path="/evaluaciones/desempeño" element={<Desempeño />} />
                             <Route path="/evaluaciones/autoevaluacion" element={<AutoEvaluacion />} />
+                            <Route path="/colaborador/perfil/:id" element={<VistaPerfil />} />
 
                         </>
                     )}

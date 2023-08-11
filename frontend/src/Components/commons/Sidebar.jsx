@@ -44,24 +44,11 @@ export const Sidebar = ({ isOpen }) => {
   const rol = getRole();
   const menuItems = sidebarContent[rol] || [];
 
-  const [isAsistenciaOpen, setIsAsistenciaOpen] = useState(false);
   const [isJustificacionesOpen, setIsJustificacionesOpen] = useState(false);
   // const [isEvaluacionesOpen, setIsEvaluacionesOpen] = useState(false);
 
-  const toggleAsistenciaDropdown = () => {
-    setIsAsistenciaOpen(!isAsistenciaOpen);
-    setIsJustificacionesOpen(false);
-    // setIsEvaluacionesOpen(false);
-  };
-
-  const handleClickAwayAsistencia = () => {
-    setIsAsistenciaOpen(false);
-  };
-
   const toggleJustificacionesDropdown = () => {
     setIsJustificacionesOpen(!isJustificacionesOpen);
-    setIsAsistenciaOpen(false);
-    // setIsEvaluacionesOpen(false);
   };
 
   const handleClickAwayJustificaciones = () => {
@@ -70,8 +57,6 @@ export const Sidebar = ({ isOpen }) => {
 
   // const toggleEvaluacionesDropdown = () => {
   //   setIsEvaluacionesOpen(!isEvaluacionesOpen);
-  //   setIsAsistenciaOpen(false);
-  //   setIsJustificacionesOpen(false);
   // };
 
   // const handleClickAwayEvaluaciones = () => {
@@ -127,48 +112,19 @@ export const Sidebar = ({ isOpen }) => {
                   >Perfil</span>
                 </div>
               </Link>
-              <ClickAwayListener onClickAway={handleClickAwayAsistencia}>
-                <div className="relative">
-                  <div
-                    className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
-                    onClick={toggleAsistenciaDropdown}
-                  >
-                    <div className="w-full font-semibold flex items-center justify-between">
-                      <div className='flex items-center gap-x-4'>
-                        <span>
-                          <ChecklistIcon />
-                        </span>
-                        <span className={`${isOpen ? "" : "hidden"} origin-left duration-200`}>
-                          Asistencia
-                        </span>
-                      </div>
-                      <span className={`${isOpen ? "" : "hidden"} text-end origin-left duration-200`}>
-                        <ChevronRightIcon />
-                      </span>
-                    </div>
-                  </div>
-                  {isAsistenciaOpen && (
-                    <div className={`${isOpen ? " left-52 ml-2.5" : "left-14 ml-1.5"} absolute  top-0 bg-cv-primary w-44 py-2 rounded-md shadow-2xl z-10`}>
-                      <Link
-                        to="/asistencia"
-                        onClick={handleClickAwayAsistencia}
-                        className="block px-4 p-2 text-white hover:bg-cv-secondary rounded-md"
-                      >
-                        Asistencia
-                      </Link>
-                      <hr className="h-px border-0 bg-cv-secondary" />
-                      <Link
-                        to="/asistencias"
-                        onClick={handleClickAwayAsistencia}
-                        className="block px-4 py-2 text-white hover:bg-cv-secondary rounded-md"
-                      >
-                        Asistencias
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </ClickAwayListener>
 
+              <Link
+                to={`/asistencias`}
+                className="cursor-pointer flex items-center p-2 hover:bg-cv-secondary rounded-md"
+              >
+                <div className="font-semibold flex items-center gap-x-4">
+                  <span><ChecklistIcon /></span>
+                  <span
+                    className={`${isOpen ? "" : "hidden"} origin-left duration-200`}
+                  >Asistencia</span>
+                </div>
+              </Link>
+              
               <ClickAwayListener onClickAway={handleClickAwayJustificaciones}>
                 <div className="relative">
                   <div

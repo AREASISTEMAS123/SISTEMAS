@@ -5,7 +5,6 @@ import moment from 'moment';
 import TablaAsistencias from './commons/TablaAsistencias'
 import CircularProgressBar from './commons/CircularProgressBar';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-// import defaultImage from '/defaultImage.svg'
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
@@ -272,14 +271,14 @@ export const AsistenciaAdmin = () => {
     <div className='h-full bg-cv-secondary'>
       <div className="space-y-3">
         <div className="flex flex-col items-center justify-center space-y-2">
-          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 mb-3">
-            <Link to="/asistencia" className='w-full sm:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
-            <div className='w-full'>
+          <div className="w-full flex flex-col md:flex-row justify-between items-center mb-3">
+            <Link to="/asistencia" className='w-full md:w-1/3 text-center bg-cv-cyan rounded-lg py-3 px-6 text-cv-primary font-bold uppercase whitespace-nowrap'>Marcar Asistencia</Link>
+            {/* <div className='w-full'>
               <h2 className="text-2xl text-center text-white">Administrar asistencias</h2>
-            </div>
+            </div> */}
           </div>
 
-          <div className="w-full flex flex-col md:flex-row justify-between space-y-3 md:space-x-5 md:space-y-0">
+          <div className="w-full flex flex-col md:flex-row justify-between gap-3">
             <div className="w-full md:w-1/3 space-y-4 bg-cv-primary p-5 rounded-lg">
               <h2 className="text-white text-center text-xl uppercase font-semibold">Leyenda</h2>
               <div className="w-full flex items-center justify-between space-x-3">
@@ -304,7 +303,7 @@ export const AsistenciaAdmin = () => {
               </div>
             </div>
 
-            <div className="w-full space-y-3">
+            <div className="w-full md:w-4/6 space-y-3">
               <div className="w-full bg-cv-primary rounded-lg">
 
                 <div className="w-full flex items-center justify-between p-2 space-x-3">
@@ -456,29 +455,29 @@ export const AsistenciaAdmin = () => {
                       <div className='text-center text-cv-primary uppercase'>
                         {imageUrl.attendance === 1 && (
                           <p className='space-x-2 text-lg font-bold bg-[#24FF00] p-2'>
-                            <span>{imageUrl.user.name}</span>
+                            <span>{imageUrl.user.name.split(" ")[0] + ' '+ imageUrl.user.surname.split(" ")[0]}</span>
                             <span>Asistió</span>
                           </p>
                         )}
                         {imageUrl.delay === 1 && imageUrl.justification === 1 ? (
                           <p className='space-x-2 text-lg font-bold bg-[#57F3FF] p-2'>
-                            <span>{imageUrl.user.name}</span>
+                            <span>{imageUrl.user.name.split(" ")[0] + ' '+ imageUrl.user.surname.split(" ")[0]}</span>
                             <span>Justifico por Tardanza</span>
                           </p>
                         ) : imageUrl.delay === 1 && (
                           <p className='space-x-2 text-lg font-bold bg-[#FAFF00] p-2'>
-                            <span>{imageUrl.user.name}</span>
+                              <span>{imageUrl.user.name.split(" ")[0] + ' '+ imageUrl.user.surname.split(" ")[0]}</span>
                             <span>Ingreso Tarde</span>
                           </p>
                         )}
                         {imageUrl.absence === 1 && imageUrl.justification === 1 ? (
                           <p className='space-x-2 text-lg font-bold bg-[#57F3FF] p-2'>
-                            <span>{imageUrl.user.name}</span>
+                            <span>{imageUrl.user.name.split(" ")[0] + ' '+ imageUrl.user.surname.split(" ")[0]}</span>
                             <span>Justifico por Falta</span>
                           </p>
                         ) : imageUrl.absence === 1 && (
                           <p className='space-x-2 text-lg font-bold text-white bg-[#FF0000] p-2'>
-                            <span>{imageUrl.user.name}</span>
+                              <span>{imageUrl.user.name.split(" ")[0] + ' '+ imageUrl.user.surname.split(" ")[0]}</span>
                             <span>Falto</span>
                           </p>
                         )}

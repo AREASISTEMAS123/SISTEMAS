@@ -39,8 +39,12 @@ export const VistaHomeColaborador = () => {
 
   // Obtener Nombre
   let name = '';
+  let surname = '';
   if (userData.usuario && Array.isArray(userData.usuario) && userData.usuario.length > 0) {
     name = userData.usuario[0].user[0].name;
+  }
+  if (userData.usuario && Array.isArray(userData.usuario) && userData.usuario.length > 0) {
+    surname = userData.usuario[0].user[0].surname;
   }
 
 
@@ -80,8 +84,8 @@ export const VistaHomeColaborador = () => {
       <div className="h-full bg-cv-secondary">
         <section className="w-full bg-cv-secondary space-y-4">
           <div className="text-center my-4">
-            <h2 className="text-2xl md:text-5xl text-white font-bold uppercase">
-              Mucho Gusto {name}
+            <h2 className="text-xl md:text-3xl text-white font-bold uppercase">
+              Mucho Gusto {`${name.split(" ")[0]} ${surname.split(" ")[0]}`}
             </h2>
           </div>
           <div className="space-y-4">
@@ -93,7 +97,7 @@ export const VistaHomeColaborador = () => {
               {cardAsistencia.map((card, index) => (
                 <div
                   key={index}
-                  className="w-full max-w-xs bg-cv-primary text-white rounded-md p-5 space-y-2"
+                  className="w-full md:max-w-xs bg-cv-primary text-white rounded-md p-5 space-y-2"
                 >
                   <div className="w-full text-left">
                     <h3 className="text-lg">{card.title}</h3>

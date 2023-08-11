@@ -5,11 +5,6 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 
 export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
-	ModalAddUser.propTypes = {
-		agregarUsuario: PropTypes.func,
-		cerrarAgregarModal: PropTypes.func,
-	}
-
 	const [mensajeError, setMensajeError] = useState('');
 
 	// Usesate de campos a insertar
@@ -87,7 +82,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 		setDateEnd(event.target.value);
 	}
 
-	const handleCellphoneChange = (event) =>{
+	const handleCellphoneChange = (event) => {
 		setCellphone(event.target.value)
 	}
 
@@ -168,6 +163,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 				return (
 					<>
 						<option value="Comercial">Comercial</option>
+						<option value="Publicidad Digital">Publicidad Digital</option>
 					</>
 				);
 			case 'Operativo':
@@ -211,8 +207,17 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 						<option value="Asistente de Logística">Asistente de Logística</option>
 						<option value="Cerradores">Cerradores</option>
 						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Líder de Perfil Asistente Comercial">Líder de Perfil Asistente Comercial</option>
+						<option value="Líder de Perfil Cerradores">Líder de Perfil Cerradores</option>
 						<option value="Líder de Perfil de Asistencia Logística">Líder de Perfil de Asistencia Logística</option>
 						<option value="Líder de Perfil Ejecutivo de Cuentas">Líder de Perfil Ejecutivo de Cuentas</option>
+					</>
+				);
+			case 'Publicidad Digital':
+				return (
+					<>
+						<option value="Asistente de Publicidad Digital">Asistente de Publicidad Digital</option>
+						<option value="Líder de Perfil de Publicidad Digital">Líder de Perfil de Publicidad Digital</option>
 					</>
 				);
 			case 'Creativo':
@@ -226,7 +231,9 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 				return (
 					<>
 						<option value="Líder de Núcleo de Diseño Web">Líder de Núcleo de Diseño Web</option>
+						<option value="Maquetador UI/UX">Maquetador UI/UX</option>
 						<option value="Maquetador Web">Maquetador Web</option>
+						<option value="Desarrollador Web SEO">Desarrollador Web SEO</option>
 						<option value="Desarrollador Web - Wordpress">Desarrollador Web - Wordpress</option>
 					</>
 				);
@@ -291,7 +298,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="text"
 											id="names"
 											value={name} onChange={handleNameChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresar nombres completos"
 										/>
 									</div>
@@ -306,7 +313,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="text"
 											id="lastname"
 											value={surname} onChange={handleSurnameChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresar ambos apellidos"
 										/>
 									</div>
@@ -321,7 +328,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="text"
 											id="dni"
 											value={dni} onChange={handleDniChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresar número de DNI"
 										/>
 									</div>
@@ -336,7 +343,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="date"
 											id="birthday"
 											value={birthday} onChange={handleBirthdayChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										/>
 									</div>
 									<div className="w-full">
@@ -350,7 +357,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="email"
 											id="email"
 											value={email} onChange={handleEmailChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresa el e-mail"
 										/>
 									</div>
@@ -365,7 +372,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="text"
 											id="tel"
 											value={cellphone} onChange={handleCellphoneChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresa el número de teléfono"
 										/>
 									</div>
@@ -382,7 +389,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 										<select
 											id="departament"
 											value={departament}
-											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										>
 											<option>Selecciona</option>
 											<option value="Administrativo">Administrativo</option>
@@ -401,7 +408,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											id="area"
 											value={area}
 											onChange={handleAreaChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											disabled={selectAreaDisabled}
 										>
 											<option>Selecciona</option>
@@ -415,7 +422,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 												type="text"
 												id="area"
 												value={area} onChange={handleAreaChange}
-												className="w-full mt-1 p-2 text-gray-900 rounded-md border-2 border-green-600  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+												className="w-full mt-1 p-2 text-gray-900 rounded-md border-2 border-green-600  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 												placeholder="Ingresa el núcleo"
 											/>
 										)}
@@ -435,7 +442,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											id="profile"
 											value={profile}
 											onChange={handleProfileChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											disabled={selectProfileDisabled}
 										>
 											<option>Selecciona</option>
@@ -456,7 +463,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 										<select
 											id="rol"
 											value={shift} onChange={handleShiftChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										>
 											<option>Selecciona</option>
 											<option value="Mañana">Mañana</option>
@@ -475,7 +482,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="text"
 											id="responsable"
 											value={responsible} onChange={handleResponsibleChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresa el nombre completo"
 										/>
 									</div>*/}
@@ -490,7 +497,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="date"
 											id="startDate"
 											value={dateStart} onChange={handleDateStartChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										/>
 									</div>
 									<div className="w-full">
@@ -504,7 +511,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 											type="date"
 											id="startDate"
 											value={dateEnd} onChange={handleDateEndChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										/>
 									</div>
 								</div>
@@ -548,7 +555,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 							</div>
 							<p className='text-red-500 font-semibold'>{mensajeError}</p>
 						</div>
-						<div className="flex flex-col md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b space-y-2 md:space-x-4 md:space-y-0">
+						<div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b gap-2 md:gap-4">
 							<button
 								className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300"
 								type="button"
@@ -571,11 +578,14 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 	)
 }
 
+ModalAddUser.propTypes = {
+	agregarUsuario: PropTypes.func,
+	cerrarAgregarModal: PropTypes.func,
+}
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { alpha, styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-//import { SelectBoxModalAdd } from './SelectBoxModalColaborador';
 
 const CvSwitch = styled(Switch)(({ theme }) => ({
 	'& .MuiSwitch-switchBase.Mui-checked': {
@@ -590,13 +600,6 @@ const CvSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) => {
-
-	ModalUpdateUser.propTypes = {
-		usuario: PropTypes.object,
-		editarUsuario: PropTypes.func,
-		cerrarEditarModal: PropTypes.func,
-	}
-
 	// Usesate de campos a editar
 	const [Name, setName] = useState('');
 	const [Surname, setSurname] = useState('');
@@ -685,7 +688,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 	};
 	useEffect(() => {
 		const selectedValue = Area
-		const validOptions = ['Creativo', 'Diseño Web', 'Ejecutivo de Cuenta', 'Medios Audiovisuales', 'Sistemas', 'Comercial', 'Talento Humano', 'Administración', 'select', ''];
+		const validOptions = ['Creativo', 'Diseño Web', 'Ejecutivo de Cuenta', 'Medios Audiovisuales', 'Sistemas', 'Comercial', 'Publicidad Digital', 'Talento Humano', 'Administración', 'select', ''];
 		const isOtherOption = !validOptions.includes(selectedValue);
 
 		if (isOtherOption) {
@@ -715,7 +718,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 		setDateEnd(event.target.value);
 	}
 
-	const handleCellphoneChange = (event) =>{
+	const handleCellphoneChange = (event) => {
 		setCellphone(event.target.value);
 	}
 
@@ -779,6 +782,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 				return (
 					<>
 						<option value="Comercial">Comercial</option>
+						<option value="Publicidad Digital">Publicidad Digital</option>
 					</>
 				);
 			case 'Operativo':
@@ -822,8 +826,17 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 						<option value="Asistente de Logística">Asistente de Logística</option>
 						<option value="Cerradores">Cerradores</option>
 						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Líder de Perfil Asistente Comercial">Líder de Perfil Asistente Comercial</option>
+						<option value="Líder de Perfil Cerradores">Líder de Perfil Cerradores</option>
 						<option value="Líder de Perfil de Asistencia Logística">Líder de Perfil de Asistencia Logística</option>
 						<option value="Líder de Perfil Ejecutivo de Cuentas">Líder de Perfil Ejecutivo de Cuentas</option>
+					</>
+				);
+			case 'Publicidad Digital':
+				return (
+					<>
+						<option value="Asistente de Publicidad Digital">Asistente de Publicidad Digital</option>
+						<option value="Líder de Perfil de Publicidad Digital">Líder de Perfil de Publicidad Digital</option>
 					</>
 				);
 			case 'Creativo':
@@ -837,7 +850,9 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 				return (
 					<>
 						<option value="Líder de Núcleo de Diseño Web">Líder de Núcleo de Diseño Web</option>
+						<option value="Maquetador UI/UX">Maquetador UI/UX</option>
 						<option value="Maquetador Web">Maquetador Web</option>
+						<option value="Desarrollador Web SEO">Desarrollador Web SEO</option>
 						<option value="Desarrollador Web - Wordpress">Desarrollador Web - Wordpress</option>
 					</>
 				);
@@ -905,7 +920,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="names"
 											value={Name}
 											onChange={handleNameChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresar nombres completos"
 										/>
 									</div>
@@ -921,7 +936,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="lastname"
 											value={Surname}
 											onChange={handleSurnameChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresar ambos apellidos"
 										/>
 									</div>
@@ -937,7 +952,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="dni"
 											value={Dni}
 											onChange={handleDniChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresar número de DNI"
 										/>
 									</div>
@@ -953,7 +968,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="birthday"
 											value={Birthday}
 											onChange={handleBirthdayChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										/>
 									</div>
 									<div className="w-full">
@@ -968,7 +983,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="email"
 											value={Email}
 											onChange={handleEmailChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresa el e-mail"
 										/>
 									</div>
@@ -984,11 +999,11 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="tel"
 											value={Cellphone}
 											onChange={handleCellphoneChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresa el número de teléfono"
 										/>
 									</div>
-									
+
 									<div className="w-full">
 										<span
 											className="block mb-1 font-medium text-gray-900"
@@ -1006,12 +1021,12 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 												<select
 													value={StatusDescription}
 													onChange={handleStatusDescriptionChange}
-													className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300 bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+													className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300 bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 												>
 													<option value="Termino su convenio">Termino Convenio</option>
 													<option value="Retirado">Retirado</option>
 												</select>
-											) }
+											)}
 										</div>
 
 									</div>
@@ -1027,7 +1042,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										<select
 											id="departament"
 											value={Departament}
-											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											onChange={handleDepartamentChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										>
 											<option value="">Selecciona</option>
 											<option value="Administrativo">Administrativo</option>
@@ -1046,7 +1061,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="area"
 											value={Area}
 											onChange={handleAreaChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										>
 											<option value="select">Selecciona</option>
 											{Departament && (
@@ -1059,7 +1074,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 												type="text"
 												id="area"
 												value={Area} onChange={handleAreaChange}
-												className="w-full mt-1 p-2 text-gray-900 rounded-md border-2 border-green-600  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+												className="w-full mt-1 p-2 text-gray-900 rounded-md border-2 border-green-600  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 												placeholder="Ingresa el núcleo"
 											/>
 										)}
@@ -1075,7 +1090,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="profile"
 											value={Profile}
 											onChange={handleProfileChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										>
 											<option>Selecciona</option>
 											{Area && (
@@ -1094,10 +1109,15 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 										<select
 											id="rol"
 											value={Role}
-											onChange={handleRoleChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											onChange={handleRoleChange} className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
+											disabled={localStorage.getItem('rol') === 'Gerencia' ? false : (Role === 1 ? true : false)}
 										>
 											<option value="">Selecciona</option>
-											<option value="1">Gerencia</option>
+											{localStorage.getItem('rol') === 'Gerencia' ? 
+											<option value="1">Gerencia</option> :
+											<option value="1" disabled={Role !== 1 ? true : false}>Gerencia</option>}
+											{/* {localStorage.getItem('rol') === 'Gerencia' &&
+												<option value="1">Gerencia</option>} */}
 											<option value="2">Líder Núcleo</option>
 											<option value="3">Colaborador</option>
 										</select>
@@ -1113,7 +1133,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="shift"
 											value={Shift}
 											onChange={handleShiftChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										>
 											<option>Selecciona</option>
 											<option value="Mañana">Mañana</option>
@@ -1132,7 +1152,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="responsable"
 											value={Responsible}
 											onChange={handleResponsibleChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 											placeholder="Ingresa el nombre completo"
 										/>
 									</div> */}
@@ -1148,7 +1168,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											id="startDate"
 											value={DateStart}
 											onChange={handleDateStartChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										/>
 									</div>
 									<div className="w-full">
@@ -1162,7 +1182,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 											type="date"
 											id="endDate"
 											value={DateEnd} onChange={handleDateEndChange}
-											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-700 font-semibold"
+											className="w-full p-2 text-gray-900 rounded-md border-b-2 border-gray-300  bg-white drop-shadow-md outline-none sm:text-md placeholder-gray-500 font-semibold"
 										/>
 									</div>
 								</div>
@@ -1198,7 +1218,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 							</div>
 						</div>
 
-						<div className="flex flex-col md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b space-y-2 md:space-x-4 md:space-y-0">
+						<div className="flex flex-col-reverse md:flex-row items-center justify-between p-2 md:p-6 border-t border-solid border-slate-200 rounded-b gap-2 md:gap-4">
 							<button
 								className="w-full py-2 px-8 rounded-md text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary flex items-center justify-center text-xl font-semibold uppercase active:scale-95 ease-in-out duration-300"
 								type="button"
@@ -1219,4 +1239,9 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			<div className="opacity-25 fixed inset-0 z-20 bg-black"></div>
 		</div >
 	)
+}
+ModalUpdateUser.propTypes = {
+	usuario: PropTypes.object,
+	editarUsuario: PropTypes.func,
+	cerrarEditarModal: PropTypes.func,
 }
