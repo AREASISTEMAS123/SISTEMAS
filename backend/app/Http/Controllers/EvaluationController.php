@@ -25,6 +25,7 @@ class EvaluationController extends Controller
         $evaluation_data = Profile::where('user_id', $user_id)->whereHas('user', function ($query) {
             $query->where('status', 1);
         })->first();
+
         $user_role = Model_has_role::where('model_id', $evaluation_data->user_id)
             ->where('model_type', 'App\Models\User')
             ->pluck('role_id')
@@ -34,10 +35,14 @@ class EvaluationController extends Controller
             $this->saveEvaluation($evaluation_data, $user_role);
             exit();
         }
-        //Funciona siempre y cuando haya un registro
-        else if ($user_role != 1) {
-            //cuando las 2 tablas no tienen notas, no funciona y cuando solo uno tiene nula si funciona
-            $leadershipEvaluation = $user_role == 2 ? LeadershipEvaluation::find($user_id) : SoftSkills::find($user_id);
+        $evaluation_ids = Evaluation::where('user_id', $user_id)->pluck('id');
+        $hasNullNotes = false;
+        foreach ($evaluation_ids as $evaluation_id) {
+
+            // Aquí realizas la lógica para verificar las notas en las tablas correspondientes
+            $leadershipEvaluation = $user_role == 2 ? LeadershipEvaluation::where('evaluation_id', $evaluation_id)->first() : SoftSkills::where('evaluation_id', $evaluation_id)->first();
+            $autoevaluationpEvaluation = $user_role == 2 ? Autoevaluation::where('evaluation_id', $evaluation_id)->first() : Performance::where('evaluation_id', $evaluation_id)->first();
+
 
             // Verificar si el objeto $leadershipEvaluation no es nulo antes de acceder a las propiedades
             if ($leadershipEvaluation !== null) {
@@ -53,8 +58,6 @@ class EvaluationController extends Controller
                 $note4 = null;
             }
 
-            $autoevaluationpEvaluation = $user_role == 2 ? Autoevaluation::find($user_id) : Performance::find($user_id);
-
             // Verificar si el objeto $autoevaluationpEvaluation no es nulo antes de acceder a las propiedades
             if ($autoevaluationpEvaluation !== null) {
                 $note5 = $autoevaluationpEvaluation->note1;
@@ -68,30 +71,24 @@ class EvaluationController extends Controller
                 $note7 = null;
                 $note8 = null;
             }
-
-
             $total_notes = [$note1, $note2, $note3, $note4, $note5, $note6, $note7, $note8];
-            $booleano = true;
             foreach ($total_notes as $notes) {
                 if ($notes == null) {
-                    $booleano = false;
-                    print("Si tengo nulos");
-                    exit();
+                    $hasNullNotes = true;
                 }
             }
-            if ($booleano) {
-                if ($evaluation_data) {
-                    print("no tenía nulos");
-                    $this->saveEvaluation($evaluation_data, $user_role);
-                }
 
-            }
 
         }
-        return response()->json(['evaluations' => $evaluation_data]);
+        if (!$hasNullNotes) {
+
+            $this->saveEvaluation($evaluation_data, $user_role);
+            return response()->json(['message' => 'Se ha creado una nueva evaluación.']);
+        }
+        return response()->json(['error' => 'Hay evaluaciones con nulo.']);
+
     }
 
-    
     public function saveEvaluation($evaluation_data, $user_role)
     {
         $new_evaluation = new Evaluation();
@@ -165,8 +162,7 @@ class EvaluationController extends Controller
 
     public function updateSoftSkills($id, Request $request)
     {
-        $softSkills = SoftSkills::find($id);
-
+        $softSkills = SoftSkills::where('evaluation_id', $id)->first();
         $user_id = auth()->id();
 
         $softSkills->evaluator_id = $user_id;
@@ -183,7 +179,7 @@ class EvaluationController extends Controller
         $softSkills->save();
         //insertar promedios mensuales
         $performanceAverage = Performance::where('evaluation_id', $id)->pluck('prom_end')->first();
-        $ejemplo = $this->calcAverage($id, $prom_end, $performanceAverage);
+        $this->calcAverage($id, $prom_end, $performanceAverage);
 
         return response()->json([
             'softSkills' => $softSkills,
@@ -194,8 +190,8 @@ class EvaluationController extends Controller
 
     public function updatePerformance($id, Request $request)
     {
-        $performance = Performance::find($id);
 
+        $performance = Performance::where('evaluation_id', $id)->first();
         $user_id = auth()->id();
 
         $performance->evaluator_id = $user_id;
@@ -213,7 +209,7 @@ class EvaluationController extends Controller
 
         //insertar promedios mensuales
         $softSkillsAverage = SoftSkills::where('evaluation_id', $id)->pluck('prom_end')->first();
-        $ejemplo = $this->calcAverage($id, $prom_end, $softSkillsAverage);
+        $this->calcAverage($id, $prom_end, $softSkillsAverage);
 
         return response()->json([
             'performance' => $performance,
@@ -224,7 +220,8 @@ class EvaluationController extends Controller
 
     public function updateLeadership($id, Request $request)
     {
-        $leadership = LeadershipEvaluation::find($id);
+        $leadership = LeadershipEvaluation::where('evaluation_id', $id)->first();
+
 
         $user_id = auth()->id();
 
@@ -243,7 +240,7 @@ class EvaluationController extends Controller
 
         //insertar promedios mensuales
         $AutoevaluationAverage = Autoevaluation::where('evaluation_id', $id)->pluck('prom_end')->first();
-        $ejemplo = $this->calcAverage($id, $prom_end, $AutoevaluationAverage);
+        $this->calcAverage($id, $prom_end, $AutoevaluationAverage);
 
         return response()->json([
             'leadership' => $leadership,
@@ -254,7 +251,8 @@ class EvaluationController extends Controller
 
     public function updateAutoevaluation($id, Request $request)
     {
-        $autoevaluation = Autoevaluation::find($id);
+
+        $autoevaluation = Autoevaluation::where('evaluation_id', $id)->first();
 
         $user_id = auth()->id();
 
@@ -272,7 +270,7 @@ class EvaluationController extends Controller
         $autoevaluation->save();
         //insertar promedios mensuales
         $LeadershipAverage = LeadershipEvaluation::where('evaluation_id', $id)->pluck('prom_end')->first();
-        $ejemplo = $this->calcAverage($id, $prom_end, $LeadershipAverage);
+        $this->calcAverage($id, $prom_end, $LeadershipAverage);
         return response()->json([
             'autoevaluation' => $autoevaluation,
             'prom_pr_quincenal' => $prom_quincenal_1,
