@@ -105,7 +105,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('evaluations/insert/{id}', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
     Route::post('evaluations/average/{id}', [App\Http\Controllers\EvaluationController::class, 'calcAverage']);
 
-
     Route::post('/attendances-generate', [App\Http\Controllers\AttendanceReportController::class, 'generateReport']);
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index']);
     Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);
@@ -117,5 +116,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('holidays/{id}/delete', [App\Http\Controllers\HolidayController::class, 'destroyHoliday']);
 
     Route::get('reports', [App\Http\Controllers\ReporteController::class, 'getAllReports']);
-    Route::get('/reports-user', [App\Http\Controllers\ReporteController::class, 'getUsersData']);
+    Route::post('/reports-user', [App\Http\Controllers\ReporteController::class, 'getUsersData']);
 });

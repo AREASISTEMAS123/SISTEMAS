@@ -107,7 +107,7 @@ class AuthController extends Controller
         if($role->role_id == '1'){
             $name_role = 'Gerencia';
             return response()->json([
-                'message' => 'Hi'.$user->name,
+                'message' => 'Hola '.$user->name,
                 'accessToken' => $token,
                 'token_type' => 'Bearer',
                 'user' => $user,
@@ -118,7 +118,7 @@ class AuthController extends Controller
         } elseif($role->role_id == '2'){
             $name_role = 'Lider Nucleo';
             return response()->json([
-                'message' => 'Hi'.$user->name,
+                'message' => 'Hola '.$user->name,
                 'accessToken' => $token,
                 'token_type' => 'Bearer',
                 'user' => $user,
@@ -129,7 +129,7 @@ class AuthController extends Controller
         }else{
             $name_role = 'Colaborador';
             return response()->json([
-                'message' => 'Hi'.$user->name,
+                'message' => 'Hola '.$user->name,
                 'accessToken' => $token,
                 'token_type' => 'Bearer',
                 'user' => $user,
