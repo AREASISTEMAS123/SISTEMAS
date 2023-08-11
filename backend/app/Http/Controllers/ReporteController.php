@@ -55,19 +55,7 @@ class ReporteController extends Controller
 
     public function getAllReports()
     {
-        // Por áreas
-        $profiles = Profile::get();
-
-        //array con todos las áreas y departamentos
-        $departmentsArray = [
-            "Departament" => [
-                "Administrativo" => ["Administración", "Talento Humano"],
-                "Comercial" => ["Comercial"],
-                "Operativo" => ["Creativo", "Diseño Web", "Ejecutivo de Cuenta", "Medios Audiovisuales", "Sistemas", "Otro"],
-                "default" => [""]
-            ]
-        ];
-        //Por Administración
+        //colaboradores en general
         $arrArea = ["Administración", "Talento Humano", "Comercial", "Creativo", "Diseño Web", "Ejecutivo de Cuenta", "Medios Audiovisuales", "Sistemas", "Otro"];
         $averagesoftArea = array_fill(0, 9, null);
         $averagePerformanceArea = array_fill(0, 9, null);
@@ -110,7 +98,136 @@ class ReporteController extends Controller
         }
         $promedioPerformance = count($arperformance) > 0 ? $promedioPerformance / (count($arperformance)) : 0;
 
-        return response()->json(['average_prom_soft' => $promedioSoft, 'average_prom_performance' => $promedioPerformance]);
+        //Leadership
+        $arLeadership = LeadershipEvaluation::get();
+        $promedioLeadership = 0.0;
+        foreach ($arLeadership as $Leadership) {
+            $promedioLeadership = $Leadership->prom_end + $promedioLeadership;
+        }
+        $promedioLeadership = (count($arLeadership)) > 0 ? $promedioLeadership / (count($arLeadership)) : 0;
+        //Autoevalution
+        $arAutoevaluation = Autoevaluation::get();
+        $promedioAutoevalution = 0.0;
+        foreach ($arAutoevaluation as $Autoevalution) {
+            $promedioAutoevalution = $Autoevalution->prom_end + $promedioAutoevalution;
+        }
+        $promedioAutoevalution = (count($arAutoevaluation)) > 0 ? $promedioAutoevalution / (count($arAutoevaluation)) : 0;
+
+
+        //SoftSkills: 
+        $promedioAdministrativosoft = ($averagesoftArea[0] + $averagesoftArea[1]) / 2;
+        $promedioOperativosoft = ($averagesoftArea[3] + $averagesoftArea[4] + $averagesoftArea[5] + $averagesoftArea[6] + $averagesoftArea[7] + $averagesoftArea[8]) / 6;
+        //Peformance: 
+        $promedioAdministrativoPerformance = ($averagePerformanceArea[0] + $averagePerformanceArea[1]) / 2;
+        $promedioOperativoPerformance = ($averagePerformanceArea[3] + $averagePerformanceArea[4] + $averagePerformanceArea[5] + $averagePerformanceArea[6] + $averagePerformanceArea[7] + $averagePerformanceArea[8]) / 6;
+        //Leadership: 
+        $promedioAdministrativoLeadership = ($averageLeadershipArea[0] + $averageLeadershipArea[1]) / 2;
+        $promedioOperativoLeadership = ($averageLeadershipArea[3] + $averageLeadershipArea[4] + $averageLeadershipArea[5] + $averageLeadershipArea[6] + $averageLeadershipArea[7] + $averageLeadershipArea[8]) / 6;
+        //Autoevaluation
+        $promedioAdministrativoAutoevaluation = ($averageAutoevaluationArea[0] + $averageAutoevaluationArea[1]) / 2;
+        $promedioOperativoAutoevaluation = ($averageAutoevaluationArea[3] + $averageAutoevaluationArea[4] + $averageAutoevaluationArea[5] + $averageAutoevaluationArea[6] + $averageAutoevaluationArea[7] + $averageAutoevaluationArea[8]) / 6;
+
+        return response()->json([
+            'average_prom_soft' => [
+                'total' => $promedioSoft,
+                'Departament' => [
+                    'Administrativo' => [
+                        'Promedio' => $promedioAdministrativosoft,
+                        'Administración' => $averagesoftArea[0],
+                        'Talento_Humano' => $averagesoftArea[1]
+                    ],
+                    'Comercial' => [
+                        'Promedio' => $averagesoftArea[2],
+                        'Comercial' => $averagesoftArea[2]
+                    ],
+                    'Operativo' => [
+                        'Promedio' => $promedioOperativosoft,
+                        'Creativo' => $averagesoftArea[3],
+                        'Diseño_Web' => $averagesoftArea[4],
+                        'Ejecutivo_de_Cuenta' => $averagesoftArea[5],
+                        'Medios_AudioVisuales' => $averagesoftArea[6],
+                        'Sistemas' => $averagesoftArea[7],
+                        'Otro' => $averagesoftArea[8]
+                    ],
+
+                ]
+            ],
+            'average_prom_performance' => [
+                'total' => $promedioPerformance,
+                'Departament' => [
+                    'Administrativo' => [
+                        'Promedio' => $promedioAdministrativoPerformance,
+                        'Administración' => $averagePerformanceArea[0],
+                        'Talento_Humano' => $averagePerformanceArea[1],
+                    ],
+                    'Comercial' => [
+                        'Promedio' => $averagePerformanceArea[2],
+                        'Comercial' => $averagePerformanceArea[2]
+                    ],
+                    'Operativo' => [
+                        'Promedio' => $promedioOperativoPerformance,
+                        'Creativo' => $averagePerformanceArea[3],
+                        'Diseño_Web' => $averagePerformanceArea[4],
+                        'Ejecutivo_de_Cuenta' => $averagePerformanceArea[5],
+                        'Medios_AudioVisuales' => $averagePerformanceArea[6],
+                        'Sistemas' => $averagePerformanceArea[7],
+                        'Otro' => $averagePerformanceArea[8]
+                    ],
+
+                ]
+            ],
+            'average_prom_Leadership' => [
+                'total' => $promedioLeadership,
+                'Departament' => [
+                    'Administrativo' => [
+                        'Promedio' => $promedioAdministrativoLeadership,
+                        'Administración' => $averageLeadershipArea[0],
+                        'Talento_Humano' => $averageLeadershipArea[1]
+                    ],
+                    'Comercial' => [
+                        'Promedio' => $averageLeadershipArea[2],
+                        'Comercial' => $averageLeadershipArea[2]
+                    ],
+                    'Operativo' => [
+                        'Promedio' => $promedioOperativoLeadership,
+                        'Creativo' => $averageLeadershipArea[3],
+                        'Diseño_Web' => $averageLeadershipArea[4],
+                        'Ejecutivo_de_Cuenta' => $averageLeadershipArea[5],
+                        'Medios_AudioVisuales' => $averageLeadershipArea[6],
+                        'Sistemas' => $averageLeadershipArea[7],
+                        'Otro' => $averageLeadershipArea[8]
+                    ],
+
+                ]
+            ],
+            'average_prom_Autoevaluation' => [
+                'total' => $promedioAutoevalution,
+                'Departament' => [
+                    'Administrativo' => [
+                        'Promedio' => $promedioAdministrativoAutoevaluation,
+                        'Administración' => $averageAutoevaluationArea[0],
+                        'Talento_Humano' => $averageAutoevaluationArea[1]
+                    ],
+                    'Comercial' => [
+                        'Promedio' => $averageAutoevaluationArea[2],
+                        'Comercial' => $averageAutoevaluationArea[2]
+                    ],
+                    'Operativo' => [
+                        'Promedio' => $promedioOperativoAutoevaluation,
+                        'Creativo' => $averageAutoevaluationArea[3],
+                        'Diseño_Web' => $averageAutoevaluationArea[4],
+                        'Ejecutivo_de_Cuenta' => $averageAutoevaluationArea[5],
+                        'Medios_AudioVisuales' => $averageAutoevaluationArea[6],
+                        'Sistemas' => $averageAutoevaluationArea[7],
+                        'Otro' => $averageAutoevaluationArea[8]
+                    ],
+
+                ]
+            ]
+        ]);
+
+
+
     }
 
     public function getUsersData(Request $request) {
