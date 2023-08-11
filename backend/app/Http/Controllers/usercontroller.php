@@ -33,7 +33,7 @@ class usercontroller extends Controller
         $delay = Attendance::all()->where('user_id', $id)->where("delay", "1")->count();
         $justification = Attendance::all()->where('user_id', $id)->where("justification","0")->where("absence", "1")->count();
         $role = Model_has_role::where('model_id', $id)->firstOrFail();
-        $img = User::with('media')->where('id', $id)->first()->getMedia('avatars');
+        $img = User::with('media')->where('id', $id)->get('id');
         $evaluation = Evaluation::where('user_id', $id)->with("Performance", "softSkills", "autoEvaluation", "leadershipEvaluations")->first();
 
         if ($role->role_id == '1'){
