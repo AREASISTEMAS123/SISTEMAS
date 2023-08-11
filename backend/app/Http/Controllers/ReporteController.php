@@ -55,15 +55,15 @@ class ReporteController extends Controller
 
     public function getAllReports()
     {
-        //colaboradores en general
+        //Colaboradores en general
         $arrArea = ["Administración", "Talento Humano", "Comercial", "Creativo", "Diseño Web", "Ejecutivo de Cuenta", "Medios Audiovisuales", "Sistemas", "Otro"];
         $averagesoftArea = array_fill(0, 9, null);
         $averagePerformanceArea = array_fill(0, 9, null);
         $averageAutoevaluationArea = array_fill(0, 9, null);
         $averageLeadershipArea = array_fill(0, 9, null);
-        // Crear un array para almacenar solo los valores de "department"
-        //filtrar dato por area 
 
+        //Crear un array para almacenar solo los valores de "department"
+        //Filtrar dato por area 
         for ($contador = 0; $contador < 9; $contador++) {
             $averagesoftArea[$contador] = SoftSkills::whereHas('evaluation.profile', function ($query) use ($arrArea, $contador) {
                 $query->where('department', $arrArea[$contador]);
@@ -81,8 +81,8 @@ class ReporteController extends Controller
                 $query->where('department', $arrArea[$contador]);
             })->avg('prom_end');
         }
+        
         //softskills
-
         $arSoftSkills = SoftSkills::get();
         $promedioSoft = 0.0;
         foreach ($arSoftSkills as $softskills) {
@@ -90,7 +90,7 @@ class ReporteController extends Controller
         }
         $promedioSoft = count($arSoftSkills) > 0 ? $promedioSoft / (count($arSoftSkills)) : 0;
 
-        //performance
+        //Performance
         $arperformance = Performance::get();
         $promedioPerformance = 0.0;
         foreach ($arperformance as $performance) {
@@ -104,7 +104,9 @@ class ReporteController extends Controller
         foreach ($arLeadership as $Leadership) {
             $promedioLeadership = $Leadership->prom_end + $promedioLeadership;
         }
+
         $promedioLeadership = (count($arLeadership)) > 0 ? $promedioLeadership / (count($arLeadership)) : 0;
+        
         //Autoevalution
         $arAutoevaluation = Autoevaluation::get();
         $promedioAutoevalution = 0.0;
@@ -113,16 +115,18 @@ class ReporteController extends Controller
         }
         $promedioAutoevalution = (count($arAutoevaluation)) > 0 ? $promedioAutoevalution / (count($arAutoevaluation)) : 0;
 
-
         //SoftSkills: 
         $promedioAdministrativosoft = ($averagesoftArea[0] + $averagesoftArea[1]) / 2;
         $promedioOperativosoft = ($averagesoftArea[3] + $averagesoftArea[4] + $averagesoftArea[5] + $averagesoftArea[6] + $averagesoftArea[7] + $averagesoftArea[8]) / 6;
+        
         //Peformance: 
         $promedioAdministrativoPerformance = ($averagePerformanceArea[0] + $averagePerformanceArea[1]) / 2;
         $promedioOperativoPerformance = ($averagePerformanceArea[3] + $averagePerformanceArea[4] + $averagePerformanceArea[5] + $averagePerformanceArea[6] + $averagePerformanceArea[7] + $averagePerformanceArea[8]) / 6;
+        
         //Leadership: 
         $promedioAdministrativoLeadership = ($averageLeadershipArea[0] + $averageLeadershipArea[1]) / 2;
         $promedioOperativoLeadership = ($averageLeadershipArea[3] + $averageLeadershipArea[4] + $averageLeadershipArea[5] + $averageLeadershipArea[6] + $averageLeadershipArea[7] + $averageLeadershipArea[8]) / 6;
+        
         //Autoevaluation
         $promedioAdministrativoAutoevaluation = ($averageAutoevaluationArea[0] + $averageAutoevaluationArea[1]) / 2;
         $promedioOperativoAutoevaluation = ($averageAutoevaluationArea[3] + $averageAutoevaluationArea[4] + $averageAutoevaluationArea[5] + $averageAutoevaluationArea[6] + $averageAutoevaluationArea[7] + $averageAutoevaluationArea[8]) / 6;
@@ -221,13 +225,9 @@ class ReporteController extends Controller
                         'Sistemas' => $averageAutoevaluationArea[7],
                         'Otro' => $averageAutoevaluationArea[8]
                     ],
-
                 ]
             ]
         ]);
-
-
-
     }
 
     public function getUsersData(Request $request) {
@@ -238,6 +238,7 @@ class ReporteController extends Controller
         $userPerYear = 0;
         $userPerYearMonth = 0;
 
+        //Recorremos el arreglo de datos
         foreach ($userData as $user) {
             $fecha = $user->date_start; //2023-05-22
             $fechaSegundos = strtotime($fecha);
@@ -260,7 +261,8 @@ class ReporteController extends Controller
                 }
             }
         }
-    
+        
+        //Usamos Group by para contar por cada una de las opciones
         $userCountYear = Profile::count();
         $userActive = User::where('status', 1)->count();
         $userInactive = User::where('status', 0)->count();
@@ -272,10 +274,23 @@ class ReporteController extends Controller
 
         $userCountByStatusLeft = User::selectRaw('status_description, COUNT(*) as count')->groupBy('status_description')->pluck('count', 'status_description');
 
+        if ($userInactive == 0){
+            $userPercentage = 0;
+        } else {
+            $userPercentage = ($userCountYear / $userInactive) * 100;  
+        }
+        
+        //Retornamos la respuesta en formato JSON
         return response()->json([
-            'userCountYear' => $userCountYear,
-            'userActive' => $userActive,
-            'userInactive' => $userInactive,
+            'userCount' => [
+                'userCountYear' => $userCountYear,
+                'userCountYearPer' => "100%",
+                'userActive' => $userActive,
+                'userCountActivePer' => ($userCountYear / $userActive) * 100,
+                'userInactive' => $userInactive,
+                'userCountInactivePer' => $userPercentage,
+            ],
+
             'userCountsByDepartment' => $userCountsByDepartment,
             'userCountsByNucleo' => $userCountsByNucleo,
             'userCountsByProfile' => $userCountsByProfile,
