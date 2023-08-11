@@ -5,6 +5,7 @@ import { ModalAddUser, ModalUpdateUser } from "./commons";
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 
 export const VistaAdminColaborador = () => {
@@ -213,7 +214,11 @@ export const VistaAdminColaborador = () => {
       <div className="h-full">
         <section className="w-full">
           <div className="w-full mb-2">
-            <h1 className="text-xl font-semibold uppercase text-white">Colaboradores</h1>
+            <h1 className="inline-flex items-center text-base font-medium uppercase text-white">
+              <Diversity3Icon />
+              {/* Colaboradores */}
+              <span className='ml-1 text-base font-medium md:ml-2'>Colaboradores</span>
+              </h1>
           </div>
           <div className="space-y-4">
             <div className="flex flex-col items-end space-y-4 md:flex-row md:space-y-0 md:space-x-4">

@@ -198,14 +198,14 @@ export default function TablaListaColaboradores({ data,
 										<TableCell align="left" width="auto" className='whitespace-nowrap'>{users.user && users.user[0]?.name + " " + users.user[0]?.surname}</TableCell>
 										<TableCell align="left">{users.cellphone}</TableCell>
 										<TableCell align="left">{users.user && users.user[0]?.email}</TableCell>
-										<TableCell align="right">{users.dni}</TableCell>
-										<TableCell align="right">{users.department}</TableCell>
-										<TableCell align="right" className='whitespace-nowrap'>{users.area}</TableCell>
+										<TableCell align="center">{users.dni}</TableCell>
+										<TableCell align="left">{users.department}</TableCell>
+										<TableCell align="left" className='whitespace-nowrap'>{users.area}</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>{users.profile_name}</TableCell>
-										<TableCell align="right">{users.shift}</TableCell>
-										<TableCell align="right" className='whitespace-nowrap'>{users.date_start}</TableCell>
-										<TableCell align="left" className='whitespace-nowrap'>{users.date_end}</TableCell>
-										<TableCell align="right" className='whitespace-nowrap'>{users.birthday}</TableCell>
+										<TableCell align="center">{users.shift}</TableCell>
+										<TableCell align="center" className='whitespace-nowrap'>{users.date_start}</TableCell>
+										<TableCell align="center" className='whitespace-nowrap'>{users.date_end}</TableCell>
+										<TableCell align="center" className='whitespace-nowrap'>{users.birthday}</TableCell>
 										<TableCell align="left" className='whitespace-nowrap'>{users.user && users.role[0]?.role_id ? roleNames[users.role[0].role_id] : ''}</TableCell>
 										<TableCell align="center" className='whitespace-nowrap'>
 											{users.user && users.user[0].status === 1 ?
@@ -216,7 +216,7 @@ export default function TablaListaColaboradores({ data,
 												</div>
 											}
 										</TableCell>
-										<TableCell align="right" className='sticky right-0 p-1 z-10 bg-white'>
+										<TableCell align="center" className='sticky right-0 p-1 z-10 bg-white'>
 											<div className='flex items-center justify-center flex-row space-x-2'>
 												<button onClick={() => abrirEditarModal(users)} className='p-2 border rounded-md text-green-500 hover:bg-green-500 hover:text-white active:scale-95 ease-in-out duration-300'>
 													<EditIcon />

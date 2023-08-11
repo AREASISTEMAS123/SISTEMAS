@@ -253,7 +253,7 @@ export const Topbar = ({ toggleSidebar }) => {
         <div className="flex justify-between items-center space-x-2 md:space-x-5">
           <ClickAwayListener onClickAway={handleClickAwayTask}>
             <div>
-              <Tooltip title="Tareas personales">
+              <Tooltip title="Lista de tareas personales">
                 <button onClick={showTodoList} className="relative inline-flex items-center p-2 text-sm font-medium text-center text-white border border-cv-secondary hover:bg-cv-secondary rounded-lg ">
                   <ListAltIcon sx={{ fontSize: 22 }} />
                   <span className="sr-only">Tareas</span>

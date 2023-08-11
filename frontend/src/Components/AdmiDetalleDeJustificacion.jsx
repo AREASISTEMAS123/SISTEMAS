@@ -38,9 +38,6 @@ export const AdmiDetalleDeJustificacion = () => {
   }, [id, userid]);
   const navigate = useNavigate();
 
-  const OnClickRetroceder = () => {
-    navigate(`/justificaciones`);
-  }
   const onCloseModalRechazo = () => {
     setShowModalRechazado(false);
   }
@@ -81,11 +78,11 @@ export const AdmiDetalleDeJustificacion = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      // .then((data) => {
 
-        // Maneja la respuesta exitosa si es necesario
-        // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
-      })
+      //   // Maneja la respuesta exitosa si es necesario
+      //   // Aquí puedes actualizar el estado en la interfaz de usuario si deseas reflejarlo de inmediato
+      // })
       .catch((error) => {
         setMessage(error.message);
       });
@@ -122,9 +119,9 @@ export const AdmiDetalleDeJustificacion = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      // .then((data) => {
 
-      })
+      // })
       .catch((error) => {
         setMessage(error.message);
       });
@@ -132,17 +129,17 @@ export const AdmiDetalleDeJustificacion = () => {
     navigate(`/justificaciones`);
   };
 
-  const definiendo_rol = (role_id) => {
-    if (role_id === 1) {
-      return "Gerencia";
-    } else if (role_id === 2) {
-      return "Lider de nucleo";
-    } else if (role_id === 3) {
-      return "Colaborador";
-    } else {
-      return;
-    }
-  }
+  // const definiendo_rol = (role_id) => {
+  //   if (role_id === 1) {
+  //     return "Gerencia";
+  //   } else if (role_id === 2) {
+  //     return "Lider de nucleo";
+  //   } else if (role_id === 3) {
+  //     return "Colaborador";
+  //   } else {
+  //     return;
+  //   }
+  // }
   const isRechazadoOrAceptado = (prop) => {
     if (prop.decline === 1) {
       return 'Rechazado';

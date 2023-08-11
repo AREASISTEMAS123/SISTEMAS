@@ -3,11 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import moment from "moment";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-
-// import MailIcon from '@mui/icons-material/Mail';
-// import PhoneIcon from '@mui/icons-material/Phone';
-// import BadgeIcon from '@mui/icons-material/Badge';
-// import CakeIcon from '@mui/icons-material/Cake';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export const VistaPerfil = () => {
@@ -60,142 +55,140 @@ export const VistaPerfil = () => {
 
 			</div>
 			{user && (
-				<div className='w-full space-y-5'>
-					<div className='w-full flex items-center justify-between gap-5'>
-						<div className='w-full p-5 bg-cv-primary rounded-2xl text-white'>
-							<h2 className='text-xl mb-5 font-semibold text-center uppercase'>Datos Personales</h2>
-							<div className='space-y-5'>
+
+				<div className="grid grid-cols-1 md:grid-cols-5 grid-rows-8 gap-4 text-white">
+					<div className="col-span-1 md:col-span-3 row-span-5 bg-cv-primary rounded-2xl p-5 order-2 md:order-1">
+						<h2 className='text-xl mb-5 font-semibold text-center uppercase'>Datos Personales</h2>
+						<div className='space-y-5'>
+							<div className='w-full'>
+								<span className="text-sm text-gray-400">Nombres completos:</span>
+								<p className='text-base md:text-xl font-semibold leading-tight'>{user.usuario[0].user[0].name} {user.usuario[0].user[0].surname}</p>
+							</div>
+							<div className='w-full flex items-center justify-center gap-5'>
 								<div className='w-full'>
-									<span className="text-sm text-gray-400">Nombres completos:</span>
-									<p className='text-xl font-semibold leading-tight'>{user.usuario[0].user[0].name} {user.usuario[0].user[0].surname}</p>
-								</div>
-								<div className='w-full flex items-center justify-center gap-5'>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">DNI:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].dni}
-										</p>
-									</div>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Fecha de nacimiento:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{moment(user.usuario[0].birthday).format("DD/MM/YYYY")}
-										</p>
-									</div>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Teléfono:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].cellphone}
-										</p>
-									</div>
+									<span className="text-sm text-gray-400">DNI:</span>
+									<p className='text-base md:text-xl font-semibold leading-tight'>
+										{user.usuario[0].dni}
+									</p>
 								</div>
 								<div className='w-full'>
-									<span className="text-sm text-gray-400">Correo electrónico</span>
-									<p className='text-xl font-semibold leading-tight'>
-										{user.usuario[0].user[0].email}
+									<span className="text-sm text-gray-400">Fecha de nacimiento:</span>
+									<p className='text-base md:text-xl font-semibold leading-tight'>
+										{moment(user.usuario[0].birthday).format("DD/MM/YYYY")}
+									</p>
+								</div>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Teléfono:</span>
+									<p className='text-base md:text-xl font-semibold leading-tight'>
+										{user.usuario[0].cellphone}
+									</p>
+								</div>
+							</div>
+							<div className='w-full'>
+								<span className="text-sm text-gray-400">Correo electrónico</span>
+								<p className='text-base md:text-xl font-semibold leading-tight'>
+									{user.usuario[0].user[0].email}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div className="col-span-1 md:col-span-2 row-span-5 md:col-start-4 bg-cv-primary rounded-2xl p-5 order-1 md:order-2">
+						<div className='w-full h-full flex items-center justify-center'>
+							<img src="https://images.pexels.com/photos/17864986/pexels-photo-17864986.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="" className='w-60 h-60 flex items-center justify-center rounded-full object-cover bg-cv-primary' />
+						</div>
+					</div>
+					<div className="col-span-1 md:col-span-3 row-span-3 md:row-start-6  bg-cv-primary rounded-2xl p-5 order-3 md:order-3">
+						<h2 className='text-xl mb-5 font-semibold text-center uppercase'>Datos de la empresa</h2>
+						<div className='space-y-5'>
+
+							<div className='w-full flex items-center justify-center gap-5'>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Departamento:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.usuario[0].department}
+									</p>
+								</div>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Núcleo:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.usuario[0].area}
+									</p>
+								</div>
+							</div>
+							<div className='w-full flex items-center justify-center gap-5'>
+
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Perfil:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.usuario[0].profile_name}
+									</p>
+								</div>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Rol:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.rol}
+									</p>
+								</div>
+
+							</div>
+							<div className='w-full flex items-center justify-center md:gap-5'>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Fecha de ingreso:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.usuario[0].date_start}
+									</p>
+								</div>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Fecha de salida:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.usuario[0].date_end}
+									</p>
+								</div>
+							</div>
+							<div className='w-full flex items-center justify-center gap-5'>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Turno:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{user.usuario[0].shift}
+									</p>
+								</div>
+								<div className='w-full'>
+									<span className="text-sm text-gray-400">Estado:</span>
+									<p className='text-base md:text-lg font-semibold leading-tight'>
+										{`${user.usuario[0].user[0].status === 1 ? 'Activo' : 'Inactivo'} - ${user.usuario[0].user[0].status !== 1 ? user.usuario[0].user[0].status_description : null}`}
 									</p>
 								</div>
 							</div>
 						</div>
-						<div className='p-4 bg-cv-primary rounded-2xl'>
-							<div className='w-60 h-60 flex items-center justify-center'>
-								<img src="https://images.pexels.com/photos/17864986/pexels-photo-17864986.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="" className='w-60 h-60 flex items-center justify-center rounded-full object-cover bg-cv-primary' />
-							</div>
-						</div>
 					</div>
-					<div className='w-full flex items-center justify-between gap-5'>
-						<div className='w-full p-5 bg-cv-primary rounded-2xl text-white'>
-							<h2 className='text-xl mb-5 font-semibold text-center uppercase'>Datos de la empresa</h2>
-							<div className='space-y-5'>
-
-								<div className='w-full flex items-center justify-center gap-5'>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Departamento:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].department}
-										</p>
-									</div>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Núcleo:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].area}
-										</p>
-									</div>									
-								</div>
-								<div className='w-full flex items-center justify-center gap-5'>
-
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Perfil:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].profile_name}
-										</p>
-									</div>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Rol:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.rol}
-										</p>
-									</div>
-									
-								</div>
-								<div className='w-full flex items-center justify-center gap-5'>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Fecha de ingreso:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].date_start}
-										</p>
-									</div>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Fecha de salida:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].date_end}
-										</p>
-									</div>
-								</div>
-								<div className='w-full flex items-center justify-center gap-5'>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Turno:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].shift}
-										</p>
-									</div>
-									<div className='w-full'>
-										<span className="text-sm text-gray-400">Estado:</span>
-										<p className='text-xl font-semibold leading-tight'>
-											{user.usuario[0].user[0].status === 1 ? 'Activo' : 'Inactivo'}
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className='w-full p-5 bg-cv-primary rounded-2xl text-white'>
-							<h2 className='text-xl mb-5 font-semibold text-center uppercase'>Datos de Asistencia</h2>
-							<div className='w-full'>
-								<ResponsiveContainer width="100%" height={300} className="mx-auto">
-									<BarChart
-										data={[
-											{ name: 'A', Asistencias: user.Asistencia },
-											{ name: 'T', Tardanzas: user.Tardanzas },
-											{ name: 'J', Justificaciones: user.Justificaciones },
-											{ name: 'F', Faltas: user.Faltas },
-										]}
-										barSize={40}
-									>
-										<XAxis dataKey="name" />
-										<YAxis />
-										<CartesianGrid strokeDasharray="0 1" />
-										<Tooltip />
-										<Legend />
-										<Bar dataKey="Asistencias" fill="#4CAF50" />
-										<Bar dataKey="Tardanzas" fill="#FFC300" />
-										<Bar dataKey="Justificaciones" fill="#36A2EB" />
-										<Bar dataKey="Faltas" fill="#FF5733" />
-									</BarChart>
-								</ResponsiveContainer>
-							</div>
+					<div className="col-span-1 md:col-span-2 row-span-3 md:col-start-4 md:row-start-6 bg-cv-primary rounded-2xl text-white p-5 order-4 md:order-4">
+						<h2 className='text-xl mb-5 font-semibold text-center uppercase'>Datos de Asistencia</h2>
+						<div className='w-full'>
+							<ResponsiveContainer width="100%" height={270} className="mx-auto">
+								<BarChart
+									data={[
+										{ name: 'A', Asistencias: user.Asistencia },
+										{ name: 'T', Tardanzas: user.Tardanzas },
+										{ name: 'J', Justificaciones: user.Justificaciones },
+										{ name: 'F', Faltas: user.Faltas },
+									]}
+									barSize={40}
+								>
+									<XAxis dataKey="name" />
+									<YAxis />
+									<CartesianGrid strokeDasharray="0 1" />
+									<Tooltip />
+									<Legend />
+									<Bar dataKey="Asistencias" fill="#4CAF50" />
+									<Bar dataKey="Tardanzas" fill="#FFC300" />
+									<Bar dataKey="Justificaciones" fill="#36A2EB" />
+									<Bar dataKey="Faltas" fill="#FF5733" />
+								</BarChart>
+							</ResponsiveContainer>
 						</div>
 					</div>
 				</div>
+
 			)}
 		</ >
 
