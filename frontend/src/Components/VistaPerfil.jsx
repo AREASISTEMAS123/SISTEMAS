@@ -155,7 +155,7 @@ export const VistaPerfil = () => {
 								<div className='w-full'>
 									<span className="text-sm text-gray-400">Estado:</span>
 									<p className='text-base md:text-lg font-semibold leading-tight'>
-										{`${user.usuario[0].user[0].status === 1 ? 'Activo' : 'Inactivo'} - ${user.usuario[0].user[0].status !== 1 ? user.usuario[0].user[0].status_description : null}`}
+										{`${user.usuario[0].user[0].status === 1 ? 'Activo' : 'Inactivo'} ${user.usuario[0].user[0].status !== 1 ? user.usuario[0].user[0].status_description : ''}`}
 									</p>
 								</div>
 							</div>

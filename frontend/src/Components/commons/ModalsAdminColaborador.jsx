@@ -207,6 +207,8 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 						<option value="Asistente de Logística">Asistente de Logística</option>
 						<option value="Cerradores">Cerradores</option>
 						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Líder de Perfil Asistente Comercial">Líder de Perfil Asistente Comercial</option>
+						<option value="Líder de Perfil Cerradores">Líder de Perfil Cerradores</option>
 						<option value="Líder de Perfil de Asistencia Logística">Líder de Perfil de Asistencia Logística</option>
 						<option value="Líder de Perfil Ejecutivo de Cuentas">Líder de Perfil Ejecutivo de Cuentas</option>
 					</>
@@ -214,6 +216,7 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 			case 'Publicidad Digital':
 				return (
 					<>
+						<option value="Asistente de Publicidad Digital">Asistente de Publicidad Digital</option>
 						<option value="Líder de Perfil de Publicidad Digital">Líder de Perfil de Publicidad Digital</option>
 					</>
 				);
@@ -228,7 +231,9 @@ export const ModalAddUser = ({ agregarUsuario, cerrarAgregarModal }) => {
 				return (
 					<>
 						<option value="Líder de Núcleo de Diseño Web">Líder de Núcleo de Diseño Web</option>
+						<option value="Maquetador UI/UX">Maquetador UI/UX</option>
 						<option value="Maquetador Web">Maquetador Web</option>
+						<option value="Desarrollador Web SEO">Desarrollador Web SEO</option>
 						<option value="Desarrollador Web - Wordpress">Desarrollador Web - Wordpress</option>
 					</>
 				);
@@ -821,6 +826,8 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 						<option value="Asistente de Logística">Asistente de Logística</option>
 						<option value="Cerradores">Cerradores</option>
 						<option value="Ejecutivo de Cuentas">Ejecutivo de Cuentas</option>
+						<option value="Líder de Perfil Asistente Comercial">Líder de Perfil Asistente Comercial</option>
+						<option value="Líder de Perfil Cerradores">Líder de Perfil Cerradores</option>
 						<option value="Líder de Perfil de Asistencia Logística">Líder de Perfil de Asistencia Logística</option>
 						<option value="Líder de Perfil Ejecutivo de Cuentas">Líder de Perfil Ejecutivo de Cuentas</option>
 					</>
@@ -828,6 +835,7 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 			case 'Publicidad Digital':
 				return (
 					<>
+						<option value="Asistente de Publicidad Digital">Asistente de Publicidad Digital</option>
 						<option value="Líder de Perfil de Publicidad Digital">Líder de Perfil de Publicidad Digital</option>
 					</>
 				);
@@ -842,7 +850,9 @@ export const ModalUpdateUser = ({ usuario, editarUsuario, cerrarEditarModal }) =
 				return (
 					<>
 						<option value="Líder de Núcleo de Diseño Web">Líder de Núcleo de Diseño Web</option>
+						<option value="Maquetador UI/UX">Maquetador UI/UX</option>
 						<option value="Maquetador Web">Maquetador Web</option>
+						<option value="Desarrollador Web SEO">Desarrollador Web SEO</option>
 						<option value="Desarrollador Web - Wordpress">Desarrollador Web - Wordpress</option>
 					</>
 				);
