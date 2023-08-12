@@ -197,12 +197,14 @@ class AttendanceController extends Controller
 
 
         for ($id = 1; $id <= $userCounter; $id++) {
-            $abs = Attendance::all()->where('user_id', $id)->where('absence', '1')->count();
+            $abs = Attendance::all()->where('user_id', $id)->where('absence', '1')->where('justification', '0')->count();
             if ($abs === 3) {
-                $notif = Notification::create(['user_id' => $id, 'data' => 'Este usuario tiene 3 faltas']);
+                $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 3 faltas y ha sido deshabilitado']);
                 array_push($notifications, $notif);
+                // Cambia el status del usuario a 0
+                User::where('id', $id)->update(['status' => 0]);
             } else if ($abs === 2) {
-                $notif = Notification::create(['user_id' => $id, 'data' => 'Este usuario tiene 2 faltas']);
+                $notif = Notification::create(['user_id'=>$id, 'data'=> 'Este usuario tiene 2 faltas']);
                 array_push($notifications, $notif);
             }
         }

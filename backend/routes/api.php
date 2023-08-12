@@ -29,7 +29,7 @@ Route::post('password/reset', [\App\Http\Controllers\Auth\PasswordResetControlle
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::post('/notifications', [\App\Http\Controllers\NotificationController::class, 'insertNotification']);
+   // Route::post('/notifications', [\App\Http\Controllers\NotificationController::class, 'insertNotification']);
 
 
     Route::get('/users/justifications', [\App\Http\Controllers\JustificationController::class, 'getAllJustification']);
@@ -67,37 +67,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/attendance/report/{booleano}', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 
 
-    Route::get('notifications', [App\Http\Controllers\EvaluationController::class, 'getNotification']);
-    Route::get('notification/details', [App\Http\Controllers\EvaluationController::class, 'detailsNotification']);
-
+    Route::get('notifications', [App\Http\Controllers\NotificationController::class, 'getNotification']);
+    /*Route::get('notification/details', [App\Http\Controllers\EvaluationController::class, 'detailsNotification']);
     Route::get('notification/{id}', [App\Http\Controllers\EvaluationController::class, 'getNotificationbyid']);
-
     Route::post('addNotificaction', [App\Http\Controllers\EvaluationController::class, 'insertNotificationn']);
+    Route::put('updateNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'updateNotification']);*/
+    Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\NotificationController::class, 'deleteNotification']);
 
-    Route::put('updateNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'updateNotification']);
-
-    Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
 
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
-
     Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
-    
     Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getPerformance']);
-    
     Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getLeadership']);
-
     Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
-
     Route::get('evaluations/softskills/{id}', [App\Http\Controllers\EvaluationController::class, 'getSoftSkillsById']);
-
     Route::post('evaluations/softskills/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateSoftSkills']);
-
     Route::post('evaluations/performance/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updatePerformance']);
-
     Route::post('evaluations/leadership/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateLeadership']);
-
     Route::post('evaluations/autoevaluation/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateAutoevaluation']);
-
     Route::get('evaluations/details/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationDetails']);
 
     //Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationById']);
@@ -105,9 +92,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('evaluations/insert/{id}', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
     Route::post('evaluations/average/{id}', [App\Http\Controllers\EvaluationController::class, 'calcAverage']);
 
-    Route::post('/attendances-generate', [App\Http\Controllers\AttendanceReportController::class, 'generateReport']);
+    /*Se estan Usando estas Rutas?
+     * Route::post('/attendances-generate', [App\Http\Controllers\AttendanceReportController::class, 'generateReport']);
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index']);
-    Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);
+    Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);*/
 
     Route::get('holidays', [App\Http\Controllers\HolidayController::class, 'showAllHoliday']);
     Route::get('holidays/{id}', [App\Http\Controllers\HolidayController::class, 'showHoliday']);
