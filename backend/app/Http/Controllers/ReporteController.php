@@ -264,6 +264,7 @@ class ReporteController extends Controller
         
         //Usamos Group by para contar por cada una de las opciones
         $userCountYear = Profile::count();
+        
         $userActive = User::where('status', 1)->count();
         $userInactive = User::where('status', 0)->count();
 
@@ -271,8 +272,13 @@ class ReporteController extends Controller
         $userCountsByShift = Profile::selectRaw('shift, COUNT(*) as count')->groupBy('shift')->pluck('count', 'shift');
         $userCountsByProfile = Profile::selectRaw('profile_name, COUNT(*) as count')->groupBy('profile_name')->pluck('count', 'profile_name');
         $userCountsByNucleo = Profile::selectRaw('area, COUNT(*) as count_nucleo')->groupBy('area')->pluck('count_nucleo', 'area');
-
         $userCountByStatusLeft = User::selectRaw('status_description, COUNT(*) as count')->groupBy('status_description')->pluck('count', 'status_description');
+
+        $userCountsByDepartmentPercentage = $this->calculatePercentage($userCountsByDepartment, $userCountYear);
+        $userCountsByNucleoPercentage = $this->calculatePercentage($userCountsByNucleo, $userCountYear);
+        $userCountsByProfilePercentage = $this->calculatePercentage($userCountsByProfile, $userCountYear);
+        $userCountsByShiftPercentage = $this->calculatePercentage($userCountsByShift, $userCountYear);
+        $userCountByStatusLeftPercentage = $this->calculatePercentage($userCountByStatusLeft, $userCountYear);
 
         if ($userInactive == 0){
             $userPercentage = 0;
@@ -282,27 +288,57 @@ class ReporteController extends Controller
         
         //Retornamos la respuesta en formato JSON
         return response()->json([
-            'userCount' => [
-                'userCountYear' => $userCountYear,
-                'userCountYearPer' => "100%",
-                'userActive' => $userActive,
-                'userCountActivePer' => ($userCountYear / $userActive) * 100,
-                'userInactive' => $userInactive,
-                'userCountInactivePer' => $userPercentage,
+            'Users' => [
+                'CountsByUser' => [
+                    'UserByYear' => $userCountYear,
+                    'UserActive' => $userActive,
+                    'UserInactive' => $userInactive,
+                ],
+
+                'PercentageByUser' => [
+                    'UserByYearPer' => 100,
+                    'UserActivePer' => ($userCountYear / $userActive) * 100,
+                    'UserInactivePer' => $userPercentage,
+                ],
             ],
 
-            'userCountsByDepartment' => $userCountsByDepartment,
-            'userCountsByNucleo' => $userCountsByNucleo,
-            'userCountsByProfile' => $userCountsByProfile,
-            'userCountsByShift' => $userCountsByShift,
-            'userCountByStatusLeft' => $userCountByStatusLeft,
+            'Department' => [
+                'CountsByDepartment' => $userCountsByDepartment,
+                'PercentageByDepartment' => $userCountsByDepartmentPercentage
+            ],
+
+            'Nucleo' => [
+                'CountsByNucleo' => $userCountsByNucleo,
+                'PercentageByNucleo' => $userCountsByNucleoPercentage
+            ],
+
+            'Profile' => [
+                'CountsByProfile' => $userCountsByProfile,
+                'PercentageByProfile' => $userCountsByProfilePercentage
+            ],
+
+            'Shift' => [
+                'CountsByShift' => $userCountsByShift,
+                'PercentageByShift' => $userCountsByShiftPercentage
+            ],
+
+            'UserStatus' => [
+                'CountsByStatus' => $userCountByStatusLeft,
+                'PercentageByStatus' => $userCountByStatusLeftPercentage
+            ],
+
             'userPerYearMonth' => $userPerYearMonth,
             'userPerMonth' => $userPerMonth,
             'userPerYear' => $userPerYear,
             'date' => date('Y-m-d'),
         ]);
+    }
 
-
-
+    private function calculatePercentage($data, $total) {
+        $percentageData = [];
+        foreach ($data as $key => $count) {
+            $percentageData[$key] = ($count / $total) * 100;
+        }
+        return $percentageData;
     }
 }

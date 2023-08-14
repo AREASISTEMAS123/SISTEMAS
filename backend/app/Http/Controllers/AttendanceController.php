@@ -33,6 +33,7 @@ class AttendanceController extends Controller
         //Retornamos la respuesta en formato JSON
         return response()->json(['attendance' => $attendance]);
     }
+
     public function setDefaultValues($booleano)
     {
         // Verifica si el dia de hoy es feriado
@@ -48,11 +49,11 @@ class AttendanceController extends Controller
                 if ($isHoliday2){
                     $this->setNonWorkingDays($booleano);
                     exit();
-                }else{
+                } else {
                     exit();
                 }
 
-            }else{
+            } else {
                 exit();
             }
 
@@ -140,9 +141,8 @@ class AttendanceController extends Controller
     }
 
     public function generateReport($booleano)
-    {
+    {   
         //Generar reporte general de asistencias, faltas y tardanzas
-
         $this->setDefaultValues($booleano);
 
         $attendances = 0;
@@ -187,13 +187,9 @@ class AttendanceController extends Controller
         $attendanceReport->justifications = $justifications;
         $attendanceReport->date = date('Y-m-d');
 
-        //Guardar la informacion en la tabla AttendanceReport
-
-
         //Agregamos una nueva notificacion (Validacion de Faltas)
         $userCounter = User::all()->count();
         $notifications = [];
-
 
         for ($id = 1; $id <= $userCounter; $id++) {
             $abs = Attendance::all()->where('user_id', $id)->where('absence', '1')->where('justification', '0')->count();
@@ -208,7 +204,6 @@ class AttendanceController extends Controller
             }
         }
 
-
         #return response()->json(['notificaciones' => $notifications]);
         $total = 0;
 
@@ -221,7 +216,6 @@ class AttendanceController extends Controller
         $attendanceReport->total = $total;
         $attendanceReport->save();
 
-
         $this->setNonWorkingDays($booleano);
 
         //Retornamos la respuesta en formato JSON
@@ -233,12 +227,10 @@ class AttendanceController extends Controller
             'date' => date('Y-m-d'),
             'total' => $total
         ]);
-
     }
 
-
     public function insertAttendance(Request $request)
-    {
+    {   
         // Recogemos el ID del usuario logeado
         $user_id = auth()->id();
 
@@ -275,7 +267,6 @@ class AttendanceController extends Controller
             $attendance->user_id = $user_id;
 
             if ($request->hasFile("admission_image")) {
-
                 // Recogemos la imagen de entrada
                 $file = $request->file("admission_image");
                 $folderName = date("Y-m-d"); // Obtiene la fecha de hoy en formato "año-mes-día"
@@ -352,25 +343,4 @@ class AttendanceController extends Controller
             }
         }
     }
-
-
-
-    // public function editUnavailableDays()
-    // {
-    //     $user = Auth::user();
-    //     $unavailableDays = $user->unavailable_days ?? [];
-
-    //     return view('unavailable-days.edit', compact('unavailableDays'));
-    // }
-
-    // public function updateUnavailableDays(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $user->update([
-    //         'unavailable_days' => $request->input('unavailable_days', []),
-    //     ]);
-    //     //Se puede agregar una notificación acá
-
-    //     return redirect()->route('unavailable-days.edit');
-    // }
 }
