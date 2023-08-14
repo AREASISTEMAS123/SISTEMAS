@@ -41,7 +41,7 @@ export const AdmiJustificacion = () => {
             const token = tokenD.toString(enc.Utf8)
             const response = await fetch(import.meta.env.VITE_API_URL + '/users/justifications', {
                 headers: {
-                    Authorization: token
+                    Authorization: `Bearer ${token}`,
                 }
             });
             const data = await response.json();
@@ -49,7 +49,7 @@ export const AdmiJustificacion = () => {
                 const userApiUrl = import.meta.env.VITE_API_URL + '/profile';
                 const userResponse = await fetch(userApiUrl, {
                     headers: {
-                        Authorization: token
+                        Authorization: `Bearer ${token}`,
                     }
                 });
                 const userData = await userResponse.json();

@@ -67,7 +67,8 @@ const App = () => {
 
   const resetInactivityTimer = () => {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(handleInactivity, 5 * 60 * 1000);
+    // inactivityTimer = setTimeout(handleInactivity, 5 * 60 * 1000);
+    inactivityTimer = setTimeout(handleInactivity, 2 * 60 * 1000);
   };
 
   const isInicioPage = !(location.pathname === '/*' && isLoggedIn);
@@ -84,7 +85,7 @@ const App = () => {
           {!isLoginPage && !isRecuperar && isInicioPage && isLoggedIn && (
             <Topbar toggleSidebar={toggleSidebar} />
           )}
-          <div className={`bg-cv-secondary ${location.pathname === "/login" ? "" : "p-3 sm:p-5"}`}>
+          <div className={`bg-cv-secondary ${location.pathname === "/login" ? " " : "p-3 sm:p-5"}`}>
             <AppRoutes />
           </div>
         </div>

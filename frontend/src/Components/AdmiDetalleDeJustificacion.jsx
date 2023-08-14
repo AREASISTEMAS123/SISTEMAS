@@ -7,7 +7,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import '../css/detalleJustificacionAdmi.css'
+
 import { AES, enc } from 'crypto-js';
 export const AdmiDetalleDeJustificacion = () => {
   const { id, userid } = useParams();
@@ -27,7 +27,7 @@ export const AdmiDetalleDeJustificacion = () => {
         const token = tokenD.toString(enc.Utf8)
         const response = await fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}`, {
           headers: {
-            Authorization: token
+            Authorization: `Bearer ${token}`,
           }
         });
         const data = await response.json();
@@ -68,7 +68,7 @@ export const AdmiDetalleDeJustificacion = () => {
     fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/accept/${userid}`, {
       method: 'POST',
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
 
     })
@@ -110,7 +110,7 @@ export const AdmiDetalleDeJustificacion = () => {
     fetch(import.meta.env.VITE_API_URL + `/users/justifications/${id}/decline/${userid}`, {
       method: 'POST',
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ reason_decline }),
@@ -250,16 +250,16 @@ export const AdmiDetalleDeJustificacion = () => {
                 </div>
 
                 {item.decline === 0 && item.justification_status === 0 && (
-                  <div className="flex items-center justify-center mt-8 rounded-b">
+                  <div className="flex items-center justify-evenly gap-5 mt-8 rounded-b">
                     <button
-                      className="border-2 hover:bg-cv-cyan hover:text-cv-primary font-medium rounded-lg text-sm px-8 py-2.5 text-center mx-2 md:mx-10 bt-rechazar"
+                      className="text-cv-cyan bg-transparent border-2 border-cv-cyan hover:text-cv-primary hover:bg-cv-cyan rounded-lg py-3 px-8 font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
                       onClick={(e) => onOpenModalRechazo(e, item)}
                     >
                       RECHAZAR
                     </button>
 
                     <button
-                      className="bg-cv-cyan text-cv-primary hover:bg-cv-cyan/75 font-medium rounded-lg text-sm px-8 py-2.5 text-center"
+                      className="bg-cv-cyan hover:bg-cv-cyan/70 border-2 border-cv-cyan hover:border-cv-cyan/70 rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
                       onClick={(e) => onOpenModalAceptado(e, item)}
                     >
                       ACEPTAR

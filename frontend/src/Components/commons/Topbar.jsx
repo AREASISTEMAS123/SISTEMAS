@@ -251,7 +251,7 @@ export const Topbar = ({ toggleSidebar }) => {
           {isVisible ? <MenuIcon sx={{ fontSize: 20 }} /> : <MenuIcon sx={{ fontSize: 20 }} />}
         </button>
       )}
-      <div className="relative">
+      <div>
         <div className="flex justify-between items-center space-x-2 md:space-x-5">
           <ClickAwayListener onClickAway={handleClickAwayTask}>
             <div>
@@ -265,16 +265,15 @@ export const Topbar = ({ toggleSidebar }) => {
                   )}
                 </button>
               </Tooltip>
-              {
-                showTask && (
-                  <div className='absolute right-0'>
-                    <div className="flex items-center justify-center md:w-auto mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50] shadow-2xl">
-                      <div className="space-y-2 text-white">
-                        <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-${isMobile ? 'xs' : 'sm'} font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300 whitespace-nowrap`}>
+              { showTask && (
+                <div className='max-w-md absolute right-0 px-2'>
+                  <div className="max-w-md flex items-center justify-center mt-3 bg-cv-primary p-2 sm:p-4 rounded-b-lg z-[50] shadow-2xl">
+                    <div className="max-w-md space-y-2 text-white">
+                        <button onClick={() => { setShowModal(true); setShowTask(false); }} className={`p-3 w-full bg-cv-secondary text-white flex items-center justify-center rounded-lg text-sm font-bold uppercase hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300 whitespace-nowrap`}>
                           <AddTaskIcon sx={{ fontSize: 18 }} />
                           <span className='ml-4'>Agregar Tarea</span>
                         </button>
-                        <div className='max-h-72 overflow-y-auto'>
+                        <div className='max-w-md max-h-72 overflow-y-auto'>
                           <TareaItem sx={{ fontSize: 18 }} data={tasks} setSelectedCard={setSelectedCard} update={() => { setShowModalUpdate(true); setShowTask(false); }} eliminarTarea={eliminarTarea} />
                         </div>
                       </div>
@@ -300,13 +299,12 @@ export const Topbar = ({ toggleSidebar }) => {
                   <img
                     src={avatar}
                     alt="Foto de Perfil"
-                    className={`w-${isMobile ? '10' : '12'} h-${isMobile ? '10' : '12'} border-2 border-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
+                    className={`w-${isMobile ? '10' : '12'} h-${isMobile ? '10' : '12'} ring-2 ring-cv-cyan rounded-full shadow-lg cursor-pointer object-cover`}
                   />
                 </button>
               </Tooltip>
-              {
-                showMenu && (
-                  <div className='block absolute  right-2 w-52 mt-3 bg-cv-primary p-4 rounded-b-lg z-[100] shadow-2xl'>
+              {showMenu && (
+                  <div className='block absolute  right-2 w-56 mt-3 bg-cv-primary p-4 rounded-b-lg z-[100] shadow-2xl'>
                     <div className="space-y-4 text-white">
                       <Link to="/perfil" onClick={handleClickAway} className="cursor-pointer">
                         <div className="p-1.5 font-semibold hover:bg-cv-secondary rounded-md">

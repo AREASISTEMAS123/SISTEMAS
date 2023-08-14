@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import '../css/olvideContraseña.css'
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+
 export const OlvideContraseña = () => {
     const [email, setEmail] = useState('');
     const [correoEnviado, setCorreoEnviado] = useState(false);
@@ -11,6 +12,10 @@ export const OlvideContraseña = () => {
     const [showEmptyDataMessage, setShowEmptyDataMessage] = useState(false);
     const [secondsRemaining, setSecondsRemaining] = useState(0);
     const [hasError, setHasError] = useState(false);
+
+    useEffect(() => {
+        document.title = 'Olvide mi contraseña | Consigue Ventas';
+    }, []);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -90,46 +95,36 @@ export const OlvideContraseña = () => {
     }, [hasError]);
 
     return (
-        <div className='h-screen flex items-center justify-center '>
-            <div className="  py-6  flex  sm:py-12">
-                <div className="relative  sm:max-w-xl sm:mx-auto">
-                    <div className="celeste absolute inset-0 bg-gradient-to-r   shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl" />
-                    <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-10 lg:p-20">
-                        <div className="max-w-md mx-auto">
-                            <h1 className="text-2xl font-semibold">Recuperar contraseña</h1>
+        <div>
+            <div
+                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5"
+            >
+                <div className="relative w-full my-6 mx-auto max-w-lg border-2 border-white p-1 rounded-lg rotate-[5deg]">
 
-                            <div className="py-6 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                                <div className="relative">
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none rotate-[-5deg] p-5 gap-5">
+                        <div className='flex flex-col items-center gap-5'>
+                            <div className='w-full text-center text-cv-primary'>
+                                <ForwardToInboxIcon sx={{ fontSize: 60 }} />
+                                <h1 className="text-2xl font-semibold">Olvide mi contraseña</h1>
+                            </div>
+                            <div className='w-full text-gray-950 flex flex-col gap-1'>
+                                <div>
+                                    <label htmlFor="email" className="block mb-1 font-medium text-gray-900 ">Correo electrónico</label>
                                     <input
                                         name="email"
                                         type="text"
-                                        className=" h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder:text-gray-500 placeholder:text-sm "
+                                        id='email'
+                                        className="bg-white border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-cv-primary block w-full p-2.5"
                                         placeholder="Dirección de correo electrónico"
                                         value={email}
                                         onChange={handleEmailChange}
                                     />
-
-                                </div>
-                                <div className='flex flex-col sm:flex-row justify-center sm:space-x-4 p-6 sm:p-2 border-gray-200 rounded-b'>
-                                    <button
-                                        className="celeste   font-bold uppercase rounded-lg text-sm px-5 py-2.5 text-center mb-2 sm:mb-0 hover:bg-slate-500  hover:text-white"
-                                        onClick={handleSubmit}
-                                        disabled={isButtonDisabled}
-                                    >
-                                        Enviar
-                                    </button>
-                                    <button
-                                        className="bg-amber-300 hover:bg-amber-600 font-bold uppercase  rounded-lg text-sm px-5 py-2.5 text-center"
-                                        onClick={() => (window.location.href = '/login')}
-                                    >
-                                        Cancelar
-                                    </button>
                                 </div>
                                 {showEmptyDataMessage && <p className="text-red-500">Debe llenar datos</p>}
                                 {isLoading && <p className="text-black">Cargando...</p>}
                                 {error && <p className="text-red-500">Error: {error.message}</p>}
-                                {correoEnviado && !error && <p className="text-black">Correo enviado correctamente.</p>}
-                                {showMessage && <p className="text-green-500">Puede volver a utilizar el botón de enviar.</p>}
+                                {correoEnviado && !error && <p className="text-green-500">Correo enviado correctamente.</p>}
+                                {showMessage && <p className="text-blue-500">Puede volver a utilizar el botón de enviar.</p>}
                                 {showMessageWait && <p>
                                     <span className='text-sm'> Recomendaciones: </span>
                                     <ul className='list-disc list-inside'>
@@ -140,12 +135,24 @@ export const OlvideContraseña = () => {
                                 {hasError && <p className="text-red-500">Error: {error.message}</p>}
                             </div>
                         </div>
-
+                        <div className="flex items-center justify-evenly gap-5">
+                            <button
+                                className="w-1/2 text-cv-primary bg-white border-2 border-cv-primary hover:text-white hover:bg-cv-primary rounded-lg py-3 px-8 font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
+                                onClick={() => (window.location.href = '/login')}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                className="w-1/2 bg-cv-primary hover:bg-cv-secondary border-2 border-cv-primary rounded-lg py-3 px-8 text-white font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
+                                onClick={handleSubmit}
+                                disabled={isButtonDisabled}
+                            >
+                                Enviar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    
-
     );
 };

@@ -1,6 +1,7 @@
 import { AES, enc } from "crypto-js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 export const ChangePassword = () => {
     const [old_password, setOld_password] = useState("");
@@ -39,7 +40,7 @@ export const ChangePassword = () => {
             const response = await fetch(import.meta.env.VITE_API_URL + "/profile/changePassword", {
                 method: "POST",
                 headers: {
-                    Authorization: token,
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
@@ -64,16 +65,21 @@ export const ChangePassword = () => {
         }
     }
     return (
-        <div className="min-h-screen  py-6 sm:py-12 flex flex-col justify-center">
-            <div>
-                <form onSubmit={onsubmit} className="max-w-md mx-auto">
-                    <div className="mb-6">
-                        <label className="block text-white font-bold mb-1 md:mb-0">
-                            Contraseña antigua:
-                        </label>
-                        <div className="relative">
+        <div className="w-full flex flex-col items-center justify-center gap-5">
+            <div className="w-full max-w-lg">
+                <div className='w-full mb-5 text-center text-cv-cyan'>
+                    <LockResetIcon sx={{ fontSize: 60 }} />
+                    <h1 className="text-2xl font-semibold">Cambiar contraseña</h1>
+                </div>
+                <form onSubmit={onsubmit} >
+                    <div className="w-full flex flex-col items-center gap-4">
+                        <div className="w-full">
+                            <label htmlFor="old_password" className="block mb-1 font-medium text-white">
+                                Contraseña antigua:
+                            </label>
                             <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-700"
+                                className="bg-white appearance-none border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-2 focus:border-cv-cyan block w-full p-2.5"
+                                id="old_password"
                                 type="password"
                                 placeholder="Contraseña antigua"
                                 required
@@ -81,14 +87,13 @@ export const ChangePassword = () => {
                                 onChange={(e) => setOld_password(e.target.value)}
                             />
                         </div>
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-white font-bold mb-1 md:mb-0">
-                            Contraseña nueva:
-                        </label>
-                        <div className="relative">
+                        <div className="w-full">
+                            <label htmlFor="new_password" className="block mb-1 font-medium text-white">
+                                Contraseña nueva:
+                            </label>
                             <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-700"
+                                className="bg-white appearance-none border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-2 focus:border-cv-cyan block w-full p-2.5"
+                                id="new_password"
                                 type="password"
                                 placeholder="Contraseña nueva"
                                 value={password}
@@ -96,14 +101,13 @@ export const ChangePassword = () => {
                                 required
                             />
                         </div>
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-white font-bold mb-1 md:mb-0">
-                            Confirma contraseña:
-                        </label>
-                        <div className="relative">
+                        <div className="w-full">
+                            <label htmlFor="confirm_password" className="block mb-1 font-medium text-white">
+                                Confirma contraseña:
+                            </label>
                             <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-700"
+                                className="bg-white appearance-none border border-gray-300 text-gray-900 outline-none sm:text-sm rounded-lg focus:ring-cv-secondary focus:border-2 focus:border-cv-cyan block w-full p-2.5"
+                                id="confirm_password"
                                 type="password"
                                 placeholder="Confirma contraseña"
                                 value={confirm_password}
@@ -113,27 +117,27 @@ export const ChangePassword = () => {
                         </div>
                     </div>
                     {(confirm_password !== "" && !passwordMatch) && (
-                        <div className="text-red-500">Las contraseñas no coinciden.</div>
+                        <span className="mt-1 text-red-500">Las contraseñas no coinciden.</span>
                     )}
-                    {errorMessage && <div className="text-red-500">{errorMessage}</div>}
-                    {successMessage && <div className="text-green-500">{successMessage}</div>}
-                    <div className="flex justify-center ">
+                    {errorMessage && <span className="mt-1 text-red-500">{errorMessage}</span>}
+                    {successMessage && <span className="mt-1 text-green-500">{successMessage}</span>}
+                    <div className="flex items-center justify-evenly gap-5 mt-4">
+                        <button className="w-1/2 text-cv-cyan bg-transparent border-2 border-cv-cyan hover:text-cv-primary hover:bg-cv-cyan rounded-lg py-3 px-8 font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
+                            onClick={cancelarChange}
+                        >
+                            Cancelar
+                        </button>
                         <button
-                            className="px-3 py-2 text-xs font-medium text-center bg-cyan-400 border-2 rounded-md mx-5 border-black"
+                            className="w-1/2 bg-cv-cyan hover:bg-cv-cyan/70 border-2 border-cv-cyan hover:border-cv-cyan/70 rounded-lg py-3 px-8 text-cv-primary font-bold whitespace-nowrap active:scale-95 ease-in-out duration-300"
                             type="submit"
                             disabled={isLoading}
                         >
                             {isLoading ? "Cargando..." : "Cambiar contraseña"}
                         </button>
-                        <button className="px-3 py-2 text-xs font-medium text-center bg-amber-400 border-2 rounded-md mx-5 border-black"
-                            onClick={cancelarChange}
-                        >
-                            Cancelar
-                        </button>
+                        
                     </div>
                 </form>
             </div>
-
         </div>
 
     )

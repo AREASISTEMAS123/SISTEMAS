@@ -60,7 +60,7 @@ export const CumpleanosCardColaborador = ({ data }) => {
 				<div key={index} className="bg-cv-primary overflow-hidden w-full max-w-md text-white rounded-xl">
 					<div className="p-4 space-y-4">
 						<div className="flex justify-between items-center flex-col md:flex-row">
-							<img src={item.media[0].original_url} alt="Foto de Perfil" className="w-20 h-20 md:w-14 md:h-14 rounded-full shadow-lg border-2 border-white" />
+							<img src={item.media[0].original_url} alt="Foto de Perfil" className="w-20 h-20 md:w-14 md:h-14 rounded-full shadow-lg ring-2 ring-cv-cyan" />
 							<p className="text-xl font-medium text-white md:text-2xl ">{item.name}</p>
 						</div>
 						<div className="space-y-2">

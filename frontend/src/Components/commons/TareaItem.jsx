@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import 'moment/locale/es';
 
 const dataPropTypes = PropTypes.arrayOf(
@@ -37,7 +40,7 @@ export const TareaItem = ({ data, update, setSelectedCard, eliminarTarea }) => {
 
 			const updatedData = sortedCards.map((card) => {
 				const taskDate = moment(card.limit_date, 'YYYY-MM-DD hh:mm:ss');
-				
+
 
 				const diff = taskDate.diff(now);
 
@@ -56,7 +59,7 @@ export const TareaItem = ({ data, update, setSelectedCard, eliminarTarea }) => {
 					const hours = Math.floor(duration.asHours());
 					formattedDiff = 'Falta ' + hours + (hours === 1 ? ' hora' : ' horas');
 					card.timeColor = 'text-green-500'
-				} else if (diff > 60000){
+				} else if (diff > 60000) {
 					const duration = moment.duration(diff);
 					const minutes = Math.floor(duration.asMinutes());
 					formattedDiff = 'Falta ' + minutes + (minutes === 1 ? ' minuto' : ' minutos');
@@ -86,40 +89,67 @@ export const TareaItem = ({ data, update, setSelectedCard, eliminarTarea }) => {
 		setSelectedCard(card);
 	};
 
-	const handleDeleteClick = (card) =>{
+	const handleDeleteClick = (card) => {
 		eliminarTarea(card)
 	}
 
 	moment.locale('es');
 	const lettersDate = (fecha) => {
-    const date = moment(fecha, 'YYYY-MM-DD HH:mm:ss');
-	return date.format('DD [de] MMMM, YYYY HH:mm');
-  };
+		const date = moment(fecha, 'YYYY-MM-DD HH:mm:ss');
+		return date.format('DD [de] MMMM, YYYY HH:mm');
+	};
+
+
+	// Acordeon
+	const [activeIndex, setActiveIndex] = useState(null);
+
+	const toggleAccordion = (index) => {
+		if (activeIndex === index) {
+			setActiveIndex(null);
+		} else {
+			setActiveIndex(index);
+		}
+	};
 
 	return (
-		<ul className='divide-y divide-gray-700'>
-			{timeRemaining.map((card) => (
-				<li key={card.id} className="px-2 py-3 sm:py-4 cursor-pointer hover:bg-cv-secondary">
-					<div className="flex flex-col md:flex-row items-center justify-center md:space-x-4" >
-						<div className="flex-1 min-w-0" onClick={() => handleCardClick(card)}>
-							<div className='flex items-center justify-between space-x-6'>
-								<div className='flex items-end space-x-4'>
-									<p className="text-lg w-full md:w-56 font-semibold truncate text-white text-ellipsis">{card.tittle}</p>
-									{/*<p className="text-sm font-light truncate text-white">{card.limit_date}</p>*/}
-									<p className="w-full text-sm font-light truncate text-white">{lettersDate(card.limit_date)}</p>
-								</div>
-								<p className={`text-sm font-extralight truncate ${card.timeColor}`}>
+		<div className='flex flex-col items-center gap-3'>
+			{timeRemaining.map((card, index) => (
+				<div key={index}>
+					<button
+						className="w-full flex items-center justify-between py-2 gap-5 bg-cv-primary"
+						onClick={() => toggleAccordion(index)}
+					>
+						<div className='w-full max-w-lg flex items-center justify-between gap-5'>
+							<p className="w-full max-w-xs text-base text-start font-semibold text-white leading-none">{card.tittle}</p>
+							<div className='w-full'>
+								<p className="text-sm text-end font-light truncate text-white">{lettersDate(card.limit_date)}</p>
+								<p className={`text-sm text-end font-extralight truncate ${card.timeColor}`}>
 									{card.timeRemaining}
 								</p>
 							</div>
-							<p className="text-lg w-full md:w-80 text-ellipsis text-white truncate">{card.description}</p>
 						</div>
-						<button onClick={()=>handleDeleteClick(card.id)} className='p-3 w-full md:w-20 border border-cv-secondary text-green-500 bg-cv-primary flex items-center justify-center rounded-lg text-xl hover:bg-green-500 hover:text-cv-primary'>
-							<TaskAltIcon fontSize="large" />
-						</button>
-					</div>
-				</li>
+						<KeyboardArrowDownIcon sx={{ fontSize: 24 }} className={` ${activeIndex === index ? 'transform rotate-180' : ''
+							}`} />
+					</button>
+					{activeIndex === index && (
+						<div className='space-y-3'>
+							<div className='p-1 bg-cv-secondary rounded'>
+								<p className="text-lg text-justify leading-tight">{card.description}</p>
+							</div>
+							<div className='flex items-center justify-evenly px-4 gap-5'>
+								<button onClick={() => handleDeleteClick(card.id)} className='w-full py-2 px-8 border border-cv-secondary text-red-500 bg-cv-primary flex items-center justify-center rounded-lg text-base hover:bg-red-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
+									<DeleteIcon sx={{ fontSize: 20 }} className='mr-1'/>
+									<span>Eliminar</span>
+								</button>
+								<button onClick={() => handleCardClick(card)} className='w-full py-2 px-8 border border-cv-secondary text-green-500 bg-cv-primary flex items-center justify-center rounded-lg text-base hover:bg-green-500 hover:text-cv-primary active:scale-95 ease-in-out duration-300'>
+									<EditIcon sx={{ fontSize: 20 }} className='mr-1'/>
+									<span>Editar</span>
+								</button>
+							</div>
+						</div>
+					)}
+				</div>
 			))}
-		</ul>
+		</div>
 	)
 }

@@ -26,7 +26,6 @@ ProgressBar.propTypes = {
 
 export const AsistenciaAdmin = () => {
 
-  const Token = localStorage.getItem("token");
   const [attendance, setAttendance] = useState([]);
   // const [attendanceReport, setAttendanceReport] = useState([]);
   const attendanceReport = useState([])[0];

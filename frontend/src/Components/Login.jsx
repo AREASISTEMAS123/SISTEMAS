@@ -17,6 +17,10 @@ export const Login = () => {
     const [captchaValue, setCaptchaValue] = useState('');
 
     useEffect(() => {
+        document.title = 'Iniciar sesión | Consigue Ventas';
+    }, []);
+
+    useEffect(() => {
         let loginStatus = localStorage.getItem("loginStatus");
         if (loginStatus) {
             setError(loginStatus);
@@ -194,7 +198,7 @@ export const Login = () => {
                                             <button
                                                 type="button"
                                                 onClick={loginSubmit}
-                                                className=" w-full  justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                                                className=" w-full  justify-center bg-slate-600 py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 active:scale-95 ease-in-out duration-300"
                                             >
                                                 Iniciar sesión
                                             </button>
