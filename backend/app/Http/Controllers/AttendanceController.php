@@ -139,7 +139,6 @@ class AttendanceController extends Controller
         }
     }
 
-
     public function generateReport($booleano)
     {
         //Generar reporte general de asistencias, faltas y tardanzas

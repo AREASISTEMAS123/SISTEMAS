@@ -29,9 +29,9 @@ class Attendance extends Model
         return $this->hasMany(Profile::class,'user_id','user_id');
     }
 
-    public function attendancePercentage()
+   /* public function attendancePercentage()
 {
     return ($this->attendances / $this->total) * 100;
-}
+}*/
 
 }
