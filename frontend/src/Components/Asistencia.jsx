@@ -288,7 +288,7 @@ export const Asistencia = () => {
         <div className={`w-full rounded-xl bg-slate-950 relative ${isMobile ? 'h-96' : 'h-4/6'}`}>
           <div className="absolute top-0 left-0 w-full h-full">
             {fotoUsuario && (
-              <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" />
+              <img src={fotoUsuario} alt="Foto capturada" className="w-full h-full object-cover" style={{ transform: "scaleX(-1)" }} />
             )}
             {!fotoUsuario && (
               (videoEnabled ? (
