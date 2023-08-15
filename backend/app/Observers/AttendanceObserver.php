@@ -7,13 +7,13 @@ use App\Models\AttendanceReport;
 
 class AttendanceObserver
 {
-    /**
+   /* /**
      * Handle the Attendance "created" event.
      *
      * @param  \App\Models\Attendance  $attendance
      * @return void
      */
-    public function created(Attendance $attendance)
+   /* public function created(Attendance $attendance)
     {
         $reportData = [
             'user_id' => $attendance->user_id,
@@ -33,7 +33,7 @@ class AttendanceObserver
      * @param  \App\Models\Attendance  $attendance
      * @return void
      */
-    public function updated(Attendance $attendance)
+   /* public function updated(Attendance $attendance)
     {
         //
     }
@@ -44,7 +44,7 @@ class AttendanceObserver
      * @param  \App\Models\Attendance  $attendance
      * @return void
      */
-    public function deleted(Attendance $attendance)
+   /* public function deleted(Attendance $attendance)
     {
         //
     }
@@ -55,7 +55,7 @@ class AttendanceObserver
      * @param  \App\Models\Attendance  $attendance
      * @return void
      */
-    public function restored(Attendance $attendance)
+    /*public function restored(Attendance $attendance)
     {
         //
     }
@@ -66,8 +66,8 @@ class AttendanceObserver
      * @param  \App\Models\Attendance  $attendance
      * @return void
      */
-    public function forceDeleted(Attendance $attendance)
+   /* public function forceDeleted(Attendance $attendance)
     {
         //
-    }
+    }*/
 }

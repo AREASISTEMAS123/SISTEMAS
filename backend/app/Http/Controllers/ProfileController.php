@@ -13,53 +13,38 @@ use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
-    public function getProfile(){
-            $profile = Profile::with('User', )->where("id", Auth::user()->id)->get();
-            $attendance = Attendance::all()->where('user_id', Auth::user()->id)->where("attendance", "1")->count();
-            $absence = Attendance::all()->where('user_id', Auth::user()->id)->where("justification","0")->where("absence", "1")->count();
-            $delay = Attendance::all()->where('user_id', Auth::user()->id)->where("justification","0")->where("delay", "1")->count();
-            $justification = Attendance::all()->where('user_id', Auth::user()->id)->where("justification", "1")->count();
-            $non_working_days = Attendance::all()->where('user_id', Auth::user()->id)->where("non_working_days", "1")->count();
-            $role = Model_has_role::where('model_id', Auth::user()->id)->firstOrFail();
-            $img = Auth::user()->getMedia('avatars')->first()->getUrl('thumb');
+    public function getProfile() {
+        $user = Auth::user();
+        $profile = Profile::with('User', )->where("id", $user->id)->get();
+        $attendanceData = Attendance::where('user_id', $user->id)->get();
+        $role = Model_has_role::where('model_id', $user->id)->firstOrFail();
+        $img = $user->getMedia('avatars')->first()->getUrl('thumb');
 
-        if ($role->role_id == '1'){
+        $attendance = $attendanceData->where("attendance", "1")->count();
+        $absence = $attendanceData->where("justification", "0")->where("absence", "1")->count();
+        $delay = $attendanceData->where("justification", "0")->where("delay", "1")->count();
+        $justification = $attendanceData->where("justification", "1")->count();
+        $non_working_days = $attendanceData->where("non_working_days", "1")->count();
+
+        if ($role->role_id == '1') {
             $name_role = 'Gerencia';
-            return response()->json([
-                    "Usuario"=>$profile,
-                    "Asistencia" => $attendance,
-                    "Faltas" => $absence,
-                    "Tardanzas" => $delay,
-                    "Justificaciones" => $justification,
-                    "Dias no laborales" => $non_working_days,
-                    'rol' => $name_role,
-                    'avatar' =>$img]);
-        }elseif ($role->role_id == '2'){
+        } elseif ($role->role_id == '2') {
             $name_role = 'Lider Nucleo';
-            return response()->json([
-                "Usuario"=>$profile,
-                "Asistencia" => $attendance,
-                "Faltas" => $absence,
-                "Tardanzas" => $delay,
-                "Justificaciones" => $justification,
-                "Dias no laborales" => $non_working_days,
-                'rol' => $name_role,
-                'avatar' =>$img]);
-        }else {
+        } else {
             $name_role = 'Colaborador';
-            return response()->json([
-                "Usuario"=>$profile,
-                "Asistencia" => $attendance,
-                "Faltas" => $absence,
-                "Tardanzas" => $delay,
-                "Justificaciones" => $justification,
-                "Dias no laborales" => $non_working_days,
-                'rol' => $name_role,
-                'avatar' =>$img]);
         }
 
+        return response()->json([
+            "Usuario" => $profile,
+            "Asistencia" => $attendance,
+            "Faltas" => $absence,
+            "Tardanzas" => $delay,
+            "Justificaciones" => $justification,
+            "Dias no laborales" => $non_working_days,
+            'rol' => $name_role,
+            'avatar' => $img
+        ]);
     }
-
     public function change_password(Request $request){
         $validator = Validator::make($request->all(),[
             'old_password' =>'required',

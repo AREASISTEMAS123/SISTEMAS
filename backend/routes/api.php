@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
+
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::get('/attendance/report/{booleano}', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 Route::post('password/create', [\App\Http\Controllers\Auth\PasswordResetController::class, 'create']);
@@ -29,7 +30,7 @@ Route::post('password/reset', [\App\Http\Controllers\Auth\PasswordResetControlle
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::post('/notifications', [\App\Http\Controllers\NotificationController::class, 'insertNotification']);
+   // Route::post('/notifications', [\App\Http\Controllers\NotificationController::class, 'insertNotification']);
 
 
     Route::get('/users/justifications', [\App\Http\Controllers\JustificationController::class, 'getAllJustification']);
@@ -37,8 +38,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/justifications/{id}/accept/{userid}', [\App\Http\Controllers\JustificationController::class, 'acceptJustification']);
     Route::post('/users/justifications/{id}/decline/{userid}', [\App\Http\Controllers\JustificationController::class, 'declineJustification']);
 
+
+    //
     Route::get('/users', [App\Http\Controllers\usercontroller::class, 'getUser']);
     Route::get('/users/{id}', [App\Http\Controllers\usercontroller::class, 'getUserById']);
+    Route::get('/users/filters/{department?}/{area?}/{shift?}/{search?}', [App\Http\Controllers\FiltersUserControllers::class, 'filterUsers']);
+
     Route::put('/users/update/{id}', [\App\Http\Controllers\usercontroller::class, 'updateUser']);
     Route::delete('/users/delete/{id}', [App\Http\Controllers\usercontroller::class, 'deleteUser']);
 
@@ -48,7 +53,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
     Route::get('/birthday', [\App\Http\Controllers\BirthdayController::class, 'getbirthday']);
-    Route::get('/birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
+    //Route::get('/birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
+    Route::get('/birthday/details/{month}', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthdayMonth']);
+    Route::get('/birthday/nextBirthday', [\App\Http\Controllers\BirthdayController::class, 'getUpcomingBirthdaysWithUsers']);
 
     Route::get('/task', [\App\Http\Controllers\UserTaskController::class, 'gettask']);
     Route::get('/task/{id}', [\App\Http\Controllers\UserTaskController::class, 'gettaskid']);
@@ -64,40 +71,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/attendance/insert', [\App\Http\Controllers\AttendanceController::class, 'insertAttendance']);
     //Route::get('/attendance/order', [\App\Http\Controllers\AttendanceController::class, 'orderAttendance']);
     Route::get('/attendance/id', [\App\Http\Controllers\AttendanceController::class, 'getAttendanceByID']);
-    Route::get('/attendance/report/{booleano}', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 
-
-    Route::get('notifications', [App\Http\Controllers\EvaluationController::class, 'getNotification']);
-    Route::get('notification/details', [App\Http\Controllers\EvaluationController::class, 'detailsNotification']);
-
+    Route::get('notifications', [App\Http\Controllers\NotificationController::class, 'getNotification']);
+    /*Route::get('notification/details', [App\Http\Controllers\EvaluationController::class, 'detailsNotification']);
     Route::get('notification/{id}', [App\Http\Controllers\EvaluationController::class, 'getNotificationbyid']);
-
     Route::post('addNotificaction', [App\Http\Controllers\EvaluationController::class, 'insertNotificationn']);
+    Route::put('updateNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'updateNotification']);*/
+    Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\NotificationController::class, 'deleteNotification']);
 
-    Route::put('updateNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'updateNotification']);
-
-    Route::delete('deleteNotificaction/{id}', [App\Http\Controllers\EvaluationController::class, 'deleteNotification']);
 
     Route::get('evaluations', [App\Http\Controllers\EvaluationController::class, 'getEvaluation']);
-
     Route::get('evaluations/softskills', [App\Http\Controllers\EvaluationController::class, 'getSoftSkills']);
-    
     Route::get('evaluations/performance', [App\Http\Controllers\EvaluationController::class, 'getPerformance']);
-    
     Route::get('evaluations/leadership', [App\Http\Controllers\EvaluationController::class, 'getLeadership']);
-
     Route::get('evaluations/autoevaluation', [App\Http\Controllers\EvaluationController::class, 'getAutoevaluation']);
-
     Route::get('evaluations/softskills/{id}', [App\Http\Controllers\EvaluationController::class, 'getSoftSkillsById']);
-
     Route::post('evaluations/softskills/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateSoftSkills']);
-
     Route::post('evaluations/performance/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updatePerformance']);
-
     Route::post('evaluations/leadership/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateLeadership']);
-
     Route::post('evaluations/autoevaluation/{id}/update', [App\Http\Controllers\EvaluationController::class, 'updateAutoevaluation']);
-
     Route::get('evaluations/details/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationDetails']);
 
     //Route::get('evaluations/{id}', [App\Http\Controllers\EvaluationController::class, 'getEvaluationById']);
@@ -105,10 +97,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('evaluations/insert/{id}', [App\Http\Controllers\EvaluationController::class, 'insertEvaluation']);
     Route::post('evaluations/average/{id}', [App\Http\Controllers\EvaluationController::class, 'calcAverage']);
 
-
-    Route::post('/attendances-generate', [App\Http\Controllers\AttendanceReportController::class, 'generateReport']);
+    /*Se estan Usando estas Rutas?
+     * Route::post('/attendances-generate', [App\Http\Controllers\AttendanceReportController::class, 'generateReport']);
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index']);
-    Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);
+    Route::get('/attendance-reports/{id}', [App\Http\Controllers\AttendanceReportController::class, 'show']);*/
 
     Route::get('holidays', [App\Http\Controllers\HolidayController::class, 'showAllHoliday']);
     Route::get('holidays/{id}', [App\Http\Controllers\HolidayController::class, 'showHoliday']);
@@ -117,5 +109,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('holidays/{id}/delete', [App\Http\Controllers\HolidayController::class, 'destroyHoliday']);
 
     Route::get('reports', [App\Http\Controllers\ReporteController::class, 'getAllReports']);
-    Route::get('/reports-user', [App\Http\Controllers\ReporteController::class, 'getUsersData']);
+    Route::post('/reports-user', [App\Http\Controllers\ReporteController::class, 'getUsersData']);
 });

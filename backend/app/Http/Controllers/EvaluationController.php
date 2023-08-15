@@ -77,8 +77,6 @@ class EvaluationController extends Controller
                     $hasNullNotes = true;
                 }
             }
-
-
         }
         if (!$hasNullNotes) {
 

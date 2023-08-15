@@ -58,6 +58,7 @@ class User extends Authenticatable implements HasMedia
     }
 
 
+
     // public function evaluations() {
     //     return $this->belongsTo(Evaluation::class, 'id', 'user_id');
     // }

@@ -28,10 +28,4 @@ class Attendance extends Model
     public function profile(){
         return $this->hasMany(Profile::class,'user_id','user_id');
     }
-
-    public function attendancePercentage()
-{
-    return ($this->attendances / $this->total) * 100;
-}
-
 }

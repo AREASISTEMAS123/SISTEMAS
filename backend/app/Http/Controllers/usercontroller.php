@@ -15,7 +15,7 @@ class usercontroller extends Controller
 {
     public function getUser()
     {
-        $profile = Profile::with("User.media","role")->get();
+        $profile = Profile::with("User.media","role")->paginate(5);
 
         return response()->json([
             'profile' => $profile]);
@@ -24,57 +24,45 @@ class usercontroller extends Controller
     public function getUserById($id)
     {
 
-        $user = Profile::with("User")->where("id",$id)->get();
-            if (is_null($user)) {
-                return response()->json(['messages' => 'No encontrado'], 404);
-            }
-        $attendance = Attendance::all()->where('user_id', $id)->where("attendance", "1")->count();
-        $absence = Attendance::all()->where('user_id', $id)->where("absence", "1")->count();
-        $delay = Attendance::all()->where('user_id', $id)->where("delay", "1")->count();
-        $justification = Attendance::all()->where('user_id', $id)->where("justification","0")->where("absence", "1")->count();
+        //$user = Profile::with("User")->where("id", $id)->first(); OPTIMIZAR
+        $user = Profile::with("User")->where("id", $id)->get();
+        if (is_null($user)) {
+            return response()->json(['messages' => 'No encontrado'], 404);
+        }
+
+        $attendanceData = Attendance::where('user_id', $id)->get();
+        $attendance = $attendanceData->where("attendance", "1")->count();
+        $absence = $attendanceData->where("absence", "1")->where("justification","0")->count();
+        $delay = $attendanceData->where("delay", "1")->where("justification","0")->count();
+        $justification = $attendanceData->where("justification", "1")->count();
+
         $role = Model_has_role::where('model_id', $id)->firstOrFail();
-        $img = User::with('media')->where('id', $id)->first()->getMedia('avatars');
-        $evaluation = Evaluation::where('user_id', $id)->with("Performance", "softSkills", "autoEvaluation", "leadershipEvaluations")->first();
 
-        if ($role->role_id == '1'){
+        $name_role = '';
+        if ($role->role_id == '1') {
             $name_role = 'Gerencia';
+        } elseif ($role->role_id == '2') {
+            $name_role = 'Lider Nucleo';
+        } else {
+            $name_role = 'Colaborador';
+        }
 
-            return response()->json([
-                "usuario" =>$user,
-                "Asistencia" => $attendance,
-                "Faltas" => $absence,
-                "Tardanzas" => $delay,
-                "Justificaciones" => $justification,
-                'evaluaciones' => $evaluation,
-                'rol' => $name_role,
-                'avatar' => $img], 200);
-        }elseif ($role->role_id == '2'){
-        $name_role = 'Lider Nucleo';
+        $evaluation = Evaluation::where('user_id', $id)->with("Performance", "softSkills", "autoEvaluation", "leadershipEvaluations")->first();
+      //  $img = User::with('media')->where('id', $id)->first('id'); OPTIMIZAR
+        $img = User::with('media')->where('id', $id)->get('id');
 
         return response()->json([
-            "usuario" =>$user,
+            "usuario" => $user,
             "Asistencia" => $attendance,
             "Faltas" => $absence,
             "Tardanzas" => $delay,
             "Justificaciones" => $justification,
             'evaluaciones' => $evaluation,
             'rol' => $name_role,
-            'avatar' => $img], 200);
-         }else{
-        $name_role = 'Colaborador';
-
-        return response()->json([
-            "usuario" =>$user,
-            "Asistencia" => $attendance,
-            "Faltas" => $absence,
-            "Tardanzas" => $delay,
-            "Justificaciones" => $justification,
-            'evaluaciones' => $evaluation,
-            'rol' => $name_role,
-            'avatar' => $img], 200);
+            'avatar' => $img
+        ], 200);
     }
 
-    }
 
     public function deleteUser(Request $request, $id)
     {

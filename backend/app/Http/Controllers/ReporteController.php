@@ -10,6 +10,7 @@ use App\Models\Autoevaluation;
 use App\Models\Performance;
 use App\Models\Profile;
 use App\Models\SoftSkills;
+use App\Models\User;
 
 class ReporteController extends Controller
 {
@@ -59,14 +60,15 @@ class ReporteController extends Controller
 
     public function getAllReports()
     {
-        //colaboradores en general
+        //Colaboradores en general
         $arrArea = ["Administración", "Talento Humano", "Comercial", "Creativo", "Diseño Web", "Ejecutivo de Cuenta", "Medios Audiovisuales", "Sistemas", "Otro"];
         $averagesoftArea = array_fill(0, 9, null);
         $averagePerformanceArea = array_fill(0, 9, null);
         $averageAutoevaluationArea = array_fill(0, 9, null);
         $averageLeadershipArea = array_fill(0, 9, null);
-        // Crear un array para almacenar solo los valores de "department"
-        //filtrar dato por area 
+
+        //Crear un array para almacenar solo los valores de "department"
+        //Filtrar dato por area 
         for ($contador = 0; $contador < 9; $contador++) {
             $department = $arrArea[$contador];
 
@@ -79,6 +81,7 @@ class ReporteController extends Controller
             $averageAutoevaluationArea[$contador] = Autoevaluation::whereHas('evaluation.profile', $evaluationQuery)->avg('prom_end');
             $averageLeadershipArea[$contador] = LeadershipEvaluation::whereHas('evaluation.profile', $evaluationQuery)->avg('prom_end');
         }
+        
         //softskills
         $arSoftSkills = SoftSkills::get();
         //performance
@@ -200,12 +203,120 @@ class ReporteController extends Controller
                         'Sistemas' => $averageAutoevaluationArea[7],
                         'Otro' => $averageAutoevaluationArea[8]
                     ],
-
                 ]
             ]
         ]);
+    }
 
+    public function getUsersData(Request $request) {
 
+        $userData = Profile::get('date_start'); 
 
+        $userPerMonth = 0;
+        $userPerYear = 0;
+        $userPerYearMonth = 0;
+
+        //Recorremos el arreglo de datos
+        foreach ($userData as $user) {
+            $fecha = $user->date_start; //2023-05-22
+            $fechaSegundos = strtotime($fecha);
+    
+            $mes = date("n", $fechaSegundos); //05
+            $año =  date("Y", $fechaSegundos); //23
+            
+            if ($mes == $request->input('mes')){ 
+                if ($año == $request->input('año')){
+                    // 2023 - 05 - *
+                    $userPerYearMonth = $userPerYearMonth + 1; 
+                } else {
+                    // * - 05 - *
+                    $userPerMonth = $userPerMonth + 1;
+                }
+            } else {
+                if ($año == $request->input('año')){
+                    // 2023 - * - *
+                    $userPerYear = $userPerYear + 1;
+                }
+            }
+        }
+        
+        //Usamos Group by para contar por cada una de las opciones
+        $userCountYear = Profile::count();
+        
+        $userActive = User::where('status', 1)->count();
+        $userInactive = User::where('status', 0)->count();
+
+        $userCountsByDepartment = Profile::selectRaw('department, COUNT(*) as count')->groupBy('department')->pluck('count', 'department');
+        $userCountsByShift = Profile::selectRaw('shift, COUNT(*) as count')->groupBy('shift')->pluck('count', 'shift');
+        $userCountsByProfile = Profile::selectRaw('profile_name, COUNT(*) as count')->groupBy('profile_name')->pluck('count', 'profile_name');
+        $userCountsByNucleo = Profile::selectRaw('area, COUNT(*) as count_nucleo')->groupBy('area')->pluck('count_nucleo', 'area');
+        $userCountByStatusLeft = User::selectRaw('status_description, COUNT(*) as count')->groupBy('status_description')->pluck('count', 'status_description');
+
+        $userCountsByDepartmentPercentage = $this->calculatePercentage($userCountsByDepartment, $userCountYear);
+        $userCountsByNucleoPercentage = $this->calculatePercentage($userCountsByNucleo, $userCountYear);
+        $userCountsByProfilePercentage = $this->calculatePercentage($userCountsByProfile, $userCountYear);
+        $userCountsByShiftPercentage = $this->calculatePercentage($userCountsByShift, $userCountYear);
+        $userCountByStatusLeftPercentage = $this->calculatePercentage($userCountByStatusLeft, $userCountYear);
+
+        if ($userInactive == 0){
+            $userPercentage = 0;
+        } else {
+            $userPercentage = ($userCountYear / $userInactive) * 100;  
+        }
+        
+        //Retornamos la respuesta en formato JSON
+        return response()->json([
+            'Users' => [
+                'CountsByUser' => [
+                    'UserByYear' => $userCountYear,
+                    'UserActive' => $userActive,
+                    'UserInactive' => $userInactive,
+                ],
+
+                'PercentageByUser' => [
+                    'UserByYearPer' => 100,
+                    'UserActivePer' => ($userCountYear / $userActive) * 100,
+                    'UserInactivePer' => $userPercentage,
+                ],
+            ],
+
+            'Department' => [
+                'CountsByDepartment' => $userCountsByDepartment,
+                'PercentageByDepartment' => $userCountsByDepartmentPercentage
+            ],
+
+            'Nucleo' => [
+                'CountsByNucleo' => $userCountsByNucleo,
+                'PercentageByNucleo' => $userCountsByNucleoPercentage
+            ],
+
+            'Profile' => [
+                'CountsByProfile' => $userCountsByProfile,
+                'PercentageByProfile' => $userCountsByProfilePercentage
+            ],
+
+            'Shift' => [
+                'CountsByShift' => $userCountsByShift,
+                'PercentageByShift' => $userCountsByShiftPercentage
+            ],
+
+            'UserStatus' => [
+                'CountsByStatus' => $userCountByStatusLeft,
+                'PercentageByStatus' => $userCountByStatusLeftPercentage
+            ],
+
+            'userPerYearMonth' => $userPerYearMonth,
+            'userPerMonth' => $userPerMonth,
+            'userPerYear' => $userPerYear,
+            'date' => date('Y-m-d'),
+        ]);
+    }
+
+    private function calculatePercentage($data, $total) {
+        $percentageData = [];
+        foreach ($data as $key => $count) {
+            $percentageData[$key] = ($count / $total) * 100;
+        }
+        return $percentageData;
     }
 }
