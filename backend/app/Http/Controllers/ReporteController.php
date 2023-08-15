@@ -13,6 +13,10 @@ use App\Models\SoftSkills;
 
 class ReporteController extends Controller
 {
+    public function filterMonth()//filtrar mes 
+    {
+
+    }
     public function generarReporteGeneral(Request $request)
     {
         // Obtener los datos de la tabla attendances
@@ -20,6 +24,7 @@ class ReporteController extends Controller
 
         // Procesar los datos y calcular los valores para el reporte
         $reportData = []; // Inicializar un arreglo para los datos del reporte
+
 
         foreach ($attendances as $attendance) {
             // Realiza los cálculos necesarios para llenar los atributos del reporte
@@ -62,69 +67,44 @@ class ReporteController extends Controller
         $averageLeadershipArea = array_fill(0, 9, null);
         // Crear un array para almacenar solo los valores de "department"
         //filtrar dato por area 
-
         for ($contador = 0; $contador < 9; $contador++) {
-            $averagesoftArea[$contador] = SoftSkills::whereHas('evaluation.profile', function ($query) use ($arrArea, $contador) {
-                $query->where('department', $arrArea[$contador]);
-            })->avg('prom_end');
+            $department = $arrArea[$contador];
 
-            $averagePerformanceArea[$contador] = Performance::whereHas('evaluation.profile', function ($query) use ($arrArea, $contador) {
-                $query->where('department', $arrArea[$contador]);
-            })->avg('prom_end');
+            $evaluationQuery = function ($query) use ($department) {
+                $query->where('department', $department);
+            };
 
-            $averageAutoevaluationArea[$contador] = Autoevaluation::whereHas('evaluation.profile', function ($query) use ($arrArea, $contador) {
-                $query->where('department', $arrArea[$contador]);
-            })->avg('prom_end');
-
-            $averageLeadershipArea[$contador] = LeadershipEvaluation::whereHas('evaluation.profile', function ($query) use ($arrArea, $contador) {
-                $query->where('department', $arrArea[$contador]);
-            })->avg('prom_end');
+            $averagesoftArea[$contador] = SoftSkills::whereHas('evaluation.profile', $evaluationQuery)->avg('prom_end');
+            $averagePerformanceArea[$contador] = Performance::whereHas('evaluation.profile', $evaluationQuery)->avg('prom_end');
+            $averageAutoevaluationArea[$contador] = Autoevaluation::whereHas('evaluation.profile', $evaluationQuery)->avg('prom_end');
+            $averageLeadershipArea[$contador] = LeadershipEvaluation::whereHas('evaluation.profile', $evaluationQuery)->avg('prom_end');
         }
         //softskills
-
         $arSoftSkills = SoftSkills::get();
-        $promedioSoft = 0.0;
-        foreach ($arSoftSkills as $softskills) {
-            $promedioSoft = $softskills->prom_end + $promedioSoft;
-        }
-        $promedioSoft = count($arSoftSkills) > 0 ? $promedioSoft / (count($arSoftSkills)) : 0;
-
         //performance
         $arperformance = Performance::get();
-        $promedioPerformance = 0.0;
-        foreach ($arperformance as $performance) {
-            $promedioPerformance = $performance->prom_end + $promedioPerformance;
-        }
-        $promedioPerformance = count($arperformance) > 0 ? $promedioPerformance / (count($arperformance)) : 0;
-
         //Leadership
         $arLeadership = LeadershipEvaluation::get();
-        $promedioLeadership = 0.0;
-        foreach ($arLeadership as $Leadership) {
-            $promedioLeadership = $Leadership->prom_end + $promedioLeadership;
-        }
-        $promedioLeadership = (count($arLeadership)) > 0 ? $promedioLeadership / (count($arLeadership)) : 0;
         //Autoevalution
         $arAutoevaluation = Autoevaluation::get();
-        $promedioAutoevalution = 0.0;
-        foreach ($arAutoevaluation as $Autoevalution) {
-            $promedioAutoevalution = $Autoevalution->prom_end + $promedioAutoevalution;
-        }
-        $promedioAutoevalution = (count($arAutoevaluation)) > 0 ? $promedioAutoevalution / (count($arAutoevaluation)) : 0;
+
+        $promedioSoft = $arSoftSkills->avg('prom_end');
+        $promedioPerformance = $arperformance->avg('prom_end');
+        $promedioLeadership = $arLeadership->avg('prom_end');
+        $promedioAutoevalution = $arAutoevaluation->avg('prom_end');
 
 
-        //SoftSkills: 
         $promedioAdministrativosoft = ($averagesoftArea[0] + $averagesoftArea[1]) / 2;
-        $promedioOperativosoft = ($averagesoftArea[3] + $averagesoftArea[4] + $averagesoftArea[5] + $averagesoftArea[6] + $averagesoftArea[7] + $averagesoftArea[8]) / 6;
-        //Peformance: 
+        $promedioOperativosoft = array_sum(array_slice($averagesoftArea, 3, 6)) / 6;
+
         $promedioAdministrativoPerformance = ($averagePerformanceArea[0] + $averagePerformanceArea[1]) / 2;
-        $promedioOperativoPerformance = ($averagePerformanceArea[3] + $averagePerformanceArea[4] + $averagePerformanceArea[5] + $averagePerformanceArea[6] + $averagePerformanceArea[7] + $averagePerformanceArea[8]) / 6;
-        //Leadership: 
+        $promedioOperativoPerformance = array_sum(array_slice($averagePerformanceArea, 3, 6)) / 6;
+
         $promedioAdministrativoLeadership = ($averageLeadershipArea[0] + $averageLeadershipArea[1]) / 2;
-        $promedioOperativoLeadership = ($averageLeadershipArea[3] + $averageLeadershipArea[4] + $averageLeadershipArea[5] + $averageLeadershipArea[6] + $averageLeadershipArea[7] + $averageLeadershipArea[8]) / 6;
-        //Autoevaluation
+        $promedioOperativoLeadership = array_sum(array_slice($averageLeadershipArea, 3, 6)) / 6;
+
         $promedioAdministrativoAutoevaluation = ($averageAutoevaluationArea[0] + $averageAutoevaluationArea[1]) / 2;
-        $promedioOperativoAutoevaluation = ($averageAutoevaluationArea[3] + $averageAutoevaluationArea[4] + $averageAutoevaluationArea[5] + $averageAutoevaluationArea[6] + $averageAutoevaluationArea[7] + $averageAutoevaluationArea[8]) / 6;
+        $promedioOperativoAutoevaluation = array_sum(array_slice($averageAutoevaluationArea, 3, 6)) / 6;
 
         return response()->json([
             'average_prom_soft' => [
