@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/users/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
+
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::get('/attendance/report/{booleano}', [\App\Http\Controllers\AttendanceController::class, 'generateReport']);
 Route::post('password/create', [\App\Http\Controllers\Auth\PasswordResetController::class, 'create']);
@@ -37,8 +38,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/users/justifications/{id}/accept/{userid}', [\App\Http\Controllers\JustificationController::class, 'acceptJustification']);
     Route::post('/users/justifications/{id}/decline/{userid}', [\App\Http\Controllers\JustificationController::class, 'declineJustification']);
 
+
+    //
     Route::get('/users', [App\Http\Controllers\usercontroller::class, 'getUser']);
     Route::get('/users/{id}', [App\Http\Controllers\usercontroller::class, 'getUserById']);
+    Route::get('/users/filters/{department?}/{area?}/{shift?}/{search?}', [App\Http\Controllers\FiltersUserControllers::class, 'filterUsers']);
+
     Route::put('/users/update/{id}', [\App\Http\Controllers\usercontroller::class, 'updateUser']);
     Route::delete('/users/delete/{id}', [App\Http\Controllers\usercontroller::class, 'deleteUser']);
 
@@ -48,7 +53,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
     Route::get('/birthday', [\App\Http\Controllers\BirthdayController::class, 'getbirthday']);
-    Route::get('/birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
+    //Route::get('/birthday/details', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthday']);
+    Route::get('/birthday/details/{month}', [\App\Http\Controllers\BirthdayController::class, 'detailsbirthdayMonth']);
+    Route::get('/birthday/nextBirthday', [\App\Http\Controllers\BirthdayController::class, 'getUpcomingBirthdaysWithUsers']);
 
     Route::get('/task', [\App\Http\Controllers\UserTaskController::class, 'gettask']);
     Route::get('/task/{id}', [\App\Http\Controllers\UserTaskController::class, 'gettaskid']);
