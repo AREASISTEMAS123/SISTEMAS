@@ -20,7 +20,7 @@ export const Asistencia = () => {
   const [fotoCapturada, setFotoCapturada] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
-  const [timer, setTimer] = useState(3);
+  const [timer, setTimer] = useState(0);
   const [capturing, setCapturing] = useState(false);
   const [segundaFotoTomada, setSegundaFotoTomada] = useState(false);
   const [mostrarBotonCamara, setMostrarBotonCamara] = useState(true);
@@ -152,7 +152,6 @@ export const Asistencia = () => {
   }, [horaActual]);
 
   const reiniciarConteo = () => {
-    setTimer(3);
     setCapturing(false);
   };
 
@@ -196,23 +195,23 @@ export const Asistencia = () => {
       const videoTrack = cameraStream.getVideoTracks()[0];
       const imageCapture = new ImageCapture(videoTrack);
 
-      clearInterval(intervalRef.current);
+      // clearInterval(intervalRef.current);
 
-      const countdown = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
+      // const countdown = setInterval(() => {
+      //   setTimer((prevTimer) => prevTimer - 1);
+      // }, 0);
 
-      intervalRef.current = countdown;
+      // intervalRef.current = countdown;
 
-      setTimeout(() => {
-        clearInterval(countdown);
+      // setTimeout(() => {
+      //   clearInterval(countdown);
 
         imageCapture
           .takePhoto()
           .then((blob) => {
             setFotoUsuario(URL.createObjectURL(blob));
             setCapturing(false);
-            setTimer(5);
+            // setTimer(0);
 
             if (!segundaFotoTomada) {
               setMostrarBotonEntrada(true);
@@ -230,10 +229,10 @@ export const Asistencia = () => {
           .catch((error) => {
             console.log('Error taking photo:', error);
             setCapturing(false);
-            setTimer(3);
+            // setTimer(0);
           });
-      }, 3000);
-    }
+      }
+      // , 0);}
   };
 
   useEffect(() => {
@@ -337,7 +336,7 @@ export const Asistencia = () => {
               onClick={handleCapture}
               disabled={capturing}
             >
-              {capturing ? `Capturando (${timer})` : 'Tomar foto'}
+              {capturing ? `Capturando` : 'Tomar foto'}
             </button>
           )}
         </div>
